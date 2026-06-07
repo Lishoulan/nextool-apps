@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>颜色选择器 - 在线取色器配色工具 | NexTool</title>
+<meta name="description" content="免费在线颜色选择器，支持HEX/RGB/HSL转换、配色方案生成、CSS渐变生成。颜色选择器, 取色器, color picker, HEX转RGB, 配色方案">
+<meta name="keywords" content="颜色选择器, 取色器, color picker, HEX转RGB, 配色方案, HSL, RGB转换, 渐变生成器">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f778ba;--accent2:#a371f7;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.container{max-width:1100px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px}
+header h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,#f778ba,#a371f7,#79c0ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header p{color:var(--text2);margin-top:6px;font-size:.95rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card-title{font-size:.85rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.picker-area{display:flex;gap:20px;flex-wrap:wrap;align-items:flex-start}
+.sv-panel{position:relative;width:280px;height:280px;border-radius:8px;cursor:crosshair;overflow:hidden;border:1px solid var(--border)}
+.sv-panel canvas{width:100%;height:100%;display:block}
+.sv-cursor{position:absolute;width:16px;height:16px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 4px rgba(0,0,0,.5);pointer-events:none;transform:translate(-50%,-50%)}
+.hue-bar{position:relative;width:280px;height:20px;border-radius:10px;cursor:pointer;margin-top:12px;background:linear-gradient(to right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)}
+.hue-cursor{position:absolute;top:-2px;width:8px;height:24px;border:2px solid #fff;border-radius:4px;box-shadow:0 0 4px rgba(0,0,0,.5);pointer-events:none;transform:translateX(-50%)}
+.color-preview{width:100px;height:100px;border-radius:var(--radius);border:2px solid var(--border);margin:0 auto}
+.color-values{flex:1;min-width:240px}
+.color-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.color-row label{min-width:40px;color:var(--text2);font-size:.85rem;font-weight:600}
+.color-row input[type=text]{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:8px 10px;color:var(--text);font-family:monospace;font-size:.9rem;outline:none;transition:border-color .2s}
+.color-row input[type=text]:focus{border-color:var(--accent)}
+.color-row input[type=color]{width:40px;height:36px;border:none;border-radius:6px;cursor:pointer;background:none;padding:0}
+.btn{background:var(--accent2);border:none;border-radius:6px;padding:6px 12px;color:#fff;cursor:pointer;font-size:.8rem;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
+.btn:hover{opacity:.85}
+.btn-sm{padding:4px 8px;font-size:.75rem}
+.section-title{font-size:1rem;font-weight:600;margin-bottom:12px;color:var(--text)}
+.palette-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(50px,1fr));gap:8px}
+.palette-swatch{aspect-ratio:1;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:all .2s;position:relative}
+.palette-swatch:hover{border-color:#fff;transform:scale(1.1)}
+.palette-swatch .swatch-hex{position:absolute;bottom:2px;left:0;right:0;text-align:center;font-size:.55rem;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.8);opacity:0;transition:opacity .2s}
+.palette-swatch:hover .swatch-hex{opacity:1}
+.palette-type{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.palette-type .btn{background:var(--bg);border:1px solid var(--border);color:var(--text2)}
+.palette-type .btn.active{background:var(--accent2);border-color:var(--accent);color:#fff}
+.history-grid{display:flex;gap:6px;flex-wrap:wrap}
+.history-swatch{width:36px;height:36px;border-radius:6px;cursor:pointer;border:2px solid transparent;transition:all .2s}
+.history-swatch:hover{border-color:#fff;transform:scale(1.1)}
+.gradient-section{margin-top:8px}
+.gradient-preview{height:60px;border-radius:8px;border:1px solid var(--border);margin-bottom:10px}
+.gradient-code{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:10px;font-family:monospace;font-size:.85rem;color:var(--accent);word-break:break-all;position:relative}
+.gradient-colors{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.gradient-colors input[type=color]{width:50px;height:40px;border:none;border-radius:6px;cursor:pointer}
+.gradient-colors span{color:var(--text2);font-size:1.2rem}
+.gradient-dir{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.gradient-dir .btn{background:var(--bg);border:1px solid var(--border);color:var(--text2);font-size:.75rem;padding:4px 10px}
+.gradient-dir .btn.active{background:var(--accent2);border-color:var(--accent);color:#fff}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.two-col{grid-template-columns:1fr}.sv-panel{width:100%}.hue-bar{width:100%}}
+.cta{text-align:center;padding:30px 0;background:linear-gradient(135deg,rgba(247,120,186,0.1),rgba(163,113,247,0.1));border-radius:var(--radius);margin-top:20px;border:1px solid var(--border)}
+.cta p{color:var(--text2);margin-bottom:10px}
+.cta a{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:10px 24px;border-radius:8px;font-weight:600;font-size:1rem;transition:transform .2s}
+.cta a:hover{transform:scale(1.05);text-decoration:none}
+footer{text-align:center;padding:20px;color:var(--text2);font-size:.8rem}
+.toast{position:fixed;top:20px;right:20px;background:var(--accent2);color:#fff;padding:10px 20px;border-radius:8px;font-size:.9rem;transform:translateX(120%);transition:transform .3s;z-index:999}
+.toast.show{transform:translateX(0)}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Color Picker</h1>
+<p>在线颜色选择器 - HEX/RGB/HSL转换、配色方案、渐变生成</p>
+</header>
+
+<div class="card">
+<div class="card-title">选择颜色</div>
+<div class="picker-area">
+<div>
+<div class="sv-panel" id="svPanel">
+<canvas id="svCanvas"></canvas>
+<div class="sv-cursor" id="svCursor"></div>
+</div>
+<div class="hue-bar" id="hueBar">
+<div class="hue-cursor" id="hueCursor"></div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;align-items:center;gap:12px">
+<div class="color-preview" id="colorPreview"></div>
+<input type="color" id="nativePicker" value="#f778ba">
+</div>
+<div class="color-values">
+<div class="color-row"><label>HEX</label><input type="text" id="hexInput" placeholder="#f778ba"><button class="btn btn-sm" onclick="copyValue('hexInput')">📋</button></div>
+<div class="color-row"><label>RGB</label><input type="text" id="rgbInput" placeholder="rgb(247,120,186)"><button class="btn btn-sm" onclick="copyValue('rgbInput')">📋</button></div>
+<div class="color-row"><label>HSL</label><input type="text" id="hslInput" placeholder="hsl(330,88%,72%)"><button class="btn btn-sm" onclick="copyValue('hslInput')">📋</button></div>
+</div>
+</div>
+</div>
+
+<div class="two-col">
+<div class="card">
+<div class="section-title">🎨 配色方案</div>
+<div class="palette-type" id="paletteType">
+<button class="btn active" data-type="complementary">互补色</button>
+<button class="btn" data-type="analogous">类似色</button>
+<button class="btn" data-type="triadic">三角色</button>
+<button class="btn" data-type="split">分裂互补</button>
+</div>
+<div class="palette-grid" id="paletteGrid"></div>
+</div>
+
+<div class="card">
+<div class="section-title">🕐 最近使用</div>
+<div class="history-grid" id="historyGrid"></div>
+<p style="color:var(--text2);font-size:.8rem;margin-top:8px">点击色块可快速选取，最多保存20个</p>
+</div>
+</div>
+
+<div class="card">
+<div class="section-title">🌈 CSS 渐变生成器</div>
+<div class="gradient-preview" id="gradientPreview"></div>
+<div class="gradient-colors">
+<input type="color" id="gradColor1" value="#f778ba">
+<span>→</span>
+<input type="color" id="gradColor2" value="#a371f7">
+</div>
+<div class="gradient-dir" id="gradientDir">
+<button class="btn active" data-dir="to right">→</button>
+<button class="btn" data-dir="to left">←</button>
+<button class="btn" data-dir="to bottom">↓</button>
+<button class="btn" data-dir="to top">↑</button>
+<button class="btn" data-dir="to bottom right">↘</button>
+<button class="btn" data-dir="135deg">135°</button>
+</div>
+<div class="gradient-code" id="gradientCode"></div>
+<div style="margin-top:8px"><button class="btn" onclick="copyGradient()">📋 复制渐变CSS</button></div>
+</div>
+
+<div class="cta">
+<p>🚀 需要更多开发者工具？</p>
+<a href="https://lishoulan.github.io/nextool-apps/" target="_blank" rel="noopener">Need AI tools? Try NexTool →</a>
+</div>
+
+<footer>© 2024 NexTool - 免费在线开发者工具 | 颜色选择器, 取色器, color picker, HEX转RGB, 配色方案</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Color conversion utilities
+function hsvToRgb(h,s,v){h/=360;s/=100;v/=100;let r,g,b;const i=Math.floor(h*6),f=h*6-i,p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s);switch(i%6){case 0:r=v;g=t;b=p;break;case 1:r=q;g=v;b=p;break;case 2:r=p;g=v;b=t;break;case 3:r=p;g=q;b=v;break;case 4:r=t;g=p;b=v;break;case 5:r=v;g=p;b=q;break}return[Math.round(r*255),Math.round(g*255),Math.round(b*255)]}
+function rgbToHsv(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;let h,s=max===0?0:d/max,v=max;if(max===min)h=0;else{switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break}h/=6}return[Math.round(h*360),Math.round(s*100),Math.round(v*100)]}
+function rgbToHex(r,g,b){return'#'+[r,g,b].map(x=>x.toString(16).padStart(2,'0')).join('')}
+function hexToRgb(hex){hex=hex.replace('#','');if(hex.length===3)hex=hex.split('').map(c=>c+c).join('');return[parseInt(hex.substr(0,2),16),parseInt(hex.substr(2,2),16),parseInt(hex.substr(4,2),16)]}
+function rgbToHsl(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b);let h,s,l=(max+min)/2;if(max===min){h=s=0}else{const d=max-min;s=l>.5?d/(2-max-min):d/(max+min);switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break}}return[Math.round(h*360),Math.round(s*100),Math.round(l*100)]}
+function hslToRgb(h,s,l){h/=360;s/=100;l/=100;let r,g,b;if(s===0){r=g=b=l}else{const hue2rgb=(p,q,t)=>{if(t<0)t+=1;if(t>1)t-=1;if(t<1/6)return p+(q-p)*6*t;if(t<1/2)return q;if(t<2/3)return p+(q-p)*(2/3-t)*6;return p};const q=l<.5?l*(1+s):l+s-l*s;const p=2*l-q;r=hue2rgb(p,q,h+1/3);g=hue2rgb(p,q,h);b=hue2rgb(p,q,h-1/3)}return[Math.round(r*255),Math.round(g*255),Math.round(b*255)]}
+
+// State
+let currentH=330,currentS=80,currentV=97;
+let paletteMode='complementary';
+let gradDir='to right';
+let history=JSON.parse(localStorage.getItem('nextool_color_history')||'[]');
+
+const svCanvas=document.getElementById('svCanvas');
+const svCtx=svCanvas.getContext('2d');
+const svPanel=document.getElementById('svPanel');
+const svCursor=document.getElementById('svCursor');
+const hueBar=document.getElementById('hueBar');
+const hueCursor=document.getElementById('hueCursor');
+const colorPreview=document.getElementById('colorPreview');
+const nativePicker=document.getElementById('nativePicker');
+const hexInput=document.getElementById('hexInput');
+const rgbInput=document.getElementById('rgbInput');
+const hslInput=document.getElementById('hslInput');
+const paletteGrid=document.getElementById('paletteGrid');
+const historyGrid=document.getElementById('historyGrid');
+const gradColor1=document.getElementById('gradColor1');
+const gradColor2=document.getElementById('gradColor2');
+const gradientPreview=document.getElementById('gradientPreview');
+const gradientCode=document.getElementById('gradientCode');
+const toastEl=document.getElementById('toast');
+
+function drawSV(){
+const w=svCanvas.width=svPanel.clientWidth;
+const h=svCanvas.height=svPanel.clientHeight;
+const imgData=svCtx.createImageData(w,h);
+for(let y=0;y<h;y++){for(let x=0;x<w;x++){const[rr,gg,bb]=hsvToRgb(currentH,x/w*100,(1-y/h)*100);const i=(y*w+x)*4;imgData.data[i]=rr;imgData.data[i+1]=gg;imgData.data[i+2]=bb;imgData.data[i+3]=255}}
+svCtx.putImageData(imgData,0,0);
+}
+
+function updateAll(){
+const[r,g,b]=hsvToRgb(currentH,currentS,currentV);
+const hex=rgbToHex(r,g,b);
+const[hslH,hslS,hslL]=rgbToHsl(r,g,b);
+
+colorPreview.style.background=hex;
+hexInput.value=hex;
+rgbInput.value=`rgb(${r}, ${g}, ${b})`;
+hslInput.value=`hsl(${hslH}, ${hslS}%, ${hslL}%)`;
+nativePicker.value=hex;
+
+// SV cursor
+const svW=svPanel.clientWidth,svH=svPanel.clientHeight;
+svCursor.style.left=(currentS/100*svW)+'px';
+svCursor.style.top=((1-currentV/100)*svH)+'px';
+
+// Hue cursor
+hueCursor.style.left=(currentH/360*hueBar.clientWidth)+'px';
+
+updatePalette();
+updateGradient();
+}
+
+function updatePalette(){
+const[r,g,b]=hsvToRgb(currentH,currentS,currentV);
+const[hslH,hslS,hslL]=rgbToHsl(r,g,b);
+let colors=[];
+switch(paletteMode){
+case'complementary':colors=[{h:hslH,s:hslS,l:hslL},{h:(hslH+180)%360,s:hslS,l:hslL}];break;
+case'analogous':colors=[{h:(hslH-30+360)%360,s:hslS,l:hslL},{h:hslH,s:hslS,l:hslL},{h:(hslH+30)%360,s:hslS,l:hslL}];break;
+case'triadic':colors=[{h:hslH,s:hslS,l:hslL},{h:(hslH+120)%360,s:hslS,l:hslL},{h:(hslH+240)%360,s:hslS,l:hslL}];break;
+case'split':colors=[{h:hslH,s:hslS,l:hslL},{h:(hslH+150)%360,s:hslS,l:hslL},{h:(hslH+210)%360,s:hslS,l:hslL}];break;
+}
+// Add lighter/darker variants
+const expanded=[];
+colors.forEach(c=>{
+expanded.push({h:c.h,s:c.s,l:Math.min(c.l+20,95)});
+expanded.push(c);
+expanded.push({h:c.h,s:c.s,l:Math.max(c.l-20,10)});
+});
+paletteGrid.innerHTML='';
+expanded.forEach(c=>{
+const[rr,gg,bb]=hslToRgb(c.h,c.s,c.l);
+const hex=rgbToHex(rr,gg,bb);
+const div=document.createElement('div');
+div.className='palette-swatch';
+div.style.background=hex;
+div.innerHTML=`<span class="swatch-hex">${hex}</span>`;
+div.addEventListener('click',()=>{setColorFromHex(hex)});
+paletteGrid.appendChild(div);
+});
+}
+
+function setColorFromHex(hex){
+const[r,g,b]=hexToRgb(hex);
+const[h,s,v]=rgbToHsv(r,g,b);
+currentH=h;currentS=s;currentV=v;
+drawSV();updateAll();
+}
+
+function updateGradient(){
+const c1=gradColor1.value;
+const c2=gradColor2.value;
+const css=`linear-gradient(${gradDir}, ${c1}, ${c2})`;
+gradientPreview.style.background=css;
+gradientCode.textContent=`background: ${css};`;
+}
+
+function addToHistory(hex){
+hex=hex.toLowerCase();
+history=history.filter(c=>c!==hex);
+history.unshift(hex);
+if(history.length>20)history=history.slice(0,20);
+localStorage.setItem('nextool_color_history',JSON.stringify(history));
+renderHistory();
+}
+
+function renderHistory(){
+historyGrid.innerHTML='';
+history.forEach(hex=>{
+const div=document.createElement('div');
+div.className='history-swatch';
+div.style.background=hex;
+div.title=hex;
+div.addEventListener('click',()=>setColorFromHex(hex));
+historyGrid.appendChild(div);
+});
+}
+
+function copyValue(id){
+const el=document.getElementById(id);
+navigator.clipboard.writeText(el.value).then(()=>showToast('已复制！'));
+}
+function copyGradient(){
+navigator.clipboard.writeText(gradientCode.textContent).then(()=>showToast('已复制渐变CSS！'));
+}
+function showToast(msg){toastEl.textContent=msg;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),2000)}
+
+// SV panel interaction
+let svDragging=false;
+function handleSV(e){
+const rect=svPanel.getBoundingClientRect();
+const x=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+const y=Math.max(0,Math.min(1,(e.clientY-rect.top)/rect.height));
+currentS=Math.round(x*100);
+currentV=Math.round((1-y)*100);
+updateAll();
+}
+svPanel.addEventListener('mousedown',e=>{svDragging=true;handleSV(e)});
+document.addEventListener('mousemove',e=>{if(svDragging)handleSV(e)});
+document.addEventListener('mouseup',()=>{if(svDragging){svDragging=false;const[r,g,b]=hsvToRgb(currentH,currentS,currentV);addToHistory(rgbToHex(r,g,b))}});
+svPanel.addEventListener('touchstart',e=>{e.preventDefault();svDragging=true;handleSV(e.touches[0])},{passive:false});
+document.addEventListener('touchmove',e=>{if(svDragging)handleSV(e.touches[0])});
+document.addEventListener('touchend',()=>{if(svDragging){svDragging=false;const[r,g,b]=hsvToRgb(currentH,currentS,currentV);addToHistory(rgbToHex(r,g,b))}});
+
+// Hue bar interaction
+let hueDragging=false;
+function handleHue(e){
+const rect=hueBar.getBoundingClientRect();
+const x=Math.max(0,Math.min(1,(e.clientX-rect.left)/rect.width));
+currentH=Math.round(x*360);
+drawSV();updateAll();
+}
+hueBar.addEventListener('mousedown',e=>{hueDragging=true;handleHue(e)});
+document.addEventListener('mousemove',e=>{if(hueDragging)handleHue(e)});
+document.addEventListener('mouseup',()=>{if(hueDragging){hueDragging=false;const[r,g,b]=hsvToRgb(currentH,currentS,currentV);addToHistory(rgbToHex(r,g,b))}});
+
+// Native picker
+nativePicker.addEventListener('input',e=>{setColorFromHex(e.target.value);addToHistory(e.target.value)});
+
+// Text inputs
+hexInput.addEventListener('change',()=>{let v=hexInput.value.trim();if(!v.startsWith('#'))v='#'+v;if(/^#[0-9a-fA-F]{3,6}$/.test(v)){setColorFromHex(v);addToHistory(v)}});
+rgbInput.addEventListener('change',()=>{const m=rgbInput.value.match(/(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/);if(m){const[r,g,b]=[+m[1],+m[2],+m[3]];if(r<256&&g<256&&b<256){const[h,s,v]=rgbToHsv(r,g,b);currentH=h;currentS=s;currentV=v;drawSV();updateAll();addToHistory(rgbToHex(r,g,b))}}});
+hslInput.addEventListener('change',()=>{const m=hslInput.value.match(/(\d+)\s*,\s*(\d+)%?\s*,\s*(\d+)%?/);if(m){const[rr,gg,bb]=hslToRgb(+m[1],+m[2],+m[3]);const[h,s,v]=rgbToHsv(rr,gg,bb);currentH=h;currentS=s;currentV=v;drawSV();updateAll();addToHistory(rgbToHex(rr,gg,bb))}});
+
+// Palette type
+document.querySelectorAll('#paletteType .btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('#paletteType .btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+paletteMode=btn.dataset.type;
+updatePalette();
+});
+});
+
+// Gradient
+gradColor1.addEventListener('input',updateGradient);
+gradColor2.addEventListener('input',updateGradient);
+document.querySelectorAll('#gradientDir .btn').forEach(btn=>{
+btn.addEventListener('click',()=>{
+document.querySelectorAll('#gradientDir .btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+gradDir=btn.dataset.dir;
+updateGradient();
+});
+});
+
+// Init
+drawSV();
+updateAll();
+renderHistory();
+</script>
+</body>
+</html>

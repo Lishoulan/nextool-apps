@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown编辑器 - 在线Markdown预览转HTML工具 | NexTool</title>
+<meta name="description" content="免费在线Markdown编辑器，支持实时预览、工具栏快捷操作、导出HTML。Markdown编辑器, 在线Markdown, Markdown预览, Markdown转HTML">
+<meta name="keywords" content="Markdown编辑器, 在线Markdown, Markdown预览, Markdown转HTML, markdown editor, markdown online">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📝</text></svg>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0d1117;--surface:#161b22;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#79c0ff;--accent2:#1f6feb;--radius:8px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+header{padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+header h1{font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--accent),#a371f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+header .subtitle{color:var(--text2);font-size:.8rem;margin-left:10px}
+.toolbar{display:flex;gap:4px;padding:8px 16px;border-bottom:1px solid var(--border);background:var(--surface);flex-wrap:wrap;flex-shrink:0}
+.tool-btn{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text2);cursor:pointer;font-size:.8rem;transition:all .15s;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.tool-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(121,192,255,0.08)}
+.tool-btn svg{width:14px;height:14px;fill:currentColor}
+.tool-sep{width:1px;background:var(--border);margin:0 4px}
+.main{display:flex;flex:1;overflow:hidden}
+.editor-pane{flex:1;display:flex;flex-direction:column;border-right:1px solid var(--border);min-width:0}
+.editor-pane textarea{flex:1;background:var(--bg);color:var(--text);border:none;padding:16px;font-family:'Cascadia Code',Consolas,'Courier New',monospace;font-size:.9rem;line-height:1.7;resize:none;outline:none;tab-size:2}
+.preview-pane{flex:1;overflow-y:auto;padding:24px;background:#fff;color:#24292f;min-width:0}
+.pane-header{padding:6px 12px;background:var(--surface);border-bottom:1px solid var(--border);font-size:.75rem;color:var(--text2);text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;justify-content:space-between}
+.btn{background:var(--accent2);border:none;border-radius:6px;padding:6px 12px;color:#fff;cursor:pointer;font-size:.8rem;transition:all .2s;display:inline-flex;align-items:center;gap:4px}
+.btn:hover{opacity:.85}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text2)}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.cta-bar{padding:10px 20px;text-align:center;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0}
+.cta-bar a{color:var(--accent);font-size:.85rem}
+.cta-bar a:hover{color:#fff}
+
+/* Preview styles */
+.preview-pane h1{font-size:2em;font-weight:700;border-bottom:1px solid #d0d7de;padding-bottom:.3em;margin:1em 0 .5em}
+.preview-pane h2{font-size:1.5em;font-weight:600;border-bottom:1px solid #d0d7de;padding-bottom:.3em;margin:1em 0 .5em}
+.preview-pane h3{font-size:1.25em;font-weight:600;margin:1em 0 .5em}
+.preview-pane h4{font-size:1em;font-weight:600;margin:1em 0 .5em}
+.preview-pane p{margin:.5em 0;line-height:1.7}
+.preview-pane a{color:#0969da}
+.preview-pane code{background:#eff1f3;padding:2px 6px;border-radius:4px;font-size:.9em;font-family:'Cascadia Code',Consolas,monospace}
+.preview-pane pre{background:#161b22;color:#e6edf3;padding:16px;border-radius:8px;overflow-x:auto;margin:1em 0}
+.preview-pane pre code{background:none;padding:0;color:inherit;font-size:.9em}
+.preview-pane blockquote{border-left:4px solid #d0d7de;padding:0 1em;color:#656d76;margin:1em 0}
+.preview-pane ul,.preview-pane ol{padding-left:2em;margin:.5em 0}
+.preview-pane li{margin:.25em 0}
+.preview-pane img{max-width:100%;border-radius:6px}
+.preview-pane table{border-collapse:collapse;width:100%;margin:1em 0}
+.preview-pane th,.preview-pane td{border:1px solid #d0d7de;padding:8px 12px;text-align:left}
+.preview-pane th{background:#f6f8fa;font-weight:600}
+.preview-pane hr{border:none;border-top:1px solid #d0d7de;margin:1.5em 0}
+.preview-pane input[type="checkbox"]{margin-right:6px}
+
+@media(max-width:768px){.main{flex-direction:column}.editor-pane{border-right:none;border-bottom:1px solid var(--border);height:50%}}
+.toast{position:fixed;top:20px;right:20px;background:var(--accent2);color:#fff;padding:10px 20px;border-radius:8px;font-size:.9rem;transform:translateX(120%);transition:transform .3s;z-index:999}
+.toast.show{transform:translateX(0)}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+<header>
+<div style="display:flex;align-items:center">
+<h1>Markdown Editor</h1>
+<span class="subtitle">在线编辑 · 实时预览</span>
+</div>
+<div style="display:flex;gap:8px">
+<button class="btn btn-outline" onclick="copyMarkdown()">📋 复制MD</button>
+<button class="btn btn-outline" onclick="exportHTML()">💾 导出HTML</button>
+</div>
+</header>
+
+<div class="toolbar">
+<button class="tool-btn" onclick="insertSyntax('heading')" title="标题">H 标题</button>
+<button class="tool-btn" onclick="insertSyntax('bold')" title="粗体"><strong>B</strong></button>
+<button class="tool-btn" onclick="insertSyntax('italic')" title="斜体"><em>I</em></button>
+<button class="tool-btn" onclick="insertSyntax('strikethrough')" title="删除线"><s>S</s></button>
+<div class="tool-sep"></div>
+<button class="tool-btn" onclick="insertSyntax('link')" title="链接">🔗 链接</button>
+<button class="tool-btn" onclick="insertSyntax('image')" title="图片">🖼 图片</button>
+<button class="tool-btn" onclick="insertSyntax('code')" title="行内代码">&lt;/&gt; 代码</button>
+<button class="tool-btn" onclick="insertSyntax('codeblock')" title="代码块">📋 代码块</button>
+<div class="tool-sep"></div>
+<button class="tool-btn" onclick="insertSyntax('ul')" title="无序列表">• 列表</button>
+<button class="tool-btn" onclick="insertSyntax('ol')" title="有序列表">1. 有序列表</button>
+<button class="tool-btn" onclick="insertSyntax('task')" title="任务列表">☑ 任务</button>
+<button class="tool-btn" onclick="insertSyntax('quote')" title="引用">❝ 引用</button>
+<div class="tool-sep"></div>
+<button class="tool-btn" onclick="insertSyntax('table')" title="表格">⊞ 表格</button>
+<button class="tool-btn" onclick="insertSyntax('hr')" title="分割线">— 分割线</button>
+</div>
+
+<div class="main">
+<div class="editor-pane">
+<div class="pane-header">Markdown</div>
+<textarea id="editor" spellcheck="false"># Markdown 编辑器
+
+欢迎使用 **NexTool** Markdown 编辑器！
+
+## 功能特性
+
+- ✅ 实时预览
+- ✅ 工具栏快捷操作
+- ✅ 导出 HTML
+- ✅ 支持表格、代码块、任务列表
+
+## 代码示例
+
+```javascript
+function hello() {
+  console.log("Hello, NexTool!");
+}
+```
+
+## 表格
+
+| 工具 | 说明 |
+|------|------|
+| Regex Tester | 正则表达式测试 |
+| Color Picker | 颜色选择器 |
+| Markdown Editor | Markdown编辑器 |
+
+> 💡 点击左侧工具栏可快速插入 Markdown 语法
+
+---
+
+- [x] 支持任务列表
+- [ ] 更多功能开发中</textarea>
+</div>
+<div class="preview-pane" id="preview"></div>
+</div>
+
+<div class="cta-bar">
+🚀 <a href="https://lishoulan.github.io/nextool-apps/" target="_blank" rel="noopener">Need AI tools? Try NexTool →</a>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const editor=document.getElementById('editor');
+const preview=document.getElementById('preview');
+const toastEl=document.getElementById('toast');
+
+// Simple Markdown Parser
+function parseMD(md){
+let html=md;
+
+// Escape HTML (but preserve intentional tags later)
+html=html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+// Code blocks (must be before other rules)
+html=html.replace(/```(\w*)\n([\s\S]*?)```/g,(m,lang,code)=>{
+return `<pre><code class="language-${lang}">${code.trim()}</code></pre>`;
+});
+
+// Inline code
+html=html.replace(/`([^`]+)`/g,'<code>$1</code>');
+
+// Headings
+html=html.replace(/^#### (.+)$/gm,'<h4>$1</h4>');
+html=html.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+html=html.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+html=html.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+
+// Horizontal rule
+html=html.replace(/^---+$/gm,'<hr>');
+
+// Task lists (before other list processing)
+html=html.replace(/^- \[x\] (.+)$/gm,'<li><input type="checkbox" checked disabled>$1</li>');
+html=html.replace(/^- \[ \] (.+)$/gm,'<li><input type="checkbox" disabled>$1</li>');
+
+// Blockquote
+html=html.replace(/^&gt; (.+)$/gm,'<blockquote><p>$1</p></blockquote>');
+
+// Bold + Italic
+html=html.replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>');
+html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+html=html.replace(/\*(.+?)\*/g,'<em>$1</em>');
+html=html.replace(/~~(.+?)~~/g,'<s>$1</s>');
+
+// Images (before links)
+html=html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g,'<img src="$2" alt="$1">');
+
+// Links
+html=html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+
+// Tables
+html=html.replace(/^(\|.+\|)\n(\|[-| :]+\|)\n((?:\|.+\|\n?)*)/gm,(m,header,sep,body)=>{
+const headers=header.split('|').filter(c=>c.trim()).map(c=>`<th>${c.trim()}</th>`).join('');
+const rows=body.trim().split('\n').map(row=>{
+const cells=row.split('|').filter(c=>c.trim()).map(c=>`<td>${c.trim()}</td>`).join('');
+return `<tr>${cells}</tr>`;
+}).join('');
+return `<table><thead><tr>${headers}</tr></thead><tbody>${rows}</tbody></table>`;
+});
+
+// Unordered lists
+html=html.replace(/((?:^- .+\n?)+)/gm,(m)=>{
+const items=m.trim().split('\n').map(l=>`<li>${l.replace(/^- /,'')}</li>`).join('');
+return `<ul>${items}</ul>`;
+});
+
+// Ordered lists
+html=html.replace(/((?:^\d+\. .+\n?)+)/gm,(m)=>{
+const items=m.trim().split('\n').map(l=>`<li>${l.replace(/^\d+\. /,'')}</li>`).join('');
+return `<ol>${items}</ol>`;
+});
+
+// Paragraphs - wrap remaining loose text
+html=html.replace(/\n{2,}/g,'</p><p>');
+// Clean up empty paragraphs around block elements
+html=html.replace(/<p>\s*(<h[1-6]|<pre|<ul|<ol|<blockquote|<hr|<table)/g,'$1');
+html=html.replace(/(<\/h[1-6]>|<\/pre>|<\/ul>|<\/ol>|<\/blockquote>|<hr>|<\/table>)\s*<\/p>/g,'$1');
+
+if(!html.startsWith('<'))html='<p>'+html+'</p>';
+
+return html;
+}
+
+function updatePreview(){
+preview.innerHTML=parseMD(editor.value);
+}
+
+function insertSyntax(type){
+const start=editor.selectionStart;
+const end=editor.selectionEnd;
+const text=editor.value;
+const selected=text.substring(start,end);
+let insert='',cursorOffset=0;
+
+switch(type){
+case'heading':insert=`## ${selected||'标题'}`;cursorOffset=selected?0:3;break;
+case'bold':insert=`**${selected||'粗体文本'}**`;cursorOffset=selected?0:2;break;
+case'italic':insert=`*${selected||'斜体文本'}*`;cursorOffset=selected?0:1;break;
+case'strikethrough':insert=`~~${selected||'删除文本'}~~`;cursorOffset=selected?0:2;break;
+case'link':insert=`[${selected||'链接文本'}](https://)`;cursorOffset=selected?0:1;break;
+case'image':insert=`![${selected||'图片描述'}](https://)`;cursorOffset=selected?0:2;break;
+case'code':insert=`\`${selected||'代码'}\``;cursorOffset=selected?0:1;break;
+case'codeblock':insert=`\`\`\`\n${selected||'代码内容'}\n\`\`\``;cursorOffset=selected?0:4;break;
+case'ul':insert=`- ${selected||'列表项'}`;cursorOffset=selected?0:2;break;
+case'ol':insert=`1. ${selected||'列表项'}`;cursorOffset=selected?0:3;break;
+case'task':insert=`- [ ] ${selected||'任务项'}`;cursorOffset=selected?0:6;break;
+case'quote':insert=`> ${selected||'引用内容'}`;cursorOffset=selected?0:2;break;
+case'table':insert=`| 列1 | 列2 | 列3 |\n|------|------|------|\n| 内容 | 内容 | 内容 |`;cursorOffset=0;break;
+case'hr':insert=`---`;cursorOffset=0;break;
+}
+
+editor.value=text.substring(0,start)+insert+text.substring(end);
+editor.focus();
+const newPos=start+insert.length-cursorOffset;
+editor.setSelectionRange(newPos,newPos);
+updatePreview();
+}
+
+function copyMarkdown(){
+navigator.clipboard.writeText(editor.value).then(()=>showToast('已复制Markdown！'));
+}
+
+function exportHTML(){
+const content=`<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Markdown Export</title><style>body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:800px;margin:40px auto;padding:0 20px;color:#24292f;line-height:1.7}h1{border-bottom:1px solid #d0d7de;padding-bottom:.3em}h2{border-bottom:1px solid #d0d7de;padding-bottom:.3em}code{background:#eff1f3;padding:2px 6px;border-radius:4px;font-size:.9em}pre{background:#161b22;color:#e6edf3;padding:16px;border-radius:8px;overflow-x:auto}pre code{background:none;padding:0;color:inherit}blockquote{border-left:4px solid #d0d7de;padding:0 1em;color:#656d76}table{border-collapse:collapse;width:100%}th,td{border:1px solid #d0d7de;padding:8px 12px;text-align:left}th{background:#f6f8fa}img{max-width:100%}hr{border:none;border-top:1px solid #d0d7de}</style></head><body>${parseMD(editor.value)}</body></html>`;
+const blob=new Blob([content],{type:'text/html'});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+a.href=url;a.download='markdown-export.html';
+a.click();
+URL.revokeObjectURL(url);
+showToast('HTML文件已导出！');
+}
+
+function showToast(msg){toastEl.textContent=msg;toastEl.classList.add('show');setTimeout(()=>toastEl.classList.remove('show'),2000)}
+
+// Tab key support
+editor.addEventListener('keydown',e=>{
+if(e.key==='Tab'){
+e.preventDefault();
+const start=editor.selectionStart;
+const end=editor.selectionEnd;
+editor.value=editor.value.substring(0,start)+'  '+editor.value.substring(end);
+editor.selectionStart=editor.selectionEnd=start+2;
+updatePreview();
+}
+});
+
+editor.addEventListener('input',updatePreview);
+updatePreview();
+</script>
+</body>
+</html>

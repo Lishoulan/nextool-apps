@@ -86,6 +86,21 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://lishoulan.github.io/nextool-apps/regex-tester/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/color-picker/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/markdown-editor/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://lishoulan.github.io/nextool-apps/api-docs/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
