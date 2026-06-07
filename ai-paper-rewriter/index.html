@@ -111,8 +111,47 @@
   .tab-content{display:none}
   .tab-content.active{display:block}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI论文降重后查重率能降多少？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "根据原文重复率和选择的降重强度，通常可降低30%-70%的查重率。深度降重模式效果最佳。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "降重后会改变论文原意吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "轻度降重保留原文结构，中度降重优化表达，深度降重大幅改写但保持核心语义不变。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些学科的论文？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持所有学科，AI根据学科特点调整用词和表达方式。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "论文降重工具安全吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "绝对安全。所有处理在服务端完成，不保存任何论文内容，处理完即删。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 
 <div class="header">
   <div class="header-inner">
@@ -795,6 +834,8 @@ function submitExitEmail() {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-paper"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

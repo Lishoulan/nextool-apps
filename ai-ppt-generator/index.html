@@ -413,8 +413,47 @@ body::before{
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI PPT生成器是免费的吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "NextTool AI PPT生成器提供免费试用额度，付费用户可无限使用。全站套餐仅需¥199/月。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "生成的PPT可以导出什么格式？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持导出PPTX、PDF格式，可直接在PowerPoint中编辑。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI生成的PPT质量如何？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "基于DeepSeek大模型，生成专业级PPT，包含标题页、目录、内容页和结尾页，支持4种风格模板。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持自定义PPT模板吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持商务、简约、创意、学术4种内置风格，后续将支持上传自定义模板。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 
 <!-- Header -->
 <header class="header">
@@ -1303,5 +1342,7 @@ function submitExitEmail() {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-ppt"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 </body>
 </html>

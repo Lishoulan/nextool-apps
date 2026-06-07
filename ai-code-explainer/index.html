@@ -106,8 +106,47 @@ footer{text-align:center;padding:30px 0 10px;color:#2d4a3a;font-size:12px}
 footer a{color:var(--accent);text-decoration:none}
 @media(max-width:700px){.config-row{flex-direction:column}.line-explanation{flex-direction:column;gap:4px}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "支持哪些编程语言？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持30+主流编程语言，包括Python、JavaScript、Java、C++、Go、Rust、TypeScript等。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI代码解释器能帮我找Bug吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "可以。AI会逐行分析代码逻辑，标注潜在问题和优化建议，帮助快速定位Bug。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "代码会泄露吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。代码仅在处理期间临时存在，处理完成后立即删除，不保存任何代码内容。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持代码优化建议吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持。AI不仅解释代码，还会提供性能优化、代码规范、最佳实践等改进建议。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 <div class="container">
   <header>
     <div class="logo">NexTool AI 代码解释</div>
@@ -596,6 +635,8 @@ function showToast(msg, type = 'success') {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-code"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->

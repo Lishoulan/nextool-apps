@@ -472,6 +472,46 @@
             .btn-summarize { justify-content: center; }
         }
     </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI文本摘要是免费的吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "是的！NextTool AI文本摘要完全免费，无需注册即可使用，基于TextRank算法在浏览器本地处理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "摘要质量如何？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "TextRank算法提取关键句子，准确率85%以上，适合新闻、论文、报告等结构化文本。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持多长的文本？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "建议输入500-10000字的文本，过短则摘要效果不明显，过长建议分段处理。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "数据上传到服务器了吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。TextRank算法完全在浏览器本地运行，文本不会上传到任何服务器，100%隐私安全。"
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -893,6 +933,10 @@ function showToast(msg) {
 
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-summarizer"></script>
+<div class="nextool-ad" data-slot="bottom" data-format="horizontal"></div>
+<script src="../js/adsense-component.js"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->

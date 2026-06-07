@@ -243,8 +243,47 @@
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI简历优化器如何工作？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "上传简历和目标职位描述，AI自动分析匹配度，优化措辞和关键词，提升ATS通过率。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "优化后的简历通过率能提升多少？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "根据用户反馈，平均面试通过率提升80%以上，ATS系统通过率提升3倍。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些简历格式？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持粘贴文本或上传内容，优化结果可一键复制。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI简历优化器收费吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "提供免费试用，订阅制¥29.9/月，全站套餐¥199/月可无限使用所有AI工具。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 
 <!-- 导航栏 -->
 <nav class="navbar">
@@ -645,6 +684,8 @@ function showToast(message, type) {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-resume"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->

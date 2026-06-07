@@ -6,18 +6,19 @@
 <link rel="manifest" href="../manifest.json">
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
-<title>NexTool博客 - AI效率工具使用指南与行业洞察</title>
-<meta name="description" content="NexTool博客，分享AI效率工具使用指南、PDF处理技巧、简历优化方法、合同法律知识、PPT制作技巧和邮件写作指南。">
-<meta name="keywords" content="NexTool博客,AI工具指南,PDF工具,简历优化,合同生成,PPT制作,邮件写作">
-<meta name="author" content="NexTool">
+<title>NextTool博客 - AI效率工具使用指南与行业洞察</title>
+<meta name="description" content="NextTool博客，分享AI效率工具使用指南、PDF处理技巧、简历优化方法、合同法律知识、PPT制作技巧和邮件写作指南。">
+<meta name="keywords" content="NextTool博客,AI工具指南,PDF工具,简历优化,合同生成,PPT制作,邮件写作">
+<meta name="author" content="NextTool">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/blog/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="NexTool博客 - AI效率工具使用指南与行业洞察">
-<meta property="og:description" content="NexTool博客，分享AI效率工具使用指南、PDF处理技巧、简历优化方法等。">
+<meta property="og:title" content="NextTool博客 - AI效率工具使用指南与行业洞察">
+<meta property="og:description" content="NextTool博客，分享AI效率工具使用指南、PDF处理技巧、简历优化方法等。">
 <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/blog/">
-<meta property="og:site_name" content="NexTool">
+<meta property="og:site_name" content="NextTool">
 <meta property="og:locale" content="zh_CN">
+<link rel="stylesheet" href="../css/mobile.css">
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
@@ -39,6 +40,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .hero{text-align:center;margin-bottom:48px}
 .hero h1{font-size:2.2rem;font-weight:800;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
 .hero p{color:var(--text-dim);font-size:1.05rem;max-width:500px;margin:0 auto}
+.search-box{margin-bottom:24px;position:relative}
+.search-box input{width:100%;padding:12px 20px 12px 44px;border:1px solid var(--card-border);border-radius:12px;background:var(--card-bg);color:var(--text);font-size:1rem;outline:none;transition:border-color .3s}
+.search-box input:focus{border-color:var(--accent)}
+.search-box input::placeholder{color:var(--text-dim)}
+.search-box .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:1rem;pointer-events:none}
+.category-tabs{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.category-tabs .tab{padding:8px 18px;border-radius:20px;border:1px solid var(--card-border);background:var(--card-bg);color:var(--text-dim);cursor:pointer;font-size:.88rem;transition:all .3s;user-select:none}
+.category-tabs .tab:hover{border-color:var(--accent);color:var(--text)}
+.category-tabs .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
 .posts{display:flex;flex-direction:column;gap:20px}
 .post-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--radius);padding:28px;text-decoration:none;color:var(--text);transition:all .3s;backdrop-filter:blur(10px);display:block}
 .post-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 8px 32px rgba(79,70,229,0.3)}
@@ -46,6 +56,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Micr
 .post-card h2{font-size:1.3rem;font-weight:700;margin-bottom:8px;color:#fff}
 .post-card p{color:var(--text-dim);font-size:.92rem;line-height:1.6}
 .post-card .meta{color:var(--text-dim);font-size:.8rem;margin-top:12px;opacity:.7}
+.no-results{text-align:center;padding:40px;color:var(--text-dim);font-size:1.1rem;display:none}
 .sidebar-section{margin-top:48px;padding-top:32px;border-top:1px solid var(--card-border)}
 .sidebar-section h2{font-size:1.3rem;font-weight:700;margin-bottom:20px;color:#fff}
 .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px}
@@ -60,7 +71,7 @@ footer a{color:var(--accent-light);text-decoration:none}
 </head>
 <body>
 <nav class="nav">
-  <a href="https://lishoulan.github.io/nextool-apps/" class="nav-logo">⚡ NexTool</a>
+  <a href="https://lishoulan.github.io/nextool-apps/" class="nav-logo">⚡ NextTool</a>
   <ul class="nav-links">
     <li><a href="https://lishoulan.github.io/nextool-apps/">首页</a></li>
     <li><a href="./index.html">博客</a></li>
@@ -69,56 +80,245 @@ footer a{color:var(--accent-light);text-decoration:none}
 
 <div class="container">
   <div class="hero">
-    <h1>NexTool 博客</h1>
+    <h1>NextTool 博客</h1>
     <p>AI效率工具使用指南、行业洞察与实用技巧</p>
   </div>
 
-  <div class="posts">
-    <a href="./free-pdf-tools-online.html" class="post-card">
-      <span class="tag">PDF工具</span>
-      <h2>2024年最好的免费在线PDF工具 - 合并、拆分、压缩、转图片一站式搞定</h2>
-      <p>全面介绍2024年最值得使用的免费在线PDF工具，支持合并、拆分、压缩、转图片、加水印等功能，浏览器本地处理，隐私安全。包含主流工具对比和5个常见问题解答。</p>
-      <div class="meta">📅 2024年1月15日</div>
-    </a>
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="搜索文章标题...">
+  </div>
 
-    <a href="./ai-resume-optimizer-guide.html" class="post-card">
-      <span class="tag">简历优化</span>
+  <div class="category-tabs">
+    <span class="tab active" data-category="all">全部</span>
+    <span class="tab" data-category="ai">AI工具</span>
+    <span class="tab" data-category="pdf">PDF工具</span>
+    <span class="tab" data-category="dev">开发者工具</span>
+    <span class="tab" data-category="efficiency">效率工具</span>
+  </div>
+
+  <div class="posts" id="postsContainer">
+
+    <!-- AI工具 -->
+    <a href="./ai-resume-optimizer-guide.html" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
       <h2>AI简历优化器：3分钟让你的简历通过率提升300%</h2>
       <p>AI简历优化器使用指南，包含前后对比示例和行业专属技巧。教你如何利用AI技术优化简历措辞、突出亮点、关键词匹配，显著提升面试通过率。</p>
       <div class="meta">📅 2024年1月20日</div>
     </a>
 
-    <a href="./ai-contract-generator-guide.html" class="post-card">
-      <span class="tag">合同生成</span>
+    <a href="./ai-contract-generator-guide.html" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
       <h2>AI合同生成器：1分钟生成专业法律合同，省下5000元律师费</h2>
       <p>AI合同生成器支持12种合同类型，1分钟生成专业法律合同。详解10种合同类型、法律注意事项和使用技巧，帮你省下律师咨询费。</p>
       <div class="meta">📅 2024年2月1日</div>
     </a>
 
-    <a href="./ai-ppt-generator-guide.html" class="post-card">
-      <span class="tag">PPT制作</span>
+    <a href="./ai-ppt-generator-guide.html" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
       <h2>AI一键生成PPT：输入主题，10秒出完整幻灯片，打工人必备</h2>
       <p>AI PPT生成器使用指南，输入主题10秒生成完整幻灯片，支持商务、简约、创意、学术4种风格。包含5种典型使用场景和风格对比。</p>
       <div class="meta">📅 2024年2月10日</div>
     </a>
 
-    <a href="./ai-email-writer-guide.html" class="post-card">
-      <span class="tag">邮件写作</span>
+    <a href="./ai-email-writer-guide.html" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
       <h2>AI邮件写作神器：再也不用为写邮件发愁，10种场景一键生成</h2>
       <p>AI邮件写作器覆盖商务合作、求职应聘、投诉建议等10种场景，4种语气风格。包含10种场景的邮件示例和5个邮件写作黄金法则。</p>
       <div class="meta">📅 2024年2月15日</div>
     </a>
 
-    <a href="./ai-paper-rewriter-guide.html" class="post-card">
-      <span class="tag">论文降重</span>
+    <a href="./ai-paper-rewriter-guide.html" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
       <h2>AI论文降重神器：一键降低查重率，大学生毕业必备工具</h2>
       <p>AI论文降重助手使用指南，支持轻度/中度/深度三种改写强度，相似率精准控制，1分钟智能改写，大幅降低查重率。</p>
       <div class="meta">📅 2024年3月1日</div>
     </a>
+
+    <a href="./articles/ai-ppt-generator-review.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>AI自动生成PPT真的好用吗？3款工具深度测评</h2>
+      <p>以真实使用体验对3款主流AI PPT工具进行深度测评，从生成速度、内容质量、设计美感、后编辑灵活性以及实用技巧五个维度帮你找到最适合的那一款。</p>
+      <div class="meta">📅 2024年3月10日</div>
+    </a>
+
+    <a href="./articles/ai-resume-writing-tips.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>AI写简历靠谱吗？实测5款AI简历工具，这款效果最好</h2>
+      <p>实测5款主流AI简历工具，从免费版到付费版，从功能到实际投递效果，逐一横向对比。包含测评过程、使用技巧和踩坑经验。</p>
+      <div class="meta">📅 2024年3月15日</div>
+    </a>
+
+    <a href="./articles/ai-tools-boost-productivity.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>AI工具如何改变工作效率？10个实测推荐</h2>
+      <p>过去半年实测30+款AI工具后的真实总结，分享AI工具如何重塑工作方式，给出10个经过验证的实测推荐。</p>
+      <div class="meta">📅 2024年4月1日</div>
+    </a>
+
+    <a href="./articles/ai-translation-tools-2024.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>2024年AI翻译工具评测：DeepSeek翻译效果实测</h2>
+      <p>对主流AI翻译工具进行横向对比，聚焦DeepSeek翻译的实际表现，分享一套实用的"人机协作"翻译流程。</p>
+      <div class="meta">📅 2024年4月10日</div>
+    </a>
+
+    <a href="./articles/business-email-templates-ai.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>商务邮件写作模板大全+AI一键生成：从新手到高手的完整指南</h2>
+      <p>分享10+个实战商务邮件模板，并告诉你如何用AI一键生成，从此告别"写邮件焦虑"。</p>
+      <div class="meta">📅 2024年4月20日</div>
+    </a>
+
+    <a href="./articles/code-explainer-for-beginners.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>看不懂代码怎么办？AI代码解释器让你秒懂任何代码</h2>
+      <p>手把手教你如何利用AI代码解释器，彻底告别"代码看不懂"的焦虑，24小时不厌其烦给你讲代码的"私人老师"。</p>
+      <div class="meta">📅 2024年5月1日</div>
+    </a>
+
+    <a href="./articles/professional-email-writing-guide.md" class="post-card" data-category="ai">
+      <span class="tag">AI工具</span>
+      <h2>商务邮件怎么写？50个高频场景模板+AI一键生成技巧</h2>
+      <p>10年积累的商务邮件模板、邮件写作底层逻辑，以及最新的AI写邮件技巧，附50个高频场景模板合集。</p>
+      <div class="meta">📅 2024年5月10日</div>
+    </a>
+
+    <!-- PDF工具 -->
+    <a href="./free-pdf-tools-online.html" class="post-card" data-category="pdf">
+      <span class="tag">PDF工具</span>
+      <h2>2024年最好的免费在线PDF工具 - 合并、拆分、压缩、转图片一站式搞定</h2>
+      <p>全面介绍2024年最值得使用的免费在线PDF工具，支持合并、拆分、压缩、转图片、加水印等功能，浏览器本地处理，隐私安全。</p>
+      <div class="meta">📅 2024年1月15日</div>
+    </a>
+
+    <a href="./articles/how-to-merge-pdf-files-free.md" class="post-card" data-category="pdf">
+      <span class="tag">PDF工具</span>
+      <h2>如何免费合并PDF文件？5种方法对比评测（2024最新）</h2>
+      <p>市面上真正好用的免费合并PDF方法全整理，从在线工具到本地软件，附详细操作步骤和真实体验。</p>
+      <div class="meta">📅 2024年5月20日</div>
+    </a>
+
+    <!-- 开发者工具 -->
+    <a href="./articles/free-base64-encoder-decoder.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>免费在线Base64编解码工具推荐：轻松搞定数据转换</h2>
+      <p>全面了解Base64的本质、应用场景，并推荐一款真正免费、便捷的在线工具，帮助你轻松完成每一次Base64转换。</p>
+      <div class="meta">📅 2024年6月1日</div>
+    </a>
+
+    <a href="./articles/frontend-color-tools-review.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>前端开发必备的5个在线颜色工具：从取色到配色一网打尽</h2>
+      <p>分享5个亲自使用过且效果不错的在线颜色工具，重点介绍一款能同时满足取色、转换、配色需求的工具。</p>
+      <div class="meta">📅 2024年6月10日</div>
+    </a>
+
+    <a href="./articles/json-formatter-tools-comparison.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>JSON格式化工具哪个好？6款在线工具对比推荐</h2>
+      <p>把6款主流JSON在线工具拉出来对比，分享亲测好用的JSON编辑器使用技巧。</p>
+      <div class="meta">📅 2024年6月20日</div>
+    </a>
+
+    <a href="./articles/markdown-writing-best-practices.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>Markdown写作最佳实践+在线编辑器推荐</h2>
+      <p>从亲身经验出发，聊聊Markdown写作的最佳实践，并推荐一款真正好用的在线Markdown编辑器。</p>
+      <div class="meta">📅 2024年7月1日</div>
+    </a>
+
+    <a href="./articles/programmer-online-tools-top10.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>程序员效率翻倍的10个在线工具：从代码到运维的全链路提效指南</h2>
+      <p>整理10个真正能提升日常开发效率的在线开发工具，覆盖编码、调试、协作、部署、文档、性能分析等关键环节。</p>
+      <div class="meta">📅 2024年7月10日</div>
+    </a>
+
+    <a href="./articles/regex-tutorial-online-tester.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>正则表达式入门教程+在线测试工具：从零开始掌握文本匹配的艺术</h2>
+      <p>用最通俗的方式带你从零开始入门正则表达式，并推荐一款在线正则测试工具，让你边学边练，快速上手。</p>
+      <div class="meta">📅 2024年7月20日</div>
+    </a>
+
+    <a href="./articles/unix-timestamp-converter-comparison.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>Unix时间戳转换工具对比：2024年最全面的选择指南</h2>
+      <p>从功能、体验、场景适配等维度，系统对比几款主流的时间戳转换工具，帮你选出最适合自己的那一个。</p>
+      <div class="meta">📅 2024年8月1日</div>
+    </a>
+
+    <a href="./articles/url-encoding-decoding-guide.md" class="post-card" data-category="dev">
+      <span class="tag">开发者工具</span>
+      <h2>URL编码解码完全指南：从原理到实战的终极教程</h2>
+      <p>把URL编码解码这件事彻底说清楚，无论你是刚入门的新手还是经验丰富的老手，都会带来新的认知。</p>
+      <div class="meta">📅 2024年8月10日</div>
+    </a>
+
+    <!-- 效率工具 -->
+    <a href="./articles/free-contract-templates-online.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>2024年最全免费合同模板下载+AI自动生成合同教程：从此告别合同烦恼</h2>
+      <p>整理最全的免费合同模板下载渠道，并手把手教你用AI工具自动生成合同——从零基础到写出专业合同，只需10分钟。</p>
+      <div class="meta">📅 2024年8月20日</div>
+    </a>
+
+    <a href="./articles/free-qr-code-generator-review.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>免费二维码生成器推荐：支持自定义颜色和批量生成</h2>
+      <p>从实际使用体验出发，推荐一款真正好用、免费且功能强大的二维码生成器，并手把手教你如何实现自定义颜色和批量生成。</p>
+      <div class="meta">📅 2024年9月1日</div>
+    </a>
+
+    <a href="./articles/free-password-generator-online.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>2026年最佳免费密码生成器推荐：如何创建安全的强密码</h2>
+      <p>推荐2026年最好用的免费密码生成器，并手把手教你如何创建真正安全的强密码，提升密码安全等级。</p>
+      <div class="meta">📅 2026年6月7日</div>
+    </a>
+
+    <a href="./articles/word-counter-tool-online.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>免费在线字数统计工具：写作者必备的文字计数器</h2>
+      <p>推荐一款功能全面的免费在线文字计数器，不仅能精确统计字数，还提供词频分析、阅读时间估算等高级功能。</p>
+      <div class="meta">📅 2026年6月7日</div>
+    </a>
+
+    <a href="./articles/image-compressor-online-free.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>免费在线图片压缩工具：不失真批量压缩图片的5种方法</h2>
+      <p>详细介绍5种免费在线压缩图片的方法，教你如何在大幅减小文件体积的同时做到图片不失真。</p>
+      <div class="meta">📅 2026年6月7日</div>
+    </a>
+
+    <a href="./articles/online-calculator-scientific.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>免费在线科学计算器：学生和工程师的必备工具</h2>
+      <p>详细介绍2026年最值得使用的免费科学计算器，以及它在学习和工作中的实际应用，涵盖函数计算、单位换算等。</p>
+      <div class="meta">📅 2026年6月7日</div>
+    </a>
+
+    <a href="./articles/paper-plagiarism-reduction-methods.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>论文查重率太高怎么办？5个降重方法实测</h2>
+      <p>亲身实测的论文降重方法合集，5个真正有效、操作简单的降重技巧，帮你在不改变核心论点的前提下查重率降低10%到30%。</p>
+      <div class="meta">📅 2024年9月10日</div>
+    </a>
+
+    <a href="./articles/paper-plagiarism-reduction-tips.md" class="post-card" data-category="efficiency">
+      <span class="tag">效率工具</span>
+      <h2>论文降重最有效的方法：从80%降到10%的实战经验</h2>
+      <p>最实用、最有效的论文降重方法分享，帮你实现从80%到10%的逆袭，二稿过审的过来人实战经验。</p>
+      <div class="meta">📅 2024年9月20日</div>
+    </a>
+
   </div>
 
+  <div class="no-results" id="noResults">没有找到匹配的文章 😢</div>
+
   <div class="sidebar-section">
-    <h2>🛠️ NexTool 产品</h2>
+    <h2>🛠️ NextTool 产品</h2>
     <div class="product-grid">
       <a href="https://lishoulan.github.io/nextool-apps/pdf-toolkit/" class="product-card">
         <div class="icon">📄</div>
@@ -155,8 +355,48 @@ footer a{color:var(--accent-light);text-decoration:none}
 </div>
 
 <footer>
-  <p>&copy; 2024 NexTool. All rights reserved. | <a href="https://lishoulan.github.io/nextool-apps/">返回首页</a></p>
+  <p>&copy; 2026 NextTool. All rights reserved. | <a href="https://lishoulan.github.io/nextool-apps/">返回首页</a></p>
 </footer>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
+<script>
+(function(){
+  const posts = document.querySelectorAll('.post-card');
+  const container = document.getElementById('postsContainer');
+  const noResults = document.getElementById('noResults');
+  const searchInput = document.getElementById('searchInput');
+  const tabs = document.querySelectorAll('.category-tabs .tab');
+  let currentCategory = 'all';
+
+  function filterPosts(){
+    const query = searchInput.value.trim().toLowerCase();
+    let visibleCount = 0;
+    posts.forEach(function(card){
+      const cat = card.getAttribute('data-category');
+      const title = card.querySelector('h2').textContent.toLowerCase();
+      const matchCat = currentCategory === 'all' || cat === currentCategory;
+      const matchSearch = !query || title.indexOf(query) !== -1;
+      if(matchCat && matchSearch){
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  tabs.forEach(function(tab){
+    tab.addEventListener('click', function(){
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentCategory = tab.getAttribute('data-category');
+      filterPosts();
+    });
+  });
+
+  searchInput.addEventListener('input', filterPosts);
+})();
+
+if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}
+</script>
 </body>
 </html>

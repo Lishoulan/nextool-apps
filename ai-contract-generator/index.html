@@ -233,8 +233,47 @@ body{
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI合同生成器生成的合同有法律效力吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "生成的合同基于标准法律模板，具有参考价值。建议重要合同请律师审核后签署。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些合同类型？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持12种常见合同类型，包括劳动合同、租赁合同、保密协议、服务合同等。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "合同内容可以修改吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "生成后可自由编辑修改，支持导出为Word格式进一步调整。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "AI合同生成器的价格是多少？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "单次使用¥99，月度订阅¥199/月无限使用，全站套餐同样¥199/月包含所有AI工具。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 <div class="app">
   <!-- Header -->
   <div class="header">
@@ -920,6 +959,8 @@ function submitExitEmail() {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-contract"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

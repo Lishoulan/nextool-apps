@@ -117,8 +117,47 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
   gtag('config', 'G-XXXXXXXXXX');
 </script>
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI邮件写作器支持哪些场景？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持10种常见场景，包括商务合作、求职应聘、投诉建议、感谢信、邀请函等。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "可以自定义邮件语气吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持正式、友好、幽默、紧急4种语气风格，满足不同沟通需求。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持多语言邮件吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持中文、英文、日文等8种语言的邮件生成。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "邮件内容会被保存吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。所有内容仅在处理期间临时存在，处理完成后立即删除，保护您的隐私。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 
 <div class="header">
   <div class="header-inner">
@@ -603,6 +642,8 @@ function showToast(msg, isError) {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-email"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->

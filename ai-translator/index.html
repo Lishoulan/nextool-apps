@@ -91,8 +91,47 @@ header{text-align:center;padding:30px 0 20px}
 footer{text-align:center;padding:30px 0 10px;color:#4a5568;font-size:12px}
 footer a{color:var(--accent);text-decoration:none}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI翻译和机器翻译有什么区别？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI翻译基于大语言模型，理解上下文语义，翻译更自然流畅，支持学术、商务、口语等多种风格。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "支持哪些语言互译？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "支持中文、英文、日文、韩文、法文、德文、西班牙文、俄文8种语言互译。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "翻译准确率如何？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "日常文本准确率95%以上，专业领域文本建议人工校对。支持多种翻译风格选择。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "翻译内容会被保存吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不会。所有翻译内容仅用于处理，完成后立即删除，严格保护用户隐私。"
+      }
+    }
+  ]
+}
+</script>
 </head>
-<body>
 <div class="container">
   <header>
     <div class="logo">NexTool AI 翻译</div>
@@ -448,6 +487,8 @@ function showToast(msg, type = 'success') {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-translate"></script>
+<div id="social-share"></div>
+<script src="../js/social-share.js"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->
