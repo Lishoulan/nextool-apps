@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>二维码生成器 - 免费在线QR Code制作工具 | NexTool</title>
+    <meta name="description" content="免费在线二维码生成器，支持自定义颜色、尺寸、批量生成，100%客户端处理无需API。">
+    <meta name="keywords" content="二维码生成器, 在线二维码, 免费二维码, QR Code生成, 批量二维码">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="二维码生成器 - 免费在线QR Code制作工具">
+    <meta property="og:description" content="免费在线二维码生成器，支持自定义颜色、尺寸、批量生成">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a2e; --border: #2a2a3e;
+            --text: #e0e0e8; --text2: #8888a0; --accent: #6c5ce7; --accent2: #a855f7;
+            --green: #10b981; --orange: #f59e0b; --red: #ef4444; --blue: #3b82f6;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .cta-banner { background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(168,85,247,0.15)); border-bottom: 1px solid rgba(108,92,231,0.3); padding: 10px 20px; text-align: center; font-size: 0.9em; }
+        .cta-banner a { color: var(--accent2); text-decoration: none; font-weight: 600; }
+        header { text-align: center; padding: 30px 20px 20px; }
+        header h1 { font-size: 1.8em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: var(--text2); margin-top: 6px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 20px 40px; }
+        .card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; color: var(--text2); margin-bottom: 6px; font-size: 0.9em; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1em; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; font-size: 0.95em; cursor: pointer; transition: all 0.2s; font-weight: 600; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+        .btn-outline:hover { border-color: var(--accent); }
+        .btn-sm { padding: 6px 14px; font-size: 0.85em; }
+        .row { display: flex; gap: 16px; flex-wrap: wrap; }
+        .col { flex: 1; min-width: 200px; }
+        .qr-preview { text-align: center; padding: 30px; background: var(--bg); border-radius: 12px; min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .qr-preview canvas, .qr-preview img { border-radius: 8px; }
+        .qr-placeholder { color: var(--text2); font-size: 1.1em; }
+        .size-selector { display: flex; gap: 8px; }
+        .size-selector .btn { padding: 8px 16px; font-size: 0.85em; }
+        .size-selector .btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .color-row { display: flex; gap: 16px; align-items: center; }
+        .color-picker-wrap { display: flex; align-items: center; gap: 8px; }
+        .color-picker-wrap input[type="color"] { width: 40px; height: 40px; border: 1px solid var(--border); border-radius: 8px; background: none; cursor: pointer; padding: 2px; }
+        .tabs { display: flex; gap: 4px; margin-bottom: 20px; }
+        .tab { padding: 8px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; color: var(--text2); font-size: 0.9em; }
+        .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .batch-item { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+        .batch-item input { flex: 1; }
+        .batch-item .remove-btn { color: var(--red); cursor: pointer; background: none; border: none; font-size: 1.2em; padding: 4px; }
+        .batch-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-top: 16px; }
+        .batch-qr-item { text-align: center; background: var(--bg); border-radius: 8px; padding: 16px; }
+        .batch-qr-item .label { color: var(--text2); font-size: 0.8em; margin-top: 8px; word-break: break-all; }
+        .history-list { margin-top: 16px; }
+        .history-item { display: flex; align-items: center; gap: 12px; padding: 10px; background: var(--bg); border-radius: 8px; margin-bottom: 8px; }
+        .history-item .text { flex: 1; color: var(--text2); font-size: 0.9em; word-break: break-all; }
+        .history-item .date { color: var(--text2); font-size: 0.8em; white-space: nowrap; }
+        .history-item .actions { display: flex; gap: 4px; }
+        footer { text-align: center; padding: 20px; color: var(--text2); border-top: 1px solid var(--border); font-size: 0.85em; }
+        @media (max-width: 768px) { .row { flex-direction: column; } .batch-results { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); } }
+    </style>
+</head>
+<body>
+    <div class="cta-banner">
+        🚀 需要 AI 工具？查看 <a href="https://nextool.app" target="_blank">NexTool — AI 驱动的效率工具集</a>
+    </div>
+    <header>
+        <h1>二维码生成器</h1>
+        <p>免费在线生成 QR Code · 自定义颜色尺寸 · 批量生成</p>
+    </header>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('single')">单个生成</div>
+            <div class="tab" onclick="switchTab('batch')">批量生成</div>
+            <div class="tab" onclick="switchTab('history')">历史记录</div>
+        </div>
+
+        <!-- Single Mode -->
+        <div class="tab-content active" id="tab-single">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="form-group">
+                            <label>文本 / URL</label>
+                            <textarea id="qrText" placeholder="输入文本或网址，例如：https://nextool.app"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>尺寸</label>
+                            <div class="size-selector">
+                                <button class="btn btn-outline" onclick="setSize(128)">128px</button>
+                                <button class="btn btn-outline active" onclick="setSize(256)">256px</button>
+                                <button class="btn btn-outline" onclick="setSize(512)">512px</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>颜色</label>
+                            <div class="color-row">
+                                <div class="color-picker-wrap">
+                                    <input type="color" id="fgColor" value="#000000">
+                                    <span style="color:var(--text2);font-size:0.85em;">前景色</span>
+                                </div>
+                                <div class="color-picker-wrap">
+                                    <input type="color" id="bgColor" value="#ffffff">
+                                    <span style="color:var(--text2);font-size:0.85em;">背景色</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateQR()" style="width:100%;">生成二维码</button>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="qr-preview" id="qrPreview">
+                            <div class="qr-placeholder" id="qrPlaceholder">📝 输入内容后点击生成</div>
+                            <div id="qrCode" style="display:none;"></div>
+                        </div>
+                        <div style="margin-top:16px;display:flex;gap:8px;justify-content:center;">
+                            <button class="btn btn-outline btn-sm" onclick="downloadQR()">💾 下载 PNG</button>
+                            <button class="btn btn-outline btn-sm" onclick="copyQRDataUrl()">📋 复制</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Batch Mode -->
+        <div class="tab-content" id="tab-batch">
+            <div class="card">
+                <div class="form-group">
+                    <label>批量输入（每行一个 URL 或文本）</label>
+                    <textarea id="batchInput" rows="8" placeholder="https://nextool.app/viralcopy&#10;https://nextool.app/smartsummary&#10;https://nextool.app/codementor"></textarea>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:16px;">
+                    <button class="btn btn-primary" onclick="generateBatch()">批量生成</button>
+                    <button class="btn btn-outline" onclick="downloadAllBatch()">💾 全部下载</button>
+                </div>
+                <div class="batch-results" id="batchResults"></div>
+            </div>
+        </div>
+
+        <!-- History -->
+        <div class="tab-content" id="tab-history">
+            <div class="card">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                    <h3 style="color:var(--text2);font-size:0.95em;">最近生成记录</h3>
+                    <button class="btn btn-outline btn-sm" onclick="clearHistory()">🗑️ 清空</button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <p style="color:var(--text2);text-align:center;">暂无记录</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>二维码生成器 · 100% 客户端处理 · <a href="https://nextool.app" style="color:var(--accent);">NexTool</a></p>
+    </footer>
+    <script>
+        let qrSize = 256;
+        let currentQR = null;
+
+        function setSize(size) {
+            qrSize = size;
+            document.querySelectorAll('.size-selector .btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function generateQR() {
+            const text = document.getElementById('qrText').value.trim();
+            if (!text) { alert('请输入文本或URL'); return; }
+            const fg = document.getElementById('fgColor').value;
+            const bg = document.getElementById('bgColor').value;
+            const container = document.getElementById('qrCode');
+            container.innerHTML = '';
+            container.style.display = 'block';
+            document.getElementById('qrPlaceholder').style.display = 'none';
+            currentQR = new QRCode(container, {
+                text: text,
+                width: qrSize,
+                height: qrSize,
+                colorDark: fg,
+                colorLight: bg,
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            saveToHistory(text);
+        }
+
+        function downloadQR() {
+            const canvas = document.querySelector('#qrCode canvas');
+            if (!canvas) { alert('请先生成二维码'); return; }
+            const link = document.createElement('a');
+            link.download = 'qrcode.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+
+        function copyQRDataUrl() {
+            const canvas = document.querySelector('#qrCode canvas');
+            if (!canvas) { alert('请先生成二维码'); return; }
+            canvas.toBlob(blob => {
+                navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => alert('已复制!'));
+            });
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tab).classList.add('active');
+            if (tab === 'history') loadHistory();
+        }
+
+        function generateBatch() {
+            const input = document.getElementById('batchInput').value.trim();
+            if (!input) { alert('请输入内容'); return; }
+            const lines = input.split('\n').map(l => l.trim()).filter(l => l);
+            const container = document.getElementById('batchResults');
+            container.innerHTML = '';
+            lines.forEach((line, i) => {
+                const item = document.createElement('div');
+                item.className = 'batch-qr-item';
+                const qrDiv = document.createElement('div');
+                qrDiv.id = 'batch-qr-' + i;
+                item.appendChild(qrDiv);
+                const label = document.createElement('div');
+                label.className = 'label';
+                label.textContent = line.length > 40 ? line.substring(0, 40) + '...' : line;
+                item.appendChild(label);
+                const dlBtn = document.createElement('button');
+                dlBtn.className = 'btn btn-outline btn-sm';
+                dlBtn.style.marginTop = '8px';
+                dlBtn.textContent = '💾 下载';
+                dlBtn.onclick = function() {
+                    const c = qrDiv.querySelector('canvas');
+                    if (c) { const a = document.createElement('a'); a.download = `qrcode_${i+1}.png`; a.href = c.toDataURL('image/png'); a.click(); }
+                };
+                item.appendChild(dlBtn);
+                container.appendChild(item);
+                new QRCode(qrDiv, { text: line, width: 150, height: 150, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+                saveToHistory(line);
+            });
+        }
+
+        function downloadAllBatch() {
+            const canvases = document.querySelectorAll('#batchResults canvas');
+            if (canvases.length === 0) { alert('请先生成批量二维码'); return; }
+            canvases.forEach((c, i) => {
+                const a = document.createElement('a');
+                a.download = `qrcode_${i+1}.png`;
+                a.href = c.toDataURL('image/png');
+                a.click();
+            });
+        }
+
+        function saveToHistory(text) {
+            let history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+            history = history.filter(h => h.text !== text);
+            history.unshift({ text, date: new Date().toLocaleString('zh-CN') });
+            if (history.length > 20) history = history.slice(0, 20);
+            localStorage.setItem('qr_history', JSON.stringify(history));
+        }
+
+        function loadHistory() {
+            const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+            const container = document.getElementById('historyList');
+            if (history.length === 0) {
+                container.innerHTML = '<p style="color:var(--text2);text-align:center;">暂无记录</p>';
+                return;
+            }
+            container.innerHTML = history.map((h, i) => `
+                <div class="history-item">
+                    <span class="text">${h.text}</span>
+                    <span class="date">${h.date}</span>
+                    <div class="actions">
+                        <button class="btn btn-outline btn-sm" onclick="reuseHistory(${i})">🔄</button>
+                        <button class="btn btn-outline btn-sm" onclick="deleteHistory(${i})" style="color:var(--red);">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function reuseHistory(index) {
+            const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+            if (history[index]) {
+                document.getElementById('qrText').value = history[index].text;
+                switchTab('single');
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+                document.getElementById('tab-single').classList.add('active');
+            }
+        }
+
+        function deleteHistory(index) {
+            let history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+            history.splice(index, 1);
+            localStorage.setItem('qr_history', JSON.stringify(history));
+            loadHistory();
+        }
+
+        function clearHistory() {
+            if (confirm('确定清空所有历史记录？')) {
+                localStorage.removeItem('qr_history');
+                loadHistory();
+            }
+        }
+    </script>
+</body>
+</html>

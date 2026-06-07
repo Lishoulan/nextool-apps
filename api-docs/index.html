@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViralCopy API 文档 - NexTool</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a2e; --border: #2a2a3e;
+            --text: #e0e0e8; --text2: #8888a0; --accent: #6c5ce7; --accent2: #a855f7;
+            --green: #10b981; --orange: #f59e0b; --red: #ef4444; --blue: #3b82f6;
+            --cyan: #06b6d4;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .layout { display: flex; min-height: 100vh; }
+        .sidebar { width: 260px; background: var(--bg2); border-right: 1px solid var(--border); padding: 20px 0; position: fixed; top: 0; bottom: 0; overflow-y: auto; }
+        .sidebar-logo { padding: 16px 20px; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
+        .sidebar-logo h2 { font-size: 1.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .sidebar-logo p { color: var(--text2); font-size: 0.8em; }
+        .nav-section { padding: 0 12px; margin-bottom: 16px; }
+        .nav-section-title { color: var(--text2); font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px; padding: 8px; }
+        .nav-link { display: block; padding: 8px 12px; color: var(--text2); text-decoration: none; border-radius: 6px; font-size: 0.9em; transition: all 0.2s; }
+        .nav-link:hover { background: var(--bg3); color: var(--text); }
+        .nav-link.active { background: rgba(108,92,231,0.15); color: var(--accent); }
+        .nav-link .method { display: inline-block; padding: 2px 6px; border-radius: 3px; font-size: 0.7em; font-weight: 700; margin-right: 6px; }
+        .method-post { background: rgba(16,185,129,0.2); color: var(--green); }
+        .method-get { background: rgba(59,130,246,0.2); color: var(--blue); }
+        .main { margin-left: 260px; flex: 1; padding: 40px; max-width: 900px; }
+        h1 { font-size: 2em; margin-bottom: 8px; }
+        h1 .version { font-size: 0.5em; background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 12px; vertical-align: middle; }
+        .subtitle { color: var(--text2); margin-bottom: 30px; font-size: 1.1em; }
+        h2 { font-size: 1.5em; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+        h3 { font-size: 1.2em; margin: 24px 0 12px; color: var(--accent2); }
+        p { color: var(--text2); margin-bottom: 12px; }
+        .endpoint-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+        .endpoint-header { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border); gap: 12px; }
+        .endpoint-header .method-badge { padding: 4px 10px; border-radius: 6px; font-size: 0.8em; font-weight: 700; }
+        .endpoint-header .method-badge.post { background: rgba(16,185,129,0.2); color: var(--green); }
+        .endpoint-header .method-badge.get { background: rgba(59,130,246,0.2); color: var(--blue); }
+        .endpoint-header .path { font-family: 'Fira Code', monospace; font-size: 1em; color: var(--text); }
+        .endpoint-header .desc { color: var(--text2); font-size: 0.9em; margin-left: auto; }
+        .endpoint-body { padding: 20px; }
+        .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin: 12px 0; }
+        .code-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; background: var(--bg3); border-bottom: 1px solid var(--border); font-size: 0.8em; color: var(--text2); }
+        .code-header .copy-btn { cursor: pointer; color: var(--accent); background: none; border: none; font-size: 0.85em; }
+        .code-content { padding: 16px; font-family: 'Fira Code', monospace; font-size: 0.85em; overflow-x: auto; line-height: 1.8; white-space: pre; }
+        .code-content .keyword { color: var(--accent2); }
+        .code-content .string { color: var(--green); }
+        .code-content .number { color: var(--orange); }
+        .code-content .comment { color: var(--text2); }
+        .code-content .prop { color: var(--cyan); }
+        .param-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .param-table th { text-align: left; padding: 10px 12px; background: var(--bg3); color: var(--text2); font-size: 0.85em; border-bottom: 1px solid var(--border); }
+        .param-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.9em; color: var(--text2); }
+        .param-table td:first-child { color: var(--text); font-family: monospace; }
+        .param-table .required { color: var(--orange); font-size: 0.75em; font-weight: 600; }
+        .param-table .optional { color: var(--text2); font-size: 0.75em; }
+        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8em; font-weight: 600; }
+        .status-2xx { background: rgba(16,185,129,0.15); color: var(--green); }
+        .status-4xx { background: rgba(245,158,11,0.15); color: var(--orange); }
+        .status-5xx { background: rgba(239,68,68,0.15); color: var(--red); }
+        .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+        .pricing-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; transition: border-color 0.3s; }
+        .pricing-card:hover { border-color: var(--accent); }
+        .pricing-card.featured { border-color: var(--accent); position: relative; }
+        .pricing-card.featured::before { content: '推荐'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--accent); color: #fff; padding: 2px 12px; border-radius: 10px; font-size: 0.75em; }
+        .pricing-card h4 { margin-bottom: 8px; }
+        .pricing-card .price { font-size: 2em; font-weight: 700; color: var(--accent); }
+        .pricing-card .price span { font-size: 0.4em; color: var(--text2); }
+        .pricing-card ul { list-style: none; padding: 0; margin-top: 16px; }
+        .pricing-card ul li { padding: 6px 0; color: var(--text2); font-size: 0.9em; }
+        .try-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-top: 20px; }
+        .try-section h3 { color: var(--accent2); margin-top: 0; }
+        .form-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+        .form-row input, .form-row select { padding: 10px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.95em; }
+        .form-row input:focus, .form-row select:focus { outline: none; border-color: var(--accent); }
+        .form-row input { flex: 1; min-width: 200px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95em; font-weight: 600; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+        .btn-primary:hover { opacity: 0.9; }
+        .try-result { margin-top: 16px; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 0; }
+        .lang-tab { padding: 6px 14px; background: var(--bg3); border: 1px solid var(--border); border-bottom: none; border-radius: 8px 8px 0 0; cursor: pointer; color: var(--text2); font-size: 0.8em; }
+        .lang-tab.active { background: var(--bg); color: var(--text); border-color: var(--border); }
+        .error-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .error-table th { text-align: left; padding: 10px 12px; background: var(--bg3); color: var(--text2); font-size: 0.85em; border-bottom: 1px solid var(--border); }
+        .error-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 0.9em; color: var(--text2); }
+        .error-table td:first-child { font-family: monospace; color: var(--orange); }
+        @media (max-width: 900px) { .sidebar { display: none; } .main { margin-left: 0; } .pricing-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="sidebar-logo">
+                <h2>ViralCopy API</h2>
+                <p>v1.0 · NexTool</p>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">快速开始</div>
+                <a class="nav-link" href="#overview">概述</a>
+                <a class="nav-link" href="#auth">认证</a>
+                <a class="nav-link" href="#pricing">定价</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">接口</div>
+                <a class="nav-link" href="#generate"><span class="method method-post">POST</span> 生成文案</a>
+                <a class="nav-link" href="#platforms"><span class="method method-get">GET</span> 平台列表</a>
+                <a class="nav-link" href="#health"><span class="method method-get">GET</span> 健康检查</a>
+            </div>
+            <div class="nav-section">
+                <div class="nav-section-title">参考</div>
+                <a class="nav-link" href="#errors">错误码</a>
+                <a class="nav-link" href="#ratelimit">速率限制</a>
+                <a class="nav-link" href="#examples">代码示例</a>
+                <a class="nav-link" href="#try">在线测试</a>
+            </div>
+        </nav>
+        <main class="main">
+            <h1>ViralCopy API <span class="version">v1.0</span></h1>
+            <p class="subtitle">AI 驱动的爆款文案生成 API · 支持 6 大平台 · 即将上线 RapidAPI</p>
+
+            <h2 id="overview">📖 概述</h2>
+            <p>ViralCopy API 帮助你快速生成适合各大社交平台的爆款文案。只需提供关键词和目标平台，即可获得多组高质量文案。</p>
+            <p><strong>Base URL:</strong> <code style="color:var(--green);font-family:monospace;">https://api.nextool.app</code></p>
+            <p><strong>响应格式:</strong> JSON &nbsp;|&nbsp; <strong>编码:</strong> UTF-8 &nbsp;|&nbsp; <strong>协议:</strong> HTTPS</p>
+
+            <h2 id="auth">🔐 认证</h2>
+            <p>所有请求需在 Header 中携带 API Key：</p>
+            <div class="code-block">
+                <div class="code-header"><span>HTTP Header</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <div class="code-content">X-API-Key: your_api_key_here</div>
+            </div>
+            <p>在 <a href="#pricing" style="color:var(--accent)">NexTool 控制台</a> 获取 API Key。免费计划每月赠送 100 次调用。</p>
+
+            <h2 id="pricing">💰 定价</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h4>Free</h4>
+                    <div class="price">$0<span>/月</span></div>
+                    <ul>
+                        <li>100 次/天</li>
+                        <li>基础文案生成</li>
+                        <li>3 个平台</li>
+                        <li>社区支持</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <h4>Pro</h4>
+                    <div class="price">$19<span>/月</span></div>
+                    <ul>
+                        <li>10,000 次/天</li>
+                        <li>高级文案生成</li>
+                        <li>6 个平台</li>
+                        <li>优先支持</li>
+                        <li>批量生成</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h4>Enterprise</h4>
+                    <div class="price">定制</div>
+                    <ul>
+                        <li>无限调用</li>
+                        <li>全部功能</li>
+                        <li>自定义模型</li>
+                        <li>专属客服</li>
+                        <li>SLA 保障</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- POST /api/v1/generate -->
+            <h2 id="generate">📌 生成文案</h2>
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge post">POST</span>
+                    <span class="path">/api/v1/generate</span>
+                    <span class="desc">根据关键词生成爆款文案</span>
+                </div>
+                <div class="endpoint-body">
+                    <h3>请求参数</h3>
+                    <table class="param-table">
+                        <tr><th>参数</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                        <tr><td>keyword</td><td>string</td><td><span class="required">必填</span></td><td>文案关键词，如 "健身餐"</td></tr>
+                        <tr><td>platform</td><td>string</td><td><span class="required">必填</span></td><td>目标平台: xiaohongshu / douyin / weibo / wechat / bilibili / zhihu</td></tr>
+                        <tr><td>tone</td><td>string</td><td><span class="optional">可选</span></td><td>语气: casual / professional / humorous / inspiring（默认: casual）</td></tr>
+                        <tr><td>count</td><td>integer</td><td><span class="optional">可选</span></td><td>生成数量 1-5（默认: 3）</td></tr>
+                        <tr><td>language</td><td>string</td><td><span class="optional">可选</span></td><td>语言: zh / en（默认: zh）</td></tr>
+                    </table>
+                    <h3>请求示例</h3>
+                    <div class="lang-tabs">
+                        <div class="lang-tab active" onclick="switchLang('curl', this)">cURL</div>
+                        <div class="lang-tab" onclick="switchLang('python', this)">Python</div>
+                        <div class="lang-tab" onclick="switchLang('javascript', this)">JavaScript</div>
+                        <div class="lang-tab" onclick="switchLang('php', this)">PHP</div>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header"><span id="langLabel">cURL</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                        <div class="code-content" id="langCode">curl -X POST https://api.nextool.app/api/v1/generate \
+  -H "X-API-Key: your_api_key" \
+  -H "Content-Type: application/json" \
+  -d '{"keyword":"健身餐","platform":"xiaohongshu","count":3}'</div>
+                    </div>
+                    <h3>响应示例</h3>
+                    <div class="code-block">
+                        <div class="code-header"><span>200 OK</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                        <div class="code-content">{
+  <span class="prop">"success"</span>: <span class="keyword">true</span>,
+  <span class="prop">"data"</span>: {
+    <span class="prop">"keyword"</span>: <span class="string">"健身餐"</span>,
+    <span class="prop">"platform"</span>: <span class="string">"xiaohongshu"</span>,
+    <span class="prop">"copies"</span>: [
+      {
+        <span class="prop">"id"</span>: <span class="number">1</span>,
+        <span class="prop">"title"</span>: <span class="string">"🔥 7天健身餐打卡！从120→110斤的秘密"</span>,
+        <span class="prop">"content"</span>: <span class="string">"姐妹们！分享我的7天健身餐食谱..."</span>,
+        <span class="prop">"tags"</span>: [<span class="string">"#健身餐"</span>, <span class="string">"#减脂"</span>, <span class="string">"#健康饮食"</span>],
+        <span class="prop">"engagement_score"</span>: <span class="number">92</span>
+      },
+      {
+        <span class="prop">"id"</span>: <span class="number">2</span>,
+        <span class="prop">"title"</span>: <span class="string">"上班族健身餐攻略｜10分钟搞定午餐"</span>,
+        <span class="prop">"content"</span>: <span class="string">"打工人的健身餐也可以很简单..."</span>,
+        <span class="prop">"tags"</span>: [<span class="string">"#上班族"</span>, <span class="string">"#健身餐"</span>, <span class="string">"#快手菜"</span>],
+        <span class="prop">"engagement_score"</span>: <span class="number">87</span>
+      }
+    ],
+    <span class="prop">"usage"</span>: {
+      <span class="prop">"tokens"</span>: <span class="number">1250</span>,
+      <span class="prop">"remaining"</span>: <span class="number">98</span>
+    }
+  }
+}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GET /api/v1/platforms -->
+            <h2 id="platforms">📋 平台列表</h2>
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge get">GET</span>
+                    <span class="path">/api/v1/platforms</span>
+                    <span class="desc">获取支持的平台列表</span>
+                </div>
+                <div class="endpoint-body">
+                    <h3>响应示例</h3>
+                    <div class="code-block">
+                        <div class="code-header"><span>200 OK</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                        <div class="code-content">{
+  <span class="prop">"success"</span>: <span class="keyword">true</span>,
+  <span class="prop">"data"</span>: [
+    { <span class="prop">"id"</span>: <span class="string">"xiaohongshu"</span>, <span class="prop">"name"</span>: <span class="string">"小红书"</span>, <span class="prop">"max_length"</span>: <span class="number">1000</span> },
+    { <span class="prop">"id"</span>: <span class="string">"douyin"</span>, <span class="prop">"name"</span>: <span class="string">"抖音"</span>, <span class="prop">"max_length"</span>: <span class="number">300</span> },
+    { <span class="prop">"id"</span>: <span class="string">"weibo"</span>, <span class="prop">"name"</span>: <span class="string">"微博"</span>, <span class="prop">"max_length"</span>: <span class="number">2000</span> },
+    { <span class="prop">"id"</span>: <span class="string">"wechat"</span>, <span class="prop">"name"</span>: <span class="string">"微信公众号"</span>, <span class="prop">"max_length"</span>: <span class="number">20000</span> },
+    { <span class="prop">"id"</span>: <span class="string">"bilibili"</span>, <span class="prop">"name"</span>: <span class="string">"B站"</span>, <span class="prop">"max_length"</span>: <span class="number">250</span> },
+    { <span class="prop">"id"</span>: <span class="string">"zhihu"</span>, <span class="prop">"name"</span>: <span class="string">"知乎"</span>, <span class="prop">"max_length"</span>: <span class="number">50000</span> }
+  ]
+}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GET /health -->
+            <h2 id="health">💚 健康检查</h2>
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <span class="method-badge get">GET</span>
+                    <span class="path">/health</span>
+                    <span class="desc">检查 API 服务状态</span>
+                </div>
+                <div class="endpoint-body">
+                    <div class="code-block">
+                        <div class="code-header"><span>200 OK</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                        <div class="code-content">{
+  <span class="prop">"status"</span>: <span class="string">"healthy"</span>,
+  <span class="prop">"version"</span>: <span class="string">"1.0.0"</span>,
+  <span class="prop">"uptime"</span>: <span class="number">86400</span>
+}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error Codes -->
+            <h2 id="errors">⚠️ 错误码</h2>
+            <table class="error-table">
+                <tr><th>状态码</th><th>错误码</th><th>说明</th><th>解决方案</th></tr>
+                <tr><td>400</td><td>INVALID_PARAMS</td><td>请求参数错误</td><td>检查参数格式和必填项</td></tr>
+                <tr><td>401</td><td>UNAUTHORIZED</td><td>API Key 无效或缺失</td><td>检查 X-API-Key Header</td></tr>
+                <tr><td>403</td><td>FORBIDDEN</td><td>无权访问该资源</td><td>检查订阅计划权限</td></tr>
+                <tr><td>429</td><td>RATE_LIMITED</td><td>请求频率超限</td><td>等待后重试，或升级计划</td></tr>
+                <tr><td>500</td><td>SERVER_ERROR</td><td>服务器内部错误</td><td>稍后重试，或联系支持</td></tr>
+            </table>
+
+            <!-- Rate Limits -->
+            <h2 id="ratelimit">⏱️ 速率限制</h2>
+            <p>每个 API Key 的调用频率限制取决于订阅计划：</p>
+            <table class="param-table">
+                <tr><th>计划</th><th>每日限额</th><th>每秒限额</th><th>批量上限</th></tr>
+                <tr><td>Free</td><td>100</td><td>2</td><td>1</td></tr>
+                <tr><td>Pro</td><td>10,000</td><td>10</td><td>5</td></tr>
+                <tr><td>Enterprise</td><td>无限</td><td>50</td><td>20</td></tr>
+            </table>
+            <p>响应 Header 中包含限额信息：</p>
+            <div class="code-block">
+                <div class="code-content">X-RateLimit-Limit: <span class="number">100</span>
+X-RateLimit-Remaining: <span class="number">95</span>
+X-RateLimit-Reset: <span class="number">1700000000</span></div>
+            </div>
+
+            <!-- Code Examples -->
+            <h2 id="examples">💻 代码示例</h2>
+            <div class="lang-tabs">
+                <div class="lang-tab active" onclick="switchExample('py', this)">Python</div>
+                <div class="lang-tab" onclick="switchExample('js', this)">JavaScript</div>
+                <div class="lang-tab" onclick="switchExample('php', this)">PHP</div>
+            </div>
+            <div class="code-block">
+                <div class="code-header"><span id="exampleLabel">Python</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                <div class="code-content" id="exampleCode"><span class="keyword">import</span> requests
+
+url = <span class="string">"https://api.nextool.app/api/v1/generate"</span>
+headers = {
+    <span class="string">"X-API-Key"</span>: <span class="string">"your_api_key"</span>,
+    <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span>
+}
+data = {
+    <span class="string">"keyword"</span>: <span class="string">"健身餐"</span>,
+    <span class="string">"platform"</span>: <span class="string">"xiaohongshu"</span>,
+    <span class="string">"count"</span>: <span class="number">3</span>
+}
+
+response = requests.post(url, json=data, headers=headers)
+<span class="keyword">print</span>(response.json())</div>
+            </div>
+
+            <!-- Try It -->
+            <h2 id="try">🧪 在线测试</h2>
+            <div class="try-section">
+                <h3>试试看！输入关键词查看生成效果</h3>
+                <div class="form-row">
+                    <input type="text" id="tryKeyword" placeholder="输入关键词，如：健身餐、编程入门、旅行攻略">
+                    <select id="tryPlatform">
+                        <option value="xiaohongshu">小红书</option>
+                        <option value="douyin">抖音</option>
+                        <option value="weibo">微博</option>
+                        <option value="wechat">微信公众号</option>
+                        <option value="bilibili">B站</option>
+                        <option value="zhihu">知乎</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="tryAPI()">生成</button>
+                </div>
+                <div class="try-result" id="tryResult" style="display:none;">
+                    <div class="code-block">
+                        <div class="code-header"><span>模拟响应</span><button class="copy-btn" onclick="copyCode(this)">复制</button></div>
+                        <div class="code-content" id="tryOutput"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const codeExamples = {
+            curl: `curl -X POST https://api.nextool.app/api/v1/generate \\
+  -H "X-API-Key: your_api_key" \\
+  -H "Content-Type: application/json" \\
+  -d '{"keyword":"健身餐","platform":"xiaohongshu","count":3}'`,
+            python: `import requests
+
+url = "https://api.nextool.app/api/v1/generate"
+headers = {
+    "X-API-Key": "your_api_key",
+    "Content-Type": "application/json"
+}
+data = {
+    "keyword": "健身餐",
+    "platform": "xiaohongshu",
+    "count": 3
+}
+
+response = requests.post(url, json=data, headers=headers)
+print(response.json())`,
+            javascript: `const response = await fetch('https://api.nextool.app/api/v1/generate', {
+  method: 'POST',
+  headers: {
+    'X-API-Key': 'your_api_key',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    keyword: '健身餐',
+    platform: 'xiaohongshu',
+    count: 3
+  })
+});
+
+const data = await response.json();
+console.log(data);`,
+            php: `<?php
+$ch = curl_init('https://api.nextool.app/api/v1/generate');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, [
+    'X-API-Key: your_api_key',
+    'Content-Type: application/json'
+]);
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
+    'keyword' => '健身餐',
+    'platform' => 'xiaohongshu',
+    'count' => 3
+]));
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+$response = curl_exec($ch);
+echo $response;`
+        };
+
+        const exampleCodes = {
+            py: { label: 'Python', code: codeExamples.python },
+            js: { label: 'JavaScript', code: codeExamples.javascript },
+            php: { label: 'PHP', code: codeExamples.php }
+        };
+
+        function switchLang(lang, el) {
+            document.querySelectorAll('.lang-tabs').forEach(t => t.querySelectorAll('.lang-tab').forEach(tab => tab.classList.remove('active')));
+            el.classList.add('active');
+            document.getElementById('langLabel').textContent = { curl: 'cURL', python: 'Python', javascript: 'JavaScript', php: 'PHP' }[lang];
+            document.getElementById('langCode').textContent = codeExamples[lang];
+        }
+
+        function switchExample(lang, el) {
+            el.parentElement.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('exampleLabel').textContent = exampleCodes[lang].label;
+            document.getElementById('exampleCode').textContent = exampleCodes[lang].code;
+        }
+
+        function copyCode(btn) {
+            const code = btn.closest('.code-block').querySelector('.code-content').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                btn.textContent = '已复制!';
+                setTimeout(() => btn.textContent = '复制', 1500);
+            });
+        }
+
+        function tryAPI() {
+            const keyword = document.getElementById('tryKeyword').value.trim();
+            const platform = document.getElementById('tryPlatform').value;
+            if (!keyword) { alert('请输入关键词'); return; }
+            const platformNames = { xiaohongshu: '小红书', douyin: '抖音', weibo: '微博', wechat: '微信公众号', bilibili: 'B站', zhihu: '知乎' };
+            const mockResponse = {
+                success: true,
+                data: {
+                    keyword: keyword,
+                    platform: platform,
+                    copies: [
+                        { id: 1, title: `🔥 ${keyword}必看攻略！超实用技巧分享`, content: `关于${keyword}，你需要知道这些...`, tags: [`#${keyword}`, '#干货', '#推荐'], engagement_score: 91 },
+                        { id: 2, title: `${keyword}入门指南｜新手也能轻松上手`, content: `${keyword}其实没那么难，跟着做就行...`, tags: [`#${keyword}`, '#入门', '#教程'], engagement_score: 85 },
+                        { id: 3, title: `收藏！${keyword}的5个隐藏技巧`, content: `很多人不知道的${keyword}技巧...`, tags: [`#${keyword}`, '#技巧', '#收藏'], engagement_score: 88 }
+                    ],
+                    usage: { tokens: 980, remaining: 97 }
+                }
+            };
+            document.getElementById('tryResult').style.display = 'block';
+            document.getElementById('tryOutput').textContent = JSON.stringify(mockResponse, null, 2);
+        }
+    </script>
+</body>
+</html>

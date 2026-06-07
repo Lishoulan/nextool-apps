@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTool 支付集成指南 - 一步步配置收款</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #12121a;
+            --bg3: #1a1a2e;
+            --border: #2a2a3e;
+            --text: #e0e0e8;
+            --text2: #8888a0;
+            --accent: #6c5ce7;
+            --accent2: #a855f7;
+            --green: #10b981;
+            --orange: #f59e0b;
+            --red: #ef4444;
+            --blue: #3b82f6;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 60px 20px 40px; background: linear-gradient(135deg, var(--bg2), var(--bg3)); border-bottom: 1px solid var(--border); margin-bottom: 40px; }
+        header h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 10px; }
+        header p { color: var(--text2); font-size: 1.1em; }
+        .badge { display: inline-block; background: var(--accent); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.8em; margin-bottom: 15px; }
+        .step-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin-bottom: 24px; transition: border-color 0.3s; }
+        .step-card:hover { border-color: var(--accent); }
+        .step-number { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: linear-gradient(135deg, var(--accent), var(--accent2)); border-radius: 50%; font-weight: 700; font-size: 1.1em; margin-right: 12px; flex-shrink: 0; }
+        .step-header { display: flex; align-items: center; margin-bottom: 16px; }
+        .step-header h2 { font-size: 1.3em; }
+        .step-content { padding-left: 52px; }
+        .step-content p { color: var(--text2); margin-bottom: 12px; }
+        .step-content ul { list-style: none; padding-left: 0; }
+        .step-content ul li { padding: 8px 0; padding-left: 24px; position: relative; color: var(--text2); }
+        .step-content ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+        .screenshot-placeholder { background: var(--bg3); border: 2px dashed var(--border); border-radius: 12px; padding: 40px; text-align: center; color: var(--text2); margin: 16px 0; }
+        .screenshot-placeholder .icon { font-size: 2.5em; margin-bottom: 8px; }
+        .code-block { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; font-family: 'Fira Code', monospace; font-size: 0.9em; overflow-x: auto; margin: 12px 0; color: var(--green); }
+        .alt-section { background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(168,85,247,0.1)); border: 1px solid rgba(108,92,231,0.3); border-radius: 16px; padding: 30px; margin-bottom: 24px; }
+        .alt-section h3 { color: var(--accent2); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .alt-section p { color: var(--text2); margin-bottom: 10px; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        .comparison-table th, .comparison-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); }
+        .comparison-table th { color: var(--accent); font-weight: 600; }
+        .comparison-table td { color: var(--text2); }
+        .comparison-table tr:hover { background: rgba(108,92,231,0.05); }
+        .tool-section { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 30px; margin-top: 40px; }
+        .tool-section h2 { text-align: center; margin-bottom: 24px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; color: var(--text2); margin-bottom: 6px; font-size: 0.9em; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 1em; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent); }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(108,92,231,0.4); }
+        .btn-sm { padding: 8px 16px; font-size: 0.85em; }
+        .result-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-top: 16px; display: none; }
+        .result-box.show { display: block; }
+        .result-item { display: flex; align-items: center; justify-content: space-between; padding: 10px; border-bottom: 1px solid var(--border); }
+        .result-item:last-child { border-bottom: none; }
+        .result-item .platform { color: var(--accent); font-weight: 600; min-width: 100px; }
+        .result-item .link { color: var(--green); word-break: break-all; flex: 1; margin: 0 12px; font-family: monospace; font-size: 0.9em; }
+        .saved-links { margin-top: 24px; }
+        .saved-link-item { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+        .saved-link-item .name { color: var(--text); font-weight: 600; }
+        .saved-link-item .price { color: var(--orange); margin: 0 12px; }
+        .saved-link-item .link-text { color: var(--green); font-family: monospace; font-size: 0.85em; flex: 1; }
+        .saved-link-item .delete-btn { color: var(--red); cursor: pointer; padding: 4px 8px; border: none; background: none; font-size: 1.1em; }
+        .progress-bar { background: var(--bg3); border-radius: 20px; height: 8px; margin: 20px 0; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 20px; transition: width 0.5s; }
+        .check-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; cursor: pointer; }
+        .check-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); }
+        .check-item span { color: var(--text2); transition: color 0.3s; }
+        .check-item input:checked + span { color: var(--green); text-decoration: line-through; }
+        footer { text-align: center; padding: 40px 20px; color: var(--text2); border-top: 1px solid var(--border); margin-top: 60px; }
+        @media (max-width: 768px) { .container { padding: 12px; } .step-content { padding-left: 0; } header h1 { font-size: 1.6em; } }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="badge">💰 站长专用</div>
+        <h1>NexTool 支付集成指南</h1>
+        <p>一步步配置收款，开始赚钱 🚀</p>
+    </header>
+
+    <div class="container">
+        <div style="text-align:center;margin-bottom:30px;">
+            <p style="color:var(--text2);">完成进度</p>
+            <div class="progress-bar"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+            <p style="color:var(--text2);font-size:0.9em;" id="progressText">0 / 5 步骤已完成</p>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">1</span>
+                <h2>注册面包多账号</h2>
+            </div>
+            <div class="step-content">
+                <p>面包多（mianbaoduo.com）是国内最适合独立开发者的数字产品销售平台，零门槛、自动发货、支持微信/支付宝。</p>
+                <ul>
+                    <li>访问 <a href="https://mianbaoduo.com" target="_blank" style="color:var(--accent)">mianbaoduo.com</a> 并注册账号</li>
+                    <li>完成实名认证（需身份证，约10分钟）</li>
+                    <li>绑定银行卡用于提现</li>
+                    <li>设置店铺名称为 "NexTool"</li>
+                </ul>
+                <div class="screenshot-placeholder">
+                    <div class="icon">📸</div>
+                    <p>截图：面包多注册页面</p>
+                    <p style="font-size:0.8em;">请替换为实际截图</p>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" class="step-check" data-step="1" onchange="updateProgress()">
+                    <span>已完成面包多账号注册和实名认证</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">2</span>
+                <h2>创建数字产品</h2>
+            </div>
+            <div class="step-content">
+                <p>为每个 NexTool 产品创建对应的数字商品，设置价格和自动发货内容。</p>
+                <ul>
+                    <li>进入「卖家中心」→「发布商品」</li>
+                    <li>商品类型选择「数字商品 / 虚拟商品」</li>
+                    <li>填写商品名称、描述、价格</li>
+                    <li>上传商品封面图（建议 800×600）</li>
+                    <li>设置自动发货内容（API Key / 激活码 / 使用教程链接）</li>
+                </ul>
+                <div style="background:var(--bg);border-radius:8px;padding:16px;margin:12px 0;">
+                    <p style="color:var(--accent);font-weight:600;margin-bottom:8px;">📋 建议的产品配置：</p>
+                    <table class="comparison-table">
+                        <tr><th>产品</th><th>建议定价</th><th>发货内容</th></tr>
+                        <tr><td>ViralCopy 爆款文案</td><td>¥29.9/月</td><td>API Key + 使用文档</td></tr>
+                        <tr><td>SmartSummary 智能摘要</td><td>¥19.9/月</td><td>API Key + 使用文档</td></tr>
+                        <tr><td>CodeMentor 代码助手</td><td>¥39.9/月</td><td>API Key + 使用文档</td></tr>
+                        <tr><td>全工具套餐</td><td>¥79.9/月</td><td>全部 API Key + 文档</td></tr>
+                    </table>
+                </div>
+                <div class="screenshot-placeholder">
+                    <div class="icon">📸</div>
+                    <p>截图：面包多发布商品页面</p>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" class="step-check" data-step="2" onchange="updateProgress()">
+                    <span>已创建所有数字产品</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">3</span>
+                <h2>获取支付链接</h2>
+            </div>
+            <div class="step-content">
+                <p>每个商品创建后会生成唯一的购买链接，将用于产品页面中的「立即购买」按钮。</p>
+                <ul>
+                    <li>在卖家中心找到已创建的商品</li>
+                    <li>点击「分享」或「复制链接」</li>
+                    <li>链接格式通常为：<span style="color:var(--green);font-family:monospace;">https://mianbaoduo.com/o/xxxxx</span></li>
+                    <li>记录每个产品对应的支付链接</li>
+                </ul>
+                <div class="code-block">
+                    # 链接格式示例<br>
+                    ViralCopy: https://mianbaoduo.com/o/abc123<br>
+                    SmartSummary: https://mianbaoduo.com/o/def456<br>
+                    CodeMentor: https://mianbaoduo.com/o/ghi789<br>
+                    全工具套餐: https://mianbaoduo.com/o/jkl012
+                </div>
+                <div class="screenshot-placeholder">
+                    <div class="icon">📸</div>
+                    <p>截图：获取商品链接的位置</p>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" class="step-check" data-step="3" onchange="updateProgress()">
+                    <span>已获取所有产品的支付链接</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">4</span>
+                <h2>替换产品页面中的占位链接</h2>
+            </div>
+            <div class="step-content">
+                <p>将产品页面中的 <code style="color:var(--orange);">#PLACEHOLDER_LINK#</code> 替换为真实的支付链接。</p>
+                <ul>
+                    <li>打开每个产品页面的 HTML 文件</li>
+                    <li>搜索 <code style="color:var(--orange);">#</code> 或 <code style="color:var(--orange);">placeholder</code></li>
+                    <li>将占位链接替换为步骤3获取的真实链接</li>
+                    <li>确认所有「立即购买」按钮指向正确的支付链接</li>
+                </ul>
+                <div class="code-block">
+                    &lt;!-- 替换前 --&gt;<br>
+                    &lt;a href="<span style="color:var(--orange);">#PAYMENT_LINK_VIRALCOPY#</span>"&gt;立即购买&lt;/a&gt;<br><br>
+                    &lt;!-- 替换后 --&gt;<br>
+                    &lt;a href="<span style="color:var(--green);">https://mianbaoduo.com/o/abc123</span>"&gt;立即购买&lt;/a&gt;
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" class="step-check" data-step="4" onchange="updateProgress()">
+                    <span>已替换所有占位链接</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5 -->
+        <div class="step-card">
+            <div class="step-header">
+                <span class="step-number">5</span>
+                <h2>测试支付流程</h2>
+            </div>
+            <div class="step-content">
+                <p>上线前务必完整测试支付流程，确保用户能顺利购买。</p>
+                <ul>
+                    <li>点击每个「立即购买」按钮，确认跳转正确</li>
+                    <li>使用测试账号完成一次小额支付</li>
+                    <li>确认自动发货内容正确送达</li>
+                    <li>确认支付成功页面显示正确</li>
+                    <li>检查面包多后台订单记录</li>
+                </ul>
+                <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;padding:16px;margin:12px 0;">
+                    <p style="color:var(--green);font-weight:600;">✅ 测试清单</p>
+                    <div class="check-item"><input type="checkbox" class="sub-check"><span>微信支付能正常使用</span></div>
+                    <div class="check-item"><input type="checkbox" class="sub-check"><span>支付宝能正常使用</span></div>
+                    <div class="check-item"><input type="checkbox" class="sub-check"><span>自动发货内容正确</span></div>
+                    <div class="check-item"><input type="checkbox" class="sub-check"><span>订单通知正常接收</span></div>
+                </div>
+                <div class="check-item">
+                    <input type="checkbox" class="step-check" data-step="5" onchange="updateProgress()">
+                    <span>已完成支付流程测试</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alternatives -->
+        <h2 style="text-align:center;margin:40px 0 20px;color:var(--text2);">🔄 备选支付方案</h2>
+
+        <div class="alt-section">
+            <h3>🍋 LemonSqueezy <span style="font-size:0.7em;color:var(--text2);">海外用户首选</span></h3>
+            <p>LemonSqueezy 是面向全球的数字产品销售平台，支持信用卡、PayPal，自动处理税务。</p>
+            <ul style="list-style:none;padding:0;">
+                <li style="padding:6px 0;color:var(--text2);">→ 官网：<a href="https://lemonsqueezy.com" target="_blank" style="color:var(--accent)">lemonsqueezy.com</a></li>
+                <li style="padding:6px 0;color:var(--text2);">→ 手续费：5% + 50¢/笔</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 支持：信用卡、PayPal、Apple Pay</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 优势：自动处理全球税务（VAT等）</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 链接格式：<span style="color:var(--green);font-family:monospace;">https://yourstore.lemonsqueezy.com/checkout/buy/xxxxx</span></li>
+            </ul>
+        </div>
+
+        <div class="alt-section">
+            <h3>❤️ 爱发电 <span style="font-size:0.7em;color:var(--text2);">订阅制首选</span></h3>
+            <p>爱发电是国内的创作者赞助平台，适合月度订阅模式，类似 Patreon。</p>
+            <ul style="list-style:none;padding:0;">
+                <li style="padding:6px 0;color:var(--text2);">→ 官网：<a href="https://afdian.com" target="_blank" style="color:var(--accent)">afdian.com</a></li>
+                <li style="padding:6px 0;color:var(--text2);">→ 手续费：5%</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 支持：微信、支付宝</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 优势：天然支持月度订阅、会员等级</li>
+                <li style="padding:6px 0;color:var(--text2);">→ 链接格式：<span style="color:var(--green);font-family:monospace;">https://afdian.com/a/yourname?plan_id=xxxxx</span></li>
+            </ul>
+        </div>
+
+        <!-- Comparison -->
+        <div class="step-card" style="margin-top:24px;">
+            <h2 style="text-align:center;margin-bottom:16px;">📊 平台对比</h2>
+            <table class="comparison-table">
+                <tr><th>特性</th><th>面包多</th><th>LemonSqueezy</th><th>爱发电</th></tr>
+                <tr><td>手续费</td><td>5%</td><td>5%+50¢</td><td>5%</td></tr>
+                <tr><td>微信支付</td><td>✅</td><td>❌</td><td>✅</td></tr>
+                <tr><td>支付宝</td><td>✅</td><td>❌</td><td>✅</td></tr>
+                <tr><td>信用卡</td><td>❌</td><td>✅</td><td>❌</td></tr>
+                <tr><td>自动发货</td><td>✅</td><td>✅</td><td>⚠️ 有限</td></tr>
+                <tr><td>订阅制</td><td>⚠️ 有限</td><td>✅</td><td>✅</td></tr>
+                <tr><td>税务处理</td><td>❌</td><td>✅</td><td>❌</td></tr>
+                <tr><td>适合场景</td><td>国内一次性购买</td><td>海外用户</td><td>月度订阅</td></tr>
+            </table>
+        </div>
+
+        <!-- Payment Link Generator Tool -->
+        <div class="tool-section">
+            <h2>🔧 支付链接生成器</h2>
+            <p style="text-align:center;color:var(--text2);margin-bottom:20px;">输入产品信息，快速生成各平台链接格式</p>
+            <div class="form-group">
+                <label>产品名称</label>
+                <input type="text" id="productName" placeholder="例如：ViralCopy 爆款文案">
+            </div>
+            <div class="form-group">
+                <label>价格（元）</label>
+                <input type="number" id="productPrice" placeholder="例如：29.9">
+            </div>
+            <div class="form-group">
+                <label>产品描述</label>
+                <textarea id="productDesc" placeholder="例如：AI驱动的爆款文案生成工具，支持小红书/抖音/公众号"></textarea>
+            </div>
+            <div style="text-align:center;">
+                <button class="btn btn-primary" onclick="generateLinks()">生成支付链接</button>
+            </div>
+            <div class="result-box" id="resultBox">
+                <div class="result-item">
+                    <span class="platform">🍞 面包多</span>
+                    <span class="link" id="mianbaoduoLink"></span>
+                    <button class="btn btn-sm btn-primary" onclick="copyLink('mianbaoduoLink')">复制</button>
+                </div>
+                <div class="result-item">
+                    <span class="platform">❤️ 爱发电</span>
+                    <span class="link" id="afdianLink"></span>
+                    <button class="btn btn-sm btn-primary" onclick="copyLink('afdianLink')">复制</button>
+                </div>
+                <div class="result-item">
+                    <span class="platform">🍋 LemonSqueezy</span>
+                    <span class="link" id="lemonLink"></span>
+                    <button class="btn btn-sm btn-primary" onclick="copyLink('lemonLink')">复制</button>
+                </div>
+            </div>
+
+            <div class="saved-links" id="savedLinks">
+                <h3 style="margin-bottom:12px;color:var(--text2);">💾 已保存的链接</h3>
+                <div id="savedLinksList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>NexTool 支付集成指南 · 一人公司，从收款开始</p>
+    </footer>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const checks = document.querySelectorAll('.step-check');
+            const done = [...checks].filter(c => c.checked).length;
+            const pct = (done / checks.length) * 100;
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('progressText').textContent = `${done} / ${checks.length} 步骤已完成`;
+            const state = [...checks].map(c => c.checked);
+            localStorage.setItem('paymentGuide_progress', JSON.stringify(state));
+        }
+
+        // Restore progress
+        (function() {
+            const saved = localStorage.getItem('paymentGuide_progress');
+            if (saved) {
+                const state = JSON.parse(saved);
+                const checks = document.querySelectorAll('.step-check');
+                checks.forEach((c, i) => { if (state[i]) c.checked = true; });
+                updateProgress();
+            }
+            loadSavedLinks();
+        })();
+
+        // Link generator
+        function generateLinks() {
+            const name = document.getElementById('productName').value.trim();
+            const price = document.getElementById('productPrice').value.trim();
+            const desc = document.getElementById('productDesc').value.trim();
+            if (!name || !price) { alert('请输入产品名称和价格'); return; }
+            const slug = name.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]/g, '-').replace(/-+/g, '-');
+            document.getElementById('mianbaoduoLink').textContent = `https://mianbaoduo.com/o/${slug}`;
+            document.getElementById('afdianLink').textContent = `https://afdian.com/a/nextool?plan_id=${slug}`;
+            document.getElementById('lemonLink').textContent = `https://nextool.lemonsqueezy.com/checkout/buy/${slug}`;
+            document.getElementById('resultBox').classList.add('show');
+            // Save
+            const links = JSON.parse(localStorage.getItem('paymentGuide_links') || '[]');
+            links.push({ name, price, desc, mianbaoduo: `https://mianbaoduo.com/o/${slug}`, afdian: `https://afdian.com/a/nextool?plan_id=${slug}`, lemon: `https://nextool.lemonsqueezy.com/checkout/buy/${slug}`, date: new Date().toLocaleDateString('zh-CN') });
+            localStorage.setItem('paymentGuide_links', JSON.stringify(links));
+            loadSavedLinks();
+        }
+
+        function copyLink(id) {
+            const text = document.getElementById(id).textContent;
+            navigator.clipboard.writeText(text).then(() => alert('已复制！'));
+        }
+
+        function loadSavedLinks() {
+            const links = JSON.parse(localStorage.getItem('paymentGuide_links') || '[]');
+            const container = document.getElementById('savedLinksList');
+            if (links.length === 0) { container.innerHTML = '<p style="color:var(--text2);font-size:0.9em;">暂无保存的链接</p>'; return; }
+            container.innerHTML = links.map((l, i) => `
+                <div class="saved-link-item">
+                    <span class="name">${l.name}</span>
+                    <span class="price">¥${l.price}</span>
+                    <span class="link-text">${l.mianbaoduo}</span>
+                    <button class="delete-btn" onclick="deleteLink(${i})">✕</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteLink(index) {
+            const links = JSON.parse(localStorage.getItem('paymentGuide_links') || '[]');
+            links.splice(index, 1);
+            localStorage.setItem('paymentGuide_links', JSON.stringify(links));
+            loadSavedLinks();
+        }
+    </script>
+</body>
+</html>

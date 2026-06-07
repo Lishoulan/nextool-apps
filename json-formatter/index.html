@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON格式化工具 - 在线JSON验证、美化、压缩 | NexTool</title>
+    <meta name="description" content="免费在线JSON格式化工具，支持JSON验证、美化、压缩、树形视图、JSON Path查询。100%客户端处理，无需API。">
+    <meta name="keywords" content="JSON格式化, JSON在线工具, JSON验证, JSON编辑器, JSON美化, JSON压缩, JSON Path">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="JSON格式化工具 - 在线JSON验证、美化、压缩">
+    <meta property="og:description" content="免费在线JSON格式化工具，支持验证、美化、压缩、树形视图、JSON Path查询">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a2e; --border: #2a2a3e;
+            --text: #e0e0e8; --text2: #8888a0; --accent: #6c5ce7; --accent2: #a855f7;
+            --green: #10b981; --orange: #f59e0b; --red: #ef4444; --blue: #3b82f6;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+        .cta-banner { background: linear-gradient(135deg, rgba(108,92,231,0.15), rgba(168,85,247,0.15)); border-bottom: 1px solid rgba(108,92,231,0.3); padding: 10px 20px; text-align: center; font-size: 0.9em; }
+        .cta-banner a { color: var(--accent2); text-decoration: none; font-weight: 600; }
+        .cta-banner a:hover { text-decoration: underline; }
+        header { text-align: center; padding: 30px 20px 20px; }
+        header h1 { font-size: 1.8em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: var(--text2); margin-top: 6px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; }
+        .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .btn { padding: 8px 18px; border: 1px solid var(--border); border-radius: 8px; background: var(--bg2); color: var(--text); cursor: pointer; font-size: 0.9em; transition: all 0.2s; }
+        .btn:hover { border-color: var(--accent); background: var(--bg3); }
+        .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent2)); border: none; color: #fff; }
+        .btn-primary:hover { opacity: 0.9; }
+        .main-area { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 768px) { .main-area { grid-template-columns: 1fr; } }
+        .panel { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+        .panel-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .panel-header h3 { font-size: 0.95em; color: var(--text2); }
+        textarea { width: 100%; min-height: 400px; padding: 16px; background: var(--bg); border: none; color: var(--text); font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.9em; resize: vertical; outline: none; line-height: 1.6; }
+        .output-area { padding: 16px; min-height: 400px; font-family: 'Fira Code', 'Consolas', monospace; font-size: 0.9em; white-space: pre-wrap; word-break: break-all; overflow-y: auto; max-height: 500px; line-height: 1.6; }
+        .tree-view { padding: 16px; min-height: 400px; max-height: 500px; overflow-y: auto; font-family: 'Fira Code', monospace; font-size: 0.85em; }
+        .tree-key { color: var(--accent2); }
+        .tree-string { color: var(--green); }
+        .tree-number { color: var(--orange); }
+        .tree-bool { color: var(--blue); }
+        .tree-null { color: var(--red); }
+        .tree-toggle { cursor: pointer; user-select: none; color: var(--text2); }
+        .tree-toggle:hover { color: var(--text); }
+        .tree-collapsed { display: none; }
+        .path-finder { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; }
+        .path-finder input { flex: 1; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: monospace; }
+        .path-finder input:focus { outline: none; border-color: var(--accent); }
+        .path-result { padding: 8px 12px; background: var(--bg); border-radius: 8px; margin-bottom: 12px; font-family: monospace; font-size: 0.9em; min-height: 36px; }
+        .error-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; color: var(--red); font-family: monospace; font-size: 0.9em; display: none; }
+        .error-box.show { display: block; }
+        .stats { display: flex; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+        .stat-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 14px; font-size: 0.85em; }
+        .stat-item span { color: var(--accent); font-weight: 600; }
+        .view-toggle { display: flex; gap: 4px; }
+        .view-toggle .btn { padding: 4px 12px; font-size: 0.8em; }
+        .view-toggle .btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        footer { text-align: center; padding: 20px; color: var(--text2); border-top: 1px solid var(--border); font-size: 0.85em; }
+    </style>
+</head>
+<body>
+    <div class="cta-banner">
+        🚀 需要 AI 工具？查看 <a href="https://nextool.app" target="_blank">NexTool — AI 驱动的效率工具集</a>
+    </div>
+    <header>
+        <h1>JSON 格式化工具</h1>
+        <p>在线 JSON 验证 · 美化 · 压缩 · 树形视图 · Path 查询</p>
+    </header>
+    <div class="container">
+        <div class="stats" id="stats">
+            <div class="stat-item">字符数: <span id="charCount">0</span></div>
+            <div class="stat-item">行数: <span id="lineCount">0</span></div>
+            <div class="stat-item">深度: <span id="depthCount">0</span></div>
+        </div>
+        <div class="error-box" id="errorBox"></div>
+        <div class="toolbar">
+            <button class="btn btn-primary" onclick="formatJSON()">✨ 格式化</button>
+            <button class="btn" onclick="minifyJSON()">📦 压缩</button>
+            <button class="btn" onclick="validateJSON()">✅ 验证</button>
+            <button class="btn" onclick="copyOutput()">📋 复制</button>
+            <button class="btn" onclick="downloadJSON()">💾 下载</button>
+            <button class="btn" onclick="loadSample()">📝 示例</button>
+            <button class="btn" onclick="clearAll()">🗑️ 清空</button>
+        </div>
+        <div class="path-finder">
+            <span style="color:var(--text2);font-size:0.9em;">JSON Path:</span>
+            <input type="text" id="jsonPath" placeholder="$.user.name" oninput="findPath()">
+            <button class="btn" onclick="findPath()">查询</button>
+        </div>
+        <div class="path-result" id="pathResult" style="display:none;"></div>
+        <div class="main-area">
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>📝 输入 JSON</h3>
+                </div>
+                <textarea id="jsonInput" placeholder='在此粘贴或输入 JSON 数据...' oninput="updateStats()'></textarea>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>📄 输出结果</h3>
+                    <div class="view-toggle">
+                        <button class="btn active" id="codeViewBtn" onclick="switchView('code')">代码</button>
+                        <button class="btn" id="treeViewBtn" onclick="switchView('tree')">树形</button>
+                    </div>
+                </div>
+                <div class="output-area" id="codeOutput"></div>
+                <div class="tree-view" id="treeOutput" style="display:none;"></div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>JSON 格式化工具 · 100% 客户端处理，数据不会上传 · <a href="https://nextool.app" style="color:var(--accent);">NexTool</a></p>
+    </footer>
+    <script>
+        let currentJSON = null;
+        let currentView = 'code';
+
+        function updateStats() {
+            const val = document.getElementById('jsonInput').value;
+            document.getElementById('charCount').textContent = val.length;
+            document.getElementById('lineCount').textContent = val ? val.split('\n').length : 0;
+            try {
+                const obj = JSON.parse(val);
+                document.getElementById('depthCount').textContent = getDepth(obj);
+            } catch { document.getElementById('depthCount').textContent = '-'; }
+        }
+
+        function getDepth(obj) {
+            if (typeof obj !== 'object' || obj === null) return 0;
+            let max = 0;
+            for (const k in obj) max = Math.max(max, getDepth(obj[k]));
+            return max + 1;
+        }
+
+        function formatJSON() {
+            const input = document.getElementById('jsonInput').value.trim();
+            if (!input) return;
+            try {
+                const obj = JSON.parse(input);
+                currentJSON = obj;
+                const formatted = JSON.stringify(obj, null, 2);
+                document.getElementById('codeOutput').textContent = formatted;
+                document.getElementById('errorBox').classList.remove('show');
+                buildTreeView(obj);
+                updateStats();
+            } catch (e) {
+                showError(e);
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('jsonInput').value.trim();
+            if (!input) return;
+            try {
+                const obj = JSON.parse(input);
+                currentJSON = obj;
+                const minified = JSON.stringify(obj);
+                document.getElementById('codeOutput').textContent = minified;
+                document.getElementById('errorBox').classList.remove('show');
+                buildTreeView(obj);
+            } catch (e) {
+                showError(e);
+            }
+        }
+
+        function validateJSON() {
+            const input = document.getElementById('jsonInput').value.trim();
+            if (!input) return;
+            try {
+                JSON.parse(input);
+                document.getElementById('errorBox').classList.remove('show');
+                document.getElementById('codeOutput').innerHTML = '<span style="color:var(--green);">✅ JSON 格式正确！</span>';
+            } catch (e) {
+                showError(e);
+            }
+        }
+
+        function showError(e) {
+            const box = document.getElementById('errorBox');
+            const msg = e.message;
+            const lineMatch = msg.match(/position\s+(\d+)/);
+            let lineInfo = '';
+            if (lineMatch) {
+                const pos = parseInt(lineMatch[1]);
+                const input = document.getElementById('jsonInput').value;
+                const beforePos = input.substring(0, pos);
+                const lineNum = beforePos.split('\n').length;
+                lineInfo = ` (约第 ${lineNum} 行)`;
+            }
+            box.textContent = '❌ ' + msg + lineInfo;
+            box.classList.add('show');
+        }
+
+        function copyOutput() {
+            const text = document.getElementById('codeOutput').textContent;
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const orig = btn.textContent;
+                btn.textContent = '已复制!';
+                setTimeout(() => btn.textContent = orig, 1500);
+            });
+        }
+
+        function downloadJSON() {
+            const text = document.getElementById('codeOutput').textContent;
+            if (!text) return;
+            const blob = new Blob([text], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'formatted.json'; a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function loadSample() {
+            const sample = {
+                "name": "NexTool",
+                "version": "1.0.0",
+                "description": "AI驱动的效率工具集",
+                "products": [
+                    { "id": 1, "name": "ViralCopy", "price": 29.9, "active": true },
+                    { "id": 2, "name": "SmartSummary", "price": 19.9, "active": true },
+                    { "id": 3, "name": "CodeMentor", "price": 39.9, "active": false }
+                ],
+                "config": {
+                    "api": { "baseUrl": "https://api.nextool.app", "version": "v1" },
+                    "features": { "darkMode": true, "i18n": true, "maxTokens": null }
+                }
+            };
+            document.getElementById('jsonInput').value = JSON.stringify(sample, null, 2);
+            formatJSON();
+        }
+
+        function clearAll() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('codeOutput').textContent = '';
+            document.getElementById('treeOutput').innerHTML = '';
+            document.getElementById('errorBox').classList.remove('show');
+            document.getElementById('pathResult').style.display = 'none';
+            currentJSON = null;
+            updateStats();
+        }
+
+        function switchView(view) {
+            currentView = view;
+            document.getElementById('codeOutput').style.display = view === 'code' ? 'block' : 'none';
+            document.getElementById('treeOutput').style.display = view === 'tree' ? 'block' : 'none';
+            document.getElementById('codeViewBtn').classList.toggle('active', view === 'code');
+            document.getElementById('treeViewBtn').classList.toggle('active', view === 'tree');
+        }
+
+        function buildTreeView(obj, container, path) {
+            if (!container) {
+                container = document.getElementById('treeOutput');
+                container.innerHTML = '';
+                path = '$';
+            }
+            if (typeof obj !== 'object' || obj === null) {
+                container.innerHTML = renderValue(obj);
+                return;
+            }
+            const isArray = Array.isArray(obj);
+            const keys = isArray ? obj : Object.keys(obj);
+            const entries = isArray ? obj.map((v, i) => [i, v]) : Object.entries(obj);
+            const id = 'tree_' + Math.random().toString(36).substr(2, 9);
+            const header = document.createElement('div');
+            header.style.marginBottom = '4px';
+            const bracket = isArray ? `[${entries.length}]` : `{${entries.length}}`;
+            header.innerHTML = `<span class="tree-toggle" onclick="toggleTree('${id}')">▼</span> <span style="color:var(--text2)">${bracket}</span>`;
+            container.appendChild(header);
+            const childContainer = document.createElement('div');
+            childContainer.id = id;
+            childContainer.style.paddingLeft = '20px';
+            entries.forEach(([key, val]) => {
+                const item = document.createElement('div');
+                const currentPath = isArray ? `${path}[${key}]` : `${path}.${key}`;
+                if (typeof val === 'object' && val !== null) {
+                    const keySpan = isArray ? `<span class="tree-number">${key}</span>` : `<span class="tree-key">"${key}"</span>`;
+                    item.innerHTML = `${keySpan}: `;
+                    item.style.marginBottom = '2px';
+                    item.appendChild(document.createTextNode(' '));
+                    buildTreeView(val, item, currentPath);
+                } else {
+                    const keySpan = isArray ? `<span class="tree-number">${key}</span>` : `<span class="tree-key">"${key}"</span>`;
+                    item.innerHTML = `${keySpan}: ${renderValue(val)}`;
+                    item.style.marginBottom = '2px';
+                }
+                childContainer.appendChild(item);
+            });
+            container.appendChild(childContainer);
+        }
+
+        function renderValue(val) {
+            if (val === null) return '<span class="tree-null">null</span>';
+            if (typeof val === 'string') return `<span class="tree-string">"${escapeHtml(val)}"</span>`;
+            if (typeof val === 'number') return `<span class="tree-number">${val}</span>`;
+            if (typeof val === 'boolean') return `<span class="tree-bool">${val}</span>`;
+            return String(val);
+        }
+
+        function escapeHtml(s) {
+            return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function toggleTree(id) {
+            const el = document.getElementById(id);
+            const toggle = el.previousElementSibling.querySelector('.tree-toggle');
+            if (el.style.display === 'none') {
+                el.style.display = 'block';
+                toggle.textContent = '▼';
+            } else {
+                el.style.display = 'none';
+                toggle.textContent = '▶';
+            }
+        }
+
+        function findPath() {
+            const pathInput = document.getElementById('jsonPath').value.trim();
+            const resultEl = document.getElementById('pathResult');
+            if (!pathInput || !currentJSON) { resultEl.style.display = 'none'; return; }
+            try {
+                const result = queryPath(currentJSON, pathInput);
+                resultEl.style.display = 'block';
+                if (result === undefined) {
+                    resultEl.innerHTML = '<span style="color:var(--red);">未找到匹配项</span>';
+                } else {
+                    resultEl.innerHTML = `<span style="color:var(--text2);">结果:</span> <span style="color:var(--green);">${typeof result === 'object' ? JSON.stringify(result, null, 2) : result}</span>`;
+                }
+            } catch (e) {
+                resultEl.style.display = 'block';
+                resultEl.innerHTML = `<span style="color:var(--red);">路径错误: ${e.message}</span>`;
+            }
+        }
+
+        function queryPath(obj, path) {
+            if (path === '$') return obj;
+            const parts = [];
+            let current = path.startsWith('$.') ? path.slice(2) : path;
+            // Parse path
+            const regex = /([^.[\]]+)|\[(\d+)\]/g;
+            let match;
+            while ((match = regex.exec(current)) !== null) {
+                parts.push(match[1] || parseInt(match[2]));
+            }
+            let result = obj;
+            for (const part of parts) {
+                if (result === null || result === undefined) return undefined;
+                result = result[part];
+            }
+            return result;
+        }
+    </script>
+</body>
+</html>

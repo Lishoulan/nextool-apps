@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTool 30天冷启动计划 - 从0到1的完整路线图</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0a0a0f; --bg2: #12121a; --bg3: #1a1a2e; --border: #2a2a3e;
+            --text: #e0e0e8; --text2: #8888a0; --accent: #6c5ce7; --accent2: #a855f7;
+            --green: #10b981; --orange: #f59e0b; --red: #ef4444; --blue: #3b82f6;
+            --cyan: #06b6d4; --pink: #ec4899;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        header { text-align: center; padding: 50px 20px 30px; background: linear-gradient(135deg, var(--bg2), var(--bg3)); border-bottom: 1px solid var(--border); }
+        header h1 { font-size: 2.2em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; }
+        header p { color: var(--text2); font-size: 1.1em; }
+        .container { max-width: 960px; margin: 0 auto; padding: 30px 20px; }
+        .overall-progress { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 30px; text-align: center; }
+        .overall-progress h2 { font-size: 1.1em; color: var(--text2); margin-bottom: 12px; }
+        .progress-bar { background: var(--bg3); border-radius: 20px; height: 14px; overflow: hidden; margin-bottom: 8px; }
+        .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2), var(--pink)); border-radius: 20px; transition: width 0.5s ease; }
+        .progress-stats { display: flex; justify-content: center; gap: 30px; margin-top: 12px; }
+        .progress-stats .stat { text-align: center; }
+        .progress-stats .stat .num { font-size: 1.8em; font-weight: 700; color: var(--accent); }
+        .progress-stats .stat .label { font-size: 0.8em; color: var(--text2); }
+        .revenue-estimate { background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(16,185,129,0.3); border-radius: 12px; padding: 16px; text-align: center; margin-bottom: 30px; }
+        .revenue-estimate .amount { font-size: 2em; font-weight: 700; color: var(--green); }
+        .revenue-estimate .label { color: var(--text2); font-size: 0.9em; }
+        .phase { margin-bottom: 32px; }
+        .phase-header { display: flex; align-items: center; gap: 12px; padding: 16px 20px; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; cursor: pointer; transition: all 0.3s; }
+        .phase-header:hover { border-color: var(--accent); }
+        .phase-icon { font-size: 1.5em; }
+        .phase-info { flex: 1; }
+        .phase-info h2 { font-size: 1.2em; margin-bottom: 2px; }
+        .phase-info p { color: var(--text2); font-size: 0.9em; }
+        .phase-progress { text-align: right; }
+        .phase-progress .pct { font-size: 1.4em; font-weight: 700; color: var(--accent); }
+        .phase-progress .detail { font-size: 0.8em; color: var(--text2); }
+        .phase-toggle { font-size: 1.2em; color: var(--text2); transition: transform 0.3s; }
+        .phase.collapsed .phase-toggle { transform: rotate(-90deg); }
+        .phase.collapsed .day-list { display: none; }
+        .day-list { margin-top: 8px; }
+        .day-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; transition: border-color 0.3s; }
+        .day-card:hover { border-color: var(--accent); }
+        .day-card.completed { border-color: rgba(16,185,129,0.3); }
+        .day-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; }
+        .day-number { background: var(--bg3); padding: 4px 10px; border-radius: 6px; font-size: 0.85em; font-weight: 600; color: var(--accent); min-width: 60px; text-align: center; }
+        .day-card.completed .day-number { background: rgba(16,185,129,0.2); color: var(--green); }
+        .day-title { flex: 1; font-size: 0.95em; }
+        .day-card.completed .day-title { text-decoration: line-through; color: var(--text2); }
+        .day-revenue { font-size: 0.8em; color: var(--green); white-space: nowrap; }
+        .day-toggle { color: var(--text2); font-size: 0.9em; transition: transform 0.3s; }
+        .day-card.collapsed .day-toggle { transform: rotate(-90deg); }
+        .day-card.collapsed .day-tasks { display: none; }
+        .day-tasks { padding: 0 16px 12px; padding-left: 88px; }
+        .task-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+        .task-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--accent); margin-top: 2px; flex-shrink: 0; }
+        .task-item label { color: var(--text2); font-size: 0.9em; cursor: pointer; transition: color 0.3s; }
+        .task-item input:checked + label { color: var(--green); text-decoration: line-through; }
+        .tip-box { background: rgba(108,92,231,0.08); border-left: 3px solid var(--accent); padding: 10px 14px; margin-top: 8px; border-radius: 0 6px 6px 0; }
+        .tip-box p { color: var(--text2); font-size: 0.85em; }
+        .tip-box .tip-label { color: var(--accent); font-weight: 600; }
+        .resource-link { display: inline-block; color: var(--accent); font-size: 0.85em; text-decoration: none; margin-right: 12px; }
+        .resource-link:hover { text-decoration: underline; }
+        footer { text-align: center; padding: 30px 20px; color: var(--text2); border-top: 1px solid var(--border); margin-top: 40px; }
+        @media (max-width: 768px) { .day-tasks { padding-left: 16px; } .progress-stats { gap: 16px; } header h1 { font-size: 1.5em; } }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 NexTool 30天冷启动计划</h1>
+        <p>从0到1的完整路线图 · 每日任务 · 进度追踪</p>
+    </header>
+    <div class="container">
+        <div class="overall-progress">
+            <h2>总体进度</h2>
+            <div class="progress-bar"><div class="progress-bar-fill" id="overallFill" style="width:0%"></div></div>
+            <div class="progress-stats">
+                <div class="stat"><div class="num" id="completedCount">0</div><div class="label">已完成任务</div></div>
+                <div class="stat"><div class="num" id="totalCount">0</div><div class="label">总任务数</div></div>
+                <div class="stat"><div class="num" id="dayCount">0</div><div class="label">已过天数</div></div>
+            </div>
+        </div>
+        <div class="revenue-estimate">
+            <div class="label">预计累计收入</div>
+            <div class="amount" id="revenueAmount">¥0</div>
+            <div class="label">基于当前进度估算</div>
+        </div>
+        <div id="phasesContainer"></div>
+    </div>
+    <footer>
+        <p>NexTool 30天冷启动计划 · 一人公司，从今天开始</p>
+    </footer>
+    <script>
+        const planData = [
+            {
+                phase: 1, icon: '🏗️', title: '产品搭建', subtitle: 'Day 1-7 · 打好基础', color: 'var(--accent)',
+                days: [
+                    { day: 1, title: '注册所有 API Key', revenue: 0, tasks: [
+                        { id: 't1_1', text: '注册 OpenAI API Key' },
+                        { id: 't1_2', text: '注册 DeepSeek API Key（备用）' },
+                        { id: 't1_3', text: '配置环境变量和 .env 文件' },
+                        { id: 't1_4', text: '测试 API 连通性' }
+                    ], tip: '💡 建议 OpenAI 用于生产，DeepSeek 作为降级备选，避免单点依赖。', resources: ['openai.com', 'platform.deepseek.com'] },
+                    { day: 2, title: '配置支付系统', revenue: 0, tasks: [
+                        { id: 't2_1', text: '注册面包多账号并完成实名认证' },
+                        { id: 't2_2', text: '创建所有数字产品（ViralCopy/SmartSummary/CodeMentor）' },
+                        { id: 't2_3', text: '获取支付链接' },
+                        { id: 't2_4', text: '替换产品页面中的占位链接' }
+                    ], tip: '💡 参考 NexTool 支付集成指南，一步步配置。', resources: ['mianbaoduo.com'] },
+                    { day: 3, title: '完善产品页面', revenue: 0, tasks: [
+                        { id: 't3_1', text: '检查所有产品页面文案' },
+                        { id: 't3_2', text: '添加产品截图和演示 GIF' },
+                        { id: 't3_3', text: '确认所有 CTA 按钮指向正确链接' },
+                        { id: 't3_4', text: '移动端适配测试' }
+                    ], tip: '💡 用手机打开每个页面，确认体验流畅。' },
+                    { day: 4, title: '部署上线', revenue: 0, tasks: [
+                        { id: 't4_1', text: '部署主站到 Vercel' },
+                        { id: 't4_2', text: '部署所有子应用（JSON工具/QR生成器等）' },
+                        { id: 't4_3', text: '配置自定义域名' },
+                        { id: 't4_4', text: '配置 SSL 证书' }
+                    ], tip: '💡 Vercel 免费版足够初期使用，绑定域名后记得更新 DNS。', resources: ['vercel.com'] },
+                    { day: 5, title: 'SEO 基础优化', revenue: 0, tasks: [
+                        { id: 't5_1', text: '提交站点到 Google Search Console' },
+                        { id: 't5_2', text: '提交站点到百度站长平台' },
+                        { id: 't5_3', text: '生成并提交 sitemap.xml' },
+                        { id: 't5_4', text: '检查所有页面 meta 标签' }
+                    ], tip: '💡 SEO 是长期游戏，但越早提交越好。' },
+                    { day: 6, title: '端到端测试', revenue: 0, tasks: [
+                        { id: 't6_1', text: '完整走一遍购买流程（微信/支付宝）' },
+                        { id: 't6_2', text: '测试 API 调用和返回结果' },
+                        { id: 't6_3', text: '检查自动发货是否正常' },
+                        { id: 't6_4', text: '修复发现的所有 Bug' }
+                    ], tip: '💡 找1-2个朋友试用，收集真实反馈。' },
+                    { day: 7, title: '正式上线！🎉', revenue: 50, tasks: [
+                        { id: 't7_1', text: '在朋友圈/社群宣布上线' },
+                        { id: 't7_2', text: '发布第一条推文/帖子' },
+                        { id: 't7_3', text: '设置 Google Analytics / 百度统计' },
+                        { id: 't7_4', text: '记录上线首日数据' }
+                    ], tip: '💡 上线日不必完美，重要的是开始。记录基线数据供后续对比。' }
+                ]
+            },
+            {
+                phase: 2, icon: '📝', title: '内容营销', subtitle: 'Day 8-14 · 让人知道你', color: 'var(--accent2)',
+                days: [
+                    { day: 8, title: '博客：写第一篇技术文章', revenue: 80, tasks: [
+                        { id: 't8_1', text: '选题：如何用AI生成爆款小红书文案' },
+                        { id: 't8_2', text: '撰写 2000+ 字的深度文章' },
+                        { id: 't8_3', text: '添加产品截图和案例' },
+                        { id: 't8_4', text: '发布到掘金/知乎/CSDN' }
+                    ], tip: '💡 文章末尾自然植入产品链接，不要硬广。' },
+                    { day: 9, title: '小红书运营启动', revenue: 120, tasks: [
+                        { id: 't9_1', text: '创建 NexTool 小红书账号' },
+                        { id: 't9_2', text: '发布3条笔记（工具介绍/使用教程/效果对比）' },
+                        { id: 't9_3', text: '研究热门标签和发布时间' },
+                        { id: 't9_4', text: '互动：评论相关笔记5条' }
+                    ], tip: '💡 小红书重图片，用 Canva 做精美封面。', resources: ['canva.com'] },
+                    { day: 10, title: '博客：AI工具对比文章', revenue: 160, tasks: [
+                        { id: 't10_1', text: '选题：2024年最好用的AI文案工具对比' },
+                        { id: 't10_2', text: '列出3-5个竞品并客观对比' },
+                        { id: 't10_3', text: '突出 NexTool 的差异化优势' },
+                        { id: 't10_4', text: '发布到多个平台' }
+                    ], tip: '💡 对比文章搜索量高，容易获得长尾流量。' },
+                    { day: 11, title: '抖音/B站视频制作', revenue: 200, tasks: [
+                        { id: 't11_1', text: '录制30秒产品演示视频' },
+                        { id: 't11_2', text: '添加字幕和背景音乐' },
+                        { id: 't11_3', text: '发布到抖音和B站' },
+                        { id: 't11_4', text: '回复所有评论' }
+                    ], tip: '💡 短视频是当前最大流量入口，值得投入。' },
+                    { day: 12, title: '社群营销', revenue: 250, tasks: [
+                        { id: 't12_1', text: '加入5个相关微信群/QQ群' },
+                        { id: 't12_2', text: '提供有价值的回答（不要直接发广告）' },
+                        { id: 't12_3', text: '分享免费工具获取关注' },
+                        { id: 't12_4', text: '建立自己的用户群' }
+                    ], tip: '💡 先提供价值，再谈转化。群内发广告容易被踢。' },
+                    { day: 13, title: '博客：教程系列', revenue: 300, tasks: [
+                        { id: 't13_1', text: '选题：从小白到爆款——小红书文案完全指南' },
+                        { id: 't13_2', text: '分3篇发布（基础/进阶/实战）' },
+                        { id: 't13_3', text: '每篇嵌入产品使用示例' },
+                        { id: 't13_4', text: '在文章间互相链接' }
+                    ], tip: '💡 系列文章能提高回访率和SEO权重。' },
+                    { day: 14, title: '第一周复盘', revenue: 350, tasks: [
+                        { id: 't14_1', text: '统计各渠道流量数据' },
+                        { id: 't14_2', text: '统计转化率和收入' },
+                        { id: 't14_3', text: '找出表现最好的渠道' },
+                        { id: 't14_4', text: '制定下周优化方向' }
+                    ], tip: '💡 数据驱动决策，不要凭感觉。' }
+                ]
+            },
+            {
+                phase: 3, icon: '🚀', title: '增长黑客', subtitle: 'Day 15-21 · 加速增长', color: 'var(--green)',
+                days: [
+                    { day: 15, title: '推荐系统上线', revenue: 420, tasks: [
+                        { id: 't15_1', text: '实现邀请码/推荐链接功能' },
+                        { id: 't15_2', text: '设置推荐奖励（推荐1人得7天Pro）' },
+                        { id: 't15_3', text: '在产品页面添加分享按钮' },
+                        { id: 't15_4', text: '邮件通知现有用户推荐计划' }
+                    ], tip: '💡 推荐系统是成本最低的获客方式。' },
+                    { day: 16, title: '合作伙伴拓展', revenue: 500, tasks: [
+                        { id: 't16_1', text: '列出10个潜在合作伙伴（博主/社群主）' },
+                        { id: 't16_2', text: '发送合作邮件/私信' },
+                        { id: 't16_3', text: '设计分销方案（30%佣金）' },
+                        { id: 't16_4', text: '准备合作素材包' }
+                    ], tip: '💡 找到受众重合但不竞争的合作伙伴。' },
+                    { day: 17, title: '免费工具推广', revenue: 580, tasks: [
+                        { id: 't17_1', text: '在 Product Hunt 发布 JSON Formatter' },
+                        { id: 't17_2', text: '在 V2EX 推广免费工具' },
+                        { id: 't17_3', text: '在即刻分享工具链接' },
+                        { id: 't17_4', text: '优化工具页面 CTA 转化率' }
+                    ], tip: '💡 免费工具是最佳引流手段，CTA 要醒目但不烦人。', resources: ['producthunt.com', 'v2ex.com'] },
+                    { day: 18, title: '邮件营销启动', revenue: 660, tasks: [
+                        { id: 't18_1', text: '配置邮件收集弹窗（exit-intent）' },
+                        { id: 't18_2', text: '设计欢迎邮件序列（3封）' },
+                        { id: 't18_3', text: '设置自动化邮件触发' },
+                        { id: 't18_4', text: 'A/B 测试邮件标题' }
+                    ], tip: '💡 邮件是转化率最高的渠道，没有之一。', resources: ['mailchimp.com', 'resend.com'] },
+                    { day: 19, title: '限时促销活动', revenue: 800, tasks: [
+                        { id: 't19_1', text: '设计"早鸟价"促销活动' },
+                        { id: 't19_2', text: '设置倒计时和库存限制' },
+                        { id: 't19_3', text: '在所有渠道推广促销' },
+                        { id: 't19_4', text: '准备促销结束后的涨价通知' }
+                    ], tip: '💡 稀缺性和紧迫感是最有效的转化手段。' },
+                    { day: 20, title: 'SEO 深度优化', revenue: 900, tasks: [
+                        { id: 't20_1', text: '研究长尾关键词（10个）' },
+                        { id: 't20_2', text: '为每个关键词创建内容' },
+                        { id: 't20_3', text: '优化页面加载速度' },
+                        { id: 't20_4', text: '建设外链（5个高质量）' }
+                    ], tip: '💡 SEO 是复利游戏，3个月后你会感谢今天的努力。' },
+                    { day: 21, title: '第二周复盘', revenue: 1000, tasks: [
+                        { id: 't21_1', text: '对比上周数据，分析增长趋势' },
+                        { id: 't21_2', text: '计算各渠道 CAC（获客成本）' },
+                        { id: 't21_3', text: '识别增长最快的渠道' },
+                        { id: 't21_4', text: '调整资源分配策略' }
+                    ], tip: '💡 把80%的精力放在表现最好的20%渠道上。' }
+                ]
+            },
+            {
+                phase: 4, icon: '⚡', title: '优化扩张', subtitle: 'Day 22-30 · 精益求精', color: 'var(--orange)',
+                days: [
+                    { day: 22, title: '数据分析体系', revenue: 1100, tasks: [
+                        { id: 't22_1', text: '配置完整的事件追踪' },
+                        { id: 't22_2', text: '建立数据看板（日活/转化/收入）' },
+                        { id: 't22_3', text: '设置异常告警' },
+                        { id: 't22_4', text: '开始记录每日数据日志' }
+                    ], tip: '💡 没有数据就没有优化方向。' },
+                    { day: 23, title: 'A/B 测试首页', revenue: 1200, tasks: [
+                        { id: 't23_1', text: '设计2个首页变体' },
+                        { id: 't23_2', text: '配置 A/B 测试工具' },
+                        { id: 't23_3', text: '运行测试至少3天' },
+                        { id: 't23_4', text: '分析结果并应用胜出方案' }
+                    ], tip: '💡 每次只测一个变量，否则无法归因。' },
+                    { day: 24, title: '优化转化漏斗', revenue: 1350, tasks: [
+                        { id: 't24_1', text: '绘制完整转化漏斗' },
+                        { id: 't24_2', text: '找出最大流失点' },
+                        { id: 't24_3', text: '优化流失最严重的环节' },
+                        { id: 't24_4', text: '添加社会证明（用户评价/使用数）' }
+                    ], tip: '💡 提升1%的转化率比增加10%的流量更有效。' },
+                    { day: 25, title: '产品迭代', revenue: 1500, tasks: [
+                        { id: 't25_1', text: '收集用户反馈（前10个付费用户）' },
+                        { id: 't25_2', text: '优先级排序功能需求' },
+                        { id: 't25_3', text: '开发最高优先级功能' },
+                        { id: 't25_4', text: '发布更新通知' }
+                    ], tip: '💡 早期用户是最好的产品顾问，认真对待每条反馈。' },
+                    { day: 26, title: '自动化运营', revenue: 1700, tasks: [
+                        { id: 't26_1', text: '设置自动回复邮件' },
+                        { id: 't26_2', text: '配置自动发票/收据发送' },
+                        { id: 't26_3', text: '设置用户流失预警' },
+                        { id: 't26_4', text: '编写运营 SOP 文档' }
+                    ], tip: '💡 一人公司的核心是自动化，把重复工作交给系统。' },
+                    { day: 27, title: 'RapidAPI 上架', revenue: 1900, tasks: [
+                        { id: 't27_1', text: '完善 API 文档' },
+                        { id: 't27_2', text: '提交 RapidAPI 审核' },
+                        { id: 't27_3', text: '设置 API 定价' },
+                        { id: 't27_4', text: '准备 API 示例代码' }
+                    ], tip: '💡 RapidAPI 是 API 产品的天然分发渠道。', resources: ['rapidapi.com'] },
+                    { day: 28, title: '付费广告测试', revenue: 2100, tasks: [
+                        { id: 't28_1', text: '设置 Google Ads 小预算测试（¥100/天）' },
+                        { id: 't28_2', text: '设置百度推广测试' },
+                        { id: 't28_3', text: '追踪广告 ROI' },
+                        { id: 't28_4', text: '暂停 ROI < 1 的广告组' }
+                    ], tip: '💡 先小预算测试，找到盈利模型再放大。' },
+                    { day: 29, title: '规模化复制', revenue: 2400, tasks: [
+                        { id: 't29_1', text: '加大盈利渠道的投入' },
+                        { id: 't29_2', text: '复制成功内容模板' },
+                        { id: 't29_3', text: '拓展新的流量渠道' },
+                        { id: 't29_4', text: '开始规划下一个产品' }
+                    ], tip: '💡 验证过的模式要快速复制，不要一直试新方法。' },
+                    { day: 30, title: '月度复盘 & 下月计划 🎊', revenue: 2800, tasks: [
+                        { id: 't30_1', text: '汇总30天所有数据' },
+                        { id: 't30_2', text: '计算 MRR 和增长率' },
+                        { id: 't30_3', text: '总结3个最大收获和3个最大教训' },
+                        { id: 't30_4', text: '制定下月增长目标' }
+                    ], tip: '💡 恭喜完成30天冷启动！这只是开始，持续迭代才是关键。' }
+                ]
+            }
+        ];
+
+        // Build UI
+        function buildUI() {
+            const container = document.getElementById('phasesContainer');
+            container.innerHTML = '';
+            let totalTasks = 0;
+            planData.forEach(phase => {
+                phase.days.forEach(day => { totalTasks += day.tasks.length; });
+            });
+            document.getElementById('totalCount').textContent = totalTasks;
+
+            planData.forEach(phase => {
+                const phaseEl = document.createElement('div');
+                phaseEl.className = 'phase';
+                const phaseTasks = phase.days.reduce((s, d) => s + d.tasks.length, 0);
+                const phaseCompleted = phase.days.reduce((s, d) => s + d.tasks.filter(t => isChecked(t.id)).length, 0);
+                const phasePct = phaseTasks ? Math.round((phaseCompleted / phaseTasks) * 100) : 0;
+
+                phaseEl.innerHTML = `
+                    <div class="phase-header" onclick="togglePhase(this)">
+                        <span class="phase-icon">${phase.icon}</span>
+                        <div class="phase-info">
+                            <h2>${phase.title}</h2>
+                            <p>${phase.subtitle}</p>
+                        </div>
+                        <div class="phase-progress">
+                            <div class="pct">${phasePct}%</div>
+                            <div class="detail">${phaseCompleted}/${phaseTasks}</div>
+                        </div>
+                        <span class="phase-toggle">▼</span>
+                    </div>
+                    <div class="day-list">
+                        ${phase.days.map(day => buildDayCard(day)).join('')}
+                    </div>
+                `;
+                container.appendChild(phaseEl);
+            });
+            updateOverallProgress();
+        }
+
+        function buildDayCard(day) {
+            const allChecked = day.tasks.every(t => isChecked(t.id));
+            const completedTasks = day.tasks.filter(t => isChecked(t.id)).length;
+            return `
+                <div class="day-card ${allChecked ? 'completed' : ''}" id="day-${day.day}">
+                    <div class="day-header" onclick="toggleDay(this)">
+                        <span class="day-number">Day ${day.day}</span>
+                        <span class="day-title">${day.title}</span>
+                        <span class="day-revenue">~¥${day.revenue}</span>
+                        <span class="day-toggle">▼</span>
+                    </div>
+                    <div class="day-tasks">
+                        ${day.tasks.map(t => `
+                            <div class="task-item">
+                                <input type="checkbox" id="${t.id}" ${isChecked(t.id) ? 'checked' : ''} onchange="onTaskChange()">
+                                <label for="${t.id}">${t.text}</label>
+                            </div>
+                        `).join('')}
+                        ${day.tip ? `<div class="tip-box"><p><span class="tip-label">提示：</span>${day.tip}</p></div>` : ''}
+                        ${day.resources ? `<div style="margin-top:8px;">${day.resources.map(r => `<a class="resource-link" href="https://${r}" target="_blank">🔗 ${r}</a>`).join('')}</div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function isChecked(id) {
+            return localStorage.getItem('launchplan_' + id) === 'true';
+        }
+
+        function onTaskChange() {
+            document.querySelectorAll('.task-item input[type="checkbox"]').forEach(cb => {
+                localStorage.setItem('launchplan_' + cb.id, cb.checked);
+            });
+            buildUI();
+        }
+
+        function togglePhase(el) {
+            el.closest('.phase').classList.toggle('collapsed');
+        }
+
+        function toggleDay(el) {
+            el.closest('.day-card').classList.toggle('collapsed');
+        }
+
+        function updateOverallProgress() {
+            let total = 0, completed = 0, revenue = 0, daysDone = 0;
+            planData.forEach(phase => {
+                phase.days.forEach(day => {
+                    day.tasks.forEach(t => {
+                        total++;
+                        if (isChecked(t.id)) completed++;
+                    });
+                    const dayComplete = day.tasks.every(t => isChecked(t.id));
+                    if (dayComplete) { daysDone++; revenue = Math.max(revenue, day.revenue); }
+                });
+            });
+            // Calculate revenue based on last completed day
+            let maxRevenue = 0;
+            planData.forEach(phase => {
+                phase.days.forEach(day => {
+                    const dayComplete = day.tasks.every(t => isChecked(t.id));
+                    if (dayComplete && day.revenue > maxRevenue) maxRevenue = day.revenue;
+                });
+            });
+            const pct = total ? Math.round((completed / total) * 100) : 0;
+            document.getElementById('overallFill').style.width = pct + '%';
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('dayCount').textContent = daysDone;
+            document.getElementById('revenueAmount').textContent = '¥' + maxRevenue.toLocaleString();
+        }
+
+        buildUI();
+    </script>
+</body>
+</html>
