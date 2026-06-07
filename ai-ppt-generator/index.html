@@ -1245,6 +1245,56 @@ function escapeHtml(str) {
   div.textContent = str;
   return div.innerHTML;
 }
+
+// ===== Conversion Optimization Scripts =====
+// A. Social Proof Rotation
+(function() {
+  const notifications = [
+    '张经理 刚刚生成了一份季度汇报PPT',
+    '王同学 刚刚完成了毕业答辩PPT',
+    '李总 刚刚制作了产品发布会PPT',
+    '刘同学 刚刚优化了课程展示PPT',
+    '陈经理 刚刚生成了年度总结PPT'
+  ];
+  let idx = 0;
+  const notifyEl = document.getElementById('socialProofNotify');
+  setInterval(() => {
+    notifyEl.style.display = 'inline';
+    notifyEl.textContent = '· ' + notifications[idx % notifications.length];
+    idx++;
+  }, 8000);
+})();
+
+// B. Urgency Count (random 1-5 on each page load)
+(function() {
+  const count = Math.floor(Math.random() * 5) + 1;
+  document.getElementById('urgencyCount').textContent = count;
+})();
+
+// E. Exit Intent Popup
+(function() {
+  let exitShown = false;
+  document.addEventListener('mouseout', function(e) {
+    if (exitShown) return;
+    if (e.clientY <= 0) {
+      exitShown = true;
+      const popup = document.getElementById('exitIntentPopup');
+      popup.style.display = 'flex';
+    }
+  });
+})();
+
+function closeExitIntent() {
+  document.getElementById('exitIntentPopup').style.display = 'none';
+}
+
+function submitExitEmail() {
+  const email = document.getElementById('exitEmailInput').value.trim();
+  if (!email) return;
+  localStorage.setItem('exit_intent_email', email);
+  closeExitIntent();
+  showToast('🎉 领取成功！3次免费额度已到账', 'success');
+}
 </script>
 </body>
 </html>
