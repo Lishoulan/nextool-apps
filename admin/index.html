@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTool 管理后台 - 邮件收集与推荐统计</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a3e;
+            --accent-gold: #f0b90b;
+            --accent-gold-light: #fcd535;
+            --accent-green: #00d4aa;
+            --accent-green-light: #34e8c0;
+            --accent-purple: #6c5ce7;
+            --accent-purple-light: #a29bfe;
+            --accent-red: #e74c3c;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6c6c80;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #12122a 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* Login */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-box .logo { font-size: 3rem; margin-bottom: 0.5rem; }
+
+        .login-box h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .login-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .login-box input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(240,185,11,0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.85rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            color: #0f0f23;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240,185,11,0.35);
+        }
+
+        .login-error {
+            color: var(--accent-red);
+            font-size: 0.85rem;
+            margin-top: 0.75rem;
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard { display: none; }
+        .dashboard.visible { display: block; }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--card-border);
+            background: rgba(15,15,35,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .top-bar .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .top-bar .brand span { font-size: 1.5rem; }
+
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.12);
+        }
+
+        .stat-card .stat-icon { font-size: 1.8rem; margin-bottom: 0.5rem; display: block; }
+        .stat-card .stat-value { font-size: 2.2rem; font-weight: 800; }
+        .stat-card .stat-label { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.25rem; }
+
+        .stat-card:nth-child(1) .stat-value { color: var(--accent-green); }
+        .stat-card:nth-child(2) .stat-value { color: var(--accent-gold); }
+        .stat-card:nth-child(3) .stat-value { color: var(--accent-purple); }
+        .stat-card:nth-child(4) .stat-value { color: var(--accent-green-light); }
+
+        /* Chart Section */
+        .chart-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-container {
+            width: 100%;
+            height: 250px;
+            position: relative;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 200px;
+            padding: 0 1rem;
+        }
+
+        .chart-bar-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .chart-bar {
+            width: 100%;
+            max-width: 50px;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(180deg, var(--accent-gold), var(--accent-gold-light));
+            transition: height 0.6s ease;
+            min-height: 4px;
+        }
+
+        .chart-bar-label {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        .chart-bar-value {
+            color: var(--accent-gold);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Email Table */
+        .table-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .table-header h2 { font-size: 1.2rem; }
+
+        .table-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-action {
+            padding: 0.6rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-action:hover {
+            border-color: rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.04);
+        }
+
+        .btn-action.export:hover {
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+
+        .btn-action.clear:hover {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .search-box {
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            width: 220px;
+            transition: var(--transition);
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-gold);
+        }
+
+        .search-box::placeholder { color: var(--text-muted); }
+
+        .email-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .email-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .email-table td {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .email-table tr:hover td {
+            background: rgba(255,255,255,0.02);
+        }
+
+        .email-table .email-cell {
+            color: var(--accent-green);
+            font-family: monospace;
+        }
+
+        .email-table .source-cell {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .email-table .time-cell {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .email-table .credits-cell {
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-state .icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+
+        /* Referral Stats Section */
+        .referral-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .referral-section h2 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .referral-list {
+            list-style: none;
+        }
+
+        .referral-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .referral-item:hover { background: rgba(255,255,255,0.03); }
+        .referral-item + .referral-item { border-top: 1px solid var(--card-border); }
+
+        .referral-code {
+            font-family: monospace;
+            color: var(--accent-purple);
+            font-weight: 600;
+            min-width: 100px;
+        }
+
+        .referral-stats {
+            flex: 1;
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .referral-stats span { color: var(--text-secondary); }
+        .referral-stats .val { color: var(--text-primary); font-weight: 600; }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .pagination button {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: var(--transition);
+        }
+
+        .pagination button:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .pagination button.active {
+            background: var(--accent-gold);
+            color: #0f0f23;
+            border-color: var(--accent-gold);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 2rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .table-header { flex-direction: column; align-items: stretch; }
+            .search-box { width: 100%; }
+            .email-table { font-size: 0.8rem; }
+            .email-table th, .email-table td { padding: 0.5rem 0.6rem; }
+            .referral-stats { flex-direction: column; gap: 0.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <div class="logo">⚡</div>
+            <h1>NexTool 管理后台</h1>
+            <p>请输入管理密码以访问</p>
+            <input type="password" id="passwordInput" placeholder="管理密码" autocomplete="current-password">
+            <button class="btn-primary" onclick="attemptLogin()">登 录</button>
+            <div class="login-error" id="loginError">❌ 密码错误，请重试</div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="top-bar">
+            <div class="brand">
+                <span>⚡</span> NexTool 管理后台
+            </div>
+            <button class="btn-logout" onclick="logout()">退出登录</button>
+        </div>
+
+        <div class="content">
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <span class="stat-icon">📧</span>
+                    <div class="stat-value" id="totalEmails">0</div>
+                    <div class="stat-label">收集邮箱总数</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">💰</span>
+                    <div class="stat-value" id="totalCredits">0</div>
+                    <div class="stat-label">发放积分总数</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">🔗</span>
+                    <div class="stat-value" id="totalReferrals">0</div>
+                    <div class="stat-label">推荐链接数</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-icon">📊</span>
+                    <div class="stat-value" id="todayEmails">0</div>
+                    <div class="stat-label">今日新增邮箱</div>
+                </div>
+            </div>
+
+            <!-- Daily Chart -->
+            <div class="chart-section">
+                <h2>📈 每日注册趋势</h2>
+                <div class="chart-container">
+                    <div class="chart-bars" id="chartBars"></div>
+                </div>
+            </div>
+
+            <!-- Email Table -->
+            <div class="table-section">
+                <div class="table-header">
+                    <h2>📧 邮箱列表</h2>
+                    <div class="table-actions">
+                        <input type="text" class="search-box" id="searchBox" placeholder="搜索邮箱..." oninput="filterEmails()">
+                        <button class="btn-action export" onclick="exportCSV()">📥 导出CSV</button>
+                        <button class="btn-action clear" onclick="clearAllData()">🗑️ 清空数据</button>
+                    </div>
+                </div>
+                <div id="emailTableContainer">
+                    <table class="email-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>邮箱</th>
+                                <th>来源页面</th>
+                                <th>积分</th>
+                                <th>注册时间</th>
+                            </tr>
+                        </thead>
+                        <tbody id="emailTableBody"></tbody>
+                    </table>
+                    <div class="empty-state" id="emptyState" style="display:none;">
+                        <span class="icon">📭</span>
+                        <p>暂无邮箱数据</p>
+                        <p style="font-size:0.8rem;margin-top:0.5rem;">当用户通过邮件捕获组件提交邮箱后，数据将显示在这里</p>
+                    </div>
+                </div>
+                <div class="pagination" id="pagination"></div>
+            </div>
+
+            <!-- Referral Stats -->
+            <div class="referral-section">
+                <h2>🔗 推荐链接统计</h2>
+                <ul class="referral-list" id="referralList"></ul>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+                © 2024 NexTool — 管理后台 | 数据存储于浏览器 localStorage
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'nextool2024';
+        const AUTH_KEY = 'nextool_admin_auth';
+        const EMAILS_KEY = 'nextool_emails';
+        const CREDITS_KEY = 'nextool_credits';
+        const PAGE_SIZE = 15;
+
+        let currentPage = 1;
+        let filteredEmails = [];
+
+        // ===== Auth =====
+        function attemptLogin() {
+            const pwd = document.getElementById('passwordInput').value;
+            if (pwd === ADMIN_PASSWORD) {
+                localStorage.setItem(AUTH_KEY, 'true');
+                showDashboard();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                setTimeout(() => {
+                    document.getElementById('loginError').style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem(AUTH_KEY);
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('visible');
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboard').classList.add('visible');
+            loadDashboard();
+        }
+
+        // ===== Data =====
+        function getEmails() {
+            try {
+                return JSON.parse(localStorage.getItem(EMAILS_KEY) || '[]');
+            } catch { return []; }
+        }
+
+        function getReferralData() {
+            const entries = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('nextool_ref_') && !key.startsWith('nextool_referral')) {
+                    try {
+                        const data = JSON.parse(localStorage.getItem(key));
+                        const code = key.replace('nextool_ref_', '');
+                        entries.push({ code, ...data });
+                    } catch {}
+                }
+            }
+            return entries;
+        }
+
+        // ===== Dashboard =====
+        function loadDashboard() {
+            const emails = getEmails();
+            const referrals = getReferralData();
+
+            // Stats
+            document.getElementById('totalEmails').textContent = emails.length;
+            document.getElementById('totalCredits').textContent = emails.reduce((sum, e) => sum + (e.creditsAwarded || 0), 0);
+            document.getElementById('totalReferrals').textContent = referrals.length;
+
+            const today = new Date().toISOString().slice(0, 10);
+            document.getElementById('todayEmails').textContent = emails.filter(e => e.timestamp && e.timestamp.startsWith(today)).length;
+
+            // Chart
+            renderChart(emails);
+
+            // Table
+            filteredEmails = [...emails].reverse();
+            renderTable();
+
+            // Referrals
+            renderReferrals(referrals);
+        }
+
+        // ===== Chart =====
+        function renderChart(emails) {
+            const days = {};
+            const today = new Date();
+
+            // Last 14 days
+            for (let i = 13; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                const key = d.toISOString().slice(0, 10);
+                days[key] = 0;
+            }
+
+            emails.forEach(e => {
+                if (e.timestamp) {
+                    const day = e.timestamp.slice(0, 10);
+                    if (days.hasOwnProperty(day)) {
+                        days[day]++;
+                    }
+                }
+            });
+
+            const maxVal = Math.max(...Object.values(days), 1);
+            const container = document.getElementById('chartBars');
+
+            container.innerHTML = Object.entries(days).map(([date, count]) => {
+                const height = Math.max((count / maxVal) * 180, 4);
+                const label = date.slice(5); // MM-DD
+                return `<div class="chart-bar-group">
+                    <div class="chart-bar-value">${count > 0 ? count : ''}</div>
+                    <div class="chart-bar" style="height:${height}px"></div>
+                    <div class="chart-bar-label">${label}</div>
+                </div>`;
+            }).join('');
+        }
+
+        // ===== Table =====
+        function renderTable() {
+            const tbody = document.getElementById('emailTableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filteredEmails.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            const totalPages = Math.ceil(filteredEmails.length / PAGE_SIZE);
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const start = (currentPage - 1) * PAGE_SIZE;
+            const end = Math.min(start + PAGE_SIZE, filteredEmails.length);
+            const pageData = filteredEmails.slice(start, end);
+
+            tbody.innerHTML = pageData.map((e, idx) => {
+                const globalIdx = start + idx + 1;
+                const time = e.timestamp ? new Date(e.timestamp).toLocaleString('zh-CN') : '—';
+                const source = e.source ? e.source.replace(/^\//, '').replace(/\/$/, '') || '首页' : '—';
+                return `<tr>
+                    <td>${globalIdx}</td>
+                    <td class="email-cell">${escapeHtml(e.email)}</td>
+                    <td class="source-cell">${escapeHtml(source)}</td>
+                    <td class="credits-cell">${e.creditsAwarded || 0}</td>
+                    <td class="time-cell">${time}</td>
+                </tr>`;
+            }).join('');
+
+            renderPagination(totalPages);
+        }
+
+        function renderPagination(totalPages) {
+            if (totalPages <= 1) {
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">‹</button>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 3 || i === currentPage + 3) {
+                    html += `<button disabled>...</button>`;
+                }
+            }
+
+            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">›</button>`;
+            document.getElementById('pagination').innerHTML = html;
+        }
+
+        function goToPage(page) {
+            currentPage = page;
+            renderTable();
+        }
+
+        function filterEmails() {
+            const query = document.getElementById('searchBox').value.toLowerCase().trim();
+            const emails = getEmails();
+            if (!query) {
+                filteredEmails = [...emails].reverse();
+            } else {
+                filteredEmails = emails.filter(e =>
+                    e.email.toLowerCase().includes(query) ||
+                    (e.source && e.source.toLowerCase().includes(query))
+                ).reverse();
+            }
+            currentPage = 1;
+            renderTable();
+        }
+
+        // ===== Referrals =====
+        function renderReferrals(referrals) {
+            const list = document.getElementById('referralList');
+            if (referrals.length === 0) {
+                list.innerHTML = '<li style="padding:1rem;color:var(--text-muted);text-align:center;">暂无推荐数据</li>';
+                return;
+            }
+
+            referrals.sort((a, b) => (b.signups || 0) - (a.signups || 0));
+
+            list.innerHTML = referrals.map(r => {
+                return `<li class="referral-item">
+                    <span class="referral-code">${r.code}</span>
+                    <div class="referral-stats">
+                        <span>点击: <span class="val">${r.clicks || 0}</span></span>
+                        <span>注册: <span class="val">${r.signups || 0}</span></span>
+                    </div>
+                </li>`;
+            }).join('');
+        }
+
+        // ===== Export =====
+        function exportCSV() {
+            const emails = getEmails();
+            if (emails.length === 0) {
+                alert('暂无数据可导出');
+                return;
+            }
+
+            const BOM = '\uFEFF';
+            const header = '邮箱,来源页面,积分,注册时间\n';
+            const rows = emails.map(e =>
+                `${e.email},${e.source || ''},${e.creditsAwarded || 0},${e.timestamp || ''}`
+            ).join('\n');
+
+            const blob = new Blob([BOM + header + rows], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `nextool_emails_${new Date().toISOString().slice(0,10)}.csv`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // ===== Clear =====
+        function clearAllData() {
+            if (!confirm('⚠️ 确定要清空所有邮箱数据吗？此操作不可恢复！')) return;
+            if (!confirm('再次确认：真的要删除所有数据吗？')) return;
+
+            localStorage.removeItem(EMAILS_KEY);
+            localStorage.removeItem(CREDITS_KEY);
+            loadDashboard();
+        }
+
+        // ===== Utility =====
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ===== Init =====
+        (function init() {
+            if (localStorage.getItem(AUTH_KEY) === 'true') {
+                showDashboard();
+            }
+
+            // Enter key for login
+            document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') attemptLogin();
+            });
+        })();
+    </script>
+</body>
+</html>

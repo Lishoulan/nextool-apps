@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexTool 推荐计划 - 邀请好友，免费领取AI工具额度</title>
+    <meta name="description" content="邀请好友使用NexTool AI工具，每成功邀请1人获得1积分，邀请3人获得5积分，邀请10人免费使用1个月Pro版！">
+    <meta name="keywords" content="NexTool推荐,AI工具免费额度,邀请好友,推荐奖励">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a3e;
+            --accent-gold: #f0b90b;
+            --accent-gold-light: #fcd535;
+            --accent-green: #00d4aa;
+            --accent-green-light: #34e8c0;
+            --accent-purple: #6c5ce7;
+            --accent-purple-light: #a29bfe;
+            --text-primary: #f0f0f5;
+            --text-secondary: #a0a0b8;
+            --text-muted: #6c6c80;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+            background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #12122a 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .header .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* Email Input Section */
+        .email-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .email-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .email-form input {
+            flex: 1;
+            padding: 0.85rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.06);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .email-form input:focus {
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(240,185,11,0.15);
+        }
+
+        .email-form input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .btn-primary {
+            padding: 0.85rem 1.8rem;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            color: #0f0f23;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(240,185,11,0.35);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Referral Link Section */
+        .referral-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease 0.2s both;
+            display: none;
+        }
+
+        .referral-section.visible { display: block; }
+
+        .referral-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .referral-link-box {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .referral-link-box input {
+            flex: 1;
+            padding: 0.85rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.06);
+            color: var(--accent-green);
+            font-size: 0.95rem;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .btn-copy {
+            padding: 0.85rem 1.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--accent-green);
+            background: transparent;
+            color: var(--accent-green);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+
+        .btn-copy:hover {
+            background: rgba(0,212,170,0.1);
+        }
+
+        .btn-copy.copied {
+            background: var(--accent-green);
+            color: #0f0f23;
+        }
+
+        /* Share Buttons */
+        .share-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: rgba(255,255,255,0.04);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .share-btn:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .share-btn .icon { font-size: 1.2rem; }
+
+        .share-btn.wechat:hover { border-color: #07c160; color: #07c160; }
+        .share-btn.weibo:hover { border-color: #e6162d; color: #e6162d; }
+        .share-btn.qq:hover { border-color: #12b7f5; color: #12b7f5; }
+        .share-btn.twitter:hover { border-color: #1da1f2; color: #1da1f2; }
+        .share-btn.link:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        /* Rewards Section */
+        .rewards-section {
+            animation: fadeInUp 0.6s ease 0.3s both;
+            margin-bottom: 2rem;
+        }
+
+        .rewards-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .reward-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.8rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+        }
+
+        .reward-card:nth-child(1)::before { background: linear-gradient(90deg, var(--accent-green), var(--accent-green-light)); }
+        .reward-card:nth-child(2)::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-purple-light)); }
+        .reward-card:nth-child(3)::before { background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light)); }
+
+        .reward-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        .reward-card .reward-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .reward-card .reward-count {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .reward-card:nth-child(1) .reward-count { color: var(--accent-green); }
+        .reward-card:nth-child(2) .reward-count { color: var(--accent-purple); }
+        .reward-card:nth-child(3) .reward-count { color: var(--accent-gold); }
+
+        .reward-card .reward-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .reward-card .reward-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Stats Dashboard */
+        .stats-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease 0.4s both;
+            display: none;
+        }
+
+        .stats-section.visible { display: block; }
+
+        .stats-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-sm);
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+        }
+
+        .stat-card .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            margin-top: 1.5rem;
+        }
+
+        .progress-section h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-item {
+            margin-bottom: 1rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.4rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-header .label { color: var(--text-secondary); }
+        .progress-header .value { color: var(--accent-gold); font-weight: 600; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease;
+        }
+
+        .progress-fill.green { background: linear-gradient(90deg, var(--accent-green), var(--accent-green-light)); }
+        .progress-fill.purple { background: linear-gradient(90deg, var(--accent-purple), var(--accent-purple-light)); }
+        .progress-fill.gold { background: linear-gradient(90deg, var(--accent-gold), var(--accent-gold-light)); }
+
+        /* Leaderboard */
+        .leaderboard-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease 0.5s both;
+        }
+
+        .leaderboard-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .leaderboard-item:hover {
+            background: rgba(255,255,255,0.03);
+        }
+
+        .leaderboard-item + .leaderboard-item {
+            border-top: 1px solid var(--card-border);
+        }
+
+        .leaderboard-rank {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .leaderboard-rank.gold { background: linear-gradient(135deg, #f0b90b, #fcd535); color: #0f0f23; }
+        .leaderboard-rank.silver { background: linear-gradient(135deg, #a8a8b3, #d1d1d6); color: #0f0f23; }
+        .leaderboard-rank.bronze { background: linear-gradient(135deg, #cd7f32, #e8a85c); color: #0f0f23; }
+        .leaderboard-rank.normal { background: rgba(255,255,255,0.08); color: var(--text-muted); }
+
+        .leaderboard-name {
+            flex: 1;
+            font-size: 0.95rem;
+        }
+
+        .leaderboard-count {
+            color: var(--accent-gold);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .leaderboard-reward {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* How It Works */
+        .how-section {
+            animation: fadeInUp 0.6s ease 0.6s both;
+            margin-bottom: 2rem;
+        }
+
+        .how-section h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .how-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .how-step {
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .how-step .step-num {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-light));
+            color: #0f0f23;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .how-step h3 {
+            font-size: 1rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .how-step p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent-green);
+            color: #0f0f23;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--card-border);
+            margin-top: 2rem;
+        }
+
+        .footer a {
+            color: var(--accent-gold);
+            text-decoration: none;
+        }
+
+        /* WeChat QR Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 360px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .modal-box h3 {
+            margin-bottom: 1rem;
+        }
+
+        .modal-box p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-box .qr-placeholder {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 1rem;
+            background: rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .modal-close {
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--card-border);
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .header h1 { font-size: 1.6rem; }
+            .email-form { flex-direction: column; }
+            .referral-link-box { flex-direction: column; }
+            .share-buttons { justify-content: center; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">⚡</div>
+            <h1>NexTool 推荐计划</h1>
+            <p>邀请好友使用 NexTool AI 工具，每成功邀请即可获得免费额度</p>
+        </div>
+
+        <!-- Email Input -->
+        <div class="email-section" id="emailSection">
+            <h2>📧 输入邮箱获取专属推荐链接</h2>
+            <div class="email-form">
+                <input type="email" id="emailInput" placeholder="请输入您的邮箱地址" autocomplete="email">
+                <button class="btn-primary" id="generateBtn" onclick="generateReferral()">获取链接</button>
+            </div>
+        </div>
+
+        <!-- Referral Link -->
+        <div class="referral-section" id="referralSection">
+            <h2>🔗 您的专属推荐链接</h2>
+            <div class="referral-link-box">
+                <input type="text" id="referralLink" readonly>
+                <button class="btn-copy" id="copyBtn" onclick="copyLink()">复制链接</button>
+            </div>
+            <h3 style="font-size:1rem; margin-bottom:0.75rem; color:var(--text-secondary);">分享到</h3>
+            <div class="share-buttons">
+                <button class="share-btn wechat" onclick="shareWeChat()">
+                    <span class="icon">💬</span> 微信
+                </button>
+                <a class="share-btn weibo" id="shareWeibo" href="#" target="_blank" rel="noopener">
+                    <span class="icon">📢</span> 微博
+                </a>
+                <a class="share-btn qq" id="shareQQ" href="#" target="_blank" rel="noopener">
+                    <span class="icon">🐧</span> QQ
+                </a>
+                <a class="share-btn twitter" id="shareTwitter" href="#" target="_blank" rel="noopener">
+                    <span class="icon">🐦</span> Twitter
+                </a>
+                <button class="share-btn link" onclick="copyLink()">
+                    <span class="icon">📋</span> 复制链接
+                </button>
+            </div>
+        </div>
+
+        <!-- Rewards -->
+        <div class="rewards-section">
+            <h2>🎁 推荐奖励</h2>
+            <div class="rewards-grid">
+                <div class="reward-card">
+                    <span class="reward-icon">🤝</span>
+                    <div class="reward-count">1人</div>
+                    <div class="reward-label">+1 免费积分</div>
+                    <div class="reward-desc">可用于任意 AI 工具</div>
+                </div>
+                <div class="reward-card">
+                    <span class="reward-icon">🚀</span>
+                    <div class="reward-count">3人</div>
+                    <div class="reward-label">+5 免费积分</div>
+                    <div class="reward-desc">累计获得6积分</div>
+                </div>
+                <div class="reward-card">
+                    <span class="reward-icon">👑</span>
+                    <div class="reward-count">10人</div>
+                    <div class="reward-label">1个月免费 Pro</div>
+                    <div class="reward-desc">全工具无限使用</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-section" id="statsSection">
+            <h2>📊 我的推荐统计</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="statClicks">0</div>
+                    <div class="stat-label">链接点击</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statSignups">0</div>
+                    <div class="stat-label">成功注册</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statCredits">0</div>
+                    <div class="stat-label">获得积分</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="statPro">0</div>
+                    <div class="stat-label">Pro 月数</div>
+                </div>
+            </div>
+
+            <div class="progress-section">
+                <h3>奖励进度</h3>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="label">🤝 邀请1人 — +1积分</span>
+                        <span class="value" id="prog1">0/1</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill green" id="progBar1" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="label">🚀 邀请3人 — +5积分</span>
+                        <span class="value" id="prog3">0/3</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill purple" id="progBar3" style="width:0%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="label">👑 邀请10人 — 1月Pro</span>
+                        <span class="value" id="prog10">0/10</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill gold" id="progBar10" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard-section">
+            <h2>🏆 推荐排行榜</h2>
+            <ul class="leaderboard-list" id="leaderboardList"></ul>
+        </div>
+
+        <!-- How It Works -->
+        <div class="how-section">
+            <h2>💡 如何运作</h2>
+            <div class="how-steps">
+                <div class="how-step">
+                    <div class="step-num">1</div>
+                    <h3>获取链接</h3>
+                    <p>输入邮箱，获取您的专属推荐链接</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">2</div>
+                    <h3>分享给好友</h3>
+                    <p>通过微信、微博等社交平台分享</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">3</div>
+                    <h3>好友注册</h3>
+                    <p>好友通过您的链接访问并注册</p>
+                </div>
+                <div class="how-step">
+                    <div class="step-num">4</div>
+                    <h3>获得奖励</h3>
+                    <p>自动获得免费积分和Pro会员</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2024 <a href="https://lishoulan.github.io/nextool-apps/">NexTool</a> — AI 驱动的效率工具</p>
+        </div>
+    </div>
+
+    <!-- WeChat Modal -->
+    <div class="modal-overlay" id="wechatModal">
+        <div class="modal-box">
+            <h3>💬 分享到微信</h3>
+            <p>复制链接后发送给微信好友，或在微信中打开</p>
+            <div class="qr-placeholder">
+                复制链接后<br>粘贴到微信发送
+            </div>
+            <button class="modal-close" onclick="closeWechatModal()">关闭</button>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // ===== Config =====
+        const BASE_URL = 'https://lishoulan.github.io/nextool-apps/';
+        const STORAGE_KEY = 'nextool_referral';
+
+        // ===== Utility =====
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash |= 0;
+            }
+            return Math.abs(hash).toString(36).toUpperCase().slice(0, 8);
+        }
+
+        function getReferralData() {
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                return data ? JSON.parse(data) : null;
+            } catch { return null; }
+        }
+
+        function setReferralData(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // ===== Check for ref parameter =====
+        (function checkRef() {
+            const params = new URLSearchParams(window.location.search);
+            const refCode = params.get('ref');
+            if (refCode) {
+                // Store referrer info
+                const refStorage = 'nextool_ref_' + refCode;
+                let refData = JSON.parse(localStorage.getItem(refStorage) || '{"clicks":0,"signups":0}');
+                refData.clicks++;
+                localStorage.setItem(refStorage, JSON.stringify(refData));
+
+                // Store that this user was referred
+                localStorage.setItem('nextool_referred_by', refCode);
+
+                // Track in GA
+                if (typeof gtag === 'function') {
+                    gtag('event', 'referral_click', { ref_code: refCode });
+                }
+            }
+        })();
+
+        // ===== Generate Referral =====
+        function generateReferral() {
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email || !email.includes('@')) {
+                showToast('⚠️ 请输入有效的邮箱地址');
+                return;
+            }
+
+            const code = simpleHash(email);
+            const referralLink = BASE_URL + '?ref=' + code;
+
+            // Save referral data
+            let data = getReferralData() || {};
+            data.email = email;
+            data.code = code;
+            data.link = referralLink;
+            data.createdAt = data.createdAt || new Date().toISOString();
+            setReferralData(data);
+
+            // Update UI
+            document.getElementById('referralLink').value = referralLink;
+            document.getElementById('referralSection').classList.add('visible');
+            document.getElementById('statsSection').classList.add('visible');
+
+            // Update share links
+            updateShareLinks(referralLink);
+
+            // Update stats
+            updateStats(code);
+
+            // Record as signup for the referrer
+            const referrerCode = localStorage.getItem('nextool_referred_by');
+            if (referrerCode && referrerCode !== code) {
+                const refStorage = 'nextool_ref_' + referrerCode;
+                let refData = JSON.parse(localStorage.getItem(refStorage) || '{"clicks":0,"signups":0}');
+                if (!refData.signupRecorded) {
+                    refData.signups++;
+                    refData.signupRecorded = true;
+                    localStorage.setItem(refStorage, JSON.stringify(refData));
+                }
+            }
+
+            // Track in GA
+            if (typeof gtag === 'function') {
+                gtag('event', 'referral_generated', { ref_code: code });
+            }
+
+            showToast('✅ 专属推荐链接已生成！');
+        }
+
+        // ===== Update Share Links =====
+        function updateShareLinks(link) {
+            const text = '推荐一个好用的AI工具箱 NexTool，PDF处理、AI简历优化、PPT生成等8款工具，快来试试！';
+            const encodedLink = encodeURIComponent(link);
+            const encodedText = encodeURIComponent(text);
+
+            document.getElementById('shareWeibo').href =
+                `https://service.weibo.com/share/share.php?url=${encodedLink}&title=${encodedText}`;
+            document.getElementById('shareQQ').href =
+                `https://connect.qq.com/widget/shareqq/index.html?url=${encodedLink}&title=${encodedText}`;
+            document.getElementById('shareTwitter').href =
+                `https://twitter.com/intent/tweet?url=${encodedLink}&text=${encodedText}`;
+        }
+
+        // ===== Copy Link =====
+        function copyLink() {
+            const link = document.getElementById('referralLink').value;
+            if (!link) return;
+
+            navigator.clipboard.writeText(link).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.textContent = '已复制 ✓';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = '复制链接';
+                    btn.classList.remove('copied');
+                }, 2000);
+                showToast('📋 链接已复制到剪贴板！');
+            }).catch(() => {
+                // Fallback
+                const input = document.getElementById('referralLink');
+                input.select();
+                document.execCommand('copy');
+                showToast('📋 链接已复制！');
+            });
+        }
+
+        // ===== Share WeChat =====
+        function shareWeChat() {
+            document.getElementById('wechatModal').classList.add('show');
+        }
+
+        function closeWechatModal() {
+            document.getElementById('wechatModal').classList.remove('show');
+        }
+
+        // ===== Update Stats =====
+        function updateStats(code) {
+            const refStorage = 'nextool_ref_' + code;
+            let refData = JSON.parse(localStorage.getItem(refStorage) || '{"clicks":0,"signups":0}');
+            const signups = refData.signups || 0;
+            const clicks = refData.clicks || 0;
+
+            // Calculate rewards
+            let credits = 0;
+            let proMonths = 0;
+            if (signups >= 1) credits += 1;
+            if (signups >= 3) credits += 5;
+            if (signups >= 10) proMonths += 1;
+
+            document.getElementById('statClicks').textContent = clicks;
+            document.getElementById('statSignups').textContent = signups;
+            document.getElementById('statCredits').textContent = credits;
+            document.getElementById('statPro').textContent = proMonths;
+
+            // Progress bars
+            document.getElementById('prog1').textContent = Math.min(signups, 1) + '/1';
+            document.getElementById('progBar1').style.width = Math.min(signups / 1 * 100, 100) + '%';
+
+            document.getElementById('prog3').textContent = Math.min(signups, 3) + '/3';
+            document.getElementById('progBar3').style.width = Math.min(signups / 3 * 100, 100) + '%';
+
+            document.getElementById('prog10').textContent = Math.min(signups, 10) + '/10';
+            document.getElementById('progBar10').style.width = Math.min(signups / 10 * 100, 100) + '%';
+        }
+
+        // ===== Leaderboard =====
+        function renderLeaderboard() {
+            // Collect all referral data from localStorage
+            const entries = [];
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('nextool_ref_') && key !== STORAGE_KEY) {
+                    try {
+                        const data = JSON.parse(localStorage.getItem(key));
+                        const code = key.replace('nextool_ref_', '');
+                        // Anonymize: show partial code
+                        const displayName = '用户 ' + code.slice(0, 4) + '****';
+                        entries.push({ name: displayName, signups: data.signups || 0, code: code });
+                    } catch {}
+                }
+            }
+
+            // Add some demo data if empty
+            if (entries.length === 0) {
+                entries.push(
+                    { name: '用户 A7F2****', signups: 28, code: 'A7F2K9D1' },
+                    { name: '用户 B3E8****', signups: 15, code: 'B3E8M4N2' },
+                    { name: '用户 C1D5****', signups: 12, code: 'C1D5P7Q8' },
+                    { name: '用户 F9G2****', signups: 8, code: 'F9G2R3S6' },
+                    { name: '用户 H4J7****', signups: 5, code: 'H4J7T1U9' }
+                );
+            }
+
+            entries.sort((a, b) => b.signups - a.signups);
+            const top10 = entries.slice(0, 10);
+
+            const list = document.getElementById('leaderboardList');
+            list.innerHTML = top10.map((entry, idx) => {
+                const rankClass = idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : 'normal';
+                let reward = '';
+                if (entry.signups >= 10) reward = '1月Pro + 6积分';
+                else if (entry.signups >= 3) reward = '6积分';
+                else if (entry.signups >= 1) reward = '1积分';
+                else reward = '—';
+
+                return `<li class="leaderboard-item">
+                    <span class="leaderboard-rank ${rankClass}">${idx + 1}</span>
+                    <span class="leaderboard-name">${entry.name}</span>
+                    <span class="leaderboard-count">${entry.signups}人</span>
+                    <span class="leaderboard-reward">${reward}</span>
+                </li>`;
+            }).join('');
+        }
+
+        // ===== Init =====
+        (function init() {
+            const data = getReferralData();
+            if (data && data.code) {
+                document.getElementById('emailInput').value = data.email || '';
+                document.getElementById('referralLink').value = data.link || '';
+                document.getElementById('referralSection').classList.add('visible');
+                document.getElementById('statsSection').classList.add('visible');
+                updateShareLinks(data.link);
+                updateStats(data.code);
+            }
+            renderLeaderboard();
+        })();
+
+        // Allow Enter key to submit
+        document.getElementById('emailInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') generateReferral();
+        });
+    </script>
+</body>
+</html>
