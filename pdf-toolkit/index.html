@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>PDF 工具箱 - 免费在线PDF处理</title>
 <meta name="description" content="免费在线PDF合并、拆分、转图片、压缩、加水印，所有处理在浏览器端完成，无需上传服务器。">
 <!-- Google AdSense 广告位 - 替换为你的广告代码 -->
@@ -1208,5 +1212,6 @@ showHome();
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="pdf-toolkit"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

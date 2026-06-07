@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>AI PPT 生成器 - 智能幻灯片制作</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1224,6 +1228,7 @@ document.addEventListener('touchend',e=>{
 });
 showSlide(0);
 </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>`;
 }

@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>时间戳转换工具 - Unix时间戳在线转换 | NexTool</title>
 <meta name="description" content="免费在线时间戳转换工具，支持Unix时间戳转日期、日期转时间戳、多时区、日期差计算。纯客户端处理，数据不上传。">
 <meta name="keywords" content="时间戳转换, Unix时间戳, 时间戳在线转换, 日期转时间戳, 时间戳转日期, epoch converter">
@@ -341,5 +345,6 @@ document.getElementById('dateInput').value=toLocal(new Date());
 document.getElementById('diffStart').value=toLocal(new Date());
 document.getElementById('diffEnd').value=toLocal(new Date());
 </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

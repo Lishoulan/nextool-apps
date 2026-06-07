@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>NexTool AI 代码解释 - 智能代码理解与生成工具</title>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -572,5 +576,6 @@ function showToast(msg, type = 'success') {
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-code"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

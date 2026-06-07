@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>正则表达式测试器 - 在线正则匹配工具 | NexTool</title>
 <meta name="description" content="免费在线正则表达式测试工具，支持实时匹配、分组高亮、常用正则库。正则表达式测试, 在线正则, regex tester, 正则匹配">
 <meta name="keywords" content="正则表达式测试, 在线正则, regex tester, 正则匹配, regex online, regular expression tester">
@@ -286,5 +290,6 @@ runTest();
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="regex-tester"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

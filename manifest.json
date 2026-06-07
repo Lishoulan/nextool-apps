@@ -1,0 +1,73 @@
+{
+  "name": "NextTool - AI效率工具箱",
+  "short_name": "NextTool",
+  "description": "AI驱动的在线效率工具平台，免费使用，无需注册",
+  "start_url": "/nextool-apps/",
+  "scope": "/nextool-apps/",
+  "display": "standalone",
+  "background_color": "#0f0c29",
+  "theme_color": "#3a7bd5",
+  "orientation": "any",
+  "lang": "zh-CN",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/nextool-apps/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "/nextool-apps/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "PDF工具箱",
+      "url": "/nextool-apps/pdf-toolkit/",
+      "description": "PDF合并、拆分、压缩、转图片"
+    },
+    {
+      "name": "AI文本摘要",
+      "url": "/nextool-apps/ai-summarizer/",
+      "description": "免费AI摘要工具"
+    },
+    {
+      "name": "密码生成器",
+      "url": "/nextool-apps/password-generator/",
+      "description": "随机强密码生成"
+    }
+  ]
+}

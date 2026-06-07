@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>Markdown编辑器 - 在线Markdown预览转HTML工具 | NexTool</title>
 <meta name="description" content="免费在线Markdown编辑器，支持实时预览、工具栏快捷操作、导出HTML。Markdown编辑器, 在线Markdown, Markdown预览, Markdown转HTML">
 <meta name="keywords" content="Markdown编辑器, 在线Markdown, Markdown预览, Markdown转HTML, markdown editor, markdown online">
@@ -295,5 +299,6 @@ updatePreview();
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="markdown-editor"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

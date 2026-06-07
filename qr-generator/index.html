@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>二维码生成器 - 免费在线QR Code制作工具 | NexTool</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
+<title>二维码生成器 - 免费在线QR Code制作工具 | NexTool</title>
     <meta name="description" content="免费在线二维码生成器，支持自定义颜色、尺寸、批量生成，100%客户端处理无需API。">
     <meta name="keywords" content="二维码生成器, 在线二维码, 免费二维码, QR Code生成, 批量二维码">
     <meta name="robots" content="index, follow">
@@ -313,5 +317,6 @@
     </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="qr-generator"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

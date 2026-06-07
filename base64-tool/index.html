@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>Base64编解码工具 - 在线Base64转换 | NexTool</title>
 <meta name="description" content="免费在线Base64编解码工具，支持文本转Base64、Base64解码、图片转Base64 Data URI、文件转Base64。纯客户端处理，数据不上传。">
 <meta name="keywords" content="Base64编解码, Base64转换, 在线Base64, 图片转Base64, 文件转Base64, Base64解码, Base64编码">
@@ -263,5 +267,6 @@ function showToast(msg,type){
   });
 });
 </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

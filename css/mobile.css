@@ -1,0 +1,369 @@
+/* ============================================================
+   NextTool Mobile-Responsive Universal CSS
+   Shared mobile optimizations for all product pages
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   1. Base Responsive Rules
+   ---------------------------------------------------------- */
+
+/* Fluid typography */
+html {
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+h1 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+}
+
+h2 {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+}
+
+h4, h5, h6 {
+  font-size: clamp(1rem, 3vw, 1.25rem);
+}
+
+body {
+  font-size: clamp(0.875rem, 2.5vw, 1rem);
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Touch-friendly tap targets (min 44px) */
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+a.btn,
+.btn,
+.tool-card {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Viewport padding on mobile */
+@media (max-width: 768px) {
+  body {
+    padding: 0 12px;
+  }
+
+  .container,
+  .header-inner,
+  main,
+  .content,
+  .wrapper {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+/* Prevent horizontal overflow */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* ----------------------------------------------------------
+   2. Common Component Fixes
+   ---------------------------------------------------------- */
+
+/* Tool cards stack vertically on mobile */
+@media (max-width: 768px) {
+  .tools-grid,
+  .tool-grid,
+  .card-grid,
+  .features-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px;
+  }
+
+  /* Two-column fallback for slightly wider phones */
+  .tools-grid,
+  .tool-grid,
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  @media (max-width: 400px) {
+    .tools-grid,
+    .tool-grid,
+    .card-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}
+
+/* Textareas and inputs fill width on mobile */
+@media (max-width: 768px) {
+  textarea,
+  input[type="text"],
+  input[type="search"],
+  input[type="url"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  .input-field,
+  .form-control {
+    width: 100% !important;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
+}
+
+/* Buttons become full-width on small screens */
+@media (max-width: 480px) {
+  button,
+  .btn,
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    width: 100%;
+    display: block;
+    text-align: center;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .btn-group,
+  .button-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Modal dialogs become full-screen on mobile */
+@media (max-width: 768px) {
+  .modal,
+  .dialog,
+  [role="dialog"],
+  .overlay-content {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    border-radius: 0 !important;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .modal-backdrop,
+  .overlay {
+    padding: 0 !important;
+  }
+}
+
+/* Tables become scrollable or card-based on mobile */
+@media (max-width: 768px) {
+  .table-wrapper,
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+  }
+
+  /* Card-based table layout for small screens */
+  @media (max-width: 480px) {
+    table.responsive-table,
+    table.card-table {
+      display: block;
+      white-space: normal;
+    }
+
+    table.responsive-table thead,
+    table.card-table thead {
+      display: none;
+    }
+
+    table.responsive-table tbody,
+    table.card-table tbody {
+      display: block;
+    }
+
+    table.responsive-table tr,
+    table.card-table tr {
+      display: block;
+      margin-bottom: 12px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    table.responsive-table td,
+    table.card-table td {
+      display: block;
+      text-align: left;
+      padding: 4px 0;
+    }
+
+    table.responsive-table td::before,
+    table.card-table td::before {
+      content: attr(data-label);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 2px;
+      font-size: 0.85em;
+      color: #6b7280;
+    }
+  }
+}
+
+/* ----------------------------------------------------------
+   3. PWA Install Prompt
+   ---------------------------------------------------------- */
+
+.pwa-install-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4);
+  animation: pwa-slide-in 0.4s ease-out;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  min-height: 48px;
+  min-width: 48px;
+}
+
+.pwa-install-btn:hover {
+  transform: scale(1.05);
+}
+
+.pwa-install-btn:active {
+  transform: scale(0.97);
+}
+
+.pwa-install-btn.dismissed {
+  animation: pwa-slide-out 0.3s ease-in forwards;
+}
+
+.pwa-install-btn .pwa-close {
+  margin-left: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  min-height: unset;
+  min-width: unset;
+}
+
+@keyframes pwa-slide-in {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pwa-slide-out {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .pwa-install-btn {
+    bottom: 12px;
+    right: 12px;
+    left: 12px;
+    border-radius: 12px;
+    justify-content: center;
+  }
+}
+
+/* ----------------------------------------------------------
+   4. Performance Optimizations
+   ---------------------------------------------------------- */
+
+/* Reduce animations on prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .pwa-install-btn {
+    animation: none;
+  }
+}
+
+/* Optimize for mobile scroll performance */
+@media (max-width: 768px) {
+  .tools-grid,
+  .tool-grid,
+  .card-grid,
+  .features-grid,
+  .header,
+  .container {
+    will-change: auto;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
+
+  /* Reduce shadow complexity on mobile for GPU performance */
+  .tool-card,
+  .card {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .tool-card:hover,
+  .card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+    transform: none;
+  }
+}

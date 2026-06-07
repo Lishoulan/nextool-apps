@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>免费AI摘要工具 - 在线文本摘要生成器 | NexTool</title>
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
+<title>免费AI摘要工具 - 在线文本摘要生成器 | NexTool</title>
     <meta name="description" content="免费在线AI摘要工具，无需注册，无需API密钥。使用智能TextRank算法快速提取文章核心内容，支持中文文本摘要、关键词提取。">
     <meta name="keywords" content="免费AI摘要工具, 文本摘要, 文章总结, 在线摘要生成器, 文本摘要工具, 自动摘要, 关键词提取, TextRank摘要">
     <meta name="robots" content="index, follow">
@@ -869,5 +873,6 @@ function showToast(msg) {
 
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="ai-summarizer"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

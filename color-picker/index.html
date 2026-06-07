@@ -3,6 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
 <title>颜色选择器 - 在线取色器配色工具 | NexTool</title>
 <meta name="description" content="免费在线颜色选择器，支持HEX/RGB/HSL转换、配色方案生成、CSS渐变生成。颜色选择器, 取色器, color picker, HEX转RGB, 配色方案">
 <meta name="keywords" content="颜色选择器, 取色器, color picker, HEX转RGB, 配色方案, HSL, RGB转换, 渐变生成器">
@@ -361,5 +365,6 @@ renderHistory();
 </script>
 <div id="product-recommendations"></div>
 <script src="../js/product-recommendations.js" data-current="color-picker"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

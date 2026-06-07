@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextTool - AI Productivity Tools</title>
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="./icons/icon-192.png">
+<link rel="stylesheet" href="./css/mobile.css">
+<title>NextTool - AI Productivity Tools</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -182,6 +186,26 @@
             <h2>时间戳转换 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
             <p>在线Unix时间戳转换工具，支持多时区、日期差计算，100%客户端处理。</p>
         </a>
+        <a class="card" href="./password-generator/">
+            <div class="icon">🔑</div>
+            <h2>密码生成器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
+            <p>在线随机强密码生成，支持自定义规则、强度检测、批量生成，100%客户端处理。</p>
+        </a>
+        <a class="card" href="./word-counter/">
+            <div class="icon">📊</div>
+            <h2>字数统计 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
+            <p>在线文字计数工具，实时统计字数/词频/阅读时间，支持中英文分析，100%客户端处理。</p>
+        </a>
+        <a class="card" href="./image-compressor/">
+            <div class="icon">🖼️</div>
+            <h2>图片压缩 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
+            <p>在线批量压缩图片，支持JPG/PNG/WebP，自定义质量与尺寸，本地处理隐私安全。</p>
+        </a>
+        <a class="card" href="./calculator/">
+            <div class="icon">🧮</div>
+            <h2>在线计算器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
+            <p>免费科学计算器，支持函数运算、单位换算、计算历史，100%客户端处理。</p>
+        </a>
         <a class="card" href="./api-docs/">
             <div class="icon">📖</div>
             <h2>API文档</h2>
@@ -209,5 +233,6 @@
         </a>
     </div>
     <footer>&copy; 2026 NextTool. All rights reserved.</footer>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
 </body>
 </html>

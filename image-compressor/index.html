@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
+<title>免费图片压缩工具 - 在线批量压缩图片不失真 | NextTool</title>
+    <meta name="description" content="免费在线图片压缩工具，支持JPG、PNG、WebP格式批量压缩，本地处理保护隐私，无需注册即可使用。智能压缩算法，压缩率高达80%，画质几乎无损。">
+    <meta name="keywords" content="图片压缩,在线压缩,批量压缩图片,WebP转换,图片优化,免费压缩工具,不失真压缩">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nextool.com/apps/image-compressor/">
+    <meta property="og:title" content="免费图片压缩工具 - 在线批量压缩图片不失真 | NextTool">
+    <meta property="og:description" content="免费在线图片压缩工具，支持JPG、PNG、WebP格式批量压缩，本地处理保护隐私，无需注册即可使用。">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="免费图片压缩工具 - 在线批量压缩图片不失真 | NextTool">
+    <meta name="twitter:description" content="免费在线图片压缩工具，支持JPG、PNG、WebP格式批量压缩，本地处理保护隐私。">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "NextTool 图片压缩工具",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "CNY"
+        },
+        "description": "免费在线图片压缩工具，支持JPG、PNG、WebP格式批量压缩，本地处理保护隐私，无需注册即可使用。",
+        "featureList": ["批量压缩图片","拖拽上传","质量调节","尺寸调整","格式转换","实时预览","ZIP批量下载","本地处理保护隐私"]
+    }
+    </script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #0f0c29;
+            --bg-secondary: #1a1440;
+            --accent: #7c5cfc;
+            --accent-light: #a78bfa;
+            --accent-glow: rgba(124, 92, 252, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f1f0ff;
+            --text-secondary: rgba(241, 240, 255, 0.7);
+            --text-muted: rgba(241, 240, 255, 0.45);
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+            --radius: 16px;
+            --radius-sm: 10px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #1a1440 35%, #24243e 70%, #0f0c29 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(124, 92, 252, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        header {
+            padding: 32px 0 8px;
+            text-align: center;
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: color 0.3s;
+        }
+        .brand:hover { color: var(--accent-light); }
+        .brand svg { width: 20px; height: 20px; }
+
+        h1 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 50%, #7c5cfc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 20px;
+        }
+
+        .badges {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(12px);
+        }
+
+        .badge-free {
+            background: rgba(52, 211, 153, 0.15);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            color: var(--success);
+        }
+
+        .badge-safe {
+            background: rgba(124, 92, 252, 0.15);
+            border: 1px solid rgba(124, 92, 252, 0.3);
+            color: var(--accent-light);
+        }
+
+        /* Glass Card */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 28px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title svg { width: 20px; height: 20px; color: var(--accent-light); }
+
+        /* Upload Area */
+        .upload-zone {
+            border: 2px dashed rgba(124, 92, 252, 0.35);
+            border-radius: var(--radius);
+            padding: 48px 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(124, 92, 252, 0.04);
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.drag-over {
+            border-color: var(--accent);
+            background: rgba(124, 92, 252, 0.1);
+            box-shadow: 0 0 40px rgba(124, 92, 252, 0.1);
+        }
+
+        .upload-zone.drag-over {
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 16px;
+            color: var(--accent-light);
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .upload-hint {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .upload-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Settings */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .setting-group label span {
+            color: var(--accent-light);
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--accent);
+        }
+
+        select {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus { border-color: var(--accent); }
+        select option { background: #1a1440; color: var(--text-primary); }
+
+        /* Image List */
+        .image-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .image-item {
+            display: grid;
+            grid-template-columns: 72px 1fr auto;
+            gap: 16px;
+            align-items: center;
+            padding: 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+
+        .image-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .image-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .image-thumb:hover { transform: scale(1.05); }
+
+        .image-info {
+            min-width: 0;
+        }
+
+        .image-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 6px;
+        }
+
+        .image-sizes {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.82rem;
+            flex-wrap: wrap;
+        }
+
+        .size-original {
+            color: var(--text-muted);
+            text-decoration: line-through;
+        }
+
+        .size-arrow { color: var(--accent-light); }
+
+        .size-compressed {
+            color: var(--success);
+            font-weight: 700;
+        }
+
+        .savings-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .savings-good {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--success);
+        }
+
+        .savings-ok {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--warning);
+        }
+
+        .savings-bad {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--danger);
+        }
+
+        .image-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: var(--radius-sm);
+            border: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .btn svg { width: 16px; height: 16px; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(124, 92, 252, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(124, 92, 252, 0.4);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--text-primary);
+        }
+
+        .btn-danger {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .btn-danger:hover {
+            background: rgba(248, 113, 113, 0.2);
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.82rem;
+        }
+
+        /* Actions bar */
+        .actions-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .total-savings {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .total-savings strong {
+            color: var(--success);
+            font-size: 1.1rem;
+        }
+
+        /* Preview Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: auto;
+            padding: 24px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--text-primary);
+        }
+
+        .preview-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .preview-panel {
+            text-align: center;
+        }
+
+        .preview-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .preview-img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            border-radius: 2px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0 32px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        footer a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover { color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .card { padding: 18px; }
+            .upload-zone { padding: 32px 16px; }
+            .image-item {
+                grid-template-columns: 56px 1fr;
+                gap: 10px;
+            }
+            .image-thumb { width: 56px; height: 56px; }
+            .image-actions {
+                grid-column: 1 / -1;
+                justify-content: flex-end;
+            }
+            .preview-container {
+                grid-template-columns: 1fr;
+            }
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            .actions-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .actions-bar .btn { width: 100%; justify-content: center; }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-item { animation: fadeIn 0.3s ease; }
+
+        /* Processing spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent-light);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .processing-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--accent-light);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="brand">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                NextTool
+            </a>
+            <h1>免费在线图片压缩工具</h1>
+            <p class="subtitle">智能压缩，批量处理，本地运行保护隐私</p>
+            <div class="badges">
+                <span class="badge badge-free">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"/><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"/><path d="M18 12a2 2 0 0 0 0 4h4v-4z"/></svg>
+                    免费使用，无需注册
+                </span>
+                <span class="badge badge-safe">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    本地处理，隐私安全
+                </span>
+            </div>
+        </header>
+
+        <main>
+            <!-- Upload Zone -->
+            <div class="card">
+                <div class="upload-zone" id="uploadZone">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <p class="upload-text">拖拽图片到此处，或点击选择文件</p>
+                    <p class="upload-hint">支持 JPG / PNG / WebP，最多 10 张</p>
+                    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" multiple>
+                </div>
+            </div>
+
+            <!-- Settings -->
+            <div class="card">
+                <div class="card-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    压缩设置
+                </div>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label>压缩质量：<span id="qualityValue">80</span>%</label>
+                        <input type="range" id="qualitySlider" min="1" max="100" value="80">
+                    </div>
+                    <div class="setting-group">
+                        <label>最大宽度 (px)，0 为不限制</label>
+                        <input type="number" id="maxWidth" value="0" min="0" placeholder="0">
+                    </div>
+                    <div class="setting-group">
+                        <label>最大高度 (px)，0 为不限制</label>
+                        <input type="number" id="maxHeight" value="0" min="0" placeholder="0">
+                    </div>
+                    <div class="setting-group">
+                        <label>输出格式</label>
+                        <select id="outputFormat">
+                            <option value="original">保持原格式</option>
+                            <option value="webp">转换为 WebP</option>
+                            <option value="jpeg">转换为 JPG</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="card" id="resultsCard" style="display:none;">
+                <div class="actions-bar">
+                    <div class="total-savings">
+                        总计节省：<strong id="totalSavings">0 KB</strong>
+                    </div>
+                    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                        <button class="btn btn-primary" id="downloadAllZip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                            打包下载 ZIP
+                        </button>
+                        <button class="btn btn-danger btn-sm" id="clearAll">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            清空全部
+                        </button>
+                    </div>
+                </div>
+                <div class="image-list" id="imageList"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2024 <a href="/">NextTool</a> — 免费在线工具集，本地处理保护您的隐私</p>
+        </footer>
+    </div>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="previewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="previewTitle">图片预览</h2>
+                <button class="modal-close" id="closePreview">&times;</button>
+            </div>
+            <div class="preview-container">
+                <div class="preview-panel">
+                    <p class="preview-label">原图</p>
+                    <img class="preview-img" id="previewOriginal" alt="原图预览">
+                    <p style="margin-top:8px;font-size:0.85rem;color:var(--text-muted)" id="previewOriginalSize"></p>
+                </div>
+                <div class="preview-panel">
+                    <p class="preview-label">压缩后</p>
+                    <img class="preview-img" id="previewCompressed" alt="压缩后预览">
+                    <p style="margin-top:8px;font-size:0.85rem;color:var(--success)" id="previewCompressedSize"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        const MAX_FILES = 10;
+        const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+
+        let images = [];
+
+        // DOM
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('fileInput');
+        const qualitySlider = document.getElementById('qualitySlider');
+        const qualityValue = document.getElementById('qualityValue');
+        const maxWidthInput = document.getElementById('maxWidth');
+        const maxHeightInput = document.getElementById('maxHeight');
+        const outputFormat = document.getElementById('outputFormat');
+        const resultsCard = document.getElementById('resultsCard');
+        const imageList = document.getElementById('imageList');
+        const totalSavingsEl = document.getElementById('totalSavings');
+        const downloadAllBtn = document.getElementById('downloadAllZip');
+        const clearAllBtn = document.getElementById('clearAll');
+        const previewModal = document.getElementById('previewModal');
+        const closePreview = document.getElementById('closePreview');
+        const previewOriginal = document.getElementById('previewOriginal');
+        const previewCompressed = document.getElementById('previewCompressed');
+        const previewTitle = document.getElementById('previewTitle');
+        const previewOriginalSize = document.getElementById('previewOriginalSize');
+        const previewCompressedSize = document.getElementById('previewCompressedSize');
+
+        // Quality slider
+        qualitySlider.addEventListener('input', function() {
+            qualityValue.textContent = this.value;
+            reprocessAll();
+        });
+
+        maxWidthInput.addEventListener('change', reprocessAll);
+        maxHeightInput.addEventListener('change', reprocessAll);
+        outputFormat.addEventListener('change', reprocessAll);
+
+        // Drag & Drop
+        uploadZone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            this.classList.add('drag-over');
+        });
+
+        uploadZone.addEventListener('dragleave', function() {
+            this.classList.remove('drag-over');
+        });
+
+        uploadZone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            this.classList.remove('drag-over');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', function() {
+            handleFiles(this.files);
+            this.value = '';
+        });
+
+        function handleFiles(fileList) {
+            const files = Array.from(fileList).filter(f => ALLOWED_TYPES.includes(f.type));
+            if (images.length + files.length > MAX_FILES) {
+                alert('最多只能上传 ' + MAX_FILES + ' 张图片');
+                files.splice(MAX_FILES - images.length);
+            }
+            if (files.length === 0) return;
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const item = {
+                            id: Date.now() + Math.random(),
+                            file: file,
+                            originalUrl: e.target.result,
+                            img: img,
+                            originalWidth: img.naturalWidth,
+                            originalHeight: img.naturalHeight,
+                            originalSize: file.size,
+                            compressedBlob: null,
+                            compressedUrl: null,
+                            compressedSize: 0,
+                            processing: false
+                        };
+                        images.push(item);
+                        processImage(item);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function getOutputMime(format, originalType) {
+            if (format === 'webp') return 'image/webp';
+            if (format === 'jpeg') return 'image/jpeg';
+            return originalType;
+        }
+
+        function getOutputExt(mime) {
+            if (mime === 'image/webp') return '.webp';
+            if (mime === 'image/jpeg') return '.jpg';
+            if (mime === 'image/png') return '.png';
+            return '.jpg';
+        }
+
+        function processImage(item) {
+            item.processing = true;
+            renderList();
+
+            const quality = parseInt(qualitySlider.value) / 100;
+            const maxW = parseInt(maxWidthInput.value) || 0;
+            const maxH = parseInt(maxHeightInput.value) || 0;
+            const format = outputFormat.value;
+            const mime = getOutputMime(format, item.file.type);
+
+            let w = item.originalWidth;
+            let h = item.originalHeight;
+
+            if (maxW > 0 && w > maxW) {
+                h = Math.round(h * (maxW / w));
+                w = maxW;
+            }
+            if (maxH > 0 && h > maxH) {
+                w = Math.round(w * (maxH / h));
+                h = maxH;
+            }
+
+            const canvas = document.createElement('canvas');
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext('2d');
+
+            // For JPEG, fill white background (no alpha)
+            if (mime === 'image/jpeg') {
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, w, h);
+            }
+
+            ctx.drawImage(item.img, 0, 0, w, h);
+
+            canvas.toBlob(function(blob) {
+                if (item.compressedUrl) {
+                    URL.revokeObjectURL(item.compressedUrl);
+                }
+                item.compressedBlob = blob;
+                item.compressedUrl = URL.createObjectURL(blob);
+                item.compressedSize = blob ? blob.size : 0;
+                item.processing = false;
+                renderList();
+            }, mime, quality);
+        }
+
+        function reprocessAll() {
+            images.forEach(item => processImage(item));
+        }
+
+        function formatSize(bytes) {
+            if (bytes < 1024) return bytes + ' B';
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+
+        function getSavingsClass(pct) {
+            if (pct >= 40) return 'savings-good';
+            if (pct >= 10) return 'savings-ok';
+            return 'savings-bad';
+        }
+
+        function renderList() {
+            if (images.length === 0) {
+                resultsCard.style.display = 'none';
+                return;
+            }
+            resultsCard.style.display = 'block';
+
+            let totalOriginal = 0;
+            let totalCompressed = 0;
+
+            imageList.innerHTML = images.map((item, idx) => {
+                totalOriginal += item.originalSize;
+                totalCompressed += item.compressedSize;
+
+                const savings = item.originalSize > 0
+                    ? Math.round((1 - item.compressedSize / item.originalSize) * 100)
+                    : 0;
+
+                const mime = item.compressedBlob ? item.compressedBlob.type : item.file.type;
+                const ext = getOutputExt(mime);
+                const baseName = item.file.name.replace(/\.[^.]+$/, '');
+                const downloadName = baseName + ext;
+
+                return `
+                    <div class="image-item" data-id="${item.id}">
+                        <img class="image-thumb" src="${item.originalUrl}" alt="${item.file.name}" data-idx="${idx}" onclick="window._previewImage(${idx})">
+                        <div class="image-info">
+                            <div class="image-name" title="${item.file.name}">${item.file.name}</div>
+                            ${item.processing ? `
+                                <div class="processing-text"><span class="spinner"></span> 压缩中...</div>
+                            ` : `
+                                <div class="image-sizes">
+                                    <span class="size-original">${formatSize(item.originalSize)}</span>
+                                    <span class="size-arrow">→</span>
+                                    <span class="size-compressed">${formatSize(item.compressedSize)}</span>
+                                    <span class="savings-badge ${getSavingsClass(savings)}">${savings > 0 ? '-' + savings + '%' : savings === 0 ? '0%' : '+' + Math.abs(savings) + '%'}</span>
+                                </div>
+                            `}
+                        </div>
+                        <div class="image-actions">
+                            ${!item.processing && item.compressedBlob ? `
+                                <button class="btn btn-primary btn-sm" onclick="window._downloadOne(${idx},'${downloadName}')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                    下载
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-danger btn-sm" onclick="window._removeImage(${idx})">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const totalSaved = totalOriginal - totalCompressed;
+            const totalPct = totalOriginal > 0 ? Math.round((totalSaved / totalOriginal) * 100) : 0;
+            totalSavingsEl.textContent = formatSize(totalSaved) + ' (' + totalPct + '%)';
+        }
+
+        // Download one
+        window._downloadOne = function(idx, filename) {
+            const item = images[idx];
+            if (!item || !item.compressedBlob) return;
+            const a = document.createElement('a');
+            a.href = item.compressedUrl;
+            a.download = filename;
+            a.click();
+        };
+
+        // Remove
+        window._removeImage = function(idx) {
+            const item = images[idx];
+            if (item && item.compressedUrl) {
+                URL.revokeObjectURL(item.compressedUrl);
+            }
+            images.splice(idx, 1);
+            renderList();
+        };
+
+        // Preview
+        window._previewImage = function(idx) {
+            const item = images[idx];
+            if (!item) return;
+            previewTitle.textContent = item.file.name;
+            previewOriginal.src = item.originalUrl;
+            previewOriginalSize.textContent = '原始大小：' + formatSize(item.originalSize) + ' (' + item.originalWidth + ' × ' + item.originalHeight + ')';
+            if (item.compressedUrl) {
+                previewCompressed.src = item.compressedUrl;
+                previewCompressedSize.textContent = '压缩后：' + formatSize(item.compressedSize) + (item.compressedBlob ? ' (' + (item.compressedBlob.type === 'image/webp' ? 'WebP' : item.compressedBlob.type === 'image/jpeg' ? 'JPG' : 'PNG') + ')' : '');
+            } else {
+                previewCompressed.src = '';
+                previewCompressedSize.textContent = '压缩中...';
+            }
+            previewModal.classList.add('active');
+        };
+
+        closePreview.addEventListener('click', function() {
+            previewModal.classList.remove('active');
+        });
+
+        previewModal.addEventListener('click', function(e) {
+            if (e.target === previewModal) {
+                previewModal.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') previewModal.classList.remove('active');
+        });
+
+        // Download all as ZIP
+        downloadAllBtn.addEventListener('click', function() {
+            if (images.length === 0) return;
+            const zip = new JSZip();
+            images.forEach((item, idx) => {
+                if (item.compressedBlob) {
+                    const mime = item.compressedBlob.type;
+                    const ext = getOutputExt(mime);
+                    const baseName = item.file.name.replace(/\.[^.]+$/, '');
+                    zip.file(baseName + ext, item.compressedBlob);
+                }
+            });
+            zip.generateAsync({ type: 'blob' }).then(function(content) {
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(content);
+                a.download = 'compressed-images.zip';
+                a.click();
+                URL.revokeObjectURL(a.href);
+            });
+        });
+
+        // Clear all
+        clearAllBtn.addEventListener('click', function() {
+            images.forEach(item => {
+                if (item.compressedUrl) URL.revokeObjectURL(item.compressedUrl);
+            });
+            images = [];
+            renderList();
+        });
+
+    })();
+    </script>
+    <script src="../js/product-recommendations.js" data-current="image-compressor"></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
+</body>
+</html>

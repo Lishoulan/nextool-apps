@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192.png">
     <title>NexTool 推荐计划 - 邀请好友，免费领取AI工具额度</title>
     <meta name="description" content="邀请好友使用NexTool AI工具，每成功邀请1人获得1积分，邀请3人获得5积分，邀请10人免费使用1个月Pro版！">
     <meta name="keywords" content="NexTool推荐,AI工具免费额度,邀请好友,推荐奖励">
@@ -1075,5 +1078,6 @@
             if (e.key === 'Enter') generateReferral();
         });
     </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

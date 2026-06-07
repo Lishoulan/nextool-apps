@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="../manifest.json">
+<meta name="theme-color" content="#3a7bd5">
+<link rel="apple-touch-icon" href="../icons/icon-192.png">
+<link rel="stylesheet" href="../css/mobile.css">
+<title>免费字数统计工具 - 在线文字计数/词频分析 | NexTool</title>
+<meta name="description" content="免费在线字数统计工具，支持字符计数、汉字统计、词频分析、阅读时间估算。纯客户端处理，数据不上传，无需注册。">
+<meta name="keywords" content="字数统计,在线计数器,词频分析,汉字统计,阅读时间,字符计数,文字统计工具">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="免费字数统计工具 - 在线文字计数/词频分析 | NexTool">
+<meta property="og:description" content="免费在线字数统计工具，支持字符计数、汉字统计、词频分析、阅读时间估算">
+<link rel="canonical" href="https://nextool.app/word-counter/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔢</text></svg>>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "NexTool 字数统计工具",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CNY" },
+  "description": "免费在线字数统计工具，支持字符计数、汉字统计、词频分析、阅读/演讲时间估算",
+  "url": "https://nextool.app/word-counter/"
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0b14;--bg2:#111225;--bg3:#1a1b35;--border:#2a2b4a;
+  --text:#e4e5f0;--text2:#8889a8;--accent:#6c5ce7;--accent2:#a855f7;
+  --green:#10b981;--orange:#f59e0b;--blue:#3b82f6;--red:#ef4444;--cyan:#06b6d4;
+  --glass:rgba(26,27,53,0.65);--glass-border:rgba(108,92,231,0.2);
+}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'PingFang SC','Microsoft YaHei',sans-serif;
+  background:linear-gradient(145deg,#0a0b14 0%,#121336 40%,#1a0a2e 70%,#0a0b14 100%);
+  color:var(--text);line-height:1.6;min-height:100vh;
+  background-attachment:fixed;
+}
+a{color:var(--accent2);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* Header */
+header{text-align:center;padding:36px 20px 24px;position:relative}
+header h1{font-size:2rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+header p{color:var(--text2);font-size:.95rem}
+.badge{display:inline-block;background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.15));border:1px solid rgba(16,185,129,0.35);color:var(--green);padding:4px 14px;border-radius:20px;font-size:.8rem;font-weight:600;margin-top:10px;letter-spacing:.5px}
+
+/* Container */
+.container{max-width:1100px;margin:0 auto;padding:0 20px 40px}
+
+/* Glass card */
+.glass-card{
+  background:var(--glass);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1px solid var(--glass-border);
+  border-radius:16px;padding:24px;margin-bottom:20px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.3);
+  transition:border-color .3s;
+}
+.glass-card:hover{border-color:rgba(108,92,231,0.4)}
+
+/* Textarea area */
+.textarea-wrap{position:relative}
+textarea{
+  width:100%;min-height:260px;padding:16px;
+  background:rgba(10,11,20,0.7);border:1px solid var(--border);border-radius:12px;
+  color:var(--text);font-size:1rem;resize:vertical;outline:none;line-height:1.8;
+  transition:border-color .2s;font-family:inherit;
+}
+textarea:focus{border-color:var(--accent)}
+textarea::placeholder{color:var(--text2)}
+
+/* Action buttons */
+.action-bar{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{
+  padding:9px 20px;border:1px solid var(--border);border-radius:10px;
+  background:var(--bg2);color:var(--text);cursor:pointer;font-size:.88rem;
+  transition:all .2s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn:hover{border-color:var(--accent);background:var(--bg3)}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;color:#fff;font-weight:600}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-danger{border-color:rgba(239,68,68,0.3);color:var(--red)}
+.btn-danger:hover{background:rgba(239,68,68,0.1);border-color:var(--red)}
+
+/* Stats grid */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;
+}
+.stat-card{
+  background:rgba(10,11,20,0.5);border:1px solid var(--border);border-radius:12px;
+  padding:16px;text-align:center;transition:all .3s;position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s;
+}
+.stat-card:hover::before{opacity:1}
+.stat-card:hover{border-color:var(--glass-border);transform:translateY(-2px)}
+.stat-value{font-size:1.8rem;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.stat-label{font-size:.8rem;color:var(--text2);margin-top:4px}
+
+/* Time section */
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.time-card{
+  background:rgba(10,11,20,0.5);border:1px solid var(--border);border-radius:12px;
+  padding:20px;text-align:center;
+}
+.time-icon{font-size:1.6rem;margin-bottom:6px}
+.time-value{font-size:1.4rem;font-weight:700;color:var(--accent2);margin:4px 0}
+.time-label{font-size:.85rem;color:var(--text2)}
+
+/* Keyword density */
+.keyword-title{font-size:1.05rem;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.keyword-list{display:flex;flex-direction:column;gap:8px}
+.keyword-item{display:flex;align-items:center;gap:12px;padding:8px 12px;background:rgba(10,11,20,0.4);border-radius:8px;border:1px solid transparent;transition:all .2s}
+.keyword-item:hover{border-color:var(--glass-border);background:rgba(108,92,231,0.06)}
+.keyword-rank{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.keyword-rank.top3{background:linear-gradient(135deg,var(--orange),#ef4444)}
+.keyword-word{flex:1;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.keyword-bar-wrap{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;flex-shrink:0}
+.keyword-bar{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s}
+.keyword-freq{color:var(--accent2);font-size:.85rem;font-weight:600;min-width:32px;text-align:right;flex-shrink:0}
+.keyword-pct{color:var(--text2);font-size:.78rem;min-width:42px;text-align:right;flex-shrink:0}
+.empty-hint{text-align:center;color:var(--text2);padding:30px 0;font-size:.9rem}
+
+/* Section title */
+.section-title{font-size:1.05rem;font-weight:600;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--text)}
+
+/* Toast */
+.toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:10px 24px;border-radius:10px;font-size:.9rem;font-weight:500;z-index:999;transition:transform .35s cubic-bezier(.4,0,.2,1);pointer-events:none;box-shadow:0 4px 20px rgba(108,92,231,0.4)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* Footer */
+footer{text-align:center;padding:24px 20px;color:var(--text2);font-size:.82rem;border-top:1px solid var(--border);margin-top:20px}
+footer a{color:var(--accent2)}
+
+/* Responsive */
+@media(max-width:768px){
+  header h1{font-size:1.5rem}
+  .stats-grid{grid-template-columns:repeat(3,1fr)}
+  .time-grid{grid-template-columns:1fr 1fr}
+  .glass-card{padding:16px}
+  .keyword-bar-wrap{width:50px}
+  .stat-value{font-size:1.4rem}
+}
+@media(max-width:480px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .action-bar{flex-direction:column}
+  .btn{justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🔢 字数统计工具</h1>
+  <p>在线文字计数 · 汉字统计 · 词频分析 · 阅读时间估算</p>
+  <span class="badge">✨ 免费使用，无需注册</span>
+</header>
+
+<div class="container">
+
+  <!-- Text Input -->
+  <div class="glass-card">
+    <div class="textarea-wrap">
+      <textarea id="textInput" placeholder="在此输入或粘贴文本，实时查看统计结果...&#10;&#10;支持中文、英文及混合文本的字符统计、词频分析和阅读时间估算。"></textarea>
+    </div>
+    <div class="action-bar">
+      <button class="btn btn-primary" onclick="copyStats()">📋 复制统计</button>
+      <button class="btn" onclick="copyText()">📄 复制文本</button>
+      <button class="btn btn-danger" onclick="clearText()">🗑️ 清空文本</button>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="glass-card">
+    <div class="section-title">📊 基础统计</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="charWithSpace">0</div>
+        <div class="stat-label">字符数（含空格）</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="charNoSpace">0</div>
+        <div class="stat-label">字符数（不含空格）</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="chineseCount">0</div>
+        <div class="stat-label">汉字数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="wordCount">0</div>
+        <div class="stat-label">词数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="sentenceCount">0</div>
+        <div class="stat-label">句子数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="paragraphCount">0</div>
+        <div class="stat-label">段落数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="lineCount">0</div>
+        <div class="stat-label">行数</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Time Estimates -->
+  <div class="glass-card">
+    <div class="section-title">⏱️ 时间估算</div>
+    <div class="time-grid">
+      <div class="time-card">
+        <div class="time-icon">📖</div>
+        <div class="time-label">阅读时间</div>
+        <div class="time-value" id="readTime">0 秒</div>
+        <div class="time-label" style="font-size:.75rem;margin-top:2px">中文 300字/分钟 · 英文 200词/分钟</div>
+      </div>
+      <div class="time-card">
+        <div class="time-icon">🎤</div>
+        <div class="time-label">演讲时间</div>
+        <div class="time-value" id="speakTime">0 秒</div>
+        <div class="time-label" style="font-size:.75rem;margin-top:2px">中文 180字/分钟 · 英文 130词/分钟</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Keyword Density -->
+  <div class="glass-card">
+    <div class="section-title">🔑 关键词密度分析（Top 10）</div>
+    <div class="keyword-list" id="keywordList">
+      <div class="empty-hint">输入文本后自动分析关键词密度</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<footer>
+  <p>© 2024 <a href="https://nextool.app">NexTool</a> — 免费在线效率工具集 · 数据仅在本地处理，不上传服务器</p>
+</footer>
+
+<div id="product-recommendations"></div>
+<script src="../js/product-recommendations.js" data-current="word-counter"></script>
+
+<script>
+(function() {
+  const textInput = document.getElementById('textInput');
+  let debounceTimer = null;
+
+  textInput.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(analyze, 80);
+  });
+
+  function analyze() {
+    const text = textInput.value;
+
+    // Character counts
+    const charWithSpace = text.length;
+    const charNoSpace = text.replace(/\s/g, '').length;
+
+    // Chinese characters (CJK Unified Ideographs)
+    const chineseMatches = text.match(/[\u4e00-\u9fff\u3400-\u4dbf]/g);
+    const chineseCount = chineseMatches ? chineseMatches.length : 0;
+
+    // Words: Chinese chars count individually, English words counted as words
+    const englishWords = text.match(/[a-zA-Z]+(?:['-][a-zA-Z]+)*/g);
+    const englishWordCount = englishWords ? englishWords.length : 0;
+    // Total "words" = Chinese chars + English words
+    const wordCount = chineseCount + englishWordCount;
+
+    // Sentences (ends with 。！？.!? and not just whitespace)
+    const sentenceEnders = text.match(/[。！？.!?]+/g);
+    let sentenceCount = 0;
+    if (sentenceEnders) {
+      sentenceCount = sentenceEnders.length;
+      // Don't count if text has no actual content
+      if (text.trim().length === 0) sentenceCount = 0;
+    }
+    // Ensure at least 1 sentence if there's content but no enders
+    if (sentenceCount === 0 && text.trim().length > 0) {
+      sentenceCount = 1;
+    }
+
+    // Paragraphs (separated by blank lines or \n\n)
+    const paragraphs = text.trim().split(/\n\s*\n|\r\n\s*\r\n/).filter(p => p.trim().length > 0);
+    const paragraphCount = text.trim().length === 0 ? 0 : paragraphs.length;
+
+    // Lines
+    const lines = text.split(/\n/);
+    const lineCount = text.length === 0 ? 0 : lines.length;
+
+    // Update stats
+    document.getElementById('charWithSpace').textContent = charWithSpace.toLocaleString();
+    document.getElementById('charNoSpace').textContent = charNoSpace.toLocaleString();
+    document.getElementById('chineseCount').textContent = chineseCount.toLocaleString();
+    document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+    document.getElementById('sentenceCount').textContent = sentenceCount.toLocaleString();
+    document.getElementById('paragraphCount').textContent = paragraphCount.toLocaleString();
+    document.getElementById('lineCount').textContent = lineCount.toLocaleString();
+
+    // Reading time (Chinese 300 chars/min, English 200 words/min)
+    const readMinutes = (chineseCount / 300) + (englishWordCount / 200);
+    document.getElementById('readTime').textContent = formatTime(readMinutes);
+
+    // Speaking time (Chinese 180 chars/min, English 130 words/min)
+    const speakMinutes = (chineseCount / 180) + (englishWordCount / 130);
+    document.getElementById('speakTime').textContent = formatTime(speakMinutes);
+
+    // Keyword density
+    analyzeKeywords(text, chineseCount, englishWordCount);
+  }
+
+  function formatTime(minutes) {
+    if (minutes < 1/60) return '0 秒';
+    if (minutes < 1) return Math.round(minutes * 60) + ' 秒';
+    if (minutes < 60) {
+      const m = Math.floor(minutes);
+      const s = Math.round((minutes - m) * 60);
+      return s > 0 ? m + ' 分 ' + s + ' 秒' : m + ' 分钟';
+    }
+    const h = Math.floor(minutes / 60);
+    const m = Math.round(minutes % 60);
+    return h + ' 小时 ' + m + ' 分';
+  }
+
+  function analyzeKeywords(text, totalChinese, totalEnglish) {
+    const keywordList = document.getElementById('keywordList');
+
+    if (text.trim().length === 0) {
+      keywordList.innerHTML = '<div class="empty-hint">输入文本后自动分析关键词密度</div>';
+      return;
+    }
+
+    // Collect Chinese words (2+ consecutive chars as one keyword, and single chars)
+    // Use 2-char combinations for better analysis
+    const freq = {};
+    let totalKeywords = 0;
+
+    // Chinese: extract 2-char and 3-char segments for keyword analysis
+    // Simple approach: split by non-Chinese, then use 2-grams
+    const chineseSegments = text.match(/[\u4e00-\u9fff\u3400-\u4dbf]+/g) || [];
+    chineseSegments.forEach(seg => {
+      // 2-gram extraction
+      for (let i = 0; i < seg.length - 1; i++) {
+        const bigram = seg.substring(i, i + 2);
+        freq[bigram] = (freq[bigram] || 0) + 1;
+        totalKeywords++;
+      }
+    });
+
+    // English words
+    const englishWords = text.match(/[a-zA-Z]+(?:['-][a-zA-Z]+)*/g) || [];
+    const stopWords = new Set([
+      'the','a','an','is','are','was','were','be','been','being','have','has','had',
+      'do','does','did','will','would','shall','should','may','might','can','could',
+      'must','of','in','to','for','with','on','at','from','by','about','as','into',
+      'through','during','before','after','above','below','between','out','off','over',
+      'under','again','further','then','once','and','but','or','nor','not','so','yet',
+      'both','either','neither','each','every','all','any','few','more','most','other',
+      'some','such','no','only','own','same','than','too','very','just','because',
+      'if','when','where','how','what','which','who','whom','this','that','these',
+      'those','i','me','my','myself','we','our','ours','you','your','he','him','his',
+      'she','her','it','its','they','them','their','there','here','up','down','also',
+      '的','了','在','是','我','有','和','就','不','人','都','一','一个','上','也',
+      '很','到','说','要','去','你','会','着','没有','看','好','自己','这','他','她',
+      '它','们','那','被','把','让','给','从','向','对','与','而','但','又','还',
+      '已','已经','来','过','地','得','能','可以','因为','所以','如果','虽然','但是'
+    ]);
+
+    englishWords.forEach(w => {
+      const lower = w.toLowerCase();
+      if (lower.length >= 2 && !stopWords.has(lower)) {
+        freq[lower] = (freq[lower] || 0) + 1;
+        totalKeywords++;
+      }
+    });
+
+    // Sort by frequency and take top 10
+    const sorted = Object.entries(freq)
+      .filter(([_, count]) => count > 1)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+
+    if (sorted.length === 0) {
+      keywordList.innerHTML = '<div class="empty-hint">文本内容较少，暂无高频关键词</div>';
+      return;
+    }
+
+    const maxCount = sorted[0][1];
+    const totalAllWords = totalChinese + totalEnglish || 1;
+
+    keywordList.innerHTML = sorted.map(([word, count], i) => {
+      const pct = ((count / totalAllWords) * 100).toFixed(1);
+      const barWidth = Math.max(5, (count / maxCount) * 100);
+      const rankClass = i < 3 ? ' top3' : '';
+      return `<div class="keyword-item">
+        <div class="keyword-rank${rankClass}">${i + 1}</div>
+        <div class="keyword-word">${escapeHtml(word)}</div>
+        <div class="keyword-bar-wrap"><div class="keyword-bar" style="width:${barWidth}%"></div></div>
+        <div class="keyword-freq">${count}</div>
+        <div class="keyword-pct">${pct}%</div>
+      </div>`;
+    }).join('');
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  window.copyStats = function() {
+    const text = textInput.value;
+    if (!text.trim()) { showToast('暂无统计数据'); return; }
+
+    const stats = [
+      '字符数（含空格）: ' + document.getElementById('charWithSpace').textContent,
+      '字符数（不含空格）: ' + document.getElementById('charNoSpace').textContent,
+      '汉字数: ' + document.getElementById('chineseCount').textContent,
+      '词数: ' + document.getElementById('wordCount').textContent,
+      '句子数: ' + document.getElementById('sentenceCount').textContent,
+      '段落数: ' + document.getElementById('paragraphCount').textContent,
+      '行数: ' + document.getElementById('lineCount').textContent,
+      '阅读时间: ' + document.getElementById('readTime').textContent,
+      '演讲时间: ' + document.getElementById('speakTime').textContent,
+    ].join('\n');
+
+    navigator.clipboard.writeText(stats).then(() => showToast('✅ 统计数据已复制'));
+  };
+
+  window.copyText = function() {
+    const text = textInput.value;
+    if (!text.trim()) { showToast('暂无文本内容'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('✅ 文本已复制'));
+  };
+
+  window.clearText = function() {
+    textInput.value = '';
+    analyze();
+    textInput.focus();
+  };
+})();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
+</body>
+</html>
