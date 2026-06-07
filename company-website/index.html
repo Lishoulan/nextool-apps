@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexTool - AI驱动的效率工具，让每个人都能轻松创造价值</title>
+  <meta name="description" content="NexTool提供5款AI驱动的效率工具，包括图片提取、视频去水印、爆款文案生成、PDF处理和简历优化，帮助每个人轻松创造价值。">
+  <meta name="keywords" content="NexTool,AI工具,效率工具,图片提取,视频去水印,文案生成,PDF工具,简历优化,ImageGrab,ViralCopy">
+  <meta name="author" content="NexTool">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NexTool - AI驱动的效率工具">
+  <meta property="og:description" content="5款AI驱动的效率工具，让每个人都能轻松创造价值。图片提取、视频去水印、爆款文案、PDF处理、简历优化。">
+  <meta property="og:url" content="https://nextool.dev">
+  <meta property="og:site_name" content="NexTool">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NexTool - AI驱动的效率工具">
+  <meta name="twitter:description" content="5款AI驱动的效率工具，让每个人都能轻松创造价值。">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a3e;
+      --accent: #6c5ce7;
+      --accent-light: #a29bfe;
+      --accent-glow: rgba(108, 92, 231, 0.4);
+      --text-primary: #f0f0f5;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6c6c80;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover-border: rgba(108, 92, 231, 0.5);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+      background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #12122a 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Background Decoration ===== */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-orb-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(108, 92, 231, 0.08);
+      top: -100px;
+      right: -150px;
+    }
+
+    .bg-orb-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(162, 155, 254, 0.06);
+      bottom: 10%;
+      left: -100px;
+    }
+
+    .bg-orb-3 {
+      width: 300px;
+      height: 300px;
+      background: rgba(108, 92, 231, 0.05);
+      top: 50%;
+      right: 10%;
+    }
+
+    /* ===== Navigation ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(20px);
+      background: rgba(15, 15, 35, 0.7);
+      border-bottom: 1px solid var(--card-border);
+      transition: var(--transition);
+    }
+
+    .nav-logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ===== Hero Section ===== */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 50px;
+      background: rgba(108, 92, 231, 0.12);
+      border: 1px solid rgba(108, 92, 231, 0.25);
+      font-size: 0.85rem;
+      color: var(--accent-light);
+      margin-bottom: 28px;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: pulse 2s infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 7vw, 5rem);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease 0.1s both;
+    }
+
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 50%, #74b9ff 100%);
+      background-size: 200% 200%;
+      animation: gradientShift 4s ease infinite;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease 0.3s both;
+      line-height: 1.8;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: fadeInUp 0.8s ease 0.5s both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), #7c6cf0);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--accent-glow);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text-primary);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      background: rgba(108, 92, 231, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Products Section ===== */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 24px;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent-light);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .product-card {
+      position: relative;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 36px 32px 32px;
+      transition: var(--transition);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      opacity: 0;
+      transition: var(--transition);
+    }
+
+    .product-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(108, 92, 231, 0.15);
+    }
+
+    .product-card:hover::before {
+      opacity: 1;
+    }
+
+    .product-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 20px;
+      background: rgba(108, 92, 231, 0.12);
+      border: 1px solid rgba(108, 92, 231, 0.2);
+    }
+
+    .product-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-light);
+      margin-bottom: 8px;
+    }
+
+    .product-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .product-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+      margin-bottom: 24px;
+      flex: 1;
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--accent-light);
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      align-self: flex-start;
+    }
+
+    .product-cta:hover {
+      color: #fff;
+      gap: 10px;
+    }
+
+    .product-cta .arrow {
+      transition: var(--transition);
+    }
+
+    .product-cta:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    /* ===== Stats Section ===== */
+    .stats-section {
+      position: relative;
+      z-index: 1;
+      padding: 80px 24px;
+    }
+
+    .stats-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 60px 40px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+
+    .stat-item {
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -20px;
+      top: 10%;
+      height: 80%;
+      width: 1px;
+      background: var(--card-border);
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    /* ===== Newsletter Section ===== */
+    .newsletter-section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 24px;
+    }
+
+    .newsletter-container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .newsletter-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+
+    .newsletter-desc {
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      font-size: 1rem;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .newsletter-input {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: 50px;
+      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .newsletter-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .newsletter-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .newsletter-btn {
+      padding: 14px 28px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(135deg, var(--accent), #7c6cf0);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .newsletter-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--accent-glow);
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--card-border);
+      padding: 48px 24px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .footer-logo {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--text-primary);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav {
+        padding: 12px 20px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 100px 20px 60px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .products-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 40px 24px;
+      }
+
+      .stat-item:not(:last-child)::after {
+        display: none;
+      }
+
+      .stat-item:not(:last-child) {
+        padding-bottom: 32px;
+        border-bottom: 1px solid var(--card-border);
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .footer-container {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        letter-spacing: -1px;
+      }
+
+      .product-card {
+        padding: 28px 24px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background Orbs -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">⚡ NexTool</div>
+    <ul class="nav-links">
+      <li><a href="#products">产品</a></li>
+      <li><a href="#stats">数据</a></li>
+      <li><a href="#newsletter">订阅</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      AI驱动 · 持续进化
+    </div>
+    <h1 class="hero-title">
+      <span class="gradient-text">NexTool</span>
+    </h1>
+    <p class="hero-tagline">AI驱动的效率工具，让每个人都能轻松创造价值</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn btn-primary">探索产品 →</a>
+      <a href="#newsletter" class="btn btn-secondary">订阅更新</a>
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="section" id="products">
+    <div class="section-container">
+      <div class="section-header animate-on-scroll">
+        <div class="section-label">Our Products</div>
+        <h2 class="section-title">5款工具，覆盖你的效率需求</h2>
+        <p class="section-desc">从图片提取到简历优化，每款工具都经过精心打磨，只为让你事半功倍</p>
+      </div>
+      <div class="products-grid">
+        <!-- Card 1: ImageGrab -->
+        <div class="product-card animate-on-scroll">
+          <div class="product-icon">🖼️</div>
+          <div class="product-tag">Chrome 插件</div>
+          <h3 class="product-title">ImageGrab</h3>
+          <p class="product-desc">一键提取网页中所有图片，支持批量下载、智能筛选和分辨率过滤，设计师和运营的必备工具。</p>
+          <a href="#" class="product-cta">立即使用 <span class="arrow">→</span></a>
+        </div>
+
+        <!-- Card 2: 视频去水印Bot -->
+        <div class="product-card animate-on-scroll">
+          <div class="product-icon">🎬</div>
+          <div class="product-tag">Telegram Bot</div>
+          <h3 class="product-title">视频去水印Bot</h3>
+          <p class="product-desc">发送视频链接即可自动去除水印，支持抖音、快手、小红书等主流平台，速度快、画质无损。</p>
+          <a href="#" class="product-cta">立即使用 <span class="arrow">→</span></a>
+        </div>
+
+        <!-- Card 3: ViralCopy API -->
+        <div class="product-card animate-on-scroll">
+          <div class="product-icon">✍️</div>
+          <div class="product-tag">API 服务</div>
+          <h3 class="product-title">ViralCopy API</h3>
+          <p class="product-desc">爆款文案生成API，输入产品信息即可生成高转化率文案，支持多种风格和平台适配。</p>
+          <a href="#" class="product-cta">立即使用 <span class="arrow">→</span></a>
+        </div>
+
+        <!-- Card 4: PDF工具箱 -->
+        <div class="product-card animate-on-scroll">
+          <div class="product-icon">📄</div>
+          <div class="product-tag">在线工具</div>
+          <h3 class="product-title">PDF工具箱</h3>
+          <p class="product-desc">一站式PDF处理工具，支持合并、拆分、转图片、压缩、加水印，所有操作在浏览器本地完成，隐私安全。</p>
+          <a href="#" class="product-cta">立即使用 <span class="arrow">→</span></a>
+        </div>
+
+        <!-- Card 5: AI简历优化 -->
+        <div class="product-card animate-on-scroll">
+          <div class="product-icon">💼</div>
+          <div class="product-tag">AI 工具</div>
+          <h3 class="product-title">AI简历优化</h3>
+          <p class="product-desc">一键优化简历，AI智能分析并改进措辞、结构和关键词匹配，显著提升面试通过率。</p>
+          <a href="#" class="product-cta">立即使用 <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats-section" id="stats">
+    <div class="stats-container animate-on-scroll">
+      <div class="stat-item">
+        <div class="stat-number">5款产品</div>
+        <div class="stat-label">覆盖多场景效率需求</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10000+</div>
+        <div class="stat-label">活跃用户</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">100000+</div>
+        <div class="stat-label">日处理请求</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section" id="newsletter">
+    <div class="newsletter-container animate-on-scroll">
+      <h2 class="newsletter-title">获取最新产品动态</h2>
+      <p class="newsletter-desc">订阅我们的邮件列表，第一时间了解新产品发布和功能更新</p>
+      <form class="newsletter-form" onsubmit="event.preventDefault(); handleSubscribe();">
+        <input type="email" class="newsletter-input" placeholder="输入你的邮箱地址" required aria-label="邮箱地址">
+        <button type="submit" class="newsletter-btn">订阅</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">⚡ NexTool</div>
+        <div class="footer-copy">&copy; 2024 NexTool. All rights reserved.</div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#products">产品</a></li>
+        <li><a href="#stats">关于</a></li>
+        <li><a href="#newsletter">联系</a></li>
+        <li><a href="#">隐私政策</a></li>
+        <li><a href="#">服务条款</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll animation observer
+    document.addEventListener('DOMContentLoaded', function () {
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      document.querySelectorAll('.animate-on-scroll').forEach(function (el) {
+        observer.observe(el);
+      });
+    });
+
+    // Newsletter subscribe handler
+    function handleSubscribe() {
+      var input = document.querySelector('.newsletter-input');
+      var btn = document.querySelector('.newsletter-btn');
+      var email = input.value.trim();
+
+      if (!email) return;
+
+      btn.textContent = '✓ 已订阅';
+      btn.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+      input.value = '';
+      input.placeholder = '感谢订阅！';
+
+      setTimeout(function () {
+        btn.textContent = '订阅';
+        btn.style.background = '';
+        input.placeholder = '输入你的邮箱地址';
+      }, 3000);
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+      anchor.addEventListener('click', function (e) {
+        var targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        e.preventDefault();
+        var target = document.querySelector(targetId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Nav background on scroll
+    var nav = document.querySelector('.nav');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 50) {
+        nav.style.background = 'rgba(15, 15, 35, 0.92)';
+      } else {
+        nav.style.background = 'rgba(15, 15, 35, 0.7)';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextTool - AI Productivity Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 2rem;
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle { color: #aaa; margin-bottom: 3rem; font-size: 1.1rem; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 900px;
+            width: 100%;
+        }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #3a7bd5;
+            box-shadow: 0 8px 32px rgba(58,123,213,0.3);
+        }
+        .card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
+        .card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        footer { margin-top: 3rem; color: #555; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <h1>NextTool</h1>
+    <p class="subtitle">AI-Powered Productivity Tools</p>
+    <div class="grid">
+        <a class="card" href="./pdf-toolkit/">
+            <div class="icon">📄</div>
+            <h2>PDF Toolkit</h2>
+            <p>PDF merge, split, compress, convert and more - all in your browser.</p>
+        </a>
+        <a class="card" href="./ai-resume-optimizer/">
+            <div class="icon">🎯</div>
+            <h2>AI Resume Optimizer</h2>
+            <p>Optimize your resume with AI to match job descriptions and stand out.</p>
+        </a>
+        <a class="card" href="./ai-ppt-generator/">
+            <div class="icon">📊</div>
+            <h2>AI PPT Generator</h2>
+            <p>Generate professional presentations instantly with AI assistance.</p>
+        </a>
+        <a class="card" href="./company-website/">
+            <div class="icon">🏢</div>
+            <h2>Company Website</h2>
+            <p>Official company website with product showcase and contact info.</p>
+        </a>
+    </div>
+    <footer>&copy; 2026 NextTool. All rights reserved.</footer>
+</body>
+</html>

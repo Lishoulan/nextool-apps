@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF 工具箱 - 免费在线PDF处理</title>
+<meta name="description" content="免费在线PDF合并、拆分、转图片、压缩、加水印，所有处理在浏览器端完成，无需上传服务器。">
+<!-- Google AdSense 广告位 - 替换为你的广告代码 -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#4F46E5;--primary-hover:#4338CA;--primary-light:#EEF2FF;--success:#10B981;--danger:#EF4444;--warning:#F59E0B;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;--gray-800:#1F2937;--gray-900:#111827;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);--shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--gray-50);color:var(--gray-800);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);color:#fff;padding:20px 0;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(79,70,229,.3)}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:12px;font-size:24px;font-weight:700;cursor:pointer}
+.logo svg{width:36px;height:36px}
+.header-tag{background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:13px;font-weight:500}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+/* 广告位 - 顶部横幅 */
+.ad-slot-top{max-width:1200px;margin:16px auto;padding:0 20px}
+.ad-placeholder{background:var(--gray-100);border:2px dashed var(--gray-300);border-radius:var(--radius);padding:20px;text-align:center;color:var(--gray-400);font-size:14px;min-height:90px;display:flex;align-items:center;justify-content:center}
+/* 工具卡片网格 */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px;margin:24px 0}
+.tool-card{background:#fff;border-radius:var(--radius);padding:24px 16px;text-align:center;cursor:pointer;transition:all .25s ease;border:2px solid transparent;box-shadow:var(--shadow)}
+.tool-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--primary)}
+.tool-card.active{border-color:var(--primary);background:var(--primary-light)}
+.tool-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px}
+.tool-icon.merge{background:#DBEAFE;color:#2563EB}
+.tool-icon.split{background:#FEE2E2;color:#DC2626}
+.tool-icon.pdf2img{background:#D1FAE5;color:#059669}
+.tool-icon.img2pdf{background:#FEF3C7;color:#D97706}
+.tool-icon.compress{background:#EDE9FE;color:#7C3AED}
+.tool-icon.watermark{background:#FCE7F3;color:#DB2777}
+.tool-card h3{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--gray-800)}
+.tool-card p{font-size:12px;color:var(--gray-500)}
+/* 工作区 */
+.workspace{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:32px;margin-top:8px;display:none;animation:fadeIn .3s ease}
+.workspace.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.workspace-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.workspace-header h2{font-size:20px;font-weight:700;color:var(--gray-900)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all .2s ease}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:var(--primary-hover)}
+.btn-primary:disabled{background:var(--gray-300);cursor:not-allowed}
+.btn-outline{background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-danger:hover{background:#DC2626}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{background:#059669}
+.btn-sm{padding:6px 14px;font-size:13px}
+/* 拖拽上传区 */
+.drop-zone{border:2px dashed var(--gray-300);border-radius:var(--radius);padding:48px 24px;text-align:center;transition:all .2s ease;cursor:pointer;background:var(--gray-50)}
+.drop-zone:hover,.drop-zone.dragover{border-color:var(--primary);background:var(--primary-light)}
+.drop-zone svg{width:48px;height:48px;color:var(--gray-400);margin-bottom:12px}
+.drop-zone h3{font-size:16px;color:var(--gray-700);margin-bottom:4px}
+.drop-zone p{font-size:13px;color:var(--gray-400)}
+/* 文件列表 */
+.file-list{margin-top:16px}
+.file-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--gray-50);border-radius:8px;margin-bottom:8px;border:1px solid var(--gray-200)}
+.file-item .file-icon{width:40px;height:40px;border-radius:8px;background:#DBEAFE;color:#2563EB;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.file-item .file-info{flex:1;min-width:0}
+.file-item .file-name{font-size:14px;font-weight:500;color:var(--gray-800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-item .file-size{font-size:12px;color:var(--gray-400)}
+.file-item .file-pages{font-size:12px;color:var(--primary);font-weight:500}
+.file-item .btn-remove{width:32px;height:32px;border-radius:6px;border:none;background:transparent;color:var(--gray-400);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;transition:all .15s}
+.file-item .btn-remove:hover{background:#FEE2E2;color:var(--danger)}
+/* 表单 */
+.form-group{margin-bottom:20px}
+.form-label{display:block;font-size:14px;font-weight:600;color:var(--gray-700);margin-bottom:8px}
+.form-input,.form-select,.form-textarea{width:100%;padding:10px 14px;border:1.5px solid var(--gray-300);border-radius:8px;font-size:14px;color:var(--gray-800);transition:border-color .2s;background:#fff}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(79,70,229,.1)}
+.form-textarea{resize:vertical;min-height:80px}
+.form-hint{font-size:12px;color:var(--gray-400);margin-top:4px}
+.form-row{display:flex;gap:16px;flex-wrap:wrap}
+.form-row .form-group{flex:1;min-width:200px}
+/* 进度条 */
+.progress-bar{width:100%;height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden;margin:16px 0}
+.progress-bar .progress-fill{height:100%;background:linear-gradient(90deg,var(--primary),#7C3AED);border-radius:4px;transition:width .3s ease;width:0}
+.progress-text{font-size:13px;color:var(--gray-500);text-align:center}
+/* 结果区 */
+.result-area{margin-top:24px;padding:20px;background:var(--primary-light);border-radius:var(--radius);border:1px solid #C7D2FE}
+.result-area h3{font-size:16px;color:var(--primary);margin-bottom:8px}
+.result-area p{font-size:13px;color:var(--gray-600);margin-bottom:12px}
+/* 图片预览网格 */
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:16px}
+.preview-item{border-radius:8px;overflow:hidden;border:1px solid var(--gray-200);background:#fff}
+.preview-item img{width:100%;display:block}
+.preview-item .preview-info{padding:8px;font-size:12px;color:var(--gray-500);text-align:center}
+/* Toast */
+.toast-container{position:fixed;top:80px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;border-radius:8px;color:#fff;font-size:14px;font-weight:500;box-shadow:var(--shadow-lg);animation:slideIn .3s ease;max-width:360px}
+.toast.success{background:var(--success)}
+.toast.error{background:var(--danger)}
+.toast.info{background:var(--primary)}
+@keyframes slideIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+/* 广告位 - 侧栏 */
+.ad-slot-sidebar{margin-top:24px}
+/* 页脚 */
+.footer{text-align:center;padding:32px 20px;color:var(--gray-400);font-size:13px;margin-top:40px}
+.footer a{color:var(--primary);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+/* 排序 */
+.sortable-ghost{opacity:.4}
+.file-item[draggable="true"]{cursor:grab}
+.file-item[draggable="true"]:active{cursor:grabbing}
+/* 响应式 */
+@media(max-width:768px){
+.tools-grid{grid-template-columns:repeat(3,1fr);gap:10px}
+.tool-card{padding:16px 10px}
+.tool-icon{width:44px;height:44px;font-size:22px}
+.tool-card h3{font-size:13px}
+.tool-card p{display:none}
+.workspace{padding:20px 16px}
+.header-inner{padding:0 16px}
+.logo{font-size:18px}
+.logo svg{width:28px;height:28px}
+.header-tag{display:none}
+.form-row{flex-direction:column}
+.form-row .form-group{min-width:auto}
+.preview-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
+}
+@media(max-width:480px){
+.tools-grid{grid-template-columns:repeat(2,1fr)}
+.container{padding:12px}
+}
+/* 隐藏的文件输入 */
+.hidden-input{display:none}
+/* 水印预览 */
+.watermark-preview{width:100%;height:200px;border:1.5px solid var(--gray-200);border-radius:8px;background:#fff;position:relative;overflow:hidden;margin-top:12px}
+.watermark-preview canvas{width:100%;height:100%}
+</style>
+</head>
+<body>
+
+<header class="header">
+<div class="header-inner">
+<div class="logo" onclick="showHome()">
+<svg viewBox="0 0 36 36" fill="none"><rect x="2" y="4" width="22" height="28" rx="3" fill="#fff" fill-opacity=".3"/><rect x="12" y="4" width="22" height="28" rx="3" fill="#fff"/><path d="M17 14h12M17 19h12M17 24h8" stroke="#4F46E5" stroke-width="2" stroke-linecap="round"/></svg>
+PDF 工具箱
+</div>
+<span class="header-tag">🔒 隐私安全 · 浏览器本地处理</span>
+</div>
+</header>
+
+<!-- Google AdSense 广告位 - 顶部横幅 -->
+<div class="ad-slot-top">
+<div class="ad-placeholder">
+<!-- Google AdSense 广告代码 - 728x90 横幅 -->
+<!-- <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
+广告位 - 728×90 横幅
+</div>
+</div>
+
+<div class="container">
+<!-- 工具选择 -->
+<div id="toolsPanel">
+<div class="tools-grid">
+<div class="tool-card" onclick="switchTool('merge')">
+<div class="tool-icon merge">📎</div>
+<h3>PDF 合并</h3>
+<p>多个PDF合为一个</p>
+</div>
+<div class="tool-card" onclick="switchTool('split')">
+<div class="tool-icon split">✂️</div>
+<h3>PDF 拆分</h3>
+<p>按页码拆分PDF</p>
+</div>
+<div class="tool-card" onclick="switchTool('pdf2img')">
+<div class="tool-icon pdf2img">🖼️</div>
+<h3>PDF 转图片</h3>
+<p>每页转为PNG</p>
+</div>
+<div class="tool-card" onclick="switchTool('img2pdf')">
+<div class="tool-icon img2pdf">📄</div>
+<h3>图片转 PDF</h3>
+<p>多张图片合成PDF</p>
+</div>
+<div class="tool-card" onclick="switchTool('compress')">
+<div class="tool-icon compress">📦</div>
+<h3>PDF 压缩</h3>
+<p>减小文件大小</p>
+</div>
+<div class="tool-card" onclick="switchTool('watermark')">
+<div class="tool-icon watermark">💧</div>
+<h3>PDF 加水印</h3>
+<p>添加文字水印</p>
+</div>
+</div>
+</div>
+
+<!-- 合并工作区 -->
+<div id="workspace-merge" class="workspace">
+<div class="workspace-header">
+<h2>📎 PDF 合并</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="mergeDropZone" onclick="document.getElementById('mergeFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传 PDF 文件</h3>
+<p>支持多个文件，可拖拽排序</p>
+</div>
+<input type="file" id="mergeFileInput" class="hidden-input" accept=".pdf" multiple onchange="handleMergeFiles(this.files)">
+<div id="mergeFileList" class="file-list"></div>
+<div style="margin-top:20px;text-align:center">
+<button class="btn btn-primary" id="mergeBtn" onclick="doMerge()" disabled>合并 PDF</button>
+</div>
+<div id="mergeProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="mergeProgressFill"></div></div>
+<div class="progress-text" id="mergeProgressText">处理中...</div>
+</div>
+<div id="mergeResult" class="result-area" style="display:none"></div>
+</div>
+
+<!-- 拆分工作区 -->
+<div id="workspace-split" class="workspace">
+<div class="workspace-header">
+<h2>✂️ PDF 拆分</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="splitDropZone" onclick="document.getElementById('splitFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传 PDF 文件</h3>
+<p>选择一个PDF进行拆分</p>
+</div>
+<input type="file" id="splitFileInput" class="hidden-input" accept=".pdf" onchange="handleSplitFile(this.files[0])">
+<div id="splitFileInfo" style="display:none;margin-top:16px">
+<div class="file-item">
+<div class="file-icon">📄</div>
+<div class="file-info">
+<div class="file-name" id="splitFileName"></div>
+<div class="file-size" id="splitFileSize"></div>
+</div>
+</div>
+<div class="form-group" style="margin-top:16px">
+<label class="form-label">拆分方式</label>
+<select class="form-select" id="splitMode" onchange="toggleSplitMode()">
+<option value="range">按页码范围提取</option>
+<option value="every">每 N 页拆分</option>
+<option value="single">每页单独拆分</option>
+</select>
+</div>
+<div id="splitRangeInput" class="form-group">
+<label class="form-label">页码范围</label>
+<input class="form-input" id="splitPages" placeholder="例如: 1-3, 5, 7-10" value="1-3">
+<p class="form-hint">用逗号分隔多个范围，如 1-3, 5, 7-10</p>
+</div>
+<div id="splitEveryInput" class="form-group" style="display:none">
+<label class="form-label">每几页拆分</label>
+<input class="form-input" type="number" id="splitEvery" value="1" min="1">
+</div>
+<div style="text-align:center;margin-top:16px">
+<button class="btn btn-primary" id="splitBtn" onclick="doSplit()" disabled>拆分 PDF</button>
+</div>
+</div>
+<div id="splitProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="splitProgressFill"></div></div>
+<div class="progress-text" id="splitProgressText">处理中...</div>
+</div>
+<div id="splitResult" class="result-area" style="display:none"></div>
+</div>
+
+<!-- PDF转图片工作区 -->
+<div id="workspace-pdf2img" class="workspace">
+<div class="workspace-header">
+<h2>🖼️ PDF 转图片</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="pdf2imgDropZone" onclick="document.getElementById('pdf2imgFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传 PDF 文件</h3>
+<p>每页将转为高清 PNG 图片</p>
+</div>
+<input type="file" id="pdf2imgFileInput" class="hidden-input" accept=".pdf" onchange="handlePdf2ImgFile(this.files[0])">
+<div id="pdf2imgOptions" style="display:none;margin-top:16px">
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">缩放倍数</label>
+<select class="form-select" id="pdf2imgScale">
+<option value="1">1x（标准）</option>
+<option value="2" selected>2x（高清）</option>
+<option value="3">3x（超清）</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">输出格式</label>
+<select class="form-select" id="pdf2imgFormat">
+<option value="png">PNG</option>
+<option value="jpeg">JPEG</option>
+</select>
+</div>
+</div>
+<div style="text-align:center;margin-top:16px">
+<button class="btn btn-primary" id="pdf2imgBtn" onclick="doPdf2Img()">开始转换</button>
+</div>
+</div>
+<div id="pdf2imgProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="pdf2imgProgressFill"></div></div>
+<div class="progress-text" id="pdf2imgProgressText">处理中...</div>
+</div>
+<div id="pdf2imgResult" style="display:none">
+<div class="result-area" style="margin-bottom:16px">
+<h3>✅ 转换完成</h3>
+<p id="pdf2imgResultInfo"></p>
+<button class="btn btn-success btn-sm" onclick="downloadAllImages()">下载全部图片</button>
+</div>
+<div id="pdf2imgPreviewGrid" class="preview-grid"></div>
+</div>
+</div>
+
+<!-- 图片转PDF工作区 -->
+<div id="workspace-img2pdf" class="workspace">
+<div class="workspace-header">
+<h2>📄 图片转 PDF</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="img2pdfDropZone" onclick="document.getElementById('img2pdfFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传图片</h3>
+<p>支持 JPG、PNG、WebP，可多选</p>
+</div>
+<input type="file" id="img2pdfFileInput" class="hidden-input" accept="image/*" multiple onchange="handleImg2PdfFiles(this.files)">
+<div id="img2pdfFileList" class="file-list"></div>
+<div id="img2pdfOptions" style="display:none;margin-top:16px">
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">页面尺寸</label>
+<select class="form-select" id="img2pdfSize">
+<option value="fit">自适应图片</option>
+<option value="a4">A4 纵向</option>
+<option value="a4l">A4 横向</option>
+</select>
+</div>
+<div class="form-group">
+<label class="form-label">页边距</label>
+<select class="form-select" id="img2pdfMargin">
+<option value="0">无边距</option>
+<option value="10" selected>10mm</option>
+<option value="20">20mm</option>
+</select>
+</div>
+</div>
+<div style="text-align:center;margin-top:16px">
+<button class="btn btn-primary" id="img2pdfBtn" onclick="doImg2Pdf()">生成 PDF</button>
+</div>
+</div>
+<div id="img2pdfProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="img2pdfProgressFill"></div></div>
+<div class="progress-text" id="img2pdfProgressText">处理中...</div>
+</div>
+<div id="img2pdfResult" class="result-area" style="display:none"></div>
+</div>
+
+<!-- 压缩工作区 -->
+<div id="workspace-compress" class="workspace">
+<div class="workspace-header">
+<h2>📦 PDF 压缩</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="compressDropZone" onclick="document.getElementById('compressFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传 PDF 文件</h3>
+<p>压缩PDF减小文件体积</p>
+</div>
+<input type="file" id="compressFileInput" class="hidden-input" accept=".pdf" onchange="handleCompressFile(this.files[0])">
+<div id="compressFileInfo" style="display:none;margin-top:16px">
+<div class="file-item">
+<div class="file-icon">📦</div>
+<div class="file-info">
+<div class="file-name" id="compressFileName"></div>
+<div class="file-size" id="compressFileSize"></div>
+</div>
+</div>
+<div class="form-group" style="margin-top:16px">
+<label class="form-label">压缩质量</label>
+<select class="form-select" id="compressQuality">
+<option value="0.5">高压缩（文件更小）</option>
+<option value="0.7" selected>均衡压缩（推荐）</option>
+<option value="0.85">低压缩（质量更好）</option>
+</select>
+</div>
+<div style="text-align:center;margin-top:16px">
+<button class="btn btn-primary" id="compressBtn" onclick="doCompress()">压缩 PDF</button>
+</div>
+</div>
+<div id="compressProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="compressProgressFill"></div></div>
+<div class="progress-text" id="compressProgressText">处理中...</div>
+</div>
+<div id="compressResult" class="result-area" style="display:none"></div>
+</div>
+
+<!-- 水印工作区 -->
+<div id="workspace-watermark" class="workspace">
+<div class="workspace-header">
+<h2>💧 PDF 加水印</h2>
+<div>
+<button class="btn btn-outline btn-sm" onclick="showHome()">← 返回</button>
+</div>
+</div>
+<div class="drop-zone" id="watermarkDropZone" onclick="document.getElementById('watermarkFileInput').click()">
+<svg viewBox="0 0 48 48" fill="none"><path d="M24 32V16m0 0l-6 6m6-6l6 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><rect x="6" y="6" width="36" height="36" rx="6" stroke="currentColor" stroke-width="3"/></svg>
+<h3>点击或拖拽上传 PDF 文件</h3>
+<p>给PDF添加文字水印</p>
+</div>
+<input type="file" id="watermarkFileInput" class="hidden-input" accept=".pdf" onchange="handleWatermarkFile(this.files[0])">
+<div id="watermarkFileInfo" style="display:none;margin-top:16px">
+<div class="file-item">
+<div class="file-icon">💧</div>
+<div class="file-info">
+<div class="file-name" id="watermarkFileName"></div>
+<div class="file-size" id="watermarkFileSize"></div>
+</div>
+</div>
+<div class="form-group" style="margin-top:16px">
+<label class="form-label">水印文字</label>
+<input class="form-input" id="watermarkText" value="机密文件" placeholder="请输入水印文字">
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">字体大小</label>
+<input class="form-input" type="number" id="watermarkFontSize" value="48" min="12" max="200">
+</div>
+<div class="form-group">
+<label class="form-label">旋转角度</label>
+<input class="form-input" type="number" id="watermarkRotation" value="-30" min="-90" max="90">
+</div>
+</div>
+<div class="form-row">
+<div class="form-group">
+<label class="form-label">透明度</label>
+<input class="form-input" type="range" id="watermarkOpacity" min="0.05" max="0.5" step="0.05" value="0.15" oninput="document.getElementById('opacityVal').textContent=this.value">
+<span id="opacityVal" style="font-size:13px;color:var(--gray-500)">0.15</span>
+</div>
+<div class="form-group">
+<label class="form-label">颜色</label>
+<input class="form-input" type="color" id="watermarkColor" value="#888888" style="height:40px;padding:4px">
+</div>
+</div>
+<div style="text-align:center;margin-top:16px">
+<button class="btn btn-primary" id="watermarkBtn" onclick="doWatermark()">添加水印</button>
+</div>
+</div>
+<div id="watermarkProgress" style="display:none">
+<div class="progress-bar"><div class="progress-fill" id="watermarkProgressFill"></div></div>
+<div class="progress-text" id="watermarkProgressText">处理中...</div>
+</div>
+<div id="watermarkResult" class="result-area" style="display:none"></div>
+</div>
+
+<!-- Google AdSense 广告位 - 侧栏/底部 -->
+<div class="ad-slot-sidebar">
+<div class="ad-placeholder">
+<!-- Google AdSense 广告代码 - 300x250 矩形 -->
+<!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="XXXXXXXXXX"></ins> -->
+广告位 - 300×250 矩形
+</div>
+</div>
+</div>
+
+<footer class="footer">
+<p>PDF 工具箱 — 所有文件处理均在浏览器本地完成，不上传任何服务器</p>
+<p style="margin-top:4px">基于 <a href="https://mozilla.github.io/pdf.js/" target="_blank">PDF.js</a> 和 <a href="https://github.com/parallax/jsPDF" target="_blank">jsPDF</a> 构建</p>
+</footer>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- CDN 引入 PDF.js 和 jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+// 设置 PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+const { jsPDF } = window.jspdf;
+
+// ============ 通用工具函数 ============
+
+function formatSize(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function showToast(msg, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = 'toast ' + type;
+    toast.textContent = msg;
+    container.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; toast.style.transform = 'translateX(40px)'; setTimeout(() => toast.remove(), 300); }, 3000);
+}
+
+function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+async function readFileAsArrayBuffer(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+// ============ 页面导航 ============
+
+let currentTool = null;
+
+function showHome() {
+    currentTool = null;
+    document.querySelectorAll('.workspace').forEach(w => w.classList.remove('active'));
+    document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('toolsPanel').style.display = '';
+}
+
+function switchTool(tool) {
+    currentTool = tool;
+    document.getElementById('toolsPanel').style.display = 'none';
+    document.querySelectorAll('.workspace').forEach(w => w.classList.remove('active'));
+    document.querySelectorAll('.tool-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('workspace-' + tool).classList.add('active');
+    // 滚动到顶部
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ============ 拖拽上传通用处理 ============
+
+function setupDropZone(zoneId, fileInputId, handler) {
+    const zone = document.getElementById(zoneId);
+    if (!zone) return;
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault(); zone.classList.remove('dragover');
+        const input = document.getElementById(fileInputId);
+        if (e.dataTransfer.files.length > 0) {
+            handler(e.dataTransfer.files);
+        }
+    });
+}
+
+setupDropZone('mergeDropZone', 'mergeFileInput', files => handleMergeFiles(files));
+setupDropZone('splitDropZone', 'splitFileInput', files => { if (files[0]) handleSplitFile(files[0]); });
+setupDropZone('pdf2imgDropZone', 'pdf2imgFileInput', files => { if (files[0]) handlePdf2ImgFile(files[0]); });
+setupDropZone('img2pdfDropZone', 'img2pdfFileInput', files => handleImg2PdfFiles(files));
+setupDropZone('compressDropZone', 'compressFileInput', files => { if (files[0]) handleCompressFile(files[0]); });
+setupDropZone('watermarkDropZone', 'watermarkFileInput', files => { if (files[0]) handleWatermarkFile(files[0]); });
+
+// ============ 1. PDF 合并 ============
+
+let mergeFiles = [];
+
+async function handleMergeFiles(fileList) {
+    for (const file of fileList) {
+        if (file.type !== 'application/pdf') { showToast('仅支持 PDF 文件: ' + file.name, 'error'); continue; }
+        try {
+            const ab = await readFileAsArrayBuffer(file);
+            const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+            mergeFiles.push({ file, name: file.name, size: file.size, pages: pdf.numPages, data: ab });
+        } catch (e) { showToast('无法读取: ' + file.name, 'error'); }
+    }
+    renderMergeList();
+}
+
+function renderMergeList() {
+    const list = document.getElementById('mergeFileList');
+    list.innerHTML = '';
+    mergeFiles.forEach((f, i) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.draggable = true;
+        item.dataset.index = i;
+        item.innerHTML = `
+            <div class="file-icon">📄</div>
+            <div class="file-info">
+                <div class="file-name">${f.name}</div>
+                <div class="file-size">${formatSize(f.size)} · <span class="file-pages">${f.pages} 页</span></div>
+            </div>
+            <button class="btn-remove" onclick="removeMergeFile(${i})" title="移除">✕</button>
+        `;
+        // 拖拽排序
+        item.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', i); item.classList.add('sortable-ghost'); });
+        item.addEventListener('dragend', () => item.classList.remove('sortable-ghost'));
+        item.addEventListener('dragover', e => e.preventDefault());
+        item.addEventListener('drop', e => {
+            e.preventDefault();
+            const from = parseInt(e.dataTransfer.getData('text/plain'));
+            const to = i;
+            if (from !== to) {
+                const [moved] = mergeFiles.splice(from, 1);
+                mergeFiles.splice(to, 0, moved);
+                renderMergeList();
+            }
+        });
+        list.appendChild(item);
+    });
+    document.getElementById('mergeBtn').disabled = mergeFiles.length < 2;
+}
+
+function removeMergeFile(index) {
+    mergeFiles.splice(index, 1);
+    renderMergeList();
+}
+
+async function doMerge() {
+    if (mergeFiles.length < 2) return;
+    const btn = document.getElementById('mergeBtn');
+    btn.disabled = true;
+    document.getElementById('mergeProgress').style.display = '';
+    document.getElementById('mergeResult').style.display = 'none';
+
+    try {
+        const { PDFDocument } = PDFLib;
+        // 动态加载 pdf-lib
+        if (!window.PDFLib) {
+            await loadPdfLib();
+        }
+        const mergedPdf = await PDFLib.PDFDocument.create();
+        for (let i = 0; i < mergeFiles.length; i++) {
+            const donorPdf = await PDFLib.PDFDocument.load(mergeFiles[i].data);
+            const pages = await mergedPdf.copyPages(donorPdf, donorPdf.getPageIndices());
+            pages.forEach(page => mergedPdf.addPage(page));
+            const pct = Math.round(((i + 1) / mergeFiles.length) * 100);
+            document.getElementById('mergeProgressFill').style.width = pct + '%';
+            document.getElementById('mergeProgressText').textContent = `正在合并 ${i + 1}/${mergeFiles.length}...`;
+        }
+        const mergedBytes = await mergedPdf.save();
+        const blob = new Blob([mergedBytes], { type: 'application/pdf' });
+        document.getElementById('mergeProgressFill').style.width = '100%';
+        document.getElementById('mergeProgressText').textContent = '合并完成！';
+        const result = document.getElementById('mergeResult');
+        result.style.display = '';
+        result.innerHTML = `<h3>✅ 合并完成</h3><p>合并了 ${mergeFiles.length} 个文件，共 ${mergedPdf.getPageCount()} 页，大小 ${formatSize(blob.size)}</p>
+            <button class="btn btn-success" onclick="downloadBlob(new Blob([new Uint8Array(${JSON.stringify(Array.from(mergedBytes))})],{type:'application/pdf'}),'merged.pdf')">下载合并后的 PDF</button>`;
+        // 更简洁的下载方式
+        result.innerHTML = `<h3>✅ 合并完成</h3><p>合并了 ${mergeFiles.length} 个文件，共 ${mergedPdf.getPageCount()} 页，大小 ${formatSize(blob.size)}</p>
+            <button class="btn btn-success" id="mergeDownloadBtn">下载合并后的 PDF</button>`;
+        document.getElementById('mergeDownloadBtn').onclick = () => downloadBlob(blob, 'merged.pdf');
+        showToast('PDF 合并成功！', 'success');
+    } catch (e) {
+        showToast('合并失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+// ============ 2. PDF 拆分 ============
+
+let splitFileData = null;
+
+async function handleSplitFile(file) {
+    if (!file || file.type !== 'application/pdf') { showToast('请选择 PDF 文件', 'error'); return; }
+    try {
+        const ab = await readFileAsArrayBuffer(file);
+        const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+        splitFileData = { name: file.name, size: file.size, pages: pdf.numPages, data: ab };
+        document.getElementById('splitFileName').textContent = file.name;
+        document.getElementById('splitFileSize').textContent = formatSize(file.size) + ' · ' + pdf.numPages + ' 页';
+        document.getElementById('splitFileInfo').style.display = '';
+        document.getElementById('splitBtn').disabled = false;
+        document.getElementById('splitPages').placeholder = '例如: 1-' + pdf.numPages;
+    } catch (e) { showToast('无法读取文件', 'error'); }
+}
+
+function toggleSplitMode() {
+    const mode = document.getElementById('splitMode').value;
+    document.getElementById('splitRangeInput').style.display = mode === 'range' ? '' : 'none';
+    document.getElementById('splitEveryInput').style.display = mode === 'every' ? '' : 'none';
+}
+
+function parsePageRanges(input, maxPage) {
+    const pages = [];
+    const parts = input.split(',');
+    for (const part of parts) {
+        const trimmed = part.trim();
+        if (!trimmed) continue;
+        if (trimmed.includes('-')) {
+            const [start, end] = trimmed.split('-').map(Number);
+            if (isNaN(start) || isNaN(end)) continue;
+            for (let i = Math.max(1, start); i <= Math.min(maxPage, end); i++) {
+                if (!pages.includes(i)) pages.push(i);
+            }
+        } else {
+            const num = parseInt(trimmed);
+            if (!isNaN(num) && num >= 1 && num <= maxPage && !pages.includes(num)) pages.push(num);
+        }
+    }
+    return pages.sort((a, b) => a - b);
+}
+
+async function doSplit() {
+    if (!splitFileData) return;
+    const btn = document.getElementById('splitBtn');
+    btn.disabled = true;
+    document.getElementById('splitProgress').style.display = '';
+    document.getElementById('splitResult').style.display = 'none';
+
+    try {
+        if (!window.PDFLib) await loadPdfLib();
+        const srcPdf = await PDFLib.PDFDocument.load(splitFileData.data);
+        const totalPages = srcPdf.getPageCount();
+        const mode = document.getElementById('splitMode').value;
+
+        let splitGroups = []; // 每组是要提取的页码数组
+
+        if (mode === 'single') {
+            for (let i = 1; i <= totalPages; i++) splitGroups.push([i]);
+        } else if (mode === 'every') {
+            const n = parseInt(document.getElementById('splitEvery').value) || 1;
+            for (let i = 0; i < totalPages; i += n) {
+                const group = [];
+                for (let j = i; j < Math.min(i + n, totalPages); j++) group.push(j + 1);
+                splitGroups.push(group);
+            }
+        } else {
+            const rangeInput = document.getElementById('splitPages').value;
+            const pages = parsePageRanges(rangeInput, totalPages);
+            if (pages.length === 0) { showToast('无效的页码范围', 'error'); btn.disabled = false; return; }
+            splitGroups.push(pages);
+        }
+
+        const results = [];
+        for (let g = 0; g < splitGroups.length; g++) {
+            const newPdf = await PDFLib.PDFDocument.create();
+            const indices = splitGroups[g].map(p => p - 1);
+            const copiedPages = await newPdf.copyPages(srcPdf, indices);
+            copiedPages.forEach(page => newPdf.addPage(page));
+            const pdfBytes = await newPdf.save();
+            const pageLabel = splitGroups[g].length === 1 ? `第${splitGroups[g][0]}页` : `第${splitGroups[g][0]}-${splitGroups[g][splitGroups[g].length-1]}页`;
+            results.push({ bytes: pdfBytes, label: pageLabel, name: splitFileData.name.replace('.pdf', '') + '_' + pageLabel + '.pdf' });
+            const pct = Math.round(((g + 1) / splitGroups.length) * 100);
+            document.getElementById('splitProgressFill').style.width = pct + '%';
+            document.getElementById('splitProgressText').textContent = `正在拆分 ${g + 1}/${splitGroups.length}...`;
+        }
+
+        document.getElementById('splitProgressFill').style.width = '100%';
+        document.getElementById('splitProgressText').textContent = '拆分完成！';
+
+        const resultDiv = document.getElementById('splitResult');
+        resultDiv.style.display = '';
+        let html = `<h3>✅ 拆分完成</h3><p>生成了 ${results.length} 个文件</p>`;
+        results.forEach((r, i) => {
+            const blob = new Blob([r.bytes], { type: 'application/pdf' });
+            html += `<div style="display:flex;align-items:center;gap:10px;margin-top:8px">
+                <span style="font-size:14px">${r.label} (${formatSize(r.bytes.length)})</span>
+                <button class="btn btn-success btn-sm" id="splitDl${i}">下载</button>
+            </div>`;
+            setTimeout(() => {
+                document.getElementById('splitDl' + i).onclick = () => downloadBlob(new Blob([r.bytes], { type: 'application/pdf' }), r.name);
+            }, 0);
+        });
+        resultDiv.innerHTML = html;
+        // 重新绑定事件
+        results.forEach((r, i) => {
+            setTimeout(() => {
+                const el = document.getElementById('splitDl' + i);
+                if (el) el.onclick = () => downloadBlob(new Blob([r.bytes], { type: 'application/pdf' }), r.name);
+            }, 0);
+        });
+        showToast('PDF 拆分成功！', 'success');
+    } catch (e) {
+        showToast('拆分失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+// ============ 3. PDF 转图片 ============
+
+let pdf2imgFileData = null;
+let convertedImages = [];
+
+async function handlePdf2ImgFile(file) {
+    if (!file || file.type !== 'application/pdf') { showToast('请选择 PDF 文件', 'error'); return; }
+    try {
+        const ab = await readFileAsArrayBuffer(file);
+        const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+        pdf2imgFileData = { name: file.name, size: file.size, pages: pdf.numPages, data: ab };
+        document.getElementById('pdf2imgOptions').style.display = '';
+        document.getElementById('pdf2imgBtn').disabled = false;
+        document.getElementById('pdf2imgResult').style.display = 'none';
+        showToast(`已加载 ${pdf.numPages} 页`, 'info');
+    } catch (e) { showToast('无法读取文件', 'error'); }
+}
+
+async function doPdf2Img() {
+    if (!pdf2imgFileData) return;
+    const btn = document.getElementById('pdf2imgBtn');
+    btn.disabled = true;
+    document.getElementById('pdf2imgProgress').style.display = '';
+    document.getElementById('pdf2imgResult').style.display = 'none';
+    convertedImages = [];
+
+    try {
+        const pdf = await pdfjsLib.getDocument({ data: pdf2imgFileData.data }).promise;
+        const scale = parseFloat(document.getElementById('pdf2imgScale').value);
+        const format = document.getElementById('pdf2imgFormat').value;
+        const mimeType = format === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            const dataUrl = canvas.toDataURL(mimeType, 0.92);
+            convertedImages.push({ dataUrl, page: i, width: viewport.width, height: viewport.height });
+            const pct = Math.round((i / pdf.numPages) * 100);
+            document.getElementById('pdf2imgProgressFill').style.width = pct + '%';
+            document.getElementById('pdf2imgProgressText').textContent = `正在转换 ${i}/${pdf.numPages}...`;
+        }
+
+        document.getElementById('pdf2imgProgressFill').style.width = '100%';
+        document.getElementById('pdf2imgProgressText').textContent = '转换完成！';
+
+        document.getElementById('pdf2imgResult').style.display = '';
+        document.getElementById('pdf2imgResultInfo').textContent = `共 ${convertedImages.length} 张图片，缩放 ${scale}x`;
+
+        const grid = document.getElementById('pdf2imgPreviewGrid');
+        grid.innerHTML = '';
+        convertedImages.forEach((img, i) => {
+            const item = document.createElement('div');
+            item.className = 'preview-item';
+            item.innerHTML = `<img src="${img.dataUrl}" alt="第${img.page}页"><div class="preview-info">第 ${img.page} 页 · ${img.width}×${img.height}</div>`;
+            grid.appendChild(item);
+        });
+
+        showToast('PDF 转图片完成！', 'success');
+    } catch (e) {
+        showToast('转换失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+function downloadAllImages() {
+    convertedImages.forEach((img, i) => {
+        const a = document.createElement('a');
+        a.href = img.dataUrl;
+        a.download = `page_${img.page}.png`;
+        a.click();
+    });
+    showToast('正在下载所有图片...', 'info');
+}
+
+// ============ 4. 图片转 PDF ============
+
+let img2pdfFiles = [];
+
+async function handleImg2PdfFiles(fileList) {
+    for (const file of fileList) {
+        if (!file.type.startsWith('image/')) { showToast('仅支持图片文件: ' + file.name, 'error'); continue; }
+        img2pdfFiles.push(file);
+    }
+    renderImg2PdfList();
+}
+
+function renderImg2PdfList() {
+    const list = document.getElementById('img2pdfFileList');
+    list.innerHTML = '';
+    img2pdfFiles.forEach((file, i) => {
+        const item = document.createElement('div');
+        item.className = 'file-item';
+        item.draggable = true;
+        item.dataset.index = i;
+        item.innerHTML = `
+            <div class="file-icon" style="background:#FEF3C7;color:#D97706">🖼️</div>
+            <div class="file-info">
+                <div class="file-name">${file.name}</div>
+                <div class="file-size">${formatSize(file.size)}</div>
+            </div>
+            <button class="btn-remove" onclick="removeImg2PdfFile(${i})" title="移除">✕</button>
+        `;
+        item.addEventListener('dragstart', e => { e.dataTransfer.setData('text/plain', i); item.classList.add('sortable-ghost'); });
+        item.addEventListener('dragend', () => item.classList.remove('sortable-ghost'));
+        item.addEventListener('dragover', e => e.preventDefault());
+        item.addEventListener('drop', e => {
+            e.preventDefault();
+            const from = parseInt(e.dataTransfer.getData('text/plain'));
+            const to = i;
+            if (from !== to) {
+                const [moved] = img2pdfFiles.splice(from, 1);
+                img2pdfFiles.splice(to, 0, moved);
+                renderImg2PdfList();
+            }
+        });
+        list.appendChild(item);
+    });
+    document.getElementById('img2pdfOptions').style.display = img2pdfFiles.length > 0 ? '' : 'none';
+    document.getElementById('img2pdfBtn').disabled = img2pdfFiles.length === 0;
+}
+
+function removeImg2PdfFile(index) {
+    img2pdfFiles.splice(index, 1);
+    renderImg2PdfList();
+}
+
+async function doImg2Pdf() {
+    if (img2pdfFiles.length === 0) return;
+    const btn = document.getElementById('img2pdfBtn');
+    btn.disabled = true;
+    document.getElementById('img2pdfProgress').style.display = '';
+    document.getElementById('img2pdfResult').style.display = 'none';
+
+    try {
+        const sizeMode = document.getElementById('img2pdfSize').value;
+        const marginMm = parseInt(document.getElementById('img2pdfMargin').value);
+        let doc = null;
+
+        for (let i = 0; i < img2pdfFiles.length; i++) {
+            const file = img2pdfFiles[i];
+            const dataUrl = await new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+
+            const img = new Image();
+            await new Promise((resolve) => { img.onload = resolve; img.src = dataUrl; });
+
+            const imgW = img.width;
+            const imgH = img.height;
+
+            let pageW, pageH;
+            if (sizeMode === 'fit') {
+                // 自适应：按图片像素尺寸（72dpi换算为mm）
+                pageW = imgW * 25.4 / 72;
+                pageH = imgH * 25.4 / 72;
+            } else if (sizeMode === 'a4') {
+                pageW = 210; pageH = 297;
+            } else {
+                pageW = 297; pageH = 210;
+            }
+
+            if (i === 0) {
+                doc = new jsPDF({ unit: 'mm', format: [pageW, pageH] });
+            } else {
+                doc.addPage([pageW, pageH]);
+            }
+
+            if (sizeMode === 'fit') {
+                doc.addImage(dataUrl, 'JPEG', 0, 0, pageW, pageH, undefined, 'FAST');
+            } else {
+                const availW = pageW - marginMm * 2;
+                const availH = pageH - marginMm * 2;
+                const ratio = Math.min(availW / (imgW * 25.4 / 72), availH / (imgH * 25.4 / 72));
+                const drawW = (imgW * 25.4 / 72) * ratio;
+                const drawH = (imgH * 25.4 / 72) * ratio;
+                const x = (pageW - drawW) / 2;
+                const y = (pageH - drawH) / 2;
+                doc.addImage(dataUrl, 'JPEG', x, y, drawW, drawH, undefined, 'FAST');
+            }
+
+            const pct = Math.round(((i + 1) / img2pdfFiles.length) * 100);
+            document.getElementById('img2pdfProgressFill').style.width = pct + '%';
+            document.getElementById('img2pdfProgressText').textContent = `正在处理 ${i + 1}/${img2pdfFiles.length}...`;
+        }
+
+        const pdfBlob = doc.output('blob');
+        document.getElementById('img2imgProgressFill') || null;
+        document.getElementById('img2pdfProgressFill').style.width = '100%';
+        document.getElementById('img2pdfProgressText').textContent = '生成完成！';
+
+        const result = document.getElementById('img2pdfResult');
+        result.style.display = '';
+        result.innerHTML = `<h3>✅ PDF 生成完成</h3><p>共 ${img2pdfFiles.length} 页，大小 ${formatSize(pdfBlob.size)}</p>
+            <button class="btn btn-success" id="img2pdfDownloadBtn">下载 PDF</button>`;
+        document.getElementById('img2pdfDownloadBtn').onclick = () => downloadBlob(pdfBlob, 'images_to_pdf.pdf');
+        showToast('图片转 PDF 成功！', 'success');
+    } catch (e) {
+        showToast('生成失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+// ============ 5. PDF 压缩 ============
+
+let compressFileData = null;
+
+async function handleCompressFile(file) {
+    if (!file || file.type !== 'application/pdf') { showToast('请选择 PDF 文件', 'error'); return; }
+    try {
+        const ab = await readFileAsArrayBuffer(file);
+        const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+        compressFileData = { name: file.name, size: file.size, pages: pdf.numPages, data: ab };
+        document.getElementById('compressFileName').textContent = file.name;
+        document.getElementById('compressFileSize').textContent = formatSize(file.size) + ' · ' + pdf.numPages + ' 页';
+        document.getElementById('compressFileInfo').style.display = '';
+        document.getElementById('compressBtn').disabled = false;
+    } catch (e) { showToast('无法读取文件', 'error'); }
+}
+
+async function doCompress() {
+    if (!compressFileData) return;
+    const btn = document.getElementById('compressBtn');
+    btn.disabled = true;
+    document.getElementById('compressProgress').style.display = '';
+    document.getElementById('compressResult').style.display = 'none';
+
+    try {
+        const quality = parseFloat(document.getElementById('compressQuality').value);
+        const pdf = await pdfjsLib.getDocument({ data: compressFileData.data }).promise;
+        const numPages = pdf.numPages;
+
+        // 通过渲染每页为图片再重建PDF来压缩
+        let doc = null;
+
+        for (let i = 1; i <= numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 1.5 }); // 用1.5x渲染以保持可读性
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+            await page.render({ canvasContext: ctx, viewport }).promise;
+
+            const imgData = canvas.toDataURL('image/jpeg', quality);
+            const pageW = viewport.width * 25.4 / 72;
+            const pageH = viewport.height * 25.4 / 72;
+
+            if (i === 1) {
+                doc = new jsPDF({ unit: 'mm', format: [pageW, pageH] });
+            } else {
+                doc.addPage([pageW, pageH]);
+            }
+            doc.addImage(imgData, 'JPEG', 0, 0, pageW, pageH, undefined, 'FAST');
+
+            const pct = Math.round((i / numPages) * 100);
+            document.getElementById('compressProgressFill').style.width = pct + '%';
+            document.getElementById('compressProgressText').textContent = `正在压缩 ${i}/${numPages}...`;
+        }
+
+        const compressedBlob = doc.output('blob');
+        const reduction = ((1 - compressedBlob.size / compressFileData.size) * 100).toFixed(1);
+
+        document.getElementById('compressProgressFill').style.width = '100%';
+        document.getElementById('compressProgressText').textContent = '压缩完成！';
+
+        const result = document.getElementById('compressResult');
+        result.style.display = '';
+        const reductionText = reduction > 0 ? `减小了 ${reduction}%` : `增大了 ${Math.abs(reduction)}%（原始文件已较小）`;
+        result.innerHTML = `<h3>✅ 压缩完成</h3>
+            <p>原始大小: ${formatSize(compressFileData.size)} → 压缩后: ${formatSize(compressedBlob.size)}（${reductionText}）</p>
+            <button class="btn btn-success" id="compressDownloadBtn">下载压缩后的 PDF</button>`;
+        document.getElementById('compressDownloadBtn').onclick = () => downloadBlob(compressedBlob, compressFileData.name.replace('.pdf', '_compressed.pdf'));
+        showToast('PDF 压缩成功！', 'success');
+    } catch (e) {
+        showToast('压缩失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+// ============ 6. PDF 加水印 ============
+
+let watermarkFileData = null;
+
+async function handleWatermarkFile(file) {
+    if (!file || file.type !== 'application/pdf') { showToast('请选择 PDF 文件', 'error'); return; }
+    try {
+        const ab = await readFileAsArrayBuffer(file);
+        const pdf = await pdfjsLib.getDocument({ data: ab }).promise;
+        watermarkFileData = { name: file.name, size: file.size, pages: pdf.numPages, data: ab };
+        document.getElementById('watermarkFileName').textContent = file.name;
+        document.getElementById('watermarkFileSize').textContent = formatSize(file.size) + ' · ' + pdf.numPages + ' 页';
+        document.getElementById('watermarkFileInfo').style.display = '';
+        document.getElementById('watermarkBtn').disabled = false;
+    } catch (e) { showToast('无法读取文件', 'error'); }
+}
+
+async function doWatermark() {
+    if (!watermarkFileData) return;
+    const btn = document.getElementById('watermarkBtn');
+    btn.disabled = true;
+    document.getElementById('watermarkProgress').style.display = '';
+    document.getElementById('watermarkResult').style.display = 'none';
+
+    try {
+        const pdf = await pdfjsLib.getDocument({ data: watermarkFileData.data }).promise;
+        const numPages = pdf.numPages;
+        const watermarkText = document.getElementById('watermarkText').value || '水印';
+        const fontSize = parseInt(document.getElementById('watermarkFontSize').value) || 48;
+        const rotation = parseInt(document.getElementById('watermarkRotation').value) || -30;
+        const opacity = parseFloat(document.getElementById('watermarkOpacity').value) || 0.15;
+        const color = document.getElementById('watermarkColor').value;
+
+        // 解析颜色
+        const r = parseInt(color.substr(1, 2), 16);
+        const g = parseInt(color.substr(3, 2), 16);
+        const b = parseInt(color.substr(5, 2), 16);
+
+        let doc = null;
+
+        for (let i = 1; i <= numPages; i++) {
+            const page = await pdf.getPage(i);
+            const viewport = page.getViewport({ scale: 2 });
+            const canvas = document.createElement('canvas');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            const ctx = canvas.getContext('2d');
+
+            // 渲染原始页面
+            await page.render({ canvasContext: ctx, viewport }).promise;
+
+            // 在 canvas 上绘制水印
+            ctx.save();
+            ctx.globalAlpha = opacity;
+            ctx.fillStyle = color;
+            ctx.font = `bold ${fontSize * 2}px "Microsoft YaHei", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+
+            const rotationRad = rotation * Math.PI / 180;
+            // 铺满水印
+            const spacingX = 300;
+            const spacingY = 200;
+            for (let y = -canvas.height; y < canvas.height * 2; y += spacingY) {
+                for (let x = -canvas.width; x < canvas.width * 2; x += spacingX) {
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(rotationRad);
+                    ctx.fillText(watermarkText, 0, 0);
+                    ctx.restore();
+                }
+            }
+            ctx.restore();
+
+            const imgData = canvas.toDataURL('image/jpeg', 0.92);
+            const pageW = viewport.width * 25.4 / 72;
+            const pageH = viewport.height * 25.4 / 72;
+
+            if (i === 1) {
+                doc = new jsPDF({ unit: 'mm', format: [pageW, pageH] });
+            } else {
+                doc.addPage([pageW, pageH]);
+            }
+            doc.addImage(imgData, 'JPEG', 0, 0, pageW, pageH, undefined, 'FAST');
+
+            const pct = Math.round((i / numPages) * 100);
+            document.getElementById('watermarkProgressFill').style.width = pct + '%';
+            document.getElementById('watermarkProgressText').textContent = `正在添加水印 ${i}/${numPages}...`;
+        }
+
+        const resultBlob = doc.output('blob');
+        document.getElementById('watermarkProgressFill').style.width = '100%';
+        document.getElementById('watermarkProgressText').textContent = '水印添加完成！';
+
+        const result = document.getElementById('watermarkResult');
+        result.style.display = '';
+        result.innerHTML = `<h3>✅ 水印添加完成</h3>
+            <p>已为 ${numPages} 页添加水印「${watermarkText}」，文件大小 ${formatSize(resultBlob.size)}</p>
+            <button class="btn btn-success" id="watermarkDownloadBtn">下载带水印的 PDF</button>`;
+        document.getElementById('watermarkDownloadBtn').onclick = () => downloadBlob(resultBlob, watermarkFileData.name.replace('.pdf', '_watermarked.pdf'));
+        showToast('水印添加成功！', 'success');
+    } catch (e) {
+        showToast('添加水印失败: ' + e.message, 'error');
+        console.error(e);
+    }
+    btn.disabled = false;
+}
+
+// ============ 动态加载 pdf-lib（用于合并和拆分） ============
+
+function loadPdfLib() {
+    return new Promise((resolve, reject) => {
+        if (window.PDFLib) { resolve(); return; }
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+        script.onload = resolve;
+        script.onerror = () => reject(new Error('无法加载 pdf-lib 库'));
+        document.head.appendChild(script);
+    });
+}
+
+// ============ 初始化 ============
+showHome();
+</script>
+</body>
+</html>
