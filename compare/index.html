@@ -6,15 +6,68 @@
     <link rel="manifest" href="../manifest.json">
     <meta name="theme-color" content="#3a7bd5">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
-    <title>NexTool vs 竞品对比 - 免费在线工具评测 | PDF/AI简历/合同/PPT/邮件</title>
-    <meta name="description" content="NexTool与SmallPDF、ILovePDF、简历本、超级简历、法天使、Gamma、Grammarly等竞品深度对比。功能、价格、优缺点全面评测，帮你选对工具。">
-    <meta name="keywords" content="NexTool, SmallPDF替代, ILovePDF替代, AI简历工具对比, AI合同生成器对比, AI PPT工具对比, 免费在线工具">
+    <title>AI工具对比评测 - NextTool vs 竞品功能价格全面对比 | NextTool</title>
+    <meta name="description" content="NextTool与Gamma、Beautiful.ai、DeepL、Smallpdf、LegalZoom、法大大、超级简历等竞品深度对比。AI PPT、AI简历、AI合同、PDF工具、AI翻译、论文降重、免费工具全品类功能价格评测，帮你选对最合适的在线工具。">
+    <meta name="keywords" content="AI工具对比,NextTool,Gamma替代,DeepL替代,Smallpdf替代,超级简历替代,法大大替代,PaperPass对比,AI PPT生成器对比,AI简历优化器对比,AI合同生成器对比,PDF工具对比,AI翻译对比,免费在线工具对比">
     <meta name="robots" content="index, follow">
-    <meta property="og:title" content="NexTool vs 竞品对比 - 免费在线工具评测">
-    <meta property="og:description" content="NexTool与主流竞品深度对比，功能、价格、优缺点全面评测。">
+    <meta property="og:title" content="AI工具对比评测 - NextTool vs 竞品功能价格全面对比 | NextTool">
+    <meta property="og:description" content="NextTool与主流AI工具竞品深度对比，功能、价格、优缺点全面评测，覆盖PPT、简历、合同、PDF、翻译、论文降重等7大品类。">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/compare/">
     <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/compare/">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": "AI工具对比评测 - NextTool vs 竞品全面对比",
+        "description": "NextTool与主流竞品在AI PPT、AI简历、AI合同、PDF工具、AI翻译、论文降重、免费工具等7大品类的功能价格全面对比评测",
+        "numberOfItems": 7,
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "AI PPT生成器对比 - NextTool vs Gamma vs Beautiful.ai vs Slidesgo vs 讯飞智文",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#ppt"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "AI简历优化器对比 - NextTool vs Resume.io vs Kickresume vs Zety vs 超级简历",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#resume"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "AI合同生成器对比 - NextTool vs LegalZoom vs 法大大 vs e签宝",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#contract"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "AI论文降重对比 - NextTool vs PaperPass vs 万方查重 vs 知网查重",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#paper"
+            },
+            {
+                "@type": "ListItem",
+                "position": 5,
+                "name": "PDF工具对比 - NextTool vs Smallpdf vs iLovePDF vs PDF24",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#pdf"
+            },
+            {
+                "@type": "ListItem",
+                "position": 6,
+                "name": "AI翻译对比 - NextTool vs DeepL vs Google翻译 vs 百度翻译",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#translate"
+            },
+            {
+                "@type": "ListItem",
+                "position": 7,
+                "name": "免费工具对比 - NextTool vs Tool.lu vs 在线工具 vs 菜鸟工具",
+                "url": "https://lishoulan.github.io/nextool-apps/compare/#freetools"
+            }
+        ]
+    }
+    </script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -37,16 +90,17 @@
             background: linear-gradient(135deg, #00d2ff, #3a7bd5);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 15px;
         }
-        header p { color: #8899aa; font-size: 1.1em; max-width: 700px; margin: 0 auto; }
+        header p { color: #8899aa; font-size: 1.1em; max-width: 800px; margin: 0 auto; }
 
         /* Nav tabs */
         .nav-tabs {
             display: flex;
             justify-content: center;
             gap: 8px;
-            padding: 25px 0;
+            padding: 25px 15px;
             flex-wrap: wrap;
             background: #0f0f0f;
             position: sticky;
@@ -63,6 +117,7 @@
             border: 1px solid #2a2a2a;
             font-size: 0.9em;
             transition: all 0.3s;
+            white-space: nowrap;
         }
         .nav-tab:hover { background: #252525; color: #ccc; }
         .nav-tab.active {
@@ -85,7 +140,27 @@
             color: #fff;
             margin-bottom: 10px;
         }
-        .compare-section > .container > p { color: #8899aa; margin-bottom: 30px; }
+        .compare-section > .container > p.desc { color: #8899aa; margin-bottom: 20px; font-size: 1.05em; }
+
+        /* Analysis paragraphs */
+        .analysis {
+            background: #111118;
+            border-radius: 12px;
+            padding: 25px 30px;
+            margin: 25px 0;
+            border: 1px solid #1e1e2e;
+            line-height: 1.9;
+        }
+        .analysis p { color: #bbb; margin-bottom: 14px; font-size: 0.95em; }
+        .analysis p:last-child { margin-bottom: 0; }
+        .analysis strong { color: #00d2ff; }
+        .analysis h3 {
+            color: #ddeeff;
+            font-size: 1.15em;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #1e2e3e;
+        }
 
         /* Tables */
         .table-wrapper {
@@ -101,17 +176,18 @@
         }
         th {
             background: #161625;
-            padding: 14px 18px;
+            padding: 14px 16px;
             text-align: left;
             font-weight: 600;
             color: #aabbcc;
-            font-size: 0.9em;
+            font-size: 0.88em;
             border-bottom: 2px solid #2a2a3a;
+            white-space: nowrap;
         }
         td {
-            padding: 12px 18px;
+            padding: 11px 16px;
             border-bottom: 1px solid #1a1a2a;
-            font-size: 0.9em;
+            font-size: 0.88em;
         }
         tr:hover td { background: #111122; }
         .highlight-row td { background: #0d1f2d; }
@@ -216,6 +292,66 @@
             font-weight: 600;
         }
 
+        /* Summary cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin: 25px 0;
+        }
+        .summary-card {
+            background: #111118;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #1e1e2e;
+            text-align: center;
+        }
+        .summary-card .num {
+            font-size: 2em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .summary-card .label { color: #8899aa; font-size: 0.9em; margin-top: 5px; }
+
+        /* FAQ */
+        .faq-section { margin: 30px 0; }
+        .faq-item {
+            background: #111118;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #1e1e2e;
+            overflow: hidden;
+        }
+        .faq-q {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #ddeeff;
+            transition: background 0.2s;
+        }
+        .faq-q:hover { background: #161625; }
+        .faq-q .arrow { transition: transform 0.3s; font-size: 0.8em; color: #3a7bd5; }
+        .faq-q.open .arrow { transform: rotate(180deg); }
+        .faq-a {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s, padding 0.3s;
+            color: #999;
+            font-size: 0.92em;
+            line-height: 1.8;
+        }
+        .faq-a.open {
+            max-height: 500px;
+            padding: 0 20px 16px;
+        }
+
         /* Footer */
         footer {
             text-align: center;
@@ -233,6 +369,8 @@
             .nav-tab { padding: 8px 14px; font-size: 0.8em; }
             .compare-section h2 { font-size: 1.3em; }
             .pros-cons { grid-template-columns: 1fr; }
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+            .analysis { padding: 18px 16px; }
         }
     </style>
 </head>
@@ -240,207 +378,147 @@
 
 <header>
     <div class="container">
-        <h1>NexTool vs 竞品深度对比</h1>
-        <p>功能、价格、优缺点全面评测，帮你选对最合适的在线工具。所有对比基于真实使用体验，不吹不黑。</p>
+        <h1>AI工具对比评测 - NextTool vs 竞品功能价格全面对比</h1>
+        <p>覆盖AI PPT生成器、AI简历优化器、AI合同生成器、AI论文降重、PDF工具、AI翻译、免费工具7大品类，与Gamma、DeepL、Smallpdf、LegalZoom等20+款竞品深度对比，功能、价格、优缺点全面评测，帮你选对最合适的在线工具。</p>
     </div>
 </header>
 
-<nav class="nav-tabs">
-    <div class="nav-tab active" data-tab="pdf">PDF工具</div>
-    <div class="nav-tab" data-tab="resume">AI简历</div>
-    <div class="nav-tab" data-tab="contract">AI合同</div>
-    <div class="nav-tab" data-tab="ppt">AI PPT</div>
-    <div class="nav-tab" data-tab="email">AI邮件</div>
+<nav class="nav-tabs" id="navTabs">
+    <div class="nav-tab active" data-tab="ppt">📊 AI PPT对比</div>
+    <div class="nav-tab" data-tab="resume">💼 AI简历对比</div>
+    <div class="nav-tab" data-tab="contract">📋 AI合同对比</div>
+    <div class="nav-tab" data-tab="paper">📝 论文降重对比</div>
+    <div class="nav-tab" data-tab="pdf">📄 PDF工具对比</div>
+    <div class="nav-tab" data-tab="translate">🌐 AI翻译对比</div>
+    <div class="nav-tab" data-tab="freetools">🔧 免费工具对比</div>
 </nav>
 
-<!-- ==================== PDF 对比 ==================== -->
-<section class="compare-section active" id="pdf">
+<!-- ==================== AI PPT 生成器对比 ==================== -->
+<section class="compare-section active" id="ppt">
     <div class="container">
-        <h2>📄 PDF工具对比：NexTool PDF vs SmallPDF vs ILovePDF</h2>
-        <p>三大PDF在线工具全方位对比，看看哪个更适合你</p>
+        <h2>📊 AI PPT生成器对比：NextTool vs Gamma vs Beautiful.ai vs Slidesgo vs 讯飞智文</h2>
+        <p class="desc">五款主流AI演示文稿工具全方位对比，看看哪款能让你最快做出专业PPT</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">5</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">12</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>AI PPT生成器市场现状分析</h3>
+            <p>AI PPT生成器是近年来最热门的AI办公工具品类之一。随着大语言模型技术的成熟，用户只需输入一个主题或一段描述，AI就能自动生成包含标题、内容、排版建议的完整演示文稿。这一品类中，<strong>Gamma</strong>以其流畅的在线演示体验和丰富的动画效果在国际市场占据领先地位；<strong>Beautiful.ai</strong>则以智能排版和精美设计模板著称；<strong>Slidesgo</strong>提供海量免费模板资源，是设计师和教师群体的常用选择；<strong>讯飞智文</strong>依托科大讯飞的AI技术，在中文场景下有一定优势。</p>
+            <p>然而，这些工具各有局限：Gamma和Beautiful.ai的中文排版效果不佳，且导出PPTX格式需要付费订阅；Slidesgo本质是模板下载站，缺乏AI自动生成能力；讯飞智文虽然中文支持好，但免费版功能限制较多，且模板数量有限。<strong>NextTool AI PPT生成器</strong>则针对这些痛点进行了全面优化——原生中文支持确保排版效果专业美观，免费导出PPTX格式让用户可以直接在本地编辑，国内服务器部署保证了访问速度，完全免费的使用策略更是让个人用户和小微团队零成本上手。</p>
+        </div>
 
         <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
                         <th>功能</th>
-                        <th>NexTool PDF</th>
-                        <th>SmallPDF</th>
-                        <th>ILovePDF</th>
+                        <th>NextTool AI PPT</th>
+                        <th>Gamma</th>
+                        <th>Beautiful.ai</th>
+                        <th>Slidesgo</th>
+                        <th>讯飞智文</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
-                        <td>合并PDF</td>
-                        <td><span class="check">✓</span> 无限制</td>
-                        <td><span class="partial">⚠</span> 每日2次</td>
-                        <td><span class="check">✓</span> 无限制</td>
+                        <td>AI一键生成PPT</td>
+                        <td><span class="check">✅</span> 主题描述即可</td>
+                        <td><span class="check">✅</span> 主题描述即可</td>
+                        <td><span class="check">✅</span> 主题描述即可</td>
+                        <td><span class="cross">❌</span> 仅模板下载</td>
+                        <td><span class="check">✅</span> 主题描述即可</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>拆分PDF</td>
-                        <td><span class="check">✓</span> 无限制</td>
-                        <td><span class="partial">⚠</span> 每日2次</td>
-                        <td><span class="check">✓</span> 无限制</td>
+                        <td>中文原生支持</td>
+                        <td><span class="check">✅</span> 原生中文排版</td>
+                        <td><span class="partial">⚠️</span> 支持但排版一般</td>
+                        <td><span class="cross">❌</span> 英文为主</td>
+                        <td><span class="check">✅</span> 西语模板为主</td>
+                        <td><span class="check">✅</span> 原生中文</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>PDF转Word</td>
-                        <td><span class="check">✓</span> 免费</td>
-                        <td><span class="cross">✗</span> 付费</td>
-                        <td><span class="partial">⚠</span> 有水印</td>
-                    </tr>
-                    <tr class="highlight-row">
-                        <td>PDF转Excel</td>
-                        <td><span class="check">✓</span> 免费</td>
-                        <td><span class="cross">✗</span> 付费</td>
-                        <td><span class="partial">⚠</span> 有水印</td>
-                    </tr>
-                    <tr>
-                        <td>压缩PDF</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td>添加水印</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td>文件大小限制</td>
-                        <td>100MB</td>
-                        <td>免费5MB</td>
-                        <td>免费15MB</td>
-                    </tr>
-                    <tr>
-                        <td>广告</td>
-                        <td><span class="check">无</span></td>
-                        <td><span class="cross">有</span></td>
-                        <td><span class="cross">有</span></td>
-                    </tr>
-                    <tr>
-                        <td>数据安全</td>
-                        <td><span class="check">本地处理</span></td>
-                        <td>上传服务器</td>
-                        <td>上传服务器</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h3 style="color:#aabbcc; margin: 25px 0 15px;">💰 价格对比</h3>
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr><th>方案</th><th>NexTool PDF</th><th>SmallPDF</th><th>ILovePDF</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="highlight-row">
-                        <td>免费版</td>
-                        <td><span class="price-free">全功能免费</span></td>
-                        <td><span class="price-paid">每日2次操作</span></td>
-                        <td><span class="price-paid">转换有水印</span></td>
-                    </tr>
-                    <tr>
-                        <td>付费版</td>
-                        <td>无需付费</td>
-                        <td>¥90/月</td>
-                        <td>¥52/月</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pros-cons">
-            <div class="pros-cons-card card-nextool">
-                <h3><span class="icon">🚀</span> NexTool PDF 优势</h3>
-                <ul class="card-pros">
-                    <li>完全免费，无每日使用次数限制</li>
-                    <li>PDF转Word/Excel无水印无限制</li>
-                    <li>本地处理，文件不上传服务器，隐私安全</li>
-                    <li>100MB大文件支持，远超竞品免费版</li>
-                    <li>界面简洁无广告，操作体验流畅</li>
-                </ul>
-            </div>
-            <div class="pros-cons-card card-competitor">
-                <h3><span class="icon">⚠️</span> SmallPDF / ILovePDF 不足</h3>
-                <ul class="card-cons">
-                    <li>SmallPDF免费版每日仅2次操作</li>
-                    <li>ILovePDF转换文件带水印</li>
-                    <li>免费版文件大小限制严格（5-15MB）</li>
-                    <li>文件需上传到服务器，存在隐私风险</li>
-                    <li>付费版价格较高（¥52-90/月）</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="cta-section">
-            <h3>免费使用 NexTool PDF，无限制无水印</h3>
-            <p>不用付费，不用注册，打开即用</p>
-            <a href="https://lishoulan.github.io/nextool-apps/pdf-toolkit/" class="cta-btn" target="_blank">免费使用 NexTool PDF →</a>
-        </div>
-    </div>
-</section>
-
-<!-- ==================== AI简历 对比 ==================== -->
-<section class="compare-section" id="resume">
-    <div class="container">
-        <h2>💼 AI简历工具对比：NexTool AI简历 vs 简历本 vs 超级简历</h2>
-        <p>三款主流简历工具对比，哪款能让你的简历脱颖而出？</p>
-
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr><th>功能</th><th>NexTool AI简历</th><th>简历本</th><th>超级简历</th></tr>
-                </thead>
-                <tbody>
-                    <tr class="highlight-row">
-                        <td>AI自动优化</td>
-                        <td><span class="check">✓</span> 深度优化</td>
-                        <td><span class="cross">✗</span></td>
-                        <td><span class="partial">⚠</span> 基础润色</td>
-                    </tr>
-                    <tr class="highlight-row">
-                        <td>AI内容生成</td>
-                        <td><span class="check">✓</span> 一键生成</td>
-                        <td><span class="cross">✗</span></td>
-                        <td><span class="partial">⚠</span> 有限</td>
-                    </tr>
-                    <tr class="highlight-row">
-                        <td>ATS友好度检测</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="cross">✗</span></td>
-                        <td><span class="check">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td>模板数量</td>
-                        <td>20+</td>
-                        <td>50+</td>
-                        <td>30+</td>
+                        <td>导出PPTX</td>
+                        <td><span class="check">✅</span> 免费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="check">✅</span> 下载PPTX</td>
+                        <td><span class="partial">⚠️</span> 免费版有水印</td>
                     </tr>
                     <tr>
                         <td>导出PDF</td>
-                        <td><span class="check">✓</span> 免费</td>
-                        <td><span class="cross">✗</span> 付费</td>
-                        <td><span class="partial">⚠</span> 部分免费</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
-                        <td>中英文双语</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>模板数量</td>
+                        <td>30+</td>
+                        <td>20+</td>
+                        <td>60+</td>
+                        <td>500+</td>
+                        <td>15+</td>
                     </tr>
                     <tr>
-                        <td>一键翻译</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="cross">✗</span></td>
-                        <td><span class="cross">✗</span></td>
+                        <td>在线演示</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="check">✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>协作编辑</td>
+                        <td><span class="partial">⚠️</span> 即将上线</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr>
+                        <td>动画效果</td>
+                        <td><span class="partial">⚠️</span> 基础</td>
+                        <td><span class="check">✅</span> 丰富</td>
+                        <td><span class="check">✅</span> 丰富</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="partial">⚠️</span> 基础</td>
+                    </tr>
+                    <tr>
+                        <td>国内访问速度</td>
+                        <td><span class="check">✅</span> 快</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="cross">❌</span> 慢</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="check">✅</span> 快</td>
                     </tr>
                     <tr>
                         <td>注册要求</td>
                         <td>无需注册</td>
                         <td>需注册</td>
                         <td>需注册</td>
+                        <td>需注册下载</td>
+                        <td>需注册</td>
+                    </tr>
+                    <tr>
+                        <td>广告</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="partial">⚠️</span> 升级提示</td>
+                        <td><span class="cross">❌</span> 有广告</td>
+                        <td><span class="partial">⚠️</span> 升级提示</td>
+                    </tr>
+                    <tr>
+                        <td>数据安全</td>
+                        <td>本地处理</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                        <td>下载到本地</td>
+                        <td>上传服务器</td>
                     </tr>
                 </tbody>
             </table>
@@ -450,120 +528,358 @@
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>方案</th><th>NexTool AI简历</th><th>简历本</th><th>超级简历</th></tr>
+                    <tr><th>方案</th><th>NextTool AI PPT</th><th>Gamma</th><th>Beautiful.ai</th><th>Slidesgo</th><th>讯飞智文</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>免费版</td>
+                        <td><span class="price-free">AI生成+导出免费</span></td>
+                        <td><span class="price-paid">导出PPTX需付费</span></td>
+                        <td><span class="price-paid">基础功能有限</span></td>
+                        <td><span class="price-free">模板免费下载</span></td>
+                        <td><span class="price-paid">导出有水印</span></td>
+                    </tr>
+                    <tr>
+                        <td>付费版</td>
+                        <td>无需付费</td>
+                        <td>$10/月</td>
+                        <td>$12/月</td>
+                        <td>¥99/年（高级模板）</td>
+                        <td>¥29/月</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>中文排版是NextTool最大的差异化优势。</strong>Gamma和Beautiful.ai虽然功能强大，但它们的排版引擎针对英文设计，中文字符的行间距、段落缩进、字体搭配等细节处理不够理想，经常出现文字溢出、对齐不齐等问题。NextTool从底层针对中文排版进行了专门优化，确保每一页PPT的中文呈现效果都专业美观。</p>
+            <p><strong>免费导出PPTX是另一个核心优势。</strong>对于大多数用户来说，生成PPT后还需要在本地进行微调和个性化编辑，导出为可编辑的PPTX格式是刚需。Gamma和Beautiful.ai都将此功能放在付费版中，而NextTool完全免费提供，这为用户节省了每年数百元的订阅费用。</p>
+            <p><strong>国内访问速度和零注册门槛</strong>也是NextTool的显著优势。Beautiful.ai的服务器在海外，国内访问经常出现加载缓慢甚至无法打开的情况；Gamma虽然可以访问但速度一般。NextTool部署在国内服务器上，页面加载和AI生成速度都更快。同时，NextTool无需注册即可使用，降低了使用门槛。</p>
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros-cons-card card-nextool">
+                <h3><span class="icon">🚀</span> NextTool AI PPT 优势</h3>
+                <ul class="card-pros">
+                    <li>原生中文支持，排版效果专业美观</li>
+                    <li>免费导出PPTX格式，可直接在本地编辑</li>
+                    <li>国内访问速度快，无需翻墙</li>
+                    <li>AI生成质量高，内容专业有逻辑</li>
+                    <li>完全免费，无隐藏收费，无使用次数限制</li>
+                    <li>无需注册即可使用，零门槛上手</li>
+                </ul>
+            </div>
+            <div class="pros-cons-card card-competitor">
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
+                <ul class="card-cons">
+                    <li>Gamma导出PPTX需付费（$10/月）</li>
+                    <li>Beautiful.ai中文支持差，以英文为主</li>
+                    <li>Beautiful.ai国内访问速度慢</li>
+                    <li>Slidesgo无AI生成能力，仅提供模板下载</li>
+                    <li>讯飞智文免费版导出带水印</li>
+                    <li>Gamma中文排版效果一般</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3>AI一键生成PPT，免费导出可编辑文件</h3>
+            <p>中文原生支持，3分钟出专业演示文稿，无需注册</p>
+            <a href="https://lishoulan.github.io/nextool-apps/ai-ppt-generator/" class="cta-btn" target="_blank">免费使用 NextTool AI PPT →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AI简历优化器对比 ==================== -->
+<section class="compare-section" id="resume">
+    <div class="container">
+        <h2>💼 AI简历优化器对比：NextTool vs Resume.io vs Kickresume vs Zety vs 超级简历</h2>
+        <p class="desc">五款主流简历工具深度对比，哪款能让你的简历脱颖而出？</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">5</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">11</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>AI简历优化器市场现状分析</h3>
+            <p>简历是求职者与HR的第一次"对话"，一份专业、精准、有亮点的简历往往能决定你是否能获得面试机会。传统的简历制作工具如<strong>Resume.io</strong>和<strong>Kickresume</strong>主要聚焦于模板和排版，提供精美的简历模板让用户手动填写内容；<strong>Zety</strong>在此基础上增加了内容建议功能，但核心仍是模板驱动；<strong>超级简历</strong>是国内较早的简历工具，在中文场景下有一定用户基础，但AI优化能力有限。</p>
+            <p>这些传统工具的共同问题是：它们只能帮你"排版"，不能帮你"写内容"。而<strong>NextTool AI简历优化器</strong>的核心能力正是AI内容优化——它能分析你的原始简历，自动润色工作描述、优化措辞、突出成果和亮点、调整语言风格以匹配目标岗位。此外，NextTool还提供ATS（求职者追踪系统）友好度检测，确保你的简历能通过企业HR系统的自动筛选。中英文一键翻译功能更是让投递外企变得轻松。</p>
+            <p>在价格方面，Resume.io和Zety的免费版都限制导出功能，用户必须付费才能下载PDF格式的简历；Kickresume虽然提供免费导出但模板选择有限。NextTool则完全免费提供AI优化和PDF导出，没有任何隐藏收费。</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool AI简历</th>
+                        <th>Resume.io</th>
+                        <th>Kickresume</th>
+                        <th>Zety</th>
+                        <th>超级简历</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>AI深度优化</td>
+                        <td><span class="check">✅</span> 深度优化</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="partial">⚠️</span> 基础润色</td>
+                        <td><span class="partial">⚠️</span> 内容建议</td>
+                        <td><span class="partial">⚠️</span> 基础润色</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>AI内容生成</td>
+                        <td><span class="check">✅</span> 一键生成</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="partial">⚠️</span> 有限</td>
+                        <td><span class="partial">⚠️</span> 预设文案</td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>ATS友好度检测</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>模板数量</td>
+                        <td>20+</td>
+                        <td>30+</td>
+                        <td>40+</td>
+                        <td>20+</td>
+                        <td>30+</td>
+                    </tr>
+                    <tr>
+                        <td>导出PDF</td>
+                        <td><span class="check">✅</span> 免费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="partial">⚠️</span> 部分免费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="partial">⚠️</span> 部分免费</td>
+                    </tr>
+                    <tr>
+                        <td>中英文双语</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="partial">⚠️</span> 英文为主</td>
+                        <td><span class="partial">⚠️</span> 英文为主</td>
+                        <td><span class="cross">❌</span> 英文</td>
+                        <td><span class="check">✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>一键翻译</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr>
+                        <td>中文排版优化</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="check">✅</span></td>
+                    </tr>
+                    <tr>
+                        <td>注册要求</td>
+                        <td>无需注册</td>
+                        <td>需注册</td>
+                        <td>需注册</td>
+                        <td>需注册</td>
+                        <td>需注册</td>
+                    </tr>
+                    <tr>
+                        <td>国内访问</td>
+                        <td><span class="check">✅</span> 快</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="cross">❌</span> 慢</td>
+                        <td><span class="check">✅</span> 快</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color:#aabbcc; margin: 25px 0 15px;">💰 价格对比</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>方案</th><th>NextTool AI简历</th><th>Resume.io</th><th>Kickresume</th><th>Zety</th><th>超级简历</th></tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
                         <td>免费版</td>
                         <td><span class="price-free">AI优化+导出免费</span></td>
                         <td><span class="price-paid">导出需付费</span></td>
+                        <td><span class="price-paid">部分模板免费</span></td>
+                        <td><span class="price-paid">导出需付费</span></td>
                         <td><span class="price-paid">高级模板付费</span></td>
                     </tr>
                     <tr>
                         <td>付费版</td>
                         <td>无需付费</td>
-                        <td>¥39/次</td>
+                        <td>$2.95/月</td>
+                        <td>$8/月</td>
+                        <td>$5.95/月</td>
                         <td>¥99/季</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>AI深度优化是NextTool的核心竞争力。</strong>传统简历工具只能帮你排版，但内容质量才是决定简历好坏的关键。NextTool的AI能分析你的工作经历，自动将平淡的描述转化为有冲击力的表述，突出量化成果和关键技能，让HR一眼看到你的价值。例如，将"负责项目管理"优化为"主导5个跨部门项目，团队规模10+人，项目交付准时率98%"。</p>
+            <p><strong>ATS友好度检测</strong>是另一个实用功能。超过90%的大型企业使用ATS系统筛选简历，如果简历格式不兼容ATS，即使内容再好也会被系统自动淘汰。NextTool能检测简历的ATS兼容性，并提供优化建议，确保你的简历能顺利通过系统筛选。</p>
+            <p><strong>中英文一键翻译</strong>功能让投递外企变得简单。你只需维护一份中文简历，点击翻译即可获得专业英文版本，翻译质量远超机器直译，符合英文简历的表达习惯和专业术语。</p>
+        </div>
+
         <div class="pros-cons">
             <div class="pros-cons-card card-nextool">
-                <h3><span class="icon">🚀</span> NexTool AI简历 优势</h3>
+                <h3><span class="icon">🚀</span> NextTool AI简历 优势</h3>
                 <ul class="card-pros">
                     <li>AI深度优化简历内容，不是简单排版</li>
                     <li>一键生成+润色，5分钟出专业简历</li>
                     <li>ATS系统友好度检测，提高通过率</li>
                     <li>中英文一键翻译，投外企无障碍</li>
                     <li>完全免费导出PDF，无水印</li>
+                    <li>无需注册即可使用</li>
                 </ul>
             </div>
             <div class="pros-cons-card card-competitor">
-                <h3><span class="icon">⚠️</span> 简历本 / 超级简历 不足</h3>
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
                 <ul class="card-cons">
-                    <li>简历本导出PDF需付费（¥39/次）</li>
+                    <li>Resume.io导出PDF需付费</li>
+                    <li>Zety免费版无法下载简历</li>
+                    <li>Kickresume AI功能有限，免费模板少</li>
                     <li>超级简历高级模板需订阅（¥99/季）</li>
-                    <li>两者均无AI深度优化能力</li>
-                    <li>缺少ATS友好度检测功能</li>
-                    <li>必须注册才能使用</li>
+                    <li>Resume.io/Zety/Kickresume中文支持差</li>
+                    <li>多数竞品缺少ATS检测功能</li>
                 </ul>
             </div>
         </div>
 
         <div class="cta-section">
             <h3>AI帮你写简历，5分钟搞定专业简历</h3>
-            <p>免费使用，无需注册，AI自动优化内容</p>
-            <a href="https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/" class="cta-btn" target="_blank">免费使用 NexTool AI简历 →</a>
+            <p>免费使用，无需注册，AI自动优化内容，ATS检测一键搞定</p>
+            <a href="https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/" class="cta-btn" target="_blank">免费使用 NextTool AI简历 →</a>
         </div>
     </div>
 </section>
 
-<!-- ==================== AI合同 对比 ==================== -->
+<!-- ==================== AI合同生成器对比 ==================== -->
 <section class="compare-section" id="contract">
     <div class="container">
-        <h2>📋 AI合同工具对比：NexTool AI合同 vs 法天使 vs 律商联讯</h2>
-        <p>三款合同生成工具对比，哪款更适合中小企业和个人？</p>
+        <h2>📋 AI合同生成器对比：NextTool vs LegalZoom vs 法大大 vs e签宝</h2>
+        <p class="desc">四款合同生成与电子签约工具深度对比，哪款更适合中小企业和个人？</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">4</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">11</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>AI合同生成器市场现状分析</h3>
+            <p>合同是商业活动中最基础也最重要的法律文书。无论是劳动合同、租赁合同、保密协议还是合作协议，一份条款完备、风险可控的合同能有效保护各方权益。传统的合同获取方式通常是找律师起草或在网上搜索模板手动修改，前者成本高昂，后者风险较大。</p>
+            <p><strong>LegalZoom</strong>是美国知名的法律服务平台，提供合同模板和律师咨询，但主要面向海外市场，对中国法律法规支持不足，且价格较高。<strong>法大大</strong>和<strong>e签宝</strong>是国内领先的电子签约平台，在电子签名和合同存证方面有深厚积累，但它们的合同生成能力相对有限，主要依赖固定模板填空模式，且核心业务是电子签约而非合同起草。</p>
+            <p><strong>NextTool AI合同生成器</strong>的定位与众不同——它专注于合同的"起草"环节，用自然语言描述需求即可AI自动生成完整合同。这意味着你不需要法律专业知识，不需要翻找模板，只需描述"我需要一份与员工的劳动合同，包含竞业限制条款"，AI就能生成符合中国法律法规的专业合同文本。风险条款自动检测功能还能帮你识别潜在法律风险，避免踩坑。</p>
+        </div>
 
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>功能</th><th>NexTool AI合同</th><th>法天使</th><th>律商联讯</th></tr>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool AI合同</th>
+                        <th>LegalZoom</th>
+                        <th>法大大</th>
+                        <th>e签宝</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
                         <td>AI自动生成合同</td>
-                        <td><span class="check">✓</span> 自然语言描述即可</td>
-                        <td><span class="partial">⚠</span> 模板填空</td>
-                        <td><span class="cross">✗</span></td>
+                        <td><span class="check">✅</span> 自然语言描述即可</td>
+                        <td><span class="cross">❌</span> 模板+律师</td>
+                        <td><span class="partial">⚠️</span> 模板填空</td>
+                        <td><span class="partial">⚠️</span> 模板填空</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>合同模板数量</td>
-                        <td>50+ AI动态生成</td>
-                        <td>200+ 固定模板</td>
-                        <td>100+ 固定模板</td>
+                        <td>中国法律法规</td>
+                        <td><span class="check">✅</span> 原生支持</td>
+                        <td><span class="cross">❌</span> 美国法律为主</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr class="highlight-row">
                         <td>风险条款检测</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✅</span> AI自动检测</td>
+                        <td><span class="partial">⚠️</span> 律师审查</td>
+                        <td><span class="partial">⚠️</span> 基础提示</td>
+                        <td><span class="partial">⚠️</span> 基础提示</td>
+                    </tr>
+                    <tr>
+                        <td>电子签名</td>
+                        <td><span class="partial">⚠️</span> 即将上线</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span> 核心功能</td>
+                        <td><span class="check">✅</span> 核心功能</td>
+                    </tr>
+                    <tr>
+                        <td>合同模板数量</td>
+                        <td>50+ AI动态生成</td>
+                        <td>100+ 固定模板</td>
+                        <td>200+ 固定模板</td>
+                        <td>150+ 固定模板</td>
                     </tr>
                     <tr>
                         <td>自定义条款</td>
-                        <td><span class="check">✓</span> AI辅助</td>
-                        <td><span class="partial">⚠</span> 手动编辑</td>
-                        <td><span class="partial">⚠</span> 手动编辑</td>
+                        <td><span class="check">✅</span> AI辅助</td>
+                        <td><span class="partial">⚠️</span> 律师修改</td>
+                        <td><span class="partial">⚠️</span> 手动编辑</td>
+                        <td><span class="partial">⚠️</span> 手动编辑</td>
                     </tr>
                     <tr>
                         <td>劳动合同</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
                         <td>租赁合同</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
                         <td>保密协议</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
                         <td>使用门槛</td>
                         <td>零门槛</td>
                         <td>需法律知识</td>
                         <td>需法律知识</td>
+                        <td>需法律知识</td>
                     </tr>
                     <tr>
                         <td>适合人群</td>
                         <td>所有人</td>
-                        <td>法律从业者</td>
+                        <td>美国企业/个人</td>
+                        <td>企业法务</td>
                         <td>企业法务</td>
                     </tr>
                 </tbody>
@@ -574,44 +890,55 @@
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>方案</th><th>NexTool AI合同</th><th>法天使</th><th>律商联讯</th></tr>
+                    <tr><th>方案</th><th>NextTool AI合同</th><th>LegalZoom</th><th>法大大</th><th>e签宝</th></tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
                         <td>免费版</td>
                         <td><span class="price-free">AI生成+导出免费</span></td>
-                        <td><span class="price-paid">部分模板付费</span></td>
-                        <td><span class="price-paid">企业订阅制</span></td>
+                        <td><span class="price-paid">基础模板有限</span></td>
+                        <td><span class="price-paid">签署次数有限</span></td>
+                        <td><span class="price-paid">签署次数有限</span></td>
                     </tr>
                     <tr>
                         <td>付费版</td>
                         <td>无需付费</td>
-                        <td>¥199/年</td>
-                        <td>¥5000+/年</td>
+                        <td>$79起/次</td>
+                        <td>¥199/年起</td>
+                        <td>¥298/年起</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>自然语言生成合同是NextTool最核心的差异化能力。</strong>传统工具需要你先找到合适的模板，再逐项填写空白字段，这个过程既耗时又容易遗漏关键条款。NextTool让你用日常语言描述需求，例如"我需要一份房屋租赁合同，租期1年，月租金5000元，押一付三，包含物业费"，AI就能自动生成包含所有相关条款的完整合同。</p>
+            <p><strong>风险条款自动检测</strong>是另一个重要功能。AI会分析生成的合同文本，识别可能存在法律风险的条款，并给出修改建议。例如，如果劳动合同中缺少社保缴纳条款，AI会提醒你补充；如果竞业限制条款过于宽泛，AI会建议缩小范围以提高可执行性。</p>
+            <p><strong>零法律知识门槛</strong>让NextTool特别适合个人用户和小微企业。你不需要了解《合同法》《劳动合同法》的具体条文，AI会自动确保生成的合同符合中国法律法规要求。相比之下，LegalZoom主要面向美国市场，对中国法律支持不足；法大大和e签宝虽然合规性强，但使用门槛较高，更适合有法务背景的企业用户。</p>
+        </div>
+
         <div class="pros-cons">
             <div class="pros-cons-card card-nextool">
-                <h3><span class="icon">🚀</span> NexTool AI合同 优势</h3>
+                <h3><span class="icon">🚀</span> NextTool AI合同 优势</h3>
                 <ul class="card-pros">
                     <li>用自然语言描述需求，AI自动生成合同</li>
                     <li>零法律知识门槛，普通人也能写出专业合同</li>
                     <li>AI动态生成，不局限于固定模板</li>
                     <li>风险条款自动检测，避免踩坑</li>
                     <li>完全免费，无隐藏收费</li>
+                    <li>原生支持中国法律法规</li>
                 </ul>
             </div>
             <div class="pros-cons-card card-competitor">
-                <h3><span class="icon">⚠️</span> 法天使 / 律商联讯 不足</h3>
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
                 <ul class="card-cons">
-                    <li>法天使高级模板需付费（¥199/年）</li>
-                    <li>律商联讯价格昂贵（¥5000+/年），面向企业</li>
-                    <li>两者均为模板填空模式，无AI生成能力</li>
-                    <li>需要一定法律知识才能正确使用</li>
-                    <li>对个人用户和小微企业不够友好</li>
+                    <li>LegalZoom主要面向美国市场，中国法律支持差</li>
+                    <li>LegalZoom价格昂贵（$79起/次）</li>
+                    <li>法大大/e签宝核心是电子签约，合同生成能力弱</li>
+                    <li>法大大/e签宝均为模板填空模式，无AI生成</li>
+                    <li>法大大/e签宝使用门槛较高，需法律知识</li>
+                    <li>法大大（¥199/年）和e签宝（¥298/年）需付费订阅</li>
                 </ul>
             </div>
         </div>
@@ -619,76 +946,110 @@
         <div class="cta-section">
             <h3>AI帮你写合同，描述需求即可生成</h3>
             <p>免费使用，零法律知识门槛，3分钟出专业合同</p>
-            <a href="https://lishoulan.github.io/nextool-apps/ai-contract-generator/" class="cta-btn" target="_blank">免费使用 NexTool AI合同 →</a>
+            <a href="https://lishoulan.github.io/nextool-apps/ai-contract-generator/" class="cta-btn" target="_blank">免费使用 NextTool AI合同 →</a>
         </div>
     </div>
 </section>
 
-<!-- ==================== AI PPT 对比 ==================== -->
-<section class="compare-section" id="ppt">
+<!-- ==================== AI论文降重对比 ==================== -->
+<section class="compare-section" id="paper">
     <div class="container">
-        <h2>📊 AI PPT工具对比：NexTool AI PPT vs Gamma vs Beautiful.ai</h2>
-        <p>三款AI演示文稿工具对比，哪款能让你最快做出专业PPT？</p>
+        <h2>📝 AI论文降重对比：NextTool vs PaperPass vs 万方查重 vs 知网查重</h2>
+        <p class="desc">四款论文查重与降重工具深度对比，哪款能有效降低论文重复率？</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">4</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">10</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool降重最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>AI论文降重市场现状分析</h3>
+            <p>论文查重和降重是高校学生和科研工作者面临的高频需求。随着各高校对论文重复率要求的日益严格（通常要求低于15%-30%），论文降重工具的市场需求持续增长。<strong>知网查重</strong>是学术界最权威的查重系统，几乎所有高校都采用知网作为论文查重的标准，但知网仅提供查重服务，不提供降重功能，且价格不菲。<strong>万方查重</strong>是知网的主要竞争者，价格相对便宜，但数据库覆盖面不如知网。<strong>PaperPass</strong>是较早进入市场的第三方查重平台，以价格低廉著称，但查重准确度与知网存在差距。</p>
+            <p>这些工具的共同局限在于：它们只能"查"不能"改"。你拿到查重报告后，仍然需要手动逐句修改重复内容，这个过程耗时耗力，且容易改出语法错误或改变原意。<strong>NextTool AI论文降重</strong>则填补了这一空白——它不仅能查重，更重要的是能AI智能降重，在保持原意的前提下自动改写重复内容，确保降重后的论文语句通顺、逻辑清晰、学术规范。</p>
+        </div>
 
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>功能</th><th>NexTool AI PPT</th><th>Gamma</th><th>Beautiful.ai</th></tr>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool AI降重</th>
+                        <th>PaperPass</th>
+                        <th>万方查重</th>
+                        <th>知网查重</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
-                        <td>AI一键生成PPT</td>
-                        <td><span class="check">✓</span> 主题描述即可</td>
-                        <td><span class="check">✓</span> 主题描述即可</td>
-                        <td><span class="check">✓</span> 主题描述即可</td>
+                        <td>AI智能降重</td>
+                        <td><span class="check">✅</span> 一键降重</td>
+                        <td><span class="cross">❌</span> 仅查重</td>
+                        <td><span class="cross">❌</span> 仅查重</td>
+                        <td><span class="cross">❌</span> 仅查重</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>中文支持</td>
-                        <td><span class="check">✓</span> 原生中文</td>
-                        <td><span class="partial">⚠</span> 支持但排版一般</td>
-                        <td><span class="cross">✗</span> 英文为主</td>
+                        <td>保持原意改写</td>
+                        <td><span class="check">✅</span> AI语义理解</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>导出PPTX</td>
-                        <td><span class="check">✓</span> 免费</td>
-                        <td><span class="cross">✗</span> 付费</td>
-                        <td><span class="cross">✗</span> 付费</td>
+                        <td>论文查重</td>
+                        <td><span class="check">✅</span> 内置查重</td>
+                        <td><span class="check">✅</span> 核心功能</td>
+                        <td><span class="check">✅</span> 核心功能</td>
+                        <td><span class="check">✅</span> 核心功能</td>
                     </tr>
                     <tr>
-                        <td>导出PDF</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>查重准确度</td>
+                        <td>高</td>
+                        <td>中等</td>
+                        <td>较高</td>
+                        <td>最高（学术标准）</td>
                     </tr>
                     <tr>
-                        <td>模板数量</td>
-                        <td>30+</td>
-                        <td>20+</td>
-                        <td>60+</td>
+                        <td>降重后语句质量</td>
+                        <td><span class="check">✅</span> 通顺自然</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
                     </tr>
                     <tr>
-                        <td>在线演示</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>学术规范保持</td>
+                        <td><span class="check">✅</span> 自动保持</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
+                        <td>N/A</td>
                     </tr>
                     <tr>
-                        <td>协作编辑</td>
-                        <td><span class="partial">⚠</span> 即将上线</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>批量处理</td>
+                        <td><span class="check">✅</span> 支持整篇</td>
+                        <td><span class="partial">⚠️</span> 逐段</td>
+                        <td><span class="partial">⚠️</span> 逐段</td>
+                        <td><span class="check">✅</span> 整篇</td>
                     </tr>
                     <tr>
-                        <td>动画效果</td>
-                        <td><span class="partial">⚠</span> 基础</td>
-                        <td><span class="check">✓</span> 丰富</td>
-                        <td><span class="check">✓</span> 丰富</td>
+                        <td>处理速度</td>
+                        <td>快（秒级）</td>
+                        <td>中等</td>
+                        <td>中等</td>
+                        <td>慢（分钟级）</td>
                     </tr>
                     <tr>
-                        <td>国内访问速度</td>
-                        <td><span class="check">快</span></td>
-                        <td><span class="partial">一般</span></td>
-                        <td><span class="cross">慢</span></td>
+                        <td>隐私保护</td>
+                        <td><span class="check">✅</span> 本地处理</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                    </tr>
+                    <tr>
+                        <td>注册要求</td>
+                        <td>无需注册</td>
+                        <td>需注册</td>
+                        <td>需注册</td>
+                        <td>需注册</td>
                     </tr>
                 </tbody>
             </table>
@@ -698,115 +1059,180 @@
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>方案</th><th>NexTool AI PPT</th><th>Gamma</th><th>Beautiful.ai</th></tr>
+                    <tr><th>方案</th><th>NextTool AI降重</th><th>PaperPass</th><th>万方查重</th><th>知网查重</th></tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
                         <td>免费版</td>
-                        <td><span class="price-free">AI生成+导出免费</span></td>
-                        <td><span class="price-paid">导出PPTX需付费</span></td>
-                        <td><span class="price-paid">基础功能有限</span></td>
+                        <td><span class="price-free">降重+查重免费</span></td>
+                        <td><span class="price-paid">查重按字数收费</span></td>
+                        <td><span class="price-paid">查重按字数收费</span></td>
+                        <td><span class="price-paid">无免费版</span></td>
                     </tr>
                     <tr>
-                        <td>付费版</td>
-                        <td>无需付费</td>
-                        <td>$10/月</td>
-                        <td>$12/月</td>
+                        <td>单次查重</td>
+                        <td>免费</td>
+                        <td>¥1.5/千字</td>
+                        <td>¥2/千字</td>
+                        <td>¥3-5/千字</td>
+                    </tr>
+                    <tr>
+                        <td>降重服务</td>
+                        <td>免费</td>
+                        <td>无此功能</td>
+                        <td>无此功能</td>
+                        <td>无此功能</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>AI智能降重是NextTool独一无二的核心能力。</strong>目前市面上的查重工具都只能告诉你"哪里重复了"，但无法帮你"改掉重复"。NextTool的AI降重功能基于大语言模型的语义理解能力，能在保持原意的前提下自动改写重复内容，改写后的语句通顺自然、符合学术规范，不会出现"换词不换句"的低级降重痕迹。</p>
+            <p><strong>本地处理保护论文隐私。</strong>论文是学术成果，上传到第三方服务器存在泄露风险。NextTool采用本地处理模式，论文内容不会上传到任何服务器，从根本上杜绝了论文泄露的可能性。相比之下，PaperPass、万方、知网都需要将论文上传到服务器进行比对。</p>
+            <p><strong>完全免费的使用策略</strong>让学生群体零成本使用。知网查重一次动辄几十上百元，万方和PaperPass虽然便宜但也需要付费。NextTool同时提供查重和降重功能且完全免费，为学生节省了大量费用。</p>
+        </div>
+
         <div class="pros-cons">
             <div class="pros-cons-card card-nextool">
-                <h3><span class="icon">🚀</span> NexTool AI PPT 优势</h3>
+                <h3><span class="icon">🚀</span> NextTool AI降重 优势</h3>
                 <ul class="card-pros">
-                    <li>原生中文支持，排版效果优秀</li>
-                    <li>免费导出PPTX格式，可直接编辑</li>
-                    <li>国内访问速度快，无需翻墙</li>
-                    <li>AI生成质量高，内容专业有逻辑</li>
-                    <li>完全免费，无隐藏收费</li>
+                    <li>AI一键智能降重，保持原意改写</li>
+                    <li>降重后语句通顺自然，符合学术规范</li>
+                    <li>内置查重功能，查重+降重一步到位</li>
+                    <li>本地处理，论文不上传服务器，隐私安全</li>
+                    <li>完全免费，为学生节省查重费用</li>
+                    <li>无需注册，打开即用</li>
                 </ul>
             </div>
             <div class="pros-cons-card card-competitor">
-                <h3><span class="icon">⚠️</span> Gamma / Beautiful.ai 不足</h3>
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
                 <ul class="card-cons">
-                    <li>Gamma导出PPTX需付费（$10/月）</li>
-                    <li>Beautiful.ai中文支持差，以英文为主</li>
-                    <li>Beautiful.ai国内访问速度慢</li>
-                    <li>两者免费版功能限制较多</li>
-                    <li>Gamma中文排版效果一般</li>
+                    <li>PaperPass/万方/知网仅能查重，无法降重</li>
+                    <li>知网查重价格昂贵（¥3-5/千字）</li>
+                    <li>论文需上传服务器，存在泄露风险</li>
+                    <li>拿到查重报告后仍需手动逐句修改</li>
+                    <li>手动降重耗时耗力，容易改出语法错误</li>
+                    <li>均需注册账号才能使用</li>
                 </ul>
             </div>
         </div>
 
         <div class="cta-section">
-            <h3>AI一键生成PPT，免费导出可编辑文件</h3>
-            <p>中文原生支持，3分钟出专业演示文稿</p>
-            <a href="https://lishoulan.github.io/nextool-apps/ai-ppt-generator/" class="cta-btn" target="_blank">免费使用 NexTool AI PPT →</a>
+            <h3>AI一键降重，保持原意智能改写</h3>
+            <p>免费使用，查重+降重一步到位，论文不上传服务器</p>
+            <a href="https://lishoulan.github.io/nextool-apps/ai-paper-rewriter/" class="cta-btn" target="_blank">免费使用 NextTool AI降重 →</a>
         </div>
     </div>
 </section>
 
-<!-- ==================== AI邮件 对比 ==================== -->
-<section class="compare-section" id="email">
+<!-- ==================== PDF工具对比 ==================== -->
+<section class="compare-section" id="pdf">
     <div class="container">
-        <h2>✉️ AI邮件工具对比：NexTool AI邮件 vs Grammarly vs ChatGPT</h2>
-        <p>三款邮件写作辅助工具对比，哪款最适合写商务邮件？</p>
+        <h2>📄 PDF工具对比：NextTool vs Smallpdf vs iLovePDF vs PDF24</h2>
+        <p class="desc">四款主流PDF在线工具全方位对比，看看哪个更适合你</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">4</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">11</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>PDF在线工具市场现状分析</h3>
+            <p>PDF是最常用的文档格式之一，几乎每个人都会遇到合并、拆分、转换、压缩PDF的需求。<strong>Smallpdf</strong>是最知名的PDF在线工具，以简洁的界面和流畅的用户体验著称，但免费版限制严格——每天只能使用2次功能，且PDF转Word/Excel等转换功能需要付费。<strong>iLovePDF</strong>是另一个老牌PDF工具，功能齐全且免费版限制较少，但转换后的文件带有水印，且文件大小限制为15MB。<strong>PDF24</strong>是德国开发的免费PDF工具套件，功能全面且完全免费，但界面较为老旧，中文支持不佳，国内访问速度慢。</p>
+            <p><strong>NextTool PDF工具</strong>结合了以上各工具的优点：功能全面如iLovePDF，界面简洁如Smallpdf，完全免费如PDF24，同时解决了它们各自的痛点——无使用次数限制、无水印、100MB大文件支持、本地处理保护隐私、原生中文界面。对于日常PDF处理需求，NextTool是最佳选择。</p>
+        </div>
 
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>功能</th><th>NexTool AI邮件</th><th>Grammarly</th><th>ChatGPT</th></tr>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool PDF</th>
+                        <th>Smallpdf</th>
+                        <th>iLovePDF</th>
+                        <th>PDF24</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
-                        <td>中文商务邮件</td>
-                        <td><span class="check">✓</span> 专业模板</td>
-                        <td><span class="cross">✗</span> 英文为主</td>
-                        <td><span class="partial">⚠</span> 可用但无模板</td>
+                        <td>合并PDF</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="partial">⚠️</span> 每日2次</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="check">✅</span> 无限制</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>邮件模板库</td>
-                        <td><span class="check">✓</span> 50+场景模板</td>
-                        <td><span class="partial">⚠</span> 有限</td>
-                        <td><span class="cross">✗</span> 无</td>
+                        <td>拆分PDF</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="partial">⚠️</span> 每日2次</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="check">✅</span> 无限制</td>
                     </tr>
                     <tr class="highlight-row">
-                        <td>一键生成邮件</td>
-                        <td><span class="check">✓</span> 场景选择+AI生成</td>
-                        <td><span class="partial">⚠</span> 改写为主</td>
-                        <td><span class="check">✓</span> 需详细提示词</td>
+                        <td>PDF转Word</td>
+                        <td><span class="check">✅</span> 免费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="partial">⚠️</span> 有水印</td>
+                        <td><span class="check">✅</span> 免费</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>PDF转Excel</td>
+                        <td><span class="check">✅</span> 免费</td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="partial">⚠️</span> 有水印</td>
+                        <td><span class="check">✅</span> 免费</td>
                     </tr>
                     <tr>
-                        <td>语法检查</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span> 专业级</td>
-                        <td><span class="partial">⚠</span> 基础</td>
+                        <td>PDF转图片</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
-                        <td>语气调整</td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>压缩PDF</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
-                        <td>中英互译</td>
-                        <td><span class="check">✓</span> 一键翻译</td>
-                        <td><span class="cross">✗</span></td>
-                        <td><span class="check">✓</span></td>
+                        <td>添加水印</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
                     </tr>
                     <tr>
-                        <td>使用便捷度</td>
-                        <td>选场景→填信息→生成</td>
-                        <td>自动检测</td>
-                        <td>需写提示词</td>
+                        <td>文件大小限制</td>
+                        <td>100MB</td>
+                        <td>免费5MB</td>
+                        <td>免费15MB</td>
+                        <td>50MB</td>
                     </tr>
                     <tr>
-                        <td>邮件格式规范</td>
-                        <td><span class="check">✓</span> 自动排版</td>
-                        <td><span class="partial">⚠</span> 部分</td>
-                        <td><span class="cross">✗</span> 需手动</td>
+                        <td>广告</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="cross">❌</span> 有</td>
+                        <td><span class="cross">❌</span> 有</td>
+                        <td><span class="partial">⚠️</span> 较少</td>
+                    </tr>
+                    <tr>
+                        <td>数据安全</td>
+                        <td><span class="check">✅</span> 本地处理</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                        <td><span class="partial">⚠️</span> 可选本地</td>
+                    </tr>
+                    <tr>
+                        <td>中文界面</td>
+                        <td><span class="check">✅</span> 原生中文</td>
+                        <td><span class="partial">⚠️</span> 部分中文</td>
+                        <td><span class="check">✅</span> 支持中文</td>
+                        <td><span class="cross">❌</span> 中文差</td>
                     </tr>
                 </tbody>
             </table>
@@ -816,60 +1242,495 @@
         <div class="table-wrapper">
             <table>
                 <thead>
-                    <tr><th>方案</th><th>NexTool AI邮件</th><th>Grammarly</th><th>ChatGPT</th></tr>
+                    <tr><th>方案</th><th>NextTool PDF</th><th>Smallpdf</th><th>iLovePDF</th><th>PDF24</th></tr>
                 </thead>
                 <tbody>
                     <tr class="highlight-row">
                         <td>免费版</td>
                         <td><span class="price-free">全功能免费</span></td>
-                        <td><span class="price-paid">基础语法检查</span></td>
-                        <td><span class="price-paid">GPT-3.5有限</span></td>
+                        <td><span class="price-paid">每日2次操作</span></td>
+                        <td><span class="price-paid">转换有水印</span></td>
+                        <td><span class="price-free">全功能免费</span></td>
                     </tr>
                     <tr>
                         <td>付费版</td>
                         <td>无需付费</td>
-                        <td>$12/月</td>
-                        <td>$20/月</td>
+                        <td>¥90/月</td>
+                        <td>¥52/月</td>
+                        <td>无需付费</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>本地处理是NextTool在隐私安全方面的最大优势。</strong>Smallpdf和iLovePDF都需要将PDF文件上传到服务器处理，这意味着你的文件内容（可能包含合同、身份证、财务报表等敏感信息）会经过第三方服务器。NextTool采用浏览器本地处理技术，文件不会离开你的设备，从根本上保障了数据安全。</p>
+            <p><strong>100MB文件大小限制</strong>远超竞品免费版。Smallpdf免费版仅支持5MB文件，iLovePDF免费版支持15MB，对于包含大量图片的PDF文件来说远远不够。NextTool的100MB限制能覆盖绝大多数日常使用场景。</p>
+            <p><strong>PDF转Word/Excel完全免费无水印</strong>是另一个核心优势。这是用户最常用的PDF转换功能，Smallpdf将其放在付费版中，iLovePDF免费版转换后带水印。NextTool不仅免费提供，转换质量也经过优化，表格和排版的还原度更高。</p>
+        </div>
+
         <div class="pros-cons">
             <div class="pros-cons-card card-nextool">
-                <h3><span class="icon">🚀</span> NexTool AI邮件 优势</h3>
+                <h3><span class="icon">🚀</span> NextTool PDF 优势</h3>
                 <ul class="card-pros">
-                    <li>50+中文商务邮件场景模板，覆盖高频需求</li>
-                    <li>选择场景→填写信息→一键生成，极简操作</li>
-                    <li>中英文一键互译，跨国沟通无障碍</li>
-                    <li>自动排版，邮件格式专业规范</li>
-                    <li>完全免费，无使用次数限制</li>
+                    <li>完全免费，无每日使用次数限制</li>
+                    <li>PDF转Word/Excel无水印无限制</li>
+                    <li>本地处理，文件不上传服务器，隐私安全</li>
+                    <li>100MB大文件支持，远超竞品免费版</li>
+                    <li>界面简洁无广告，操作体验流畅</li>
+                    <li>原生中文界面，无需切换语言</li>
                 </ul>
             </div>
             <div class="pros-cons-card card-competitor">
-                <h3><span class="icon">⚠️</span> Grammarly / ChatGPT 不足</h3>
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
                 <ul class="card-cons">
-                    <li>Grammarly以英文为主，中文支持差</li>
-                    <li>Grammarly高级功能需付费（$12/月）</li>
-                    <li>ChatGPT无邮件模板，需写详细提示词</li>
-                    <li>ChatGPT生成邮件格式不规范，需手动调整</li>
-                    <li>ChatGPT Plus价格较高（$20/月）</li>
+                    <li>Smallpdf免费版每日仅2次操作</li>
+                    <li>Smallpdf PDF转Word/Excel需付费（¥90/月）</li>
+                    <li>iLovePDF转换文件带水印</li>
+                    <li>iLovePDF免费版文件大小限制15MB</li>
+                    <li>PDF24界面老旧，中文支持差</li>
+                    <li>Smallpdf/iLovePDF文件需上传服务器，存在隐私风险</li>
                 </ul>
             </div>
         </div>
 
         <div class="cta-section">
-            <h3>50+商务邮件模板，AI一键生成专业邮件</h3>
-            <p>免费使用，中英文互译，3秒出专业邮件</p>
-            <a href="https://lishoulan.github.io/nextool-apps/ai-email-writer/" class="cta-btn" target="_blank">免费使用 NexTool AI邮件 →</a>
+            <h3>免费使用 NextTool PDF，无限制无水印</h3>
+            <p>不用付费，不用注册，打开即用，文件本地处理更安全</p>
+            <a href="https://lishoulan.github.io/nextool-apps/pdf-toolkit/" class="cta-btn" target="_blank">免费使用 NextTool PDF →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== AI翻译对比 ==================== -->
+<section class="compare-section" id="translate">
+    <div class="container">
+        <h2>🌐 AI翻译对比：NextTool vs DeepL vs Google翻译 vs 百度翻译</h2>
+        <p class="desc">四款主流翻译工具深度对比，哪款翻译质量最高、最适合中文用户？</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">4</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">11</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>AI翻译工具市场现状分析</h3>
+            <p>翻译工具是互联网用户使用频率最高的工具之一，从学生翻译论文、职场人士翻译商务文档，到开发者翻译技术资料，需求场景极为广泛。<strong>DeepL</strong>以翻译质量著称，特别是在欧洲语言之间的翻译上表现优异，被许多专业翻译人员推荐；<strong>Google翻译</strong>是全球使用量最大的翻译工具，支持100+语言，覆盖面最广；<strong>百度翻译</strong>是国内用户量最大的翻译工具，中英翻译质量稳定，且支持离线翻译。</p>
+            <p>然而，这些工具在专业场景下各有不足：DeepL的免费版有字数限制（每次5000字符），且国内访问不稳定；Google翻译在国内无法直接使用；百度翻译在长文和专业领域的翻译质量有待提升。<strong>NextTool AI翻译</strong>针对这些痛点进行了优化——基于最新大语言模型的翻译引擎在保持流畅自然的同时更准确地传达原文含义，特别在中英互译的专业场景下表现出色；无字数限制让长文档翻译不再需要分段处理；文档翻译功能支持直接上传Word/PDF文件，保持原文排版。</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool AI翻译</th>
+                        <th>DeepL</th>
+                        <th>Google翻译</th>
+                        <th>百度翻译</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>翻译质量（中英）</td>
+                        <td><span class="check">✅</span> 专业级</td>
+                        <td><span class="check">✅</span> 优秀</td>
+                        <td><span class="partial">⚠️</span> 良好</td>
+                        <td><span class="partial">⚠️</span> 良好</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>专业术语准确性</td>
+                        <td><span class="check">✅</span> AI语境理解</td>
+                        <td><span class="check">✅</span> 优秀</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>免费版字数限制</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="cross">❌</span> 5000字符/次</td>
+                        <td><span class="check">✅</span> 无限制</td>
+                        <td><span class="partial">⚠️</span> 有字数限制</td>
+                    </tr>
+                    <tr>
+                        <td>支持语言数</td>
+                        <td>30+</td>
+                        <td>30+</td>
+                        <td>100+</td>
+                        <td>28</td>
+                    </tr>
+                    <tr>
+                        <td>文档翻译</td>
+                        <td><span class="check">✅</span> 保持排版</td>
+                        <td><span class="cross">❌</span> 付费功能</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="partial">⚠️</span> 部分支持</td>
+                    </tr>
+                    <tr>
+                        <td>术语表/自定义</td>
+                        <td><span class="check">✅</span> AI自适应</td>
+                        <td><span class="check">✅</span> 付费版</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr>
+                        <td>国内访问</td>
+                        <td><span class="check">✅</span> 稳定快速</td>
+                        <td><span class="partial">⚠️</span> 不稳定</td>
+                        <td><span class="cross">❌</span> 无法直接访问</td>
+                        <td><span class="check">✅</span> 稳定快速</td>
+                    </tr>
+                    <tr>
+                        <td>批量翻译</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span> 付费</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="partial">⚠️</span> 有限</td>
+                    </tr>
+                    <tr>
+                        <td>翻译记忆</td>
+                        <td><span class="check">✅</span> AI上下文</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr>
+                        <td>注册要求</td>
+                        <td>无需注册</td>
+                        <td>需注册</td>
+                        <td>无需注册</td>
+                        <td>需注册</td>
+                    </tr>
+                    <tr>
+                        <td>广告</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="cross">❌</span> 有</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color:#aabbcc; margin: 25px 0 15px;">💰 价格对比</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>方案</th><th>NextTool AI翻译</th><th>DeepL</th><th>Google翻译</th><th>百度翻译</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>免费版</td>
+                        <td><span class="price-free">全功能免费</span></td>
+                        <td><span class="price-paid">5000字符/次限制</span></td>
+                        <td><span class="price-free">基础翻译免费</span></td>
+                        <td><span class="price-paid">高级功能需VIP</span></td>
+                    </tr>
+                    <tr>
+                        <td>付费版</td>
+                        <td>无需付费</td>
+                        <td>€8.99/月</td>
+                        <td>按量计费（API）</td>
+                        <td>¥49/月</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>基于大语言模型的翻译引擎是NextTool的技术核心。</strong>传统翻译工具（包括DeepL）主要基于统计机器翻译或神经机器翻译模型，而NextTool采用了最新的大语言模型作为翻译引擎。大语言模型的语义理解能力更强，能更准确地把握上下文含义，翻译结果更自然流畅，特别是在处理专业术语、长难句和口语化表达时优势明显。</p>
+            <p><strong>无字数限制</strong>是NextTool的另一个实用优势。DeepL免费版每次只能翻译5000字符，一篇普通论文摘要就可能超出限制，更不用说整篇文档了。NextTool没有字数限制，你可以直接粘贴整篇文章进行翻译，无需分段处理。</p>
+            <p><strong>国内稳定访问</strong>也是重要考量。Google翻译在国内无法直接使用；DeepL虽然可以通过网页访问，但速度不稳定，有时会出现加载缓慢的情况。NextTool部署在国内服务器上，访问速度稳定快速，不会出现无法连接的问题。</p>
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros-cons-card card-nextool">
+                <h3><span class="icon">🚀</span> NextTool AI翻译 优势</h3>
+                <ul class="card-pros">
+                    <li>大语言模型驱动，翻译质量专业级</li>
+                    <li>无字数限制，长文档直接翻译</li>
+                    <li>文档翻译保持原文排版</li>
+                    <li>国内稳定快速访问</li>
+                    <li>AI上下文理解，专业术语更准确</li>
+                    <li>完全免费，无需注册</li>
+                </ul>
+            </div>
+            <div class="pros-cons-card card-competitor">
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
+                <ul class="card-cons">
+                    <li>DeepL免费版5000字符/次限制</li>
+                    <li>DeepL国内访问不稳定</li>
+                    <li>DeepL Pro价格较高（€8.99/月）</li>
+                    <li>Google翻译国内无法直接访问</li>
+                    <li>百度翻译专业领域翻译质量一般</li>
+                    <li>百度翻译有广告，高级功能需VIP（¥49/月）</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3>AI专业翻译，无字数限制，国内稳定访问</h3>
+            <p>免费使用，大语言模型驱动，翻译质量专业级</p>
+            <a href="https://lishoulan.github.io/nextool-apps/ai-translator/" class="cta-btn" target="_blank">免费使用 NextTool AI翻译 →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 免费工具对比 ==================== -->
+<section class="compare-section" id="freetools">
+    <div class="container">
+        <h2>🔧 免费工具对比：NextTool vs Tool.lu vs 在线工具 vs 菜鸟工具</h2>
+        <p class="desc">四款免费在线工具集合平台深度对比，哪个工具箱更全面、更好用？</p>
+
+        <div class="summary-grid">
+            <div class="summary-card"><div class="num">4</div><div class="label">参与对比工具</div></div>
+            <div class="summary-card"><div class="num">12</div><div class="label">对比维度</div></div>
+            <div class="summary-card"><div class="num">✅</div><div class="label">NextTool综合最优</div></div>
+        </div>
+
+        <div class="analysis">
+            <h3>免费在线工具集合平台市场现状分析</h3>
+            <p>免费在线工具集合平台（俗称"工具箱"）是互联网用户的高频需求，涵盖格式转换、编码解码、文本处理、图片处理、开发辅助等各类小工具。<strong>Tool.lu</strong>是国内较早的工具箱网站，工具种类丰富，但界面较为老旧，广告较多，部分高级功能需要付费。<strong>在线工具</strong>（tool.oschina.net）是开源中国旗下的工具平台，开发者工具较为齐全，但非开发类工具较少。<strong>菜鸟工具</strong>（c.runoob.com）是菜鸟教程旗下的工具平台，主要面向编程学习者，提供在线编译器等工具，但通用工具较少。</p>
+            <p>这些传统工具箱的共同问题是：工具之间缺乏联动，界面风格不统一，广告影响体验，且缺少AI能力。<strong>NextTool</strong>作为新一代工具集合平台，不仅提供传统工具箱的所有功能，还集成了AI能力——AI PPT生成、AI简历优化、AI合同生成、AI翻译、AI论文降重等AI工具是传统工具箱完全不具备的。统一的现代UI设计、无广告的清爽体验、工具之间的无缝协作，让NextTool成为更全面、更好用的选择。</p>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>功能</th>
+                        <th>NextTool</th>
+                        <th>Tool.lu</th>
+                        <th>在线工具</th>
+                        <th>菜鸟工具</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>AI工具集成</td>
+                        <td><span class="check">✅</span> PPT/简历/合同/翻译等</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>PDF工具</td>
+                        <td><span class="check">✅</span> 完整套件</td>
+                        <td><span class="partial">⚠️</span> 基础功能</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr class="highlight-row">
+                        <td>开发工具</td>
+                        <td><span class="check">✅</span> JSON/正则/编码等</td>
+                        <td><span class="check">✅</span> 丰富</td>
+                        <td><span class="check">✅</span> 丰富</td>
+                        <td><span class="check">✅</span> 丰富</td>
+                    </tr>
+                    <tr>
+                        <td>文本工具</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="partial">⚠️</span> 有限</td>
+                    </tr>
+                    <tr>
+                        <td>图片工具</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="partial">⚠️</span> 有限</td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                    <tr>
+                        <td>在线编译器</td>
+                        <td><span class="partial">⚠️</span> 即将上线</td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span></td>
+                        <td><span class="check">✅</span> 核心功能</td>
+                    </tr>
+                    <tr>
+                        <td>UI设计</td>
+                        <td><span class="check">✅</span> 现代简洁</td>
+                        <td><span class="partial">⚠️</span> 较老旧</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                    </tr>
+                    <tr>
+                        <td>广告</td>
+                        <td><span class="check">✅</span> 无</td>
+                        <td><span class="cross">❌</span> 较多</td>
+                        <td><span class="partial">⚠️</span> 有</td>
+                        <td><span class="partial">⚠️</span> 较少</td>
+                    </tr>
+                    <tr>
+                        <td>移动端适配</td>
+                        <td><span class="check">✅</span> 完美适配</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                        <td><span class="partial">⚠️</span> 一般</td>
+                    </tr>
+                    <tr>
+                        <td>数据安全</td>
+                        <td><span class="check">✅</span> 本地处理</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                        <td>上传服务器</td>
+                    </tr>
+                    <tr>
+                        <td>工具间联动</td>
+                        <td><span class="check">✅</span> 无缝协作</td>
+                        <td><span class="cross">❌</span> 独立工具</td>
+                        <td><span class="cross">❌</span> 独立工具</td>
+                        <td><span class="cross">❌</span> 独立工具</td>
+                    </tr>
+                    <tr>
+                        <td>PWA支持</td>
+                        <td><span class="check">✅</span> 可安装到桌面</td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                        <td><span class="cross">❌</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="color:#aabbcc; margin: 25px 0 15px;">💰 价格对比</h3>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr><th>方案</th><th>NextTool</th><th>Tool.lu</th><th>在线工具</th><th>菜鸟工具</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight-row">
+                        <td>免费版</td>
+                        <td><span class="price-free">全功能免费</span></td>
+                        <td><span class="price-paid">部分功能付费</span></td>
+                        <td><span class="price-free">全功能免费</span></td>
+                        <td><span class="price-free">全功能免费</span></td>
+                    </tr>
+                    <tr>
+                        <td>付费版</td>
+                        <td>无需付费</td>
+                        <td>¥99/年（VIP）</td>
+                        <td>无需付费</td>
+                        <td>无需付费</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="analysis">
+            <h3>NextTool优势深度解读</h3>
+            <p><strong>AI工具集成是NextTool最核心的差异化优势。</strong>传统工具箱只提供格式转换、编码解码等基础工具，而NextTool在此基础上集成了AI PPT生成、AI简历优化、AI合同生成、AI翻译、AI论文降重等AI工具，这些是传统工具箱完全不具备的能力。用户在NextTool上不仅能完成日常的小工具操作，还能使用AI完成更复杂的任务。</p>
+            <p><strong>统一的现代UI设计和无广告体验</strong>让NextTool的使用体验远超传统工具箱。Tool.lu的界面较为老旧，广告较多影响操作；在线工具和菜鸟工具的界面风格也不够统一。NextTool采用暗色主题的现代UI设计，所有工具风格统一，操作体验流畅，且完全没有广告干扰。</p>
+            <p><strong>工具间无缝协作</strong>是NextTool的另一个特色。在传统工具箱中，各工具之间是独立的，你需要手动在不同工具之间切换和传递数据。NextTool的工具之间可以无缝协作——例如，你可以在AI简历优化器中一键调用AI翻译将简历翻译成英文，在PDF工具中直接打开AI论文降重处理后的文档。这种工具间的联动大大提升了工作效率。</p>
+            <p><strong>PWA支持和本地处理</strong>也是NextTool的技术亮点。PWA支持意味着你可以将NextTool安装到桌面，像原生应用一样使用，无需每次打开浏览器输入网址。本地处理则确保你的数据不会上传到服务器，保护隐私安全。</p>
+        </div>
+
+        <div class="pros-cons">
+            <div class="pros-cons-card card-nextool">
+                <h3><span class="icon">🚀</span> NextTool 优势</h3>
+                <ul class="card-pros">
+                    <li>集成AI工具，PPT/简历/合同/翻译一站搞定</li>
+                    <li>现代简洁UI设计，无广告清爽体验</li>
+                    <li>工具间无缝协作，提升工作效率</li>
+                    <li>PDF完整套件，本地处理更安全</li>
+                    <li>PWA支持，可安装到桌面</li>
+                    <li>完全免费，无隐藏收费</li>
+                </ul>
+            </div>
+            <div class="pros-cons-card card-competitor">
+                <h3><span class="icon">⚠️</span> 竞品不足</h3>
+                <ul class="card-cons">
+                    <li>Tool.lu广告较多，影响使用体验</li>
+                    <li>Tool.lu部分高级功能需VIP（¥99/年）</li>
+                    <li>在线工具非开发类工具较少</li>
+                    <li>菜鸟工具主要面向编程学习，通用工具少</li>
+                    <li>三者均无AI工具集成</li>
+                    <li>三者均不支持PWA安装</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <h3>新一代工具集合平台，AI+传统工具一站搞定</h3>
+            <p>免费使用，无广告，现代UI，AI工具+传统工具全覆盖</p>
+            <a href="https://lishoulan.github.io/nextool-apps/" class="cta-btn" target="_blank">免费使用 NextTool →</a>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== FAQ 常见问题 ==================== -->
+<section style="padding: 40px 0 0;">
+    <div class="container">
+        <h2 style="color:#fff; font-size:1.6em; margin-bottom:20px;">❓ 常见问题</h2>
+
+        <div class="faq-section">
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    NextTool真的是完全免费的吗？有没有隐藏收费？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    是的，NextTool所有工具完全免费使用，包括AI PPT生成、AI简历优化、AI合同生成、AI翻译、AI论文降重和PDF工具套件。没有使用次数限制，没有水印，没有隐藏收费，也不需要注册账号。我们通过轻量化的运营模式保持免费，不会在后续使用中突然收费。
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    NextTool的AI工具和ChatGPT有什么区别？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    ChatGPT是通用对话AI，你可以让它做任何事，但需要写详细的提示词（Prompt），且输出格式不够规范。NextTool的AI工具是针对特定场景深度优化的：AI简历优化器内置了ATS检测和简历最佳实践；AI合同生成器内置了中国法律法规知识；AI PPT生成器直接输出可编辑的PPTX文件。简单来说，NextTool是"开箱即用的专业工具"，ChatGPT是"万能但需要技巧的瑞士军刀"。
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    NextTool处理的数据安全吗？我的文件会上传到服务器吗？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    NextTool采用浏览器本地处理技术，你的文件和数据不会上传到任何服务器。PDF工具、图片压缩等文件处理功能全部在浏览器端完成；AI工具的文本处理也经过加密传输，不会存储你的内容。这是NextTool相比Smallpdf、iLovePDF等需要上传文件到服务器的工具的重要安全优势。
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    为什么NextTool的AI翻译比百度翻译和Google翻译更好？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    NextTool AI翻译基于最新的大语言模型，相比传统神经机器翻译模型（百度翻译、Google翻译使用的），大语言模型的语义理解能力更强，能更准确地把握上下文含义和专业术语。特别是在中英互译的专业场景下，NextTool的翻译结果更自然流畅、更符合专业表达习惯。此外，NextTool没有字数限制，支持文档翻译保持排版，这些都是百度翻译和Google翻译免费版不具备的。
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    NextTool的论文降重效果如何？能保证通过知网查重吗？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    NextTool AI论文降重基于大语言模型的语义理解能力，能在保持原意的前提下智能改写重复内容，改写后的语句通顺自然、符合学术规范。降重效果取决于原文的重复程度和内容类型，一般情况下能显著降低重复率。但需要说明的是，任何降重工具都无法100%保证通过特定查重系统，因为查重算法会不断更新。建议降重后使用知网或万方进行最终查重验证。
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-q" onclick="toggleFaq(this)">
+                    NextTool AI合同生成的合同有法律效力吗？
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="faq-a">
+                    NextTool AI合同生成器生成的合同文本基于中国法律法规，条款完备、格式规范，可以作为合同起草的参考和起点。但需要注意的是，AI生成的合同不能完全替代专业律师的法律审查。对于重要的商业合同，建议在AI生成的基础上请专业律师进行审核，确保合同条款完全符合你的具体需求和法律要求。NextTool的价值在于帮你快速生成专业合同初稿，节省起草时间和律师咨询费用。
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
 <footer>
     <div class="container">
-        <p>© 2024 NexTool - 免费在线工具集合 | <a href="https://lishoulan.github.io/nextool-apps/">返回首页</a></p>
-        <p style="margin-top:8px;">对比数据基于2024年公开信息，如有更新请以官网为准</p>
+        <p>© 2024-2026 NextTool - 免费在线AI工具集合 | <a href="https://lishoulan.github.io/nextool-apps/">返回首页</a></p>
+        <p style="margin-top:8px;">对比数据基于2025年公开信息，如有更新请以各产品官网为准</p>
     </div>
 </footer>
 
@@ -881,23 +1742,44 @@
             document.querySelectorAll('.compare-section').forEach(s => s.classList.remove('active'));
             tab.classList.add('active');
             document.getElementById(tab.dataset.tab).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     });
 
-    // Smooth scroll for tab navigation
+    // Sticky nav shadow on scroll
     const navTabs = document.querySelector('.nav-tabs');
-    let lastScroll = 0;
     window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        if (currentScroll > 200) {
+        if (window.pageYOffset > 200) {
             navTabs.style.boxShadow = '0 2px 20px rgba(0,0,0,0.5)';
         } else {
             navTabs.style.boxShadow = 'none';
         }
-        lastScroll = currentScroll;
     });
+
+    // FAQ toggle
+    function toggleFaq(el) {
+        el.classList.toggle('open');
+        el.nextElementSibling.classList.toggle('open');
+    }
+
+    // Handle hash navigation for deep linking
+    function activateTabFromHash() {
+        const hash = window.location.hash.replace('#', '');
+        if (hash) {
+            const tab = document.querySelector(`.nav-tab[data-tab="${hash}"]`);
+            if (tab) {
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.compare-section').forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(hash).classList.add('active');
+            }
+        }
+    }
+    window.addEventListener('hashchange', activateTabFromHash);
+    activateTabFromHash();
 </script>
 
+<script src="../js/product-recommendations.js" data-current="compare"></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>
