@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI邮件助手 - 智能邮件撰写工具</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#1a73e8;--primary-dark:#1557b0;--primary-light:#e8f0fe;--bg:#f8fafc;--card:#fff;--text:#1f2937;--text-light:#6b7280;--border:#e5e7eb;--success:#10b981;--warning:#f59e0b;--danger:#ef4444;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);--shadow-lg:0 10px 25px rgba(0,0,0,.1)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.header{background:linear-gradient(135deg,#1a73e8,#0d47a1);color:#fff;padding:20px 0;box-shadow:0 2px 10px rgba(26,115,232,.3)}
+.header-inner{max-width:960px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-icon{width:40px;height:40px;background:rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.logo h1{font-size:22px;font-weight:700;letter-spacing:.5px}
+.logo p{font-size:12px;opacity:.85;margin-top:2px}
+.header-actions{display:flex;gap:8px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none}
+.btn-primary{background:#fff;color:var(--primary)}.btn-primary:hover{background:#f0f4ff}
+.btn-outline{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3)}.btn-outline:hover{background:rgba(255,255,255,.25)}
+.btn-blue{background:var(--primary);color:#fff}.btn-blue:hover{background:var(--primary-dark)}
+.btn-ghost{background:transparent;color:var(--text-light);padding:6px 12px}.btn-ghost:hover{background:var(--primary-light);color:var(--primary)}
+.btn-sm{padding:6px 14px;font-size:13px}
+.btn-lg{padding:12px 28px;font-size:16px;font-weight:600}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.container{max-width:960px;margin:0 auto;padding:24px 20px}
+.main-grid{display:grid;grid-template-columns:1fr;gap:24px}
+@media(min-width:768px){.main-grid{grid-template-columns:420px 1fr}}
+.card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-header h2{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px}
+.card-body{padding:20px}
+.form-group{margin-bottom:18px}
+.form-group:last-child{margin-bottom:0}
+.form-label{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px}
+.form-label .required{color:var(--danger);margin-left:2px}
+.form-input,.form-textarea,.form-select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;color:var(--text);background:#fff;transition:border-color .2s,box-shadow .2s}
+.form-input:focus,.form-textarea:focus,.form-select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,115,232,.12)}
+.form-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.scenario-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:480px){.scenario-grid{grid-template-columns:repeat(3,1fr)}}
+.scenario-btn{padding:10px 8px;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;text-align:center;transition:all .2s;font-size:13px;font-weight:500;color:var(--text)}
+.scenario-btn:hover{border-color:var(--primary);background:var(--primary-light)}
+.scenario-btn.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary);font-weight:600}
+.scenario-btn .icon{font-size:20px;display:block;margin-bottom:4px}
+.tone-group{display:flex;gap:8px;flex-wrap:wrap}
+.tone-btn{padding:8px 16px;border:1.5px solid var(--border);border-radius:20px;background:#fff;cursor:pointer;font-size:13px;font-weight:500;color:var(--text);transition:all .2s}
+.tone-btn:hover{border-color:var(--primary);color:var(--primary)}
+.tone-btn.active{border-color:var(--primary);background:var(--primary);color:#fff}
+.result-empty{padding:60px 20px;text-align:center;color:var(--text-light)}
+.result-empty .icon{font-size:48px;margin-bottom:12px;opacity:.4}
+.result-empty p{font-size:14px}
+.email-subject{padding:14px 20px;background:var(--primary-light);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.email-subject-text{font-size:14px;font-weight:600;color:var(--primary);word-break:break-all}
+.email-body{padding:20px;white-space:pre-wrap;word-break:break-word;font-size:14px;line-height:1.8;min-height:200px;max-height:400px;overflow-y:auto}
+.email-actions{padding:12px 20px;border-top:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.usage-bar{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-light);padding:8px 0}
+.usage-bar .bar{flex:1;max-width:120px;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.usage-bar .bar-fill{height:100%;background:var(--primary);border-radius:3px;transition:width .3s}
+.usage-bar .bar-fill.warning{background:var(--warning)}
+.usage-bar .bar-fill.danger{background:var(--danger)}
+.pro-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border-radius:10px;font-size:11px;font-weight:600}
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:all .3s}
+.modal-overlay.active{opacity:1;visibility:visible}
+.modal{background:var(--card);border-radius:var(--radius);width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-header{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:18px;font-weight:600}
+.modal-close{width:32px;height:32px;border:none;background:transparent;cursor:pointer;border-radius:6px;font-size:18px;color:var(--text-light);display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:var(--border)}
+.modal-body{padding:20px}
+.modal-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px}
+.history-item{padding:14px 20px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .2s}
+.history-item:hover{background:var(--primary-light)}
+.history-item:last-child{border-bottom:none}
+.history-meta{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.history-scenario{font-size:11px;padding:2px 8px;background:var(--primary-light);color:var(--primary);border-radius:4px;font-weight:500}
+.history-tone{font-size:11px;padding:2px 8px;background:#f3f4f6;color:var(--text-light);border-radius:4px}
+.history-time{font-size:12px;color:var(--text-light);margin-left:auto}
+.history-subject{font-size:14px;font-weight:500;color:var(--text);margin-bottom:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-preview{font-size:12px;color:var(--text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;background:var(--success);color:#fff;border-radius:8px;font-size:14px;font-weight:500;z-index:2000;transform:translateX(120%);transition:transform .3s;box-shadow:var(--shadow-lg)}
+.toast.show{transform:translateX(0)}
+.toast.error{background:var(--danger)}
+.loading-dots{display:inline-flex;gap:4px;align-items:center}
+.loading-dots span{width:6px;height:6px;background:var(--primary);border-radius:50%;animation:bounce 1.4s infinite ease-in-out both}
+.loading-dots span:nth-child(1){animation-delay:-.32s}
+.loading-dots span:nth-child(2){animation-delay:-.16s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+.pricing-card{border:2px solid var(--primary);border-radius:var(--radius);padding:24px;text-align:center;margin:16px 0}
+.pricing-card h4{font-size:20px;font-weight:700;color:var(--primary);margin-bottom:4px}
+.pricing-card .price{font-size:32px;font-weight:800;color:var(--text)}
+.pricing-card .price span{font-size:14px;font-weight:400;color:var(--text-light)}
+.pricing-card ul{list-style:none;text-align:left;margin:16px 0}
+.pricing-card ul li{padding:6px 0;font-size:14px;color:var(--text);display:flex;align-items:center;gap:8px}
+.pricing-card ul li::before{content:"✓";color:var(--success);font-weight:700}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-light)}
+.empty-state .icon{font-size:40px;margin-bottom:8px;opacity:.4}
+.edit-area{width:100%;min-height:250px;padding:16px;border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;line-height:1.8;resize:vertical}
+.edit-area:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,115,232,.12)}
+.tab-bar{display:flex;border-bottom:1px solid var(--border);background:#fafbfc}
+.tab-btn{padding:10px 20px;border:none;background:transparent;cursor:pointer;font-size:13px;font-weight:500;color:var(--text-light);border-bottom:2px solid transparent;transition:all .2s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:600}
+.footer{text-align:center;padding:24px 20px;color:var(--text-light);font-size:12px}
+@media(max-width:767px){.header-inner{flex-direction:column;text-align:center}.scenario-grid{grid-template-columns:repeat(2,1fr)}.tone-group{justify-content:center}.email-actions{justify-content:center}}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">✉️</div>
+      <div>
+        <h1>AI邮件助手</h1>
+        <p>智能撰写，一键生成专业邮件</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" onclick="openHistory()">📋 历史记录</button>
+      <button class="btn btn-outline" onclick="openSettings()">⚙️ 设置</button>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="usage-bar" id="usageBar">
+    <span id="usageText">今日已用 0/3 封</span>
+    <div class="bar"><div class="bar-fill" id="usageFill" style="width:0%"></div></div>
+    <button class="btn btn-sm btn-ghost" onclick="openProModal()" style="font-size:12px">升级Pro ∞</button>
+  </div>
+
+  <div class="main-grid">
+    <!-- Left: Input -->
+    <div class="card">
+      <div class="card-header">
+        <h2>📝 邮件信息</h2>
+      </div>
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">邮件场景 <span class="required">*</span></label>
+          <div class="scenario-grid" id="scenarioGrid">
+            <button class="scenario-btn active" data-scenario="商务合作" onclick="selectScenario(this)"><span class="icon">🤝</span>商务合作</button>
+            <button class="scenario-btn" data-scenario="求职应聘" onclick="selectScenario(this)"><span class="icon">💼</span>求职应聘</button>
+            <button class="scenario-btn" data-scenario="投诉建议" onclick="selectScenario(this)"><span class="icon">📢</span>投诉建议</button>
+            <button class="scenario-btn" data-scenario="感谢信" onclick="selectScenario(this)"><span class="icon">🙏</span>感谢信</button>
+            <button class="scenario-btn" data-scenario="邀请函" onclick="selectScenario(this)"><span class="icon">📨</span>邀请函</button>
+            <button class="scenario-btn" data-scenario="催款信" onclick="selectScenario(this)"><span class="icon">💰</span>催款信</button>
+            <button class="scenario-btn" data-scenario="道歉信" onclick="selectScenario(this)"><span class="icon">🙇</span>道歉信</button>
+            <button class="scenario-btn" data-scenario="请假申请" onclick="selectScenario(this)"><span class="icon">📋</span>请假申请</button>
+            <button class="scenario-btn" data-scenario="升职加薪" onclick="selectScenario(this)"><span class="icon">🚀</span>升职加薪</button>
+            <button class="scenario-btn" data-scenario="客户跟进" onclick="selectScenario(this)"><span class="icon">🔗</span>客户跟进</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">语气风格 <span class="required">*</span></label>
+          <div class="tone-group" id="toneGroup">
+            <button class="tone-btn active" data-tone="正式" onclick="selectTone(this)">🎩 正式</button>
+            <button class="tone-btn" data-tone="友好" onclick="selectTone(this)">😊 友好</button>
+            <button class="tone-btn" data-tone="强硬" onclick="selectTone(this)">💪 强硬</button>
+            <button class="tone-btn" data-tone="委婉" onclick="selectTone(this)">🌸 委婉</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">简要描述 <span class="required">*</span></label>
+          <textarea class="form-textarea" id="description" placeholder="请描述你想在邮件中表达的内容，例如：&#10;• 我想约张总下周三下午讨论新项目合作事宜&#10;• 我对贵公司的产品经理职位很感兴趣，想投递简历&#10;• 收到的商品有质量问题，要求退换货"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">收件人信息 <span style="font-weight:400;color:var(--text-light)">(选填)</span></label>
+          <input class="form-input" id="recipient" type="text" placeholder="如：张总 / HR李女士 / 客服中心">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">发件人信息 <span style="font-weight:400;color:var(--text-light)">(选填)</span></label>
+          <input class="form-input" id="sender" type="text" placeholder="如：王明 / 市场部小刘">
+        </div>
+
+        <button class="btn btn-blue btn-lg" style="width:100%" id="writeBtn" onclick="writeEmail()">
+          ✨ 撰写邮件
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Result -->
+    <div class="card" id="resultCard">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('preview')">预览</button>
+        <button class="tab-btn" onclick="switchTab('edit')">编辑</button>
+      </div>
+      <div id="previewTab">
+        <div class="result-empty" id="resultEmpty">
+          <div class="icon">✉️</div>
+          <p>填写左侧信息，点击「撰写邮件」<br>AI将为你生成专业邮件</p>
+        </div>
+        <div id="resultContent" style="display:none">
+          <div class="email-subject">
+            <span class="email-subject-text" id="emailSubject"></span>
+            <button class="btn btn-sm btn-ghost" onclick="copySubject()" title="复制主题">📋</button>
+          </div>
+          <div class="email-body" id="emailBody"></div>
+          <div class="email-actions">
+            <button class="btn btn-blue btn-sm" onclick="copyAll()">📋 一键复制全文</button>
+            <button class="btn btn-ghost btn-sm" onclick="switchTab('edit')">✏️ 编辑修改</button>
+            <button class="btn btn-ghost btn-sm" onclick="regenerate()">🔄 重新生成</button>
+          </div>
+        </div>
+      </div>
+      <div id="editTab" style="display:none">
+        <div style="padding:20px">
+          <div class="form-group">
+            <label class="form-label">邮件主题</label>
+            <input class="form-input" id="editSubject">
+          </div>
+          <div class="form-group">
+            <label class="form-label">邮件正文</label>
+            <textarea class="edit-area" id="editBody"></textarea>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-blue btn-sm" onclick="saveEdit()">💾 保存修改</button>
+            <button class="btn btn-ghost btn-sm" onclick="regenerate()">🔄 重新生成</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>⚙️ 设置</h3>
+      <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">DeepSeek API Key</label>
+        <input class="form-input" id="apiKeyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx">
+        <p style="font-size:12px;color:var(--text-light);margin-top:6px">API Key仅保存在本地浏览器中，不会上传到任何服务器</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">API 地址</label>
+        <input class="form-input" id="apiBaseInput" type="text" placeholder="https://api.deepseek.com">
+        <p style="font-size:12px;color:var(--text-light);margin-top:6px">默认为DeepSeek官方地址，可替换为兼容接口</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('settingsModal')">取消</button>
+      <button class="btn btn-blue" onclick="saveSettings()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- History Modal -->
+<div class="modal-overlay" id="historyModal">
+  <div class="modal" style="max-width:600px">
+    <div class="modal-header">
+      <h3>📋 历史记录</h3>
+      <button class="modal-close" onclick="closeModal('historyModal')">✕</button>
+    </div>
+    <div id="historyList" style="max-height:60vh;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- Pro Modal -->
+<div class="modal-overlay" id="proModal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3>🚀 升级Pro</h3>
+      <button class="modal-close" onclick="closeModal('proModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="pricing-card">
+        <h4>Pro 会员</h4>
+        <div class="price">¥19<span>/月</span></div>
+        <ul>
+          <li>无限次邮件生成</li>
+          <li>优先响应速度</li>
+          <li>更多场景模板</li>
+          <li>历史记录无限保存</li>
+        </ul>
+      </div>
+      <p style="text-align:center;font-size:13px;color:var(--text-light)">免费版每日可生成3封邮件，升级Pro享受无限次数</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('proModal')">稍后再说</button>
+      <button class="btn btn-blue" onclick="activatePro()">激活Pro</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="footer">
+  AI邮件助手 · 由DeepSeek AI驱动 · 您的API密钥安全存储于本地
+</div>
+
+<script>
+// ===== State =====
+let currentScenario = '商务合作';
+let currentTone = '正式';
+let currentEmail = null;
+let isPro = false;
+
+// ===== Init =====
+(function init() {
+  const key = localStorage.getItem('de_api_key') || '';
+  const base = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+  document.getElementById('apiKeyInput').value = key;
+  document.getElementById('apiBaseInput').value = base;
+  isPro = localStorage.getItem('de_is_pro') === 'true';
+  updateUsage();
+})();
+
+// ===== Scenario & Tone =====
+function selectScenario(el) {
+  document.querySelectorAll('.scenario-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentScenario = el.dataset.scenario;
+}
+function selectTone(el) {
+  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentTone = el.dataset.tone;
+}
+
+// ===== Usage =====
+function getTodayUsage() {
+  const data = JSON.parse(localStorage.getItem('de_usage') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  return data[today] || 0;
+}
+function incrementUsage() {
+  const data = JSON.parse(localStorage.getItem('de_usage') || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  data[today] = (data[today] || 0) + 1;
+  localStorage.setItem('de_usage', JSON.stringify(data));
+  updateUsage();
+}
+function updateUsage() {
+  const used = getTodayUsage();
+  const limit = isPro ? 999 : 3;
+  const pct = isPro ? 0 : Math.min((used / 3) * 100, 100);
+  document.getElementById('usageText').textContent = isPro ? 'Pro会员 · 无限使用' : `今日已用 ${used}/3 封`;
+  const fill = document.getElementById('usageFill');
+  fill.style.width = pct + '%';
+  fill.className = 'bar-fill' + (pct >= 100 ? ' danger' : pct >= 67 ? ' warning' : '');
+  if (isPro) {
+    document.getElementById('usageBar').innerHTML = '<span>Pro会员 · 无限使用</span><span class="pro-badge">PRO</span>';
+  }
+}
+
+// ===== Write Email =====
+async function writeEmail() {
+  const desc = document.getElementById('description').value.trim();
+  if (!desc) { showToast('请输入邮件描述内容', true); return; }
+  const apiKey = localStorage.getItem('de_api_key');
+  if (!apiKey) { openSettings(); showToast('请先设置API Key', true); return; }
+  if (!isPro && getTodayUsage() >= 3) { openProModal(); showToast('今日免费次数已用完', true); return; }
+
+  const btn = document.getElementById('writeBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-dots"><span></span><span></span><span></span></span> 生成中...';
+
+  const recipient = document.getElementById('recipient').value.trim();
+  const sender = document.getElementById('sender').value.trim();
+  const apiBase = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+
+  const systemPrompt = `你是一位专业的中文邮件撰写助手。请根据用户提供的场景、语气和描述，撰写一封高质量的中文邮件。
+
+要求：
+1. 必须同时生成邮件主题和邮件正文
+2. 严格按照以下JSON格式输出，不要输出任何其他内容：
+{"subject":"邮件主题","body":"邮件正文"}
+3. 邮件主题要简洁明了，突出重点
+4. 邮件正文格式规范，包含恰当的称呼、正文和落款
+5. 语气要与用户选择的一致
+6. 内容要专业、得体、有说服力`;
+
+  const userPrompt = `场景：${currentScenario}
+语气：${currentTone}
+${recipient ? '收件人：' + recipient : ''}
+${sender ? '发件人：' + sender : ''}
+描述：${desc}`;
+
+  try {
+    const res = await fetch(apiBase + '/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 1500
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API请求失败 (${res.status})`);
+    }
+    const data = await res.json();
+    const content = data.choices?.[0]?.message?.content || '';
+    let parsed;
+    try {
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        parsed = JSON.parse(jsonMatch[0]);
+      }
+    } catch(e) {}
+    if (!parsed || !parsed.subject || !parsed.body) {
+      parsed = { subject: '邮件', body: content.replace(/\{.*?\}/, '').trim() };
+    }
+    currentEmail = { subject: parsed.subject, body: parsed.body, scenario: currentScenario, tone: currentTone, time: new Date().toISOString() };
+    displayEmail(currentEmail);
+    incrementUsage();
+    saveToHistory(currentEmail);
+  } catch(e) {
+    showToast('生成失败：' + e.message, true);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ 撰写邮件';
+  }
+}
+
+function displayEmail(email) {
+  document.getElementById('resultEmpty').style.display = 'none';
+  document.getElementById('resultContent').style.display = 'block';
+  document.getElementById('emailSubject').textContent = email.subject;
+  document.getElementById('emailBody').textContent = email.body;
+  document.getElementById('editSubject').value = email.subject;
+  document.getElementById('editBody').value = email.body;
+}
+
+// ===== Tabs =====
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', (tab === 'preview' && i === 0) || (tab === 'edit' && i === 1)));
+  document.getElementById('previewTab').style.display = tab === 'preview' ? 'block' : 'none';
+  document.getElementById('editTab').style.display = tab === 'edit' ? 'block' : 'none';
+}
+
+// ===== Edit =====
+function saveEdit() {
+  if (!currentEmail) return;
+  currentEmail.subject = document.getElementById('editSubject').value;
+  currentEmail.body = document.getElementById('editBody').value;
+  displayEmail(currentEmail);
+  switchTab('preview');
+  showToast('修改已保存');
+}
+
+// ===== Regenerate =====
+function regenerate() {
+  writeEmail();
+}
+
+// ===== Copy =====
+function copySubject() {
+  if (!currentEmail) return;
+  navigator.clipboard.writeText(currentEmail.subject).then(() => showToast('主题已复制'));
+}
+function copyAll() {
+  if (!currentEmail) return;
+  const text = `主题：${currentEmail.subject}\n\n${currentEmail.body}`;
+  navigator.clipboard.writeText(text).then(() => showToast('邮件全文已复制'));
+}
+
+// ===== History =====
+function saveToHistory(email) {
+  let history = JSON.parse(localStorage.getItem('de_history') || '[]');
+  history.unshift({ ...email, id: Date.now() });
+  if (history.length > 10) history = history.slice(0, 10);
+  localStorage.setItem('de_history', JSON.stringify(history));
+}
+function openHistory() {
+  const history = JSON.parse(localStorage.getItem('de_history') || '[]');
+  const container = document.getElementById('historyList');
+  if (history.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>暂无历史记录</p></div>';
+  } else {
+    container.innerHTML = history.map(h => `
+      <div class="history-item" onclick="loadHistory(${h.id})">
+        <div class="history-meta">
+          <span class="history-scenario">${h.scenario || ''}</span>
+          <span class="history-tone">${h.tone || ''}</span>
+          <span class="history-time">${formatTime(h.time)}</span>
+        </div>
+        <div class="history-subject">${escapeHtml(h.subject)}</div>
+        <div class="history-preview">${escapeHtml(h.body?.substring(0, 60))}...</div>
+      </div>
+    `).join('');
+  }
+  openModal('historyModal');
+}
+function loadHistory(id) {
+  const history = JSON.parse(localStorage.getItem('de_history') || '[]');
+  const item = history.find(h => h.id === id);
+  if (item) {
+    currentEmail = item;
+    displayEmail(item);
+    closeModal('historyModal');
+    showToast('已加载历史邮件');
+  }
+}
+function formatTime(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const now = new Date();
+  const diff = now - d;
+  if (diff < 60000) return '刚刚';
+  if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + '小时前';
+  return d.getMonth() + 1 + '/' + d.getDate() + ' ' + d.getHours().toString().padStart(2, '0') + ':' + d.getMinutes().toString().padStart(2, '0');
+}
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ===== Settings =====
+function openSettings() {
+  document.getElementById('apiKeyInput').value = localStorage.getItem('de_api_key') || '';
+  document.getElementById('apiBaseInput').value = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+  openModal('settingsModal');
+}
+function saveSettings() {
+  const key = document.getElementById('apiKeyInput').value.trim();
+  const base = document.getElementById('apiBaseInput').value.trim();
+  if (key) localStorage.setItem('de_api_key', key);
+  if (base) localStorage.setItem('de_api_base', base);
+  closeModal('settingsModal');
+  showToast('设置已保存');
+}
+
+// ===== Pro =====
+function openProModal() { openModal('proModal'); }
+function activatePro() {
+  isPro = true;
+  localStorage.setItem('de_is_pro', 'true');
+  updateUsage();
+  closeModal('proModal');
+  showToast('🎉 Pro会员已激活！');
+}
+
+// ===== Modal =====
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('active'); });
+});
+
+// ===== Toast =====
+function showToast(msg, isError) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast' + (isError ? ' error' : '') + ' show';
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>

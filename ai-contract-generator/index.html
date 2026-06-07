@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI合同生成器 - 专业法律文书智能生成</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg-primary:#0a0a0f;
+  --bg-secondary:#12121a;
+  --bg-card:#1a1a25;
+  --bg-input:#0f0f18;
+  --gold:#c9a84c;
+  --gold-light:#e2c97e;
+  --gold-dark:#a08030;
+  --text-primary:#e8e6e3;
+  --text-secondary:#9a9a9a;
+  --text-muted:#666;
+  --border:#2a2a35;
+  --border-gold:#3a3020;
+  --success:#4caf50;
+  --error:#e74c3c;
+  --warning:#f39c12;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  background:var(--bg-primary);
+  color:var(--text-primary);
+  line-height:1.6;
+  min-height:100vh;
+}
+.app{max-width:1200px;margin:0 auto;padding:20px}
+/* Header */
+.header{text-align:center;padding:40px 0 30px;position:relative}
+.header::after{
+  content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:200px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.logo{font-size:2.2em;font-weight:700;letter-spacing:2px;margin-bottom:8px}
+.logo span{color:var(--gold)}
+.tagline{color:var(--text-secondary);font-size:0.95em;margin-bottom:12px}
+.badge{
+  display:inline-block;background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  color:#000;font-size:0.7em;font-weight:700;padding:3px 12px;border-radius:20px;
+  letter-spacing:1px;text-transform:uppercase;
+}
+/* API Key Bar */
+.api-bar{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:12px;
+  padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.api-bar label{color:var(--gold);font-weight:600;font-size:0.9em;white-space:nowrap}
+.api-bar input{
+  flex:1;min-width:200px;background:var(--bg-input);border:1px solid var(--border);
+  color:var(--text-primary);padding:10px 14px;border-radius:8px;font-size:0.9em;
+  outline:none;transition:border-color .2s;
+}
+.api-bar input:focus{border-color:var(--gold)}
+.api-bar .save-btn{
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:#000;
+  border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;
+  font-size:0.85em;transition:opacity .2s;
+}
+.api-bar .save-btn:hover{opacity:.85}
+.api-status{font-size:0.8em;margin-left:4px}
+.api-status.ok{color:var(--success)}
+.api-status.no{color:var(--error)}
+/* Main Layout */
+.main{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+@media(max-width:768px){.main{grid-template-columns:1fr}}
+/* Card */
+.card{
+  background:var(--bg-card);border:1px solid var(--border);border-radius:14px;
+  padding:24px;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.card-title{
+  font-size:1.15em;font-weight:700;margin-bottom:20px;display:flex;
+  align-items:center;gap:8px;
+}
+.card-title .icon{color:var(--gold);font-size:1.2em}
+/* Contract Type Grid */
+.type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:20px}
+.type-btn{
+  background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);
+  padding:12px 8px;border-radius:10px;cursor:pointer;text-align:center;
+  font-size:0.85em;transition:all .25s;font-weight:500;
+}
+.type-btn:hover{border-color:var(--gold-dark);color:var(--text-primary)}
+.type-btn.active{
+  border-color:var(--gold);color:var(--gold);
+  background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));
+  box-shadow:0 0 20px rgba(201,168,76,.1);
+}
+.type-btn .type-icon{font-size:1.5em;display:block;margin-bottom:4px}
+/* Form */
+.form-group{margin-bottom:16px}
+.form-group label{
+  display:block;font-size:0.85em;color:var(--text-secondary);
+  margin-bottom:6px;font-weight:500;
+}
+.form-group label .req{color:var(--error);margin-left:2px}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;background:var(--bg-input);border:1px solid var(--border);
+  color:var(--text-primary);padding:10px 14px;border-radius:8px;font-size:0.9em;
+  outline:none;transition:border-color .2s;font-family:inherit;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--gold);
+}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-group select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239a9a9a' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:500px){.form-row{grid-template-columns:1fr}}
+/* Generate Button */
+.generate-btn{
+  width:100%;padding:16px;border:none;border-radius:10px;cursor:pointer;
+  font-size:1.05em;font-weight:700;letter-spacing:1px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  color:#0a0a0f;transition:all .3s;margin-top:8px;
+  box-shadow:0 4px 20px rgba(201,168,76,.25);
+}
+.generate-btn:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(201,168,76,.35)}
+.generate-btn:active{transform:translateY(0)}
+.generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.generate-btn .spinner{
+  display:inline-block;width:18px;height:18px;border:2px solid rgba(0,0,0,.2);
+  border-top-color:#0a0a0f;border-radius:50%;animation:spin .8s linear infinite;
+  vertical-align:middle;margin-right:8px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Output */
+.output-card{grid-column:1/-1}
+.output-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.output-actions{display:flex;gap:8px;flex-wrap:wrap}
+.action-btn{
+  background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);
+  padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.82em;
+  transition:all .2s;display:flex;align-items:center;gap:6px;
+}
+.action-btn:hover{border-color:var(--gold-dark);color:var(--text-primary)}
+.action-btn.copied{border-color:var(--success);color:var(--success)}
+.contract-output{
+  background:var(--bg-input);border:1px solid var(--border);border-radius:10px;
+  padding:28px 32px;min-height:300px;max-height:70vh;overflow-y:auto;
+  font-size:0.92em;line-height:1.9;white-space:pre-wrap;word-break:break-word;
+}
+.contract-output h1{color:var(--gold);text-align:center;font-size:1.3em;margin-bottom:16px}
+.contract-output .clause{margin-bottom:12px}
+.contract-output .article-title{font-weight:700;color:var(--gold-light);margin:16px 0 8px}
+.placeholder-text{color:var(--text-muted);text-align:center;padding:60px 20px;font-size:0.95em}
+.placeholder-text .big-icon{font-size:3em;display:block;margin-bottom:12px;opacity:.4}
+/* Usage Counter */
+.usage-bar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:12px 20px;background:var(--bg-card);border:1px solid var(--border);
+  border-radius:10px;margin-bottom:24px;font-size:0.85em;
+}
+.usage-bar .count{color:var(--gold);font-weight:700}
+.usage-bar .upgrade{
+  color:var(--gold);cursor:pointer;text-decoration:underline;
+  background:none;border:none;font-size:inherit;font-family:inherit;
+}
+.usage-bar .upgrade:hover{color:var(--gold-light)}
+/* Modal */
+.modal-overlay{
+  display:none;position:fixed;top:0;left:0;right:0;bottom:0;
+  background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;
+}
+.modal-overlay.show{display:flex}
+.modal{
+  background:var(--bg-card);border:1px solid var(--gold-dark);border-radius:16px;
+  padding:32px;max-width:440px;width:90%;position:relative;
+}
+.modal h2{color:var(--gold);margin-bottom:16px;font-size:1.2em}
+.modal p{color:var(--text-secondary);font-size:0.9em;margin-bottom:12px;line-height:1.7}
+.modal .price-tag{
+  background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.05));
+  border:1px solid var(--border-gold);border-radius:10px;padding:16px;margin:16px 0;
+  text-align:center;
+}
+.modal .price-tag .price{font-size:2em;font-weight:700;color:var(--gold)}
+.modal .price-tag .period{color:var(--text-secondary);font-size:0.85em}
+.modal .close-btn{
+  background:none;border:1px solid var(--border);color:var(--text-secondary);
+  padding:8px 24px;border-radius:8px;cursor:pointer;font-size:0.9em;
+  transition:all .2s;margin-top:12px;
+}
+.modal .close-btn:hover{border-color:var(--text-secondary);color:var(--text-primary)}
+/* Toast */
+.toast{
+  position:fixed;top:20px;right:20px;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:10px;padding:14px 20px;
+  z-index:2000;transform:translateX(120%);transition:transform .3s;
+  font-size:0.9em;max-width:320px;
+}
+.toast.show{transform:translateX(0)}
+.toast.success{border-color:var(--success);color:var(--success)}
+.toast.error{border-color:var(--error);color:var(--error)}
+/* Footer */
+.footer{
+  text-align:center;padding:30px 0 20px;color:var(--text-muted);font-size:0.8em;
+  border-top:1px solid var(--border);margin-top:20px;
+}
+.footer a{color:var(--gold-dark);text-decoration:none}
+/* Scrollbar */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--bg-primary)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--text-muted)}
+/* Animations */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .4s ease}
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">AI<span>合同</span>生成器</div>
+    <div class="tagline">专业法律文书 · 智能生成 · 一键导出</div>
+    <span class="badge">PROFESSIONAL LEGAL AI</span>
+  </div>
+
+  <!-- API Key -->
+  <div class="api-bar">
+    <label>🔑 DeepSeek API Key</label>
+    <input type="password" id="apiKey" placeholder="sk-... 输入您的 DeepSeek API Key" autocomplete="off">
+    <button class="save-btn" onclick="saveApiKey()">保存</button>
+    <span class="api-status" id="apiStatus"></span>
+  </div>
+
+  <!-- Usage -->
+  <div class="usage-bar">
+    <span>今日已生成: <span class="count" id="usageCount">0</span> / 1 次（免费版）</span>
+    <button class="upgrade" onclick="showUpgrade()">升级 Pro 无限次 →</button>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Left: Input -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> 选择合同类型</div>
+      <div class="type-grid" id="typeGrid"></div>
+
+      <div id="formArea" style="display:none" class="fade-in">
+        <div class="card-title" style="margin-top:8px"><span class="icon">✏️</span> 填写合同信息</div>
+        <div id="dynamicForm"></div>
+        <button class="generate-btn" id="generateBtn" onclick="generateContract()">
+          ✨ 生成专业合同
+        </button>
+      </div>
+    </div>
+
+    <!-- Right: Output -->
+    <div class="card output-card">
+      <div class="output-header">
+        <div class="card-title" style="margin-bottom:0"><span class="icon">📄</span> 生成结果</div>
+        <div class="output-actions" id="outputActions" style="display:none">
+          <button class="action-btn" onclick="copyContract()">📋 复制文本</button>
+          <button class="action-btn" onclick="downloadContract()">⬇️ 下载文件</button>
+        </div>
+      </div>
+      <div class="contract-output" id="contractOutput">
+        <div class="placeholder-text">
+          <span class="big-icon">⚖️</span>
+          选择合同类型并填写信息后<br>点击「生成专业合同」即可
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    AI合同生成器 · 基于 DeepSeek 大模型 · 生成内容仅供参考，不构成法律建议<br>
+    <a href="javascript:void(0)">服务条款</a> · <a href="javascript:void(0)">隐私政策</a>
+  </div>
+</div>
+
+<!-- Upgrade Modal -->
+<div class="modal-overlay" id="upgradeModal">
+  <div class="modal">
+    <h2>升级 Pro 会员</h2>
+    <p>解锁无限次合同生成，享受专业法律文书智能服务。</p>
+    <div class="price-tag">
+      <div class="price">¥99<span style="font-size:.5em;color:var(--text-secondary)">/月</span></div>
+      <div class="period">或 ¥29/次 单次购买</div>
+    </div>
+    <p style="font-size:.82em;color:var(--text-muted)">✓ 无限次生成  ✓ 优先响应  ✓ 更多合同类型  ✓ 专属客服</p>
+    <button class="close-btn" onclick="closeUpgrade()">关闭</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============ Contract Types & Templates ============
+const CONTRACT_TYPES = [
+  { id:'labor', name:'劳动合同', icon:'👷', desc:'雇佣关系' },
+  { id:'rental', name:'租房合同', icon:'🏠', desc:'房屋租赁' },
+  { id:'sale', name:'买卖合同', icon:'💰', desc:'商品交易' },
+  { id:'service', name:'服务协议', icon:'🤝', desc:'服务提供' },
+  { id:'nda', name:'保密协议', icon:'🔒', desc:'NDA' },
+  { id:'coop', name:'合作协议', icon:'🤜', desc:'合作经营' },
+  { id:'loan', name:'借款合同', icon:'💳', desc:'资金借贷' },
+  { id:'equity', name:'股权转让协议', icon:'📊', desc:'股权变更' },
+  { id:'lease', name:'租赁合同', icon:'🏗️', desc:'设备/场地' },
+  { id:'entrust', name:'委托协议', icon:'📝', desc:'委托代理' },
+  { id:'tech', name:'技术开发合同', icon:'💻', desc:'软件开发' },
+  { id:'franchise', name:'特许经营合同', icon:'🏪', desc:'品牌授权' },
+];
+
+const FORM_FIELDS = {
+  labor: [
+    { key:'partyA', label:'甲方（用人单位）', required:true },
+    { key:'partyB', label:'乙方（劳动者）', required:true },
+    { key:'idCard', label:'乙方身份证号', required:true },
+    { key:'position', label:'工作岗位', required:true },
+    { key:'workplace', label:'工作地点', required:false },
+    { key:'salary', label:'月薪（元）', required:true, type:'number' },
+    { key:'startDate', label:'合同开始日期', required:true, type:'date' },
+    { key:'endDate', label:'合同结束日期', required:true, type:'date' },
+    { key:'probation', label:'试用期（月）', required:false, type:'number' },
+    { key:'workHours', label:'工时制度', required:false, type:'select', options:['标准工时制','综合计算工时制','不定时工作制'] },
+  ],
+  rental: [
+    { key:'partyA', label:'甲方（出租方）', required:true },
+    { key:'partyB', label:'乙方（承租方）', required:true },
+    { key:'idCardA', label:'甲方身份证号', required:false },
+    { key:'idCardB', label:'乙方身份证号', required:false },
+    { key:'address', label:'房屋地址', required:true },
+    { key:'area', label:'面积（平方米）', required:true },
+    { key:'rent', label:'月租金（元）', required:true, type:'number' },
+    { key:'deposit', label:'押金（元）', required:true, type:'number' },
+    { key:'payMethod', label:'付款方式', required:false, type:'select', options:['月付','季付','半年付','年付'] },
+    { key:'startDate', label:'租期开始日期', required:true, type:'date' },
+    { key:'endDate', label:'租期结束日期', required:true, type:'date' },
+    { key:'purpose', label:'房屋用途', required:false, type:'select', options:['居住','办公','商业','仓储'] },
+  ],
+  sale: [
+    { key:'partyA', label:'甲方（卖方）', required:true },
+    { key:'partyB', label:'乙方（买方）', required:true },
+    { key:'goodsName', label:'标的物名称', required:true },
+    { key:'goodsSpec', label:'规格型号', required:false },
+    { key:'quantity', label:'数量', required:true },
+    { key:'unitPrice', label:'单价（元）', required:true, type:'number' },
+    { key:'totalPrice', label:'总价（元）', required:true, type:'number' },
+    { key:'deliveryDate', label:'交货日期', required:true, type:'date' },
+    { key:'deliveryPlace', label:'交货地点', required:true },
+    { key:'payMethod', label:'付款方式', required:false, type:'select', options:['一次性付款','分期付款','货到付款','预付全款'] },
+    { key:'warranty', label:'质保期', required:false },
+  ],
+  service: [
+    { key:'partyA', label:'甲方（委托方）', required:true },
+    { key:'partyB', label:'乙方（服务方）', required:true },
+    { key:'serviceName', label:'服务名称/内容', required:true },
+    { key:'serviceDetail', label:'服务详细描述', required:false, type:'textarea' },
+    { key:'totalFee', label:'服务费用（元）', required:true, type:'number' },
+    { key:'paySchedule', label:'付款安排', required:false },
+    { key:'startDate', label:'服务开始日期', required:true, type:'date' },
+    { key:'endDate', label:'服务结束日期', required:true, type:'date' },
+    { key:'acceptStd', label:'验收标准', required:false },
+  ],
+  nda: [
+    { key:'partyA', label:'甲方（披露方）', required:true },
+    { key:'partyB', label:'乙方（接收方）', required:true },
+    { key:'confidentialScope', label:'保密信息范围', required:true, type:'textarea' },
+    { key:'purpose', label:'保密目的/用途', required:true },
+    { key:'duration', label:'保密期限（年）', required:true, type:'number' },
+    { key:'penalty', label:'违约金（元）', required:true, type:'number' },
+    { key:'startDate', label:'协议生效日期', required:true, type:'date' },
+  ],
+  coop: [
+    { key:'partyA', label:'甲方', required:true },
+    { key:'partyB', label:'乙方', required:true },
+    { key:'projectName', label:'合作项目名称', required:true },
+    { key:'coopContent', label:'合作内容', required:true, type:'textarea' },
+    { key:'profitShare', label:'利润分配方式', required:true },
+    { key:'investA', label:'甲方出资额（元）', required:false, type:'number' },
+    { key:'investB', label:'乙方出资额（元）', required:false, type:'number' },
+    { key:'startDate', label:'合作开始日期', required:true, type:'date' },
+    { key:'endDate', label:'合作结束日期', required:true, type:'date' },
+  ],
+  loan: [
+    { key:'partyA', label:'甲方（出借人）', required:true },
+    { key:'partyB', label:'乙方（借款人）', required:true },
+    { key:'idCardB', label:'乙方身份证号', required:true },
+    { key:'amount', label:'借款金额（元）', required:true, type:'number' },
+    { key:'rate', label:'年利率（%）', required:true, type:'number' },
+    { key:'startDate', label:'借款开始日期', required:true, type:'date' },
+    { key:'endDate', label:'还款日期', required:true, type:'date' },
+    { key:'repayMethod', label:'还款方式', required:false, type:'select', options:['到期一次还本付息','按月等额本息','按月付息到期还本','按季付息到期还本'] },
+    { key:'guarantor', label:'担保人', required:false },
+    { key:'purpose', label:'借款用途', required:false },
+  ],
+  equity: [
+    { key:'partyA', label:'甲方（转让方）', required:true },
+    { key:'partyB', label:'乙方（受让方）', required:true },
+    { key:'companyName', label:'目标公司名称', required:true },
+    { key:'equityRatio', label:'转让股权比例（%）', required:true, type:'number' },
+    { key:'transferPrice', label:'转让价格（元）', required:true, type:'number' },
+    { key:'payMethod', label:'付款方式', required:false, type:'select', options:['一次性付款','分期付款'] },
+    { key:'payDeadline', label:'付款期限', required:true },
+    { key:'signDate', label:'签署日期', required:true, type:'date' },
+  ],
+  lease: [
+    { key:'partyA', label:'甲方（出租方）', required:true },
+    { key:'partyB', label:'乙方（承租方）', required:true },
+    { key:'leaseItem', label:'租赁物名称', required:true },
+    { key:'leaseSpec', label:'规格/型号', required:false },
+    { key:'quantity', label:'数量', required:true },
+    { key:'monthlyRent', label:'月租金（元）', required:true, type:'number' },
+    { key:'deposit', label:'押金（元）', required:true, type:'number' },
+    { key:'startDate', label:'租期开始日期', required:true, type:'date' },
+    { key:'endDate', label:'租期结束日期', required:true, type:'date' },
+    { key:'deliveryPlace', label:'交付地点', required:false },
+  ],
+  entrust: [
+    { key:'partyA', label:'甲方（委托人）', required:true },
+    { key:'partyB', label:'乙方（受托人）', required:true },
+    { key:'entrustContent', label:'委托事项', required:true, type:'textarea' },
+    { key:'authority', label:'授权范围', required:true, type:'select', options:['一般授权','特别授权'] },
+    { key:'fee', label:'委托费用（元）', required:true, type:'number' },
+    { key:'startDate', label:'委托开始日期', required:true, type:'date' },
+    { key:'endDate', label:'委托结束日期', required:true, type:'date' },
+    { key:'reportReq', label:'报告要求', required:false },
+  ],
+  tech: [
+    { key:'partyA', label:'甲方（委托方）', required:true },
+    { key:'partyB', label:'乙方（开发方）', required:true },
+    { key:'projectName', label:'项目名称', required:true },
+    { key:'techReq', label:'技术需求描述', required:true, type:'textarea' },
+    { key:'totalFee', label:'开发费用（元）', required:true, type:'number' },
+    { key:'paySchedule', label:'付款节点', required:false },
+    { key:'startDate', label:'开始日期', required:true, type:'date' },
+    { key:'endDate', label:'交付日期', required:true, type:'date' },
+    { key:'acceptStd', label:'验收标准', required:false },
+    { key:'ipOwner', label:'知识产权归属', required:false, type:'select', options:['甲方所有','乙方所有','双方共有'] },
+  ],
+  franchise: [
+    { key:'partyA', label:'甲方（特许人）', required:true },
+    { key:'partyB', label:'乙方（被特许人）', required:true },
+    { key:'brandName', label:'特许品牌名称', required:true },
+    { key:'franchiseArea', label:'特许经营区域', required:true },
+    { key:'initialFee', label:'加盟费（元）', required:true, type:'number' },
+    { key:'royalty', label:'特许使用费（元/年）', required:true, type:'number' },
+    { key:'startDate', label:'特许开始日期', required:true, type:'date' },
+    { key:'endDate', label:'特许结束日期', required:true, type:'date' },
+    { key:'training', label:'培训支持内容', required:false },
+  ],
+};
+
+// ============ State ============
+let selectedType = null;
+let generatedText = '';
+
+// ============ Init ============
+window.addEventListener('DOMContentLoaded', () => {
+  renderTypeGrid();
+  loadApiKey();
+  updateUsage();
+});
+
+function renderTypeGrid() {
+  const grid = document.getElementById('typeGrid');
+  grid.innerHTML = CONTRACT_TYPES.map(t =>
+    `<button class="type-btn" data-id="${t.id}" onclick="selectType('${t.id}')">
+      <span class="type-icon">${t.icon}</span>${t.name}
+    </button>`
+  ).join('');
+}
+
+function selectType(id) {
+  selectedType = id;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.toggle('active', b.dataset.id === id));
+  const formArea = document.getElementById('formArea');
+  formArea.style.display = 'block';
+  formArea.className = 'fade-in';
+  renderForm(id);
+}
+
+function renderForm(typeId) {
+  const fields = FORM_FIELDS[typeId] || [];
+  const container = document.getElementById('dynamicForm');
+  let html = '';
+  let inRow = false;
+  fields.forEach((f, i) => {
+    const req = f.required ? '<span class="req">*</span>' : '';
+    const inputHtml = buildInput(f);
+    // Pair date fields and short fields
+    const isShort = f.type === 'date' || f.type === 'number' || f.type === 'select';
+    const nextIsShort = fields[i+1] && (fields[i+1].type === 'date' || fields[i+1].type === 'number' || fields[i+1].type === 'select');
+    if (isShort && nextIsShort && !inRow) {
+      html += `<div class="form-row">`;
+      html += `<div class="form-group"><label>${f.label}${req}</label>${inputHtml}</div>`;
+      inRow = true;
+    } else if (inRow) {
+      html += `<div class="form-group"><label>${f.label}${req}</label>${inputHtml}</div>`;
+      html += `</div>`;
+      inRow = false;
+    } else {
+      html += `<div class="form-group"><label>${f.label}${req}</label>${inputHtml}</div>`;
+    }
+  });
+  if (inRow) html += '</div>';
+  container.innerHTML = html;
+}
+
+function buildInput(f) {
+  const val = `id="field_${f.key}"`;
+  if (f.type === 'textarea') {
+    return `<textarea ${val} placeholder="请输入${f.label.replace(/（.*?）/,'')}" rows="3"></textarea>`;
+  }
+  if (f.type === 'select') {
+    const opts = (f.options||[]).map(o => `<option value="${o}">${o}</option>`).join('');
+    return `<select ${val}><option value="">请选择</option>${opts}</select>`;
+  }
+  const t = f.type === 'date' ? 'date' : (f.type === 'number' ? 'number' : 'text');
+  return `<input type="${t}" ${val} placeholder="请输入${f.label.replace(/（.*?）/,'')}">`;
+}
+
+// ============ API Key ============
+function loadApiKey() {
+  const key = localStorage.getItem('deepseek_api_key') || '';
+  document.getElementById('apiKey').value = key;
+  updateApiStatus(key);
+}
+
+function saveApiKey() {
+  const key = document.getElementById('apiKey').value.trim();
+  if (key) {
+    localStorage.setItem('deepseek_api_key', key);
+    updateApiStatus(key);
+    showToast('API Key 已保存', 'success');
+  } else {
+    localStorage.removeItem('deepseek_api_key');
+    updateApiStatus('');
+    showToast('API Key 已清除', 'error');
+  }
+}
+
+function updateApiStatus(key) {
+  const el = document.getElementById('apiStatus');
+  if (key) {
+    el.className = 'api-status ok';
+    el.textContent = '✓ 已配置';
+  } else {
+    el.className = 'api-status no';
+    el.textContent = '✗ 未配置';
+  }
+}
+
+// ============ Usage ============
+function getUsageKey() {
+  const d = new Date();
+  return `usage_${d.getFullYear()}_${d.getMonth()+1}_${d.getDate()}`;
+}
+
+function updateUsage() {
+  const count = parseInt(localStorage.getItem(getUsageKey()) || '0');
+  document.getElementById('usageCount').textContent = count;
+  return count;
+}
+
+function incrementUsage() {
+  const key = getUsageKey();
+  const count = parseInt(localStorage.getItem(key) || '0') + 1;
+  localStorage.setItem(key, count.toString());
+  document.getElementById('usageCount').textContent = count;
+  return count;
+}
+
+// ============ Generate ============
+async function generateContract() {
+  const apiKey = localStorage.getItem('deepseek_api_key');
+  if (!apiKey) {
+    showToast('请先配置 DeepSeek API Key', 'error');
+    return;
+  }
+  if (!selectedType) {
+    showToast('请先选择合同类型', 'error');
+    return;
+  }
+
+  // Check usage (free tier: 1/day)
+  const isPro = localStorage.getItem('pro_user') === '1';
+  const usage = updateUsage();
+  if (!isPro && usage >= 1) {
+    showToast('今日免费次数已用完，请升级 Pro', 'error');
+    showUpgrade();
+    return;
+  }
+
+  // Collect form data
+  const fields = FORM_FIELDS[selectedType] || [];
+  const data = {};
+  let missing = [];
+  fields.forEach(f => {
+    const el = document.getElementById(`field_${f.key}`);
+    const val = el ? el.value.trim() : '';
+    data[f.key] = val;
+    if (f.required && !val) {
+      missing.push(f.label.replace(/（.*?）/,''));
+    }
+  });
+  if (missing.length > 0) {
+    showToast(`请填写必填项: ${missing.join('、')}`, 'error');
+    return;
+  }
+
+  // Build prompt
+  const typeName = CONTRACT_TYPES.find(t => t.id === selectedType)?.name || '合同';
+  const prompt = buildPrompt(selectedType, typeName, data);
+
+  // UI: loading
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>AI 正在生成...';
+  const output = document.getElementById('contractOutput');
+  output.innerHTML = '<div class="placeholder-text"><span class="big-icon">⏳</span>AI 正在撰写专业合同，请稍候...</div>';
+
+  try {
+    const res = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: '你是一位资深的中国法律文书专家，精通《中华人民共和国民法典》及相关法律法规，擅长起草各类专业合同和法律文件。你生成的合同必须格式规范、条款完整、法律用语准确。' },
+          { role: 'user', content: prompt },
+        ],
+        temperature: 0.3,
+        max_tokens: 4096,
+      }),
+    });
+
+    if (!res.ok) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error?.message || `API 请求失败 (${res.status})`);
+    }
+
+    const json = await res.json();
+    const text = json.choices?.[0]?.message?.content || '';
+    if (!text) throw new Error('AI 返回内容为空');
+
+    generatedText = text;
+    renderContract(text);
+    incrementUsage();
+    document.getElementById('outputActions').style.display = 'flex';
+    showToast('合同生成成功！', 'success');
+  } catch (err) {
+    output.innerHTML = `<div class="placeholder-text" style="color:var(--error)"><span class="big-icon">⚠️</span>生成失败: ${err.message}</div>`;
+    showToast(err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '✨ 生成专业合同';
+  }
+}
+
+function buildPrompt(typeId, typeName, data) {
+  const dataDesc = Object.entries(data)
+    .filter(([,v]) => v)
+    .map(([k,v]) => `- ${k}: ${v}`)
+    .join('\n');
+
+  return `请根据以下信息，生成一份完整、专业的${typeName}。
+
+## 合同基本信息
+${dataDesc}
+
+## 生成要求
+
+1. **格式要求**：
+   - 使用规范的中文法律文书格式
+   - 标题居中，使用「${typeName}」作为标题
+   - 所有条款必须编号，使用"第一条、第二条..."格式
+   - 每条下分款项使用"1.1、1.2..."格式
+   - 使用中文数字和阿拉伯数字规范表述金额
+
+2. **内容要求**：
+   - 必须包含合同首部（当事人信息、鉴于条款）
+   - 必须包含所有该类合同的标准条款和必要条款
+   - 必须包含违约责任条款
+   - 必须包含争议解决条款（约定管辖法院或仲裁）
+   - 必须包含合同变更和解除条款
+   - 必须包含不可抗力条款
+   - 必须包含通知与送达条款
+   - 必须包含合同生效条款
+   - 必须包含签署栏（甲方、乙方签字盖章处，日期处）
+
+3. **法律依据**：
+   - 严格依据《中华人民共和国民法典》及相关法律法规
+   - 使用准确的法律术语
+   - 条款表述严谨、无歧义
+   - 保护双方合法权益，条款公平合理
+
+4. **特殊条款**：
+   - ${getTypeSpecificInstructions(typeId)}
+
+5. **输出格式**：
+   - 直接输出合同全文，不要有任何前言、解释或说明
+   - 合同末尾必须有签署栏
+   - 金额同时使用阿拉伯数字和中文大写
+
+请现在生成完整的${typeName}。`;
+}
+
+function getTypeSpecificInstructions(typeId) {
+  const map = {
+    labor: '包含工作内容与工作地点、工作时间和休息休假、劳动报酬与支付方式、社会保险与福利、劳动保护与条件、试用期约定、竞业限制条款、培训条款、合同解除条件',
+    rental: '包含房屋交付与验收、租金支付时间与方式、押金退还条件、维修责任、转租约定、房屋返还条件、水电物业费用承担',
+    sale: '包含标的物交付与验收、质量标准与检验、风险转移、付款期限与方式、包装运输、售后服务与保修、所有权保留条款',
+    service: '包含服务范围与标准、服务人员要求、服务质量考核、费用支付条件、知识产权归属、保密义务、服务变更处理',
+    nda: '包含保密信息定义与范围、保密义务具体要求、信息使用限制、信息返还与销毁、例外情形、违约责任与赔偿',
+    coop: '包含合作方式与分工、投入与分配、决策机制、经营管理、风险承担、退出机制、竞业禁止',
+    loan: '包含借款交付方式、利息计算与支付、还款计划、提前还款约定、逾期违约责任、担保条款、借款用途监管',
+    equity: '包含股权转让标的、价款支付安排、股权交割、过渡期安排、陈述与保证、税费承担、审批与登记',
+    lease: '包含租赁物交付与验收、使用与维护、维修保养责任、保险约定、租赁物返还、转租限制',
+    entrust: '包含委托事项与权限、受托人义务、报告义务、费用承担、转委托限制、委托终止条件',
+    tech: '包含开发需求与规格、开发计划与里程碑、交付物标准、验收流程、知识产权归属、后续维护、源码交付',
+    franchise: '包含特许经营授权范围、品牌使用规范、经营指导与监督、统一采购要求、广告宣传、特许经营费、区域保护',
+  };
+  return map[typeId] || '包含该类合同的标准条款';
+}
+
+function renderContract(text) {
+  const output = document.getElementById('contractOutput');
+  // Simple formatting: bold article titles, preserve structure
+  let html = escapeHtml(text);
+  // Highlight article titles like 第一条, 第二条
+  html = html.replace(/(第[一二三四五六七八九十百]+条)/g, '<span style="color:var(--gold-light);font-weight:700">$1</span>');
+  // Highlight section numbers like 1.1, 1.2
+  html = html.replace(/^(\d+\.\d+)/gm, '<span style="color:var(--gold)">$1</span>');
+  // Bold lines that look like section headers
+  html = html.replace(/^(.{2,20}[：:])$/gm, '<span style="font-weight:600">$1</span>');
+  // Signature block styling
+  html = html.replace(/(甲方|乙方|签字|盖章|日期|签署)/g, '<span style="color:var(--gold-dark)">$1</span>');
+  output.innerHTML = html;
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ============ Actions ============
+function copyContract() {
+  if (!generatedText) return;
+  navigator.clipboard.writeText(generatedText).then(() => {
+    const btn = event.target.closest('.action-btn');
+    btn.classList.add('copied');
+    btn.innerHTML = '✅ 已复制';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = '📋 复制文本';
+    }, 2000);
+  }).catch(() => {
+    // Fallback
+    const ta = document.createElement('textarea');
+    ta.value = generatedText;
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('已复制到剪贴板', 'success');
+  });
+}
+
+function downloadContract() {
+  if (!generatedText) return;
+  const typeName = CONTRACT_TYPES.find(t => t.id === selectedType)?.name || '合同';
+  const blob = new Blob([generatedText], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${typeName}_${new Date().toISOString().slice(0,10)}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('文件已下载', 'success');
+}
+
+// ============ Modal ============
+function showUpgrade() {
+  document.getElementById('upgradeModal').classList.add('show');
+}
+function closeUpgrade() {
+  document.getElementById('upgradeModal').classList.remove('show');
+}
+document.getElementById('upgradeModal').addEventListener('click', function(e) {
+  if (e.target === this) closeUpgrade();
+});
+
+// ============ Toast ============
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => { t.className = 'toast'; }, 3000);
+}
+</script>
+</body>
+</html>

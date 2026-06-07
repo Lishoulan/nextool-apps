@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lishoulan.github.io/nextool-apps/sitemap.xml
