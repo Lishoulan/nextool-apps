@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexTool AI 翻译 - 智能多语言翻译工具</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--card:#1a1d2e;--border:#2a2d3e;--accent:#3b82f6;--accent-hover:#2563eb;--text:#e2e8f0;--text-muted:#94a3b8;--success:#22c55e;--warning:#f59e0b;--error:#ef4444}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+.container{max-width:960px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px}
+.logo{font-size:28px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--text-muted);font-size:14px;margin-top:4px}
+.badge{display:inline-block;background:rgba(59,130,246,0.15);color:var(--accent);font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.main-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:20px}
+.lang-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.lang-select{flex:1;min-width:140px}
+.lang-select label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px}
+.lang-select select{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;cursor:pointer;outline:none;transition:border-color .2s}
+.lang-select select:focus{border-color:var(--accent)}
+.swap-btn{width:44px;height:44px;border-radius:50%;background:var(--bg);border:1px solid var(--border);color:var(--accent);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;margin-top:18px}
+.swap-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.style-row{margin-bottom:20px}
+.style-row label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:8px}
+.style-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.style-tab{padding:7px 16px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);font-size:13px;cursor:pointer;transition:all .2s}
+.style-tab.active{background:rgba(59,130,246,0.15);border-color:var(--accent);color:var(--accent)}
+.style-tab:hover:not(.active){border-color:var(--text-muted)}
+.textareas{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:700px){.textareas{grid-template-columns:1fr}}
+.textarea-wrap{position:relative}
+.textarea-wrap label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px}
+.textarea-wrap textarea{width:100%;height:180px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:14px;resize:vertical;outline:none;transition:border-color .2s;font-family:inherit}
+.textarea-wrap textarea:focus{border-color:var(--accent)}
+.textarea-wrap textarea::placeholder{color:#4a5568}
+.char-count{position:absolute;bottom:8px;right:12px;font-size:11px;color:var(--text-muted)}
+.char-count.over{color:var(--error)}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.translate-btn{flex:1;min-width:160px;padding:12px 24px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.translate-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 20px rgba(59,130,246,0.3)}
+.translate-btn:disabled{opacity:0.5;cursor:not-allowed}
+.copy-btn{padding:10px 18px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);border-radius:10px;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn.copied{border-color:var(--success);color:var(--success)}
+.usage-bar{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-muted);margin-bottom:20px;padding:10px 14px;background:rgba(59,130,246,0.06);border-radius:8px}
+.usage-bar .count{color:var(--accent);font-weight:600}
+.usage-bar .upgrade{margin-left:auto;color:var(--warning);cursor:pointer;text-decoration:underline}
+.history-section{margin-top:24px}
+.history-section h3{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.history-list{display:flex;flex-direction:column;gap:8px}
+.history-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s}
+.history-item:hover{border-color:var(--accent)}
+.history-item .h-src{font-size:12px;color:var(--text-muted)}
+.history-item .h-text{font-size:13px;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-item .h-result{font-size:13px;color:var(--accent);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.history-item .h-meta{font-size:11px;color:#4a5568;margin-top:4px}
+.clear-history{background:none;border:none;color:var(--text-muted);font-size:12px;cursor:pointer;text-decoration:underline;margin-left:auto}
+.clear-history:hover{color:var(--error)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:420px;width:90%}
+.modal h2{font-size:20px;margin-bottom:12px}
+.modal p{color:var(--text-muted);font-size:14px;margin-bottom:20px}
+.modal .plan-cards{display:flex;gap:12px;margin-bottom:20px}
+.modal .plan-card{flex:1;padding:16px;border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all .2s}
+.modal .plan-card.active{border-color:var(--accent);background:rgba(59,130,246,0.1)}
+.modal .plan-card .plan-name{font-weight:600;font-size:16px}
+.modal .plan-card .plan-price{font-size:24px;font-weight:700;color:var(--accent);margin:8px 0}
+.modal .plan-card .plan-desc{font-size:12px;color:var(--text-muted)}
+.modal-close{background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;position:absolute;top:12px;right:16px}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:10px;font-size:14px;z-index:200;transform:translateX(120%);transition:transform .3s}
+.toast.show{transform:translateX(0)}
+.toast.success{background:var(--success);color:#fff}
+.toast.error{background:var(--error);color:#fff}
+.toast.warning{background:var(--warning);color:#000}
+.loading-dots::after{content:'';animation:dots 1.5s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+footer{text-align:center;padding:30px 0 10px;color:#4a5568;font-size:12px}
+footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">NexTool AI 翻译</div>
+    <div class="subtitle">基于 DeepSeek 的智能多语言翻译工具 <span class="badge">Beta</span></div>
+  </header>
+
+  <div class="main-card">
+    <div class="lang-row">
+      <div class="lang-select">
+        <label>源语言</label>
+        <select id="srcLang">
+          <option value="中文">中文</option>
+          <option value="English">English</option>
+          <option value="日本語">日本語</option>
+          <option value="한국어">한국어</option>
+          <option value="Français">Français</option>
+          <option value="Deutsch">Deutsch</option>
+          <option value="Español">Español</option>
+          <option value="Русский">Русский</option>
+        </select>
+      </div>
+      <button class="swap-btn" id="swapBtn" title="交换语言">⇄</button>
+      <div class="lang-select">
+        <label>目标语言</label>
+        <select id="tgtLang">
+          <option value="English" selected>English</option>
+          <option value="中文">中文</option>
+          <option value="日本語">日本語</option>
+          <option value="한국어">한국어</option>
+          <option value="Français">Français</option>
+          <option value="Deutsch">Deutsch</option>
+          <option value="Español">Español</option>
+          <option value="Русский">Русский</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="style-row">
+      <label>翻译风格</label>
+      <div class="style-tabs">
+        <div class="style-tab active" data-style="日常">日常</div>
+        <div class="style-tab" data-style="商务">商务</div>
+        <div class="style-tab" data-style="学术">学术</div>
+        <div class="style-tab" data-style="文学">文学</div>
+      </div>
+    </div>
+
+    <div class="textareas">
+      <div class="textarea-wrap">
+        <label>输入文本</label>
+        <textarea id="srcText" placeholder="请输入要翻译的文本..." maxlength="3000"></textarea>
+        <span class="char-count" id="charCount">0 / 3000</span>
+      </div>
+      <div class="textarea-wrap">
+        <label>翻译结果</label>
+        <textarea id="tgtText" placeholder="翻译结果将显示在这里..." readonly></textarea>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="translate-btn" id="translateBtn">翻译</button>
+      <button class="copy-btn" id="copyBtn">📋 复制结果</button>
+    </div>
+
+    <div class="usage-bar" id="usageBar">
+      今日已使用 <span class="count" id="usageCount">0</span> / 3 次免费翻译
+      <span class="upgrade" id="upgradeBtn">升级 Pro ∞</span>
+    </div>
+
+    <div class="history-section" id="historySection" style="display:none">
+      <h3>📜 翻译历史 <button class="clear-history" id="clearHistory">清空</button></h3>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <footer>
+    NexTool &copy; 2026 &mdash; Powered by <a href="https://www.deepseek.com" target="_blank">DeepSeek</a>
+  </footer>
+</div>
+
+<!-- 升级弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <h2>升级 NexTool Pro</h2>
+    <p>解锁无限翻译次数，享受更优质的翻译体验</p>
+    <div class="plan-cards">
+      <div class="plan-card" id="planFree">
+        <div class="plan-name">免费版</div>
+        <div class="plan-price">¥0</div>
+        <div class="plan-desc">3次/天</div>
+      </div>
+      <div class="plan-card active" id="planPro">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">¥19<span style="font-size:13px;font-weight:400">/月</span></div>
+        <div class="plan-desc">无限翻译</div>
+      </div>
+    </div>
+    <button class="translate-btn" style="width:100%" onclick="alert('支付功能开发中，敬请期待！')">立即订阅</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const DEEPSEEK_API = 'https://api.deepseek.com/chat/completions';
+const STORAGE_KEY = 'nextool_translator_history';
+const USAGE_KEY = 'nextool_translator_usage';
+const PRO_KEY = 'nextool_translator_pro';
+
+// State
+let currentStyle = '日常';
+let isPro = localStorage.getItem(PRO_KEY) === 'true';
+
+// Elements
+const srcLang = document.getElementById('srcLang');
+const tgtLang = document.getElementById('tgtLang');
+const srcText = document.getElementById('srcText');
+const tgtText = document.getElementById('tgtText');
+const charCount = document.getElementById('charCount');
+const translateBtn = document.getElementById('translateBtn');
+const copyBtn = document.getElementById('copyBtn');
+const swapBtn = document.getElementById('swapBtn');
+const usageCount = document.getElementById('usageCount');
+const usageBar = document.getElementById('usageBar');
+const upgradeBtn = document.getElementById('upgradeBtn');
+const historySection = document.getElementById('historySection');
+const historyList = document.getElementById('historyList');
+const clearHistory = document.getElementById('clearHistory');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const toastEl = document.getElementById('toast');
+
+// Char count
+srcText.addEventListener('input', () => {
+  const len = srcText.value.length;
+  charCount.textContent = `${len} / 3000`;
+  charCount.classList.toggle('over', len > 3000);
+});
+
+// Style tabs
+document.querySelectorAll('.style-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelector('.style-tab.active').classList.remove('active');
+    tab.classList.add('active');
+    currentStyle = tab.dataset.style;
+  });
+});
+
+// Swap
+swapBtn.addEventListener('click', () => {
+  const sVal = srcLang.value;
+  const tVal = tgtLang.value;
+  srcLang.value = tVal;
+  tgtLang.value = sVal;
+  const sTxt = srcText.value;
+  const tTxt = tgtText.value;
+  if (tTxt) {
+    srcText.value = tTxt;
+    tgtText.value = sTxt;
+    const len = tTxt.length;
+    charCount.textContent = `${len} / 3000`;
+  }
+});
+
+// Usage
+function getUsage() {
+  const data = JSON.parse(localStorage.getItem(USAGE_KEY) || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  if (data.date !== today) return { date: today, count: 0 };
+  return data;
+}
+function updateUsageUI() {
+  const u = getUsage();
+  usageCount.textContent = u.count;
+  if (isPro) {
+    usageBar.innerHTML = '✨ Pro 会员 · 无限翻译 <span class="upgrade" id="upgradeBtn">管理订阅</span>';
+    document.getElementById('upgradeBtn').addEventListener('click', () => modalOverlay.classList.add('show'));
+  }
+}
+updateUsageUI();
+
+// Translate
+translateBtn.addEventListener('click', async () => {
+  const text = srcText.value.trim();
+  if (!text) return showToast('请输入要翻译的文本', 'warning');
+  if (srcLang.value === tgtLang.value) return showToast('源语言和目标语言不能相同', 'warning');
+
+  if (!isPro) {
+    const u = getUsage();
+    if (u.count >= 3) {
+      modalOverlay.classList.add('show');
+      return;
+    }
+  }
+
+  translateBtn.disabled = true;
+  translateBtn.innerHTML = '翻译中<span class="loading-dots"></span>';
+  tgtText.value = '';
+
+  const styleMap = { '日常': '自然流畅的日常用语', '商务': '专业严谨的商务用语', '学术': '严谨规范的学术用语', '文学': '优美典雅的文学用语' };
+
+  const systemPrompt = `你是一位专业的多语言翻译专家。请将用户提供的文本从${srcLang.value}翻译为${tgtLang.value}。
+翻译风格：${styleMap[currentStyle]}。
+要求：
+1. 翻译要自然流畅，符合目标语言的表达习惯
+2. 保持原文的语义和情感
+3. 只输出翻译结果，不要添加任何解释或注释
+4. 如果是${currentStyle}风格，请特别注意用词和语气的匹配`;
+
+  try {
+    const apiKey = localStorage.getItem('nextool_api_key') || '';
+    const response = await fetch(DEEPSEEK_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: text }
+        ],
+        temperature: 0.3
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error?.message || `API 请求失败 (${response.status})`);
+    }
+
+    const data = await response.json();
+    const result = data.choices?.[0]?.message?.content?.trim() || '翻译失败，请重试';
+    tgtText.value = result;
+
+    if (!isPro) {
+      const u = getUsage();
+      u.count++;
+      localStorage.setItem(USAGE_KEY, JSON.stringify(u));
+      updateUsageUI();
+    }
+
+    saveHistory(text, result);
+    showToast('翻译完成', 'success');
+  } catch (e) {
+    tgtText.value = '错误：' + e.message;
+    showToast(e.message, 'error');
+  } finally {
+    translateBtn.disabled = false;
+    translateBtn.textContent = '翻译';
+  }
+});
+
+// Copy
+copyBtn.addEventListener('click', async () => {
+  const text = tgtText.value;
+  if (!text) return showToast('没有可复制的内容', 'warning');
+  try {
+    await navigator.clipboard.writeText(text);
+    copyBtn.classList.add('copied');
+    copyBtn.innerHTML = '✅ 已复制';
+    setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = '📋 复制结果'; }, 2000);
+  } catch {
+    showToast('复制失败', 'error');
+  }
+});
+
+// History
+function saveHistory(src, result) {
+  const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  history.unshift({ src, result, srcLang: srcLang.value, tgtLang: tgtLang.value, style: currentStyle, time: Date.now() });
+  if (history.length > 20) history.length = 20;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  if (!history.length) { historySection.style.display = 'none'; return; }
+  historySection.style.display = 'block';
+  historyList.innerHTML = history.map((h, i) => `
+    <div class="history-item" data-index="${i}">
+      <div class="h-src">${h.srcLang} → ${h.tgtLang} · ${h.style}</div>
+      <div class="h-text">${escHtml(h.src)}</div>
+      <div class="h-result">${escHtml(h.result)}</div>
+      <div class="h-meta">${new Date(h.time).toLocaleString('zh-CN')}</div>
+    </div>
+  `).join('');
+
+  historyList.querySelectorAll('.history-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const h = history[+item.dataset.index];
+      srcText.value = h.src;
+      tgtText.value = h.result;
+      srcLang.value = h.srcLang;
+      tgtLang.value = h.tgtLang;
+      charCount.textContent = `${h.src.length} / 3000`;
+      document.querySelectorAll('.style-tab').forEach(t => t.classList.toggle('active', t.dataset.style === h.style));
+      currentStyle = h.style;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+clearHistory.addEventListener('click', () => {
+  localStorage.removeItem(STORAGE_KEY);
+  renderHistory();
+  showToast('历史已清空', 'success');
+});
+
+renderHistory();
+
+// Modal
+upgradeBtn.addEventListener('click', () => modalOverlay.classList.add('show'));
+modalClose.addEventListener('click', () => modalOverlay.classList.remove('show'));
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('show'); });
+
+// Toast
+function showToast(msg, type = 'success') {
+  toastEl.textContent = msg;
+  toastEl.className = `toast ${type} show`;
+  setTimeout(() => toastEl.classList.remove('show'), 3000);
+}
+
+// API Key prompt on first visit
+if (!localStorage.getItem('nextool_api_key')) {
+  setTimeout(() => {
+    const key = prompt('请输入你的 DeepSeek API Key（可在 platform.deepseek.com 获取）：');
+    if (key && key.trim()) {
+      localStorage.setItem('nextool_api_key', key.trim());
+      showToast('API Key 已保存', 'success');
+    }
+  }, 500);
+}
+</script>
+</body>
+</html>

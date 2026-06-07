@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexTool AI 代码解释 - 智能代码理解与生成工具</title>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0f0d;--card:#111a15;--border:#1e3328;--accent:#22c55e;--accent-hover:#16a34a;--accent-dim:rgba(34,197,94,0.12);--text:#e2e8f0;--text-muted:#94a3b8;--success:#22c55e;--warning:#f59e0b;--error:#ef4444;--code-bg:#0d1410}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+.container{max-width:1020px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px}
+.logo{font-size:28px;font-weight:700;background:linear-gradient(135deg,#22c55e,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{color:var(--text-muted);font-size:14px;margin-top:4px}
+.badge{display:inline-block;background:var(--accent-dim);color:var(--accent);font-size:11px;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle}
+.mode-tabs{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.mode-tab{padding:8px 20px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text-muted);font-size:13px;cursor:pointer;transition:all .2s}
+.mode-tab.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.mode-tab:hover:not(.active){border-color:var(--text-muted)}
+.main-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:12px}
+.config-row{display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.config-item{flex:1;min-width:150px}
+.config-item label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px}
+.config-item select{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px;cursor:pointer;outline:none;transition:border-color .2s}
+.config-item select:focus{border-color:var(--accent)}
+.level-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.level-tab{padding:7px 16px;border-radius:8px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);font-size:13px;cursor:pointer;transition:all .2s}
+.level-tab.active{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.level-tab:hover:not(.active){border-color:var(--text-muted)}
+.code-section{margin-bottom:16px}
+.code-section label{display:block;font-size:13px;color:var(--text-muted);margin-bottom:6px}
+.code-input-wrap{position:relative;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.code-input-wrap textarea{width:100%;height:200px;background:transparent;color:#a7f3d0;border:none;padding:14px 16px;font-size:13px;font-family:'Fira Code','Cascadia Code','JetBrains Mono',Consolas,monospace;resize:vertical;outline:none;line-height:1.7;tab-size:2}
+.code-input-wrap textarea::placeholder{color:#2d4a3a}
+.line-numbers{position:absolute;left:0;top:0;bottom:0;width:40px;background:rgba(0,0,0,0.2);padding:14px 0;text-align:right;font-family:'Fira Code',Consolas,monospace;font-size:13px;line-height:1.7;color:#3a5c4a;pointer-events:none;overflow:hidden;user-select:none}
+.code-input-wrap textarea{padding-left:50px}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.explain-btn{flex:1;min-width:160px;padding:12px 24px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s}
+.explain-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 20px rgba(34,197,94,0.3)}
+.explain-btn:disabled{opacity:0.5;cursor:not-allowed}
+.optimize-btn{padding:10px 18px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);border-radius:10px;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.optimize-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn{padding:10px 18px;background:var(--bg);border:1px solid var(--border);color:var(--text-muted);border-radius:10px;font-size:13px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent)}
+.copy-btn.copied{border-color:var(--success);color:var(--success)}
+.result-section{margin-top:20px;display:none}
+.result-section.show{display:block}
+.result-section h3{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.summary-card{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px}
+.summary-card .summary-label{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.summary-card .summary-text{font-size:14px;line-height:1.7}
+.explanation-block{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px}
+.explanation-block .exp-label{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.line-explanation{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.line-explanation:last-child{border-bottom:none}
+.line-no{color:var(--accent);font-family:'Fira Code',Consolas,monospace;font-size:12px;min-width:30px;text-align:right;flex-shrink:0;padding-top:2px}
+.line-content{font-family:'Fira Code',Consolas,monospace;font-size:12px;color:#a7f3d0;min-width:0;flex:1;word-break:break-all}
+.line-explain{font-size:13px;color:var(--text-muted);flex:2;min-width:0}
+.optimize-result{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:12px}
+.optimize-result pre{font-family:'Fira Code',Consolas,monospace;font-size:13px;color:#a7f3d0;white-space:pre-wrap;word-break:break-all;line-height:1.7}
+.usage-bar{display:flex;align-items:center;gap:12px;font-size:13px;color:var(--text-muted);margin-bottom:16px;padding:10px 14px;background:var(--accent-dim);border-radius:8px}
+.usage-bar .count{color:var(--accent);font-weight:600}
+.usage-bar .upgrade{margin-left:auto;color:var(--warning);cursor:pointer;text-decoration:underline}
+.history-section{margin-top:24px}
+.history-section h3{font-size:15px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.history-list{display:flex;flex-direction:column;gap:8px}
+.history-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s}
+.history-item:hover{border-color:var(--accent)}
+.history-item .h-lang{font-size:12px;color:var(--accent)}
+.history-item .h-code{font-size:12px;font-family:'Fira Code',Consolas,monospace;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#a7f3d0}
+.history-item .h-meta{font-size:11px;color:#3a5c4a;margin-top:4px}
+.clear-history{background:none;border:none;color:var(--text-muted);font-size:12px;cursor:pointer;text-decoration:underline;margin-left:auto}
+.clear-history:hover{color:var(--error)}
+.modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center}
+.modal-overlay.show{display:flex}
+.modal{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:420px;width:90%;position:relative}
+.modal h2{font-size:20px;margin-bottom:12px}
+.modal p{color:var(--text-muted);font-size:14px;margin-bottom:20px}
+.modal .plan-cards{display:flex;gap:12px;margin-bottom:20px}
+.modal .plan-card{flex:1;padding:16px;border-radius:10px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:all .2s}
+.modal .plan-card.active{border-color:var(--accent);background:var(--accent-dim)}
+.modal .plan-card .plan-name{font-weight:600;font-size:16px}
+.modal .plan-card .plan-price{font-size:24px;font-weight:700;color:var(--accent);margin:8px 0}
+.modal .plan-card .plan-desc{font-size:12px;color:var(--text-muted)}
+.modal-close{background:none;border:none;color:var(--text-muted);font-size:24px;cursor:pointer;position:absolute;top:12px;right:16px}
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:10px;font-size:14px;z-index:200;transform:translateX(120%);transition:transform .3s}
+.toast.show{transform:translateX(0)}
+.toast.success{background:var(--success);color:#fff}
+.toast.error{background:var(--error);color:#fff}
+.toast.warning{background:var(--warning);color:#000}
+.loading-dots::after{content:'';animation:dots 1.5s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+footer{text-align:center;padding:30px 0 10px;color:#2d4a3a;font-size:12px}
+footer a{color:var(--accent);text-decoration:none}
+@media(max-width:700px){.config-row{flex-direction:column}.line-explanation{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">NexTool AI 代码解释</div>
+    <div class="subtitle">基于 DeepSeek 的智能代码理解与生成工具 <span class="badge">Beta</span></div>
+  </header>
+
+  <div class="mode-tabs">
+    <div class="mode-tab active" data-mode="explain">🔍 解释代码</div>
+    <div class="mode-tab" data-mode="generate">✨ 生成代码</div>
+  </div>
+
+  <div class="main-card">
+    <div class="config-row">
+      <div class="config-item">
+        <label>编程语言</label>
+        <select id="langSelect">
+          <option value="Python">Python</option>
+          <option value="JavaScript">JavaScript</option>
+          <option value="Java">Java</option>
+          <option value="C++">C++</option>
+          <option value="Go">Go</option>
+          <option value="Rust">Rust</option>
+          <option value="SQL">SQL</option>
+          <option value="HTML/CSS">HTML/CSS</option>
+          <option value="Other">其他</option>
+        </select>
+      </div>
+      <div class="config-item">
+        <label>解释深度</label>
+        <div class="level-tabs" style="margin-top:0">
+          <div class="level-tab active" data-level="小白友好">小白友好</div>
+          <div class="level-tab" data-level="进阶">进阶</div>
+          <div class="level-tab" data-level="专家">专家</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Explain Mode -->
+    <div id="explainMode">
+      <div class="code-section">
+        <label>输入代码</label>
+        <div class="code-input-wrap">
+          <textarea id="codeInput" placeholder="在此粘贴你的代码..." spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="explain-btn" id="explainBtn">解释代码</button>
+        <button class="optimize-btn" id="optimizeBtn">⚡ 优化代码</button>
+        <button class="copy-btn" id="copyBtn">📋 复制解释</button>
+      </div>
+    </div>
+
+    <!-- Generate Mode -->
+    <div id="generateMode" style="display:none">
+      <div class="code-section">
+        <label>描述你想要的代码</label>
+        <div class="code-input-wrap">
+          <textarea id="descInput" placeholder="例如：写一个 Python 函数，接收一个列表并返回其中所有偶数的平方和..." style="height:120px;font-family:inherit;color:var(--text)"></textarea>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="explain-btn" id="generateBtn">生成代码</button>
+      </div>
+    </div>
+
+    <div class="usage-bar" id="usageBar">
+      今日已使用 <span class="count" id="usageCount">0</span> / 3 次免费解释
+      <span class="upgrade" id="upgradeBtn">升级 Pro ∞</span>
+    </div>
+
+    <!-- Results -->
+    <div class="result-section" id="resultSection">
+      <div class="summary-card" id="summaryCard">
+        <div class="summary-label">📋 代码概要</div>
+        <div class="summary-text" id="summaryText"></div>
+      </div>
+      <div class="explanation-block" id="lineExplanation">
+        <div class="exp-label">📝 逐行解释</div>
+        <div id="lineExplanationContent"></div>
+      </div>
+      <div class="optimize-result" id="optimizeResult" style="display:none">
+        <div class="exp-label">⚡ 优化建议 & 代码</div>
+        <pre id="optimizeText"></pre>
+      </div>
+    </div>
+
+    <div class="history-section" id="historySection" style="display:none">
+      <h3>📜 代码历史 <button class="clear-history" id="clearHistory">清空</button></h3>
+      <div class="history-list" id="historyList"></div>
+    </div>
+  </div>
+
+  <footer>
+    NexTool &copy; 2026 &mdash; Powered by <a href="https://www.deepseek.com" target="_blank">DeepSeek</a>
+  </footer>
+</div>
+
+<!-- 升级弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">&times;</button>
+    <h2>升级 NexTool Pro</h2>
+    <p>解锁无限代码解释次数，享受更强大的代码分析能力</p>
+    <div class="plan-cards">
+      <div class="plan-card" id="planFree">
+        <div class="plan-name">免费版</div>
+        <div class="plan-price">¥0</div>
+        <div class="plan-desc">3次/天</div>
+      </div>
+      <div class="plan-card active" id="planPro">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">¥29<span style="font-size:13px;font-weight:400">/月</span></div>
+        <div class="plan-desc">无限解释</div>
+      </div>
+    </div>
+    <button class="explain-btn" style="width:100%" onclick="alert('支付功能开发中，敬请期待！')">立即订阅</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const DEEPSEEK_API = 'https://api.deepseek.com/chat/completions';
+const STORAGE_KEY = 'nextool_explainer_history';
+const USAGE_KEY = 'nextool_explainer_usage';
+const PRO_KEY = 'nextool_explainer_pro';
+
+// State
+let currentLevel = '小白友好';
+let currentMode = 'explain';
+let isPro = localStorage.getItem(PRO_KEY) === 'true';
+let lastExplanation = '';
+
+// Elements
+const langSelect = document.getElementById('langSelect');
+const codeInput = document.getElementById('codeInput');
+const descInput = document.getElementById('descInput');
+const explainBtn = document.getElementById('explainBtn');
+const optimizeBtn = document.getElementById('optimizeBtn');
+const generateBtn = document.getElementById('generateBtn');
+const copyBtn = document.getElementById('copyBtn');
+const usageCount = document.getElementById('usageCount');
+const usageBar = document.getElementById('usageBar');
+const upgradeBtn = document.getElementById('upgradeBtn');
+const resultSection = document.getElementById('resultSection');
+const summaryText = document.getElementById('summaryText');
+const lineExplanationContent = document.getElementById('lineExplanationContent');
+const optimizeResult = document.getElementById('optimizeResult');
+const optimizeText = document.getElementById('optimizeText');
+const historySection = document.getElementById('historySection');
+const historyList = document.getElementById('historyList');
+const clearHistory = document.getElementById('clearHistory');
+const modalOverlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const toastEl = document.getElementById('toast');
+
+// Mode tabs
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelector('.mode-tab.active').classList.remove('active');
+    tab.classList.add('active');
+    currentMode = tab.dataset.mode;
+    document.getElementById('explainMode').style.display = currentMode === 'explain' ? 'block' : 'none';
+    document.getElementById('generateMode').style.display = currentMode === 'generate' ? 'block' : 'none';
+    resultSection.classList.remove('show');
+  });
+});
+
+// Level tabs
+document.querySelectorAll('.level-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelector('.level-tab.active').classList.remove('active');
+    tab.classList.add('active');
+    currentLevel = tab.dataset.level;
+  });
+});
+
+// Usage
+function getUsage() {
+  const data = JSON.parse(localStorage.getItem(USAGE_KEY) || '{}');
+  const today = new Date().toISOString().slice(0, 10);
+  if (data.date !== today) return { date: today, count: 0 };
+  return data;
+}
+function updateUsageUI() {
+  const u = getUsage();
+  usageCount.textContent = u.count;
+  if (isPro) {
+    usageBar.innerHTML = '✨ Pro 会员 · 无限解释 <span class="upgrade" id="upgradeBtn">管理订阅</span>';
+    document.getElementById('upgradeBtn').addEventListener('click', () => modalOverlay.classList.add('show'));
+  }
+}
+updateUsageUI();
+
+// Call DeepSeek API
+async function callDeepSeek(systemPrompt, userContent) {
+  const apiKey = localStorage.getItem('nextool_api_key') || '';
+  const response = await fetch(DEEPSEEK_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userContent }
+      ],
+      temperature: 0.3
+    })
+  });
+  if (!response.ok) {
+    const err = await response.json().catch(() => ({}));
+    throw new Error(err.error?.message || `API 请求失败 (${response.status})`);
+  }
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content?.trim() || '';
+}
+
+// Explain code
+explainBtn.addEventListener('click', async () => {
+  const code = codeInput.value.trim();
+  if (!code) return showToast('请输入要解释的代码', 'warning');
+
+  if (!isPro) {
+    const u = getUsage();
+    if (u.count >= 3) { modalOverlay.classList.add('show'); return; }
+  }
+
+  explainBtn.disabled = true;
+  explainBtn.innerHTML = '分析中<span class="loading-dots"></span>';
+
+  const levelMap = {
+    '小白友好': '用非常简单易懂的语言解释，假设读者是编程初学者，对每个概念都要详细说明，使用生活中的类比来帮助理解',
+    '进阶': '用中等深度的语言解释，假设读者有一定编程基础，重点解释关键逻辑和设计思路，不需要解释基础语法',
+    '专家': '用专业深度的语言解释，假设读者是资深开发者，重点关注架构设计、性能考量、边界情况和最佳实践'
+  };
+
+  const systemPrompt = `你是一位资深的${langSelect.value}编程专家。请用中文解释用户提供的代码。
+
+解释深度：${levelMap[currentLevel]}
+
+请按以下JSON格式输出（不要输出其他内容，不要用markdown代码块包裹）：
+{
+  "summary": "代码整体功能的一句话概括",
+  "lines": [
+    {"line": 1, "code": "代码片段", "explain": "该行解释"},
+    {"line": 2, "code": "代码片段", "explain": "该行解释"}
+  ]
+}
+
+注意：
+1. 将逻辑相关的多行代码合并为一条解释（如连续的变量声明、import语句等）
+2. 每条解释要清晰准确
+3. 解释要符合所选深度的要求`;
+
+  try {
+    const result = await callDeepSeek(systemPrompt, code);
+    lastExplanation = result;
+
+    let parsed;
+    try {
+      const jsonStr = result.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      parsed = JSON.parse(jsonStr);
+    } catch {
+      summaryText.textContent = result;
+      lineExplanationContent.innerHTML = '<div style="color:var(--text-muted);font-size:13px">AI 返回了非结构化内容，请查看上方概要</div>';
+      resultSection.classList.add('show');
+      return;
+    }
+
+    summaryText.textContent = parsed.summary || '无概要';
+    lineExplanationContent.innerHTML = (parsed.lines || []).map(l => `
+      <div class="line-explanation">
+        <span class="line-no">${l.line}</span>
+        <span class="line-content">${escHtml(l.code)}</span>
+        <span class="line-explain">${escHtml(l.explain)}</span>
+      </div>
+    `).join('');
+
+    optimizeResult.style.display = 'none';
+    resultSection.classList.add('show');
+
+    if (!isPro) {
+      const u = getUsage();
+      u.count++;
+      localStorage.setItem(USAGE_KEY, JSON.stringify(u));
+      updateUsageUI();
+    }
+
+    saveHistory(code, 'explain');
+    showToast('代码解释完成', 'success');
+  } catch (e) {
+    showToast(e.message, 'error');
+  } finally {
+    explainBtn.disabled = false;
+    explainBtn.textContent = '解释代码';
+  }
+});
+
+// Optimize code
+optimizeBtn.addEventListener('click', async () => {
+  const code = codeInput.value.trim();
+  if (!code) return showToast('请先输入代码', 'warning');
+
+  optimizeBtn.disabled = true;
+  optimizeBtn.innerHTML = '优化中<span class="loading-dots"></span>';
+
+  const systemPrompt = `你是一位资深的${langSelect.value}编程专家。请分析用户提供的代码并给出优化建议。
+
+请输出：
+1. 优化建议（用中文列出具体的优化点）
+2. 优化后的完整代码
+
+格式如下：
+【优化建议】
+1. ...
+2. ...
+
+【优化后代码】
+（完整的优化后代码）`;
+
+  try {
+    const result = await callDeepSeek(systemPrompt, code);
+    optimizeText.textContent = result;
+    optimizeResult.style.display = 'block';
+    resultSection.classList.add('show');
+    showToast('优化建议已生成', 'success');
+  } catch (e) {
+    showToast(e.message, 'error');
+  } finally {
+    optimizeBtn.disabled = false;
+    optimizeBtn.innerHTML = '⚡ 优化代码';
+  }
+});
+
+// Generate code
+generateBtn.addEventListener('click', async () => {
+  const desc = descInput.value.trim();
+  if (!desc) return showToast('请描述你想要的代码', 'warning');
+
+  if (!isPro) {
+    const u = getUsage();
+    if (u.count >= 3) { modalOverlay.classList.add('show'); return; }
+  }
+
+  generateBtn.disabled = true;
+  generateBtn.innerHTML = '生成中<span class="loading-dots"></span>';
+
+  const systemPrompt = `你是一位资深的${langSelect.value}编程专家。请根据用户的描述生成高质量的代码。
+
+要求：
+1. 代码要完整可运行
+2. 包含必要的注释（中文）
+3. 遵循${langSelect.value}的最佳实践和惯用写法
+4. 代码风格清晰规范
+
+请先输出代码，然后在代码后面用中文简要说明代码的功能和使用方法。`;
+
+  try {
+    const result = await callDeepSeek(systemPrompt, desc);
+    summaryText.textContent = `根据描述生成的 ${langSelect.value} 代码`;
+    lineExplanationContent.innerHTML = `<pre style="font-family:'Fira Code',Consolas,monospace;font-size:13px;color:#a7f3d0;white-space:pre-wrap;word-break:break-all;line-height:1.7">${escHtml(result)}</pre>`;
+    optimizeResult.style.display = 'none';
+    resultSection.classList.add('show');
+
+    if (!isPro) {
+      const u = getUsage();
+      u.count++;
+      localStorage.setItem(USAGE_KEY, JSON.stringify(u));
+      updateUsageUI();
+    }
+
+    saveHistory(desc, 'generate');
+    showToast('代码生成完成', 'success');
+  } catch (e) {
+    showToast(e.message, 'error');
+  } finally {
+    generateBtn.disabled = false;
+    generateBtn.textContent = '生成代码';
+  }
+});
+
+// Copy
+copyBtn.addEventListener('click', async () => {
+  const text = lastExplanation || summaryText.textContent + '\n' + lineExplanationContent.textContent;
+  if (!text) return showToast('没有可复制的内容', 'warning');
+  try {
+    await navigator.clipboard.writeText(text);
+    copyBtn.classList.add('copied');
+    copyBtn.innerHTML = '✅ 已复制';
+    setTimeout(() => { copyBtn.classList.remove('copied'); copyBtn.innerHTML = '📋 复制解释'; }, 2000);
+  } catch {
+    showToast('复制失败', 'error');
+  }
+});
+
+// History
+function saveHistory(code, type) {
+  const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  history.unshift({ code: code.substring(0, 200), lang: langSelect.value, level: currentLevel, type, time: Date.now() });
+  if (history.length > 10) history.length = 10;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const history = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  if (!history.length) { historySection.style.display = 'none'; return; }
+  historySection.style.display = 'block';
+  historyList.innerHTML = history.map((h, i) => `
+    <div class="history-item" data-index="${i}">
+      <div class="h-lang">${h.lang} · ${h.type === 'generate' ? '生成' : '解释'} · ${h.level}</div>
+      <div class="h-code">${escHtml(h.code)}</div>
+      <div class="h-meta">${new Date(h.time).toLocaleString('zh-CN')}</div>
+    </div>
+  `).join('');
+
+  historyList.querySelectorAll('.history-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const h = history[+item.dataset.index];
+      if (h.type === 'generate') {
+        document.querySelector('.mode-tab[data-mode="generate"]').click();
+        descInput.value = h.code;
+      } else {
+        document.querySelector('.mode-tab[data-mode="explain"]').click();
+        codeInput.value = h.code;
+      }
+      langSelect.value = h.lang;
+      document.querySelectorAll('.level-tab').forEach(t => t.classList.toggle('active', t.dataset.level === h.level));
+      currentLevel = h.level;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  });
+}
+
+function escHtml(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+clearHistory.addEventListener('click', () => {
+  localStorage.removeItem(STORAGE_KEY);
+  renderHistory();
+  showToast('历史已清空', 'success');
+});
+
+renderHistory();
+
+// Modal
+upgradeBtn.addEventListener('click', () => modalOverlay.classList.add('show'));
+modalClose.addEventListener('click', () => modalOverlay.classList.remove('show'));
+modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) modalOverlay.classList.remove('show'); });
+
+// Toast
+function showToast(msg, type = 'success') {
+  toastEl.textContent = msg;
+  toastEl.className = `toast ${type} show`;
+  setTimeout(() => toastEl.classList.remove('show'), 3000);
+}
+
+// API Key prompt on first visit
+if (!localStorage.getItem('nextool_api_key')) {
+  setTimeout(() => {
+    const key = prompt('请输入你的 DeepSeek API Key（可在 platform.deepseek.com 获取）：');
+    if (key && key.trim()) {
+      localStorage.setItem('nextool_api_key', key.trim());
+      showToast('API Key 已保存', 'success');
+    }
+  }, 500);
+}
+</script>
+</body>
+</html>

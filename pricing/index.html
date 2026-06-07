@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NexTool 定价 - AI效率工具，让每个人都能轻松创造价值</title>
+  <meta name="description" content="NexTool定价方案：8款AI驱动的效率工具，从免费到专业版，支持多种支付方式。全产品套餐仅需¥199/月。">
+  <meta name="keywords" content="NexTool定价,AI工具价格,PDF工具箱,AI简历优化,AI PPT生成,AI合同生成,AI邮件写作,AI论文降重,AI翻译,AI代码解释器">
+  <meta name="author" content="NexTool">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="NexTool 定价 - AI效率工具">
+  <meta property="og:description" content="8款AI驱动的效率工具，全产品套餐仅需¥199/月。">
+  <meta property="og:url" content="https://nextool.dev/pricing">
+  <meta property="og:site_name" content="NexTool">
+  <meta property="og:locale" content="zh_CN">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="NexTool 定价 - AI效率工具">
+  <meta name="twitter:description" content="8款AI驱动的效率工具，全产品套餐仅需¥199/月。">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-primary: #0f0f23;
+      --bg-secondary: #1a1a3e;
+      --accent-gold: #f0b90b;
+      --accent-gold-light: #fcd535;
+      --accent-green: #00d4aa;
+      --accent-green-light: #34e8c0;
+      --accent-purple: #6c5ce7;
+      --accent-purple-light: #a29bfe;
+      --text-primary: #f0f0f5;
+      --text-secondary: #a0a0b8;
+      --text-muted: #6c6c80;
+      --card-bg: rgba(255, 255, 255, 0.04);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
+      background: linear-gradient(160deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, #12122a 100%);
+      color: var(--text-primary);
+      line-height: 1.7;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== Animations ===== */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 20px rgba(240, 185, 11, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(240, 185, 11, 0.6); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* ===== Nav ===== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 1rem 2rem;
+      background: rgba(15, 15, 35, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: var(--text-primary);
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .nav-logo span {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color var(--transition);
+    }
+
+    .nav-links a:hover { color: var(--accent-gold); }
+
+    /* ===== Hero ===== */
+    .hero {
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(240, 185, 11, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      background: rgba(240, 185, 11, 0.1);
+      border: 1px solid rgba(240, 185, 11, 0.3);
+      border-radius: 50px;
+      font-size: 0.85rem;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      animation: fadeInUp 0.6s ease-out 0.2s both;
+    }
+
+    /* ===== Bundle Banner ===== */
+    .bundle-banner {
+      max-width: 900px;
+      margin: 0 auto 4rem;
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(240, 185, 11, 0.12), rgba(0, 212, 170, 0.12));
+      border: 2px solid rgba(240, 185, 11, 0.4);
+      border-radius: var(--radius);
+      position: relative;
+      overflow: hidden;
+      animation: fadeInUp 0.6s ease-out 0.3s both;
+    }
+
+    .bundle-banner::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(240, 185, 11, 0.06), transparent);
+      animation: shimmer 3s infinite;
+    }
+
+    .bundle-banner .best-value {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.3rem 0.8rem;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      color: #000;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .bundle-banner h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .bundle-banner .bundle-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .bundle-banner .bundle-desc {
+      color: var(--text-secondary);
+      margin: 0.5rem 0 1.5rem;
+    }
+
+    .bundle-banner .bundle-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .bundle-banner .bundle-features span {
+      padding: 0.3rem 0.8rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .btn-bundle {
+      display: inline-block;
+      padding: 0.9rem 2.5rem;
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      color: #000;
+      font-size: 1rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+      animation: pulse 2s infinite;
+    }
+
+    .btn-bundle:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(240, 185, 11, 0.4);
+    }
+
+    /* ===== Section ===== */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 3rem;
+      font-size: 1rem;
+    }
+
+    /* ===== Pricing Grid ===== */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    .pricing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(240, 185, 11, 0.4);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .pricing-card .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .pricing-card .card-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .pricing-card .card-price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 0.8rem 0;
+    }
+
+    .pricing-card .card-price.free {
+      color: var(--accent-green);
+    }
+
+    .pricing-card .card-price.paid {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .pricing-card .card-price-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-card .card-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .pricing-card .card-features li {
+      padding: 0.35rem 0;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+
+    .pricing-card .card-features li::before {
+      content: '✓';
+      color: var(--accent-green);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .btn-buy {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-primary);
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all var(--transition);
+    }
+
+    .btn-buy:hover {
+      background: linear-gradient(135deg, var(--accent-gold), var(--accent-green));
+      color: #000;
+      border-color: transparent;
+    }
+
+    .btn-buy.free-btn:hover {
+      background: var(--accent-green);
+    }
+
+    /* ===== Payment Methods ===== */
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 5rem;
+    }
+
+    .payment-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      transition: all var(--transition);
+    }
+
+    .payment-card:hover {
+      border-color: rgba(108, 92, 231, 0.4);
+    }
+
+    .payment-card .pay-icon {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+      display: block;
+    }
+
+    .payment-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .payment-card .pay-tag {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      background: rgba(108, 92, 231, 0.15);
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      border-radius: 50px;
+      font-size: 0.7rem;
+      color: var(--accent-purple-light);
+      margin-bottom: 0.8rem;
+    }
+
+    .payment-card p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .payment-card a {
+      color: var(--accent-gold);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .payment-card a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== FAQ ===== */
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto 5rem;
+    }
+
+    .faq-item {
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 0.8rem;
+      overflow: hidden;
+      transition: border-color var(--transition);
+    }
+
+    .faq-item:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 1.2rem 1.5rem;
+      background: var(--card-bg);
+      border: none;
+      color: var(--text-primary);
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background var(--transition);
+    }
+
+    .faq-question:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .faq-question .arrow {
+      transition: transform var(--transition);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .faq-item.open .faq-question .arrow {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 1.5rem 1.2rem;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* ===== Footer ===== */
+    .footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .footer a {
+      color: var(--text-secondary);
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* ===== Payment Section Anchors ===== */
+    .payment-anchor {
+      scroll-margin-top: 80px;
+      padding-top: 2rem;
+    }
+
+    .payment-anchor h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .payment-anchor .payment-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .payment-anchor .pay-option-btn {
+      padding: 0.7rem 1.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition);
+    }
+
+    .payment-anchor .pay-option-btn:hover {
+      background: rgba(240, 185, 11, 0.15);
+      border-color: rgba(240, 185, 11, 0.4);
+      color: var(--accent-gold);
+    }
+
+    /* ===== Hidden Admin Section ===== */
+    .admin-section {
+      display: none;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: rgba(255, 0, 0, 0.03);
+      border: 1px dashed rgba(255, 0, 0, 0.2);
+      border-radius: var(--radius);
+    }
+
+    .admin-section.visible {
+      display: block;
+    }
+
+    .admin-section h3 {
+      color: #ff6b6b;
+      margin-bottom: 1rem;
+    }
+
+    .admin-section code {
+      display: block;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      margin: 0.5rem 0 1rem;
+      font-size: 0.85rem;
+      color: var(--accent-green-light);
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .admin-section p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+
+      .hero { padding: 6rem 1.5rem 3rem; }
+
+      .bundle-banner {
+        padding: 2rem 1.5rem;
+        margin: 0 1rem 3rem;
+      }
+
+      .bundle-banner h2 { font-size: 1.4rem; }
+      .bundle-banner .bundle-price { font-size: 2rem; }
+
+      .section { padding: 1.5rem; }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .payment-methods {
+        grid-template-columns: 1fr;
+      }
+
+      .bundle-banner .bundle-features {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero p { font-size: 1rem; }
+      .bundle-banner .bundle-price { font-size: 1.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="https://nextool.dev" class="nav-logo">⚡ <span>NexTool</span></a>
+      <ul class="nav-links">
+        <li><a href="#products">产品定价</a></li>
+        <li><a href="#bundle">全站套餐</a></li>
+        <li><a href="#payment-methods">支付方式</a></li>
+        <li><a href="#faq">常见问题</a></li>
+        <li><a href="https://nextool.dev">返回首页</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">💰 简单透明的定价</div>
+    <h1>选择适合你的<span class="gradient-text">AI工具</span></h1>
+    <p>8款专业AI效率工具，按需购买或一键解锁全部。无隐藏费用，随时取消。</p>
+  </section>
+
+  <!-- All-in-one Bundle -->
+  <section class="bundle-banner" id="bundle">
+    <span class="best-value">🔥 最超值</span>
+    <h2>全产品无限套餐</h2>
+    <div class="bundle-price">¥199/月</div>
+    <p class="bundle-desc">一次订阅，解锁全部8款AI工具，无限次使用</p>
+    <div class="bundle-features">
+      <span>📄 PDF工具箱</span>
+      <span>📝 AI简历优化器</span>
+      <span>📊 AI PPT生成器</span>
+      <span>📋 AI合同生成器</span>
+      <span>✉️ AI邮件写作器</span>
+      <span>🎓 AI论文降重</span>
+      <span>🌐 AI翻译工具</span>
+      <span>💻 AI代码解释器</span>
+    </div>
+    <a href="#payment-bundle" class="btn-bundle">🚀 立即订阅全站套餐</a>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section class="section" id="products">
+    <h2 class="section-title">产品定价</h2>
+    <p class="section-subtitle">按需选择，灵活搭配</p>
+
+    <div class="pricing-grid">
+
+      <!-- PDF工具箱 -->
+      <div class="pricing-card">
+        <span class="card-icon">📄</span>
+        <div class="card-name">PDF工具箱</div>
+        <div class="card-price free">免费</div>
+        <div class="card-price-note">AdSense广告支持</div>
+        <ul class="card-features">
+          <li>PDF合并、拆分、压缩</li>
+          <li>PDF转图片、图片转PDF</li>
+          <li>加水印、去密码保护</li>
+        </ul>
+        <a href="https://nextool.dev/pdf-toolkit" class="btn-buy free-btn">🆓 免费使用</a>
+      </div>
+
+      <!-- AI简历优化器 -->
+      <div class="pricing-card">
+        <span class="card-icon">📝</span>
+        <div class="card-name">AI简历优化器</div>
+        <div class="card-price paid">¥29.9/月</div>
+        <div class="card-price-note">订阅制，随时取消</div>
+        <ul class="card-features">
+          <li>AI智能优化简历内容</li>
+          <li>一键匹配JD关键词</li>
+          <li>多版本简历管理</li>
+        </ul>
+        <a href="#payment-resume" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI PPT生成器 -->
+      <div class="pricing-card">
+        <span class="card-icon">📊</span>
+        <div class="card-name">AI PPT生成器</div>
+        <div class="card-price paid">¥49/次</div>
+        <div class="card-price-note">或 ¥99/月 无限使用</div>
+        <ul class="card-features">
+          <li>AI一键生成完整PPT</li>
+          <li>多种专业模板可选</li>
+          <li>支持导出PPTX格式</li>
+        </ul>
+        <a href="#payment-ppt" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI合同生成器 -->
+      <div class="pricing-card">
+        <span class="card-icon">📋</span>
+        <div class="card-name">AI合同生成器</div>
+        <div class="card-price paid">¥99/次</div>
+        <div class="card-price-note">或 ¥199/月 无限使用</div>
+        <ul class="card-features">
+          <li>AI智能生成专业合同</li>
+          <li>覆盖20+合同类型</li>
+          <li>法律条款自动审查</li>
+        </ul>
+        <a href="#payment-contract" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI邮件写作器 -->
+      <div class="pricing-card">
+        <span class="card-icon">✉️</span>
+        <div class="card-name">AI邮件写作器</div>
+        <div class="card-price paid">¥19/月</div>
+        <div class="card-price-note">订阅制，随时取消</div>
+        <ul class="card-features">
+          <li>AI生成专业商务邮件</li>
+          <li>多语言邮件翻译</li>
+          <li>语气风格自定义</li>
+        </ul>
+        <a href="#payment-email" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI论文降重 -->
+      <div class="pricing-card">
+        <span class="card-icon">🎓</span>
+        <div class="card-name">AI论文降重</div>
+        <div class="card-price paid">¥39/月</div>
+        <div class="card-price-note">订阅制，随时取消</div>
+        <ul class="card-features">
+          <li>AI智能改写降低重复率</li>
+          <li>保留原意不改变语义</li>
+          <li>支持多轮降重优化</li>
+        </ul>
+        <a href="#payment-paper" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI翻译工具 -->
+      <div class="pricing-card">
+        <span class="card-icon">🌐</span>
+        <div class="card-name">AI翻译工具</div>
+        <div class="card-price paid">¥19/月</div>
+        <div class="card-price-note">订阅制，随时取消</div>
+        <ul class="card-features">
+          <li>AI上下文感知翻译</li>
+          <li>支持50+语言互译</li>
+          <li>专业术语精准翻译</li>
+        </ul>
+        <a href="#payment-translate" class="btn-buy">立即购买</a>
+      </div>
+
+      <!-- AI代码解释器 -->
+      <div class="pricing-card">
+        <span class="card-icon">💻</span>
+        <div class="card-name">AI代码解释器</div>
+        <div class="card-price paid">¥29/月</div>
+        <div class="card-price-note">订阅制，随时取消</div>
+        <ul class="card-features">
+          <li>AI逐行解释代码逻辑</li>
+          <li>支持30+编程语言</li>
+          <li>代码优化建议</li>
+        </ul>
+        <a href="#payment-code" class="btn-buy">立即购买</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Payment Methods -->
+  <section class="section" id="payment-methods">
+    <h2 class="section-title">支付方式</h2>
+    <p class="section-subtitle">多种支付渠道，方便快捷</p>
+
+    <div class="payment-methods">
+      <div class="payment-card">
+        <span class="pay-icon">🍞</span>
+        <h3>面包多</h3>
+        <span class="pay-tag">国内首选</span>
+        <p>支持微信、支付宝付款，自动发货。适合国内用户单次购买。<br><a href="https://mianbaoduo.com" target="_blank" rel="noopener">mianbaoduo.com →</a></p>
+      </div>
+
+      <div class="payment-card">
+        <span class="pay-icon">🍋</span>
+        <h3>LemonSqueezy</h3>
+        <span class="pay-tag">海外用户</span>
+        <p>支持信用卡、PayPal付款，自动处理税务。适合海外用户订阅。<br><a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener">lemonsqueezy.com →</a></p>
+      </div>
+
+      <div class="payment-card">
+        <span class="pay-icon">⚡</span>
+        <h3>爱发电</h3>
+        <span class="pay-tag">订阅制</span>
+        <p>支持按月自动续费，灵活管理订阅。适合长期使用用户。<br><a href="https://afdian.com" target="_blank" rel="noopener">afdian.com →</a></p>
+      </div>
+
+      <div class="payment-card">
+        <span class="pay-icon">💳</span>
+        <h3>微信/支付宝直转</h3>
+        <span class="pay-tag">人工处理</span>
+        <p>直接转账后联系客服开通。适合无法使用以上平台的用户。<br>转账请备注：产品名+邮箱</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Anchor Sections (linked from product cards) -->
+  <section class="section">
+    <div class="payment-anchor" id="payment-bundle">
+      <h3>🚀 全产品无限套餐 - ¥199/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-resume">
+      <h3>📝 AI简历优化器 - ¥29.9/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-ppt">
+      <h3>📊 AI PPT生成器 - ¥49/次 或 ¥99/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多 - 单次¥49</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电 - 月付¥99</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-contract">
+      <h3>📋 AI合同生成器 - ¥99/次 或 ¥199/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多 - 单次¥99</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电 - 月付¥199</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-email">
+      <h3>✉️ AI邮件写作器 - ¥19/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-paper">
+      <h3>🎓 AI论文降重 - ¥39/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-translate">
+      <h3>🌐 AI翻译工具 - ¥19/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+
+    <div class="payment-anchor" id="payment-code">
+      <h3>💻 AI代码解释器 - ¥29/月</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1rem;">选择支付方式完成订阅：</p>
+      <div class="payment-options">
+        <a href="https://mianbaoduo.com" target="_blank" rel="noopener" class="pay-option-btn">🍞 面包多购买</a>
+        <a href="https://www.lemonsqueezy.com" target="_blank" rel="noopener" class="pay-option-btn">🍋 LemonSqueezy</a>
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="pay-option-btn">⚡ 爱发电订阅</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <h2 class="section-title">常见问题</h2>
+    <p class="section-subtitle">还有疑问？随时联系我们</p>
+
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          支持哪些支付方式？
+          <span class="arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            我们支持以下支付方式：<br>
+            🍞 <strong>面包多</strong> — 支持微信、支付宝，适合国内用户单次购买<br>
+            🍋 <strong>LemonSqueezy</strong> — 支持信用卡、PayPal，适合海外用户<br>
+            ⚡ <strong>爱发电</strong> — 支持按月自动续费，适合长期订阅<br>
+            💳 <strong>微信/支付宝直转</strong> — 人工处理，适合特殊需求用户
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          购买后多久生效？
+          <span class="arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            通过面包多、LemonSqueezy、爱发电购买后，系统自动发货，通常<strong>1-5分钟内</strong>即可生效。微信/支付宝直转的用户，我们会在<strong>12小时内</strong>人工处理开通。如遇延迟，请通过邮件联系我们。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          可以退款吗？
+          <span class="arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            单次购买的产品，购买后<strong>7天内</strong>可申请全额退款。订阅制产品，当月已使用则按比例退款。我们希望每位用户都能满意，如有问题请随时联系。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          数据安全吗？
+          <span class="arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            绝对安全。所有数据传输采用<strong>SSL加密</strong>，上传的文件仅在处理期间临时存储，处理完成后<strong>立即删除</strong>，不会保存任何用户数据。我们不出售、不共享任何用户信息。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          支持开发票吗？
+          <span class="arrow">▼</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            支持。购买后可申请开具<strong>电子发票</strong>（增值税普通发票）。请在购买后7天内通过邮件联系我们，提供订单号和开票信息即可。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2024 NexTool. All rights reserved.</p>
+    <p style="margin-top: 0.5rem;">
+      <a href="https://nextool.dev">首页</a> · 
+      <a href="mailto:support@nextool.dev">联系我们</a> · 
+      <a href="https://nextool.dev/privacy">隐私政策</a>
+    </p>
+  </footer>
+
+  <!-- Hidden Admin Section: Payment Integration Instructions -->
+  <!-- Access by adding ?admin=true to URL -->
+  <div class="admin-section" id="admin-section">
+    <h3>🔧 管理员：支付集成指南</h3>
+
+    <p><strong>1. 面包多 (mianbaoduo.com) 设置</strong></p>
+    <p>注册面包多账号 → 创建商品 → 设置自动发货 → 获取购买链接</p>
+    <code>1. 访问 https://mianbaoduo.com 注册账号
+2. 进入「卖家中心」→「创建商品」
+3. 填写商品名称、价格、描述
+4. 选择「自动发货」→ 上传卡密或设置兑换码
+5. 获取商品链接，替换页面中的 https://mianbaoduo.com
+6. Webhook回调地址：https://nextool.dev/api/payment/callback</code>
+
+    <p><strong>2. LemonSqueezy 设置</strong></p>
+    <p>注册LemonSqueezy → 创建产品 → 配置Webhook → 获取Checkout链接</p>
+    <code>1. 访问 https://www.lemonsqueezy.com 注册账号
+2. 进入 Dashboard → Create Product
+3. 设置价格（支持多币种）
+4. 配置 Webhook：Settings → Webhooks
+5. Webhook URL: https://nextool.dev/api/payment/lemonsqueezy
+6. 事件选择：subscription_created, subscription_cancelled, payment_success
+7. 获取 Checkout 链接，替换页面中的链接</code>
+
+    <p><strong>3. 爱发电 (afdian.com) 设置</strong></p>
+    <p>注册爱发电 → 创建发电计划 → 获取赞助链接</p>
+    <code>1. 访问 https://afdian.com 注册创作者账号
+2. 进入「创作者中心」→「发电计划」
+3. 创建月度发电计划，设置对应价格
+4. 获取赞助链接，替换页面中的 https://afdian.com
+5. Webhook设置：创作者中心 → 开发者 → Webhook
+6. 回调地址：https://nextool.dev/api/payment/afdian</code>
+
+    <p><strong>4. 连接支付链接</strong></p>
+    <p>将各平台生成的支付链接替换本页面中的占位链接：</p>
+    <code>搜索并替换以下链接：
+- https://mianbaoduo.com → 你的面包多商品链接
+- https://www.lemonsqueezy.com → 你的LemonSqueezy Checkout链接
+- https://afdian.com → 你的爱发电赞助链接
+
+Google Analytics：
+- 替换 G-XXXXXXXXXX 为你的GA4跟踪ID</code>
+  </div>
+
+  <script>
+    // FAQ toggle
+    function toggleFaq(btn) {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      // Close all
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      // Toggle current
+      if (!wasOpen) item.classList.add('open');
+    }
+
+    // Admin section visibility
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('admin') === 'true') {
+        document.getElementById('admin-section').classList.add('visible');
+      }
+    })();
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
