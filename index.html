@@ -3,236 +3,302 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextTool - 免费AI在线工具箱 | 25+效率工具无需注册</title>
+    <meta name="description" content="NextTool免费在线AI工具箱，25+款效率工具：AI PPT生成、AI简历优化、AI合同生成、PDF工具、密码生成器、图片压缩等。无需注册，即开即用！">
+    <meta name="keywords" content="AI工具,在线工具,免费工具,PPT生成,简历优化,合同生成,PDF工具,密码生成器,图片压缩,文本摘要,翻译工具">
+    <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/">
+    <meta property="og:title" content="NextTool - 免费AI在线工具箱">
+    <meta property="og:description" content="25+款免费AI效率工具，无需注册即开即用">
+    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/">
+    <meta property="og:type" content="website">
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#3a7bd5">
-    <link rel="apple-touch-icon" href="./icons/icon-192.png">
-<link rel="stylesheet" href="./css/mobile.css">
-<title>NextTool - AI Productivity Tools</title>
+    <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+    <link rel="stylesheet" href="./css/mobile.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            padding: 2rem;
-        }
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .subtitle { color: #aaa; margin-bottom: 3rem; font-size: 1.1rem; }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            max-width: 900px;
-            width: 100%;
-        }
-        .card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            text-decoration: none;
-            color: #fff;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: #3a7bd5;
-            box-shadow: 0 8px 32px rgba(58,123,213,0.3);
-        }
-        .card h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
-        .card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; }
-        .card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
-        footer { margin-top: 3rem; color: #555; font-size: 0.8rem; }
-    <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
-
-    <!-- Structured Data: Organization -->
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:0}
+        /* Hero */
+        .hero{text-align:center;padding:3rem 1.5rem 2rem;max-width:800px;margin:0 auto}
+        .hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:0.5rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .tagline{color:#ccc;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:1.5rem;line-height:1.6}
+        .hero .stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+        .hero .stat{text-align:center}
+        .hero .stat .num{font-size:1.8rem;font-weight:700;color:#00d2ff}
+        .hero .stat .label{font-size:0.75rem;color:#888;margin-top:2px}
+        .hero .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .hero .cta{display:inline-block;padding:12px 28px;border-radius:12px;font-size:1rem;font-weight:600;text-decoration:none;transition:all .3s}
+        .hero .cta-primary{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .hero .cta-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,210,255,0.4)}
+        .hero .cta-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ccc}
+        .hero .cta-secondary:hover{border-color:#3a7bd5;color:#fff}
+        /* Tabs */
+        .tabs{display:flex;gap:8px;justify-content:center;padding:0 1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tab{padding:8px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);color:#aaa;cursor:pointer;font-size:0.9rem;transition:all .3s}
+        .tab:hover,.tab.active{background:rgba(58,123,213,0.2);border-color:#3a7bd5;color:#fff}
+        /* Grid */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto;padding:0 1.5rem 2rem}
+        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;text-decoration:none;color:#fff;transition:all .3s;backdrop-filter:blur(10px);display:flex;flex-direction:column}
+        .card:hover{transform:translateY(-3px);border-color:rgba(58,123,213,0.5);box-shadow:0 8px 28px rgba(58,123,213,0.2)}
+        .card .card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+        .card .icon{font-size:1.8rem;flex-shrink:0}
+        .card h2{font-size:1.05rem;line-height:1.3}
+        .card p{color:#999;font-size:0.82rem;line-height:1.5;flex:1}
+        .card .badge{display:inline-block;font-size:0.65rem;padding:2px 8px;border-radius:8px;margin-left:6px;vertical-align:middle;font-weight:600}
+        .badge-free{background:#10b981;color:#fff}
+        .badge-ai{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .badge-hot{background:#ef4444;color:#fff}
+        /* Section */
+        .section-title{font-size:1.1rem;color:#aaa;margin:1.5rem 1.5rem 0.8rem;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:8px}
+        .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}
+        /* Footer */
+        footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.05)}
+        footer a{color:#666;text-decoration:none}
+        footer a:hover{color:#3a7bd5}
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:0.8rem;flex-wrap:wrap}
+        /* Install banner */
+        .install-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;padding:12px 24px;border-radius:12px;font-size:0.9rem;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(0,210,255,0.4)}
+        /* Structured data */
+    </style>
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "NexTool",
-      "url": "https://lishoulan.github.io/nextool-apps/",
-      "description": "AI驱动的效率工具平台",
-      "sameAs": []
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "name":"NextTool",
+      "url":"https://lishoulan.github.io/nextool-apps/",
+      "description":"AI驱动的免费在线效率工具平台，25+款工具无需注册即开即用",
+      "sameAs":[]
     }
     </script>
-
-    <!-- Structured Data: WebSite with SearchAction -->
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "NexTool",
-      "url": "https://lishoulan.github.io/nextool-apps/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://lishoulan.github.io/nextool-apps/?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+      "@context":"https://schema.org",
+      "@type":"WebSite",
+      "name":"NextTool",
+      "url":"https://lishoulan.github.io/nextool-apps/",
+      "potentialAction":{
+        "@type":"SearchAction",
+        "target":"https://lishoulan.github.io/nextool-apps/?q={search_term_string}",
+        "query-input":"required name=search_term_string"
       }
     }
     </script>
-</style>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"ItemList",
+      "name":"NextTool在线工具列表",
+      "numberOfItems":25,
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"AI PPT生成器","url":"https://lishoulan.github.io/nextool-apps/ai-ppt-generator/"},
+        {"@type":"ListItem","position":2,"name":"AI简历优化器","url":"https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/"},
+        {"@type":"ListItem","position":3,"name":"AI合同生成器","url":"https://lishoulan.github.io/nextool-apps/ai-contract-generator/"},
+        {"@type":"ListItem","position":4,"name":"PDF工具箱","url":"https://lishoulan.github.io/nextool-apps/pdf-toolkit/"},
+        {"@type":"ListItem","position":5,"name":"AI论文降重","url":"https://lishoulan.github.io/nextool-apps/ai-paper-rewriter/"},
+        {"@type":"ListItem","position":6,"name":"AI翻译工具","url":"https://lishoulan.github.io/nextool-apps/ai-translator/"},
+        {"@type":"ListItem","position":7,"name":"AI邮件写作","url":"https://lishoulan.github.io/nextool-apps/ai-email-writer/"},
+        {"@type":"ListItem","position":8,"name":"AI代码解释器","url":"https://lishoulan.github.io/nextool-apps/ai-code-explainer/"},
+        {"@type":"ListItem","position":9,"name":"AI文本摘要","url":"https://lishoulan.github.io/nextool-apps/ai-summarizer/"},
+        {"@type":"ListItem","position":10,"name":"密码生成器","url":"https://lishoulan.github.io/nextool-apps/password-generator/"}
+      ]
+    }
+    </script>
 </head>
 <body>
-    <h1>NextTool</h1>
-    <p class="subtitle">AI-Powered Productivity Tools</p>
-    <div class="grid">
-        <a class="card" href="./pdf-toolkit/">
-            <div class="icon">📄</div>
-            <h2>PDF Toolkit</h2>
-            <p>PDF merge, split, compress, convert and more - all in your browser.</p>
+    <!-- Hero -->
+    <div class="hero">
+        <h1>NextTool</h1>
+        <p class="tagline">免费AI在线工具箱 — 25+款效率工具，无需注册即开即用</p>
+        <div class="stats">
+            <div class="stat"><div class="num">25+</div><div class="label">在线工具</div></div>
+            <div class="stat"><div class="num">50K+</div><div class="label">月活用户</div></div>
+            <div class="stat"><div class="num">100%</div><div class="label">免费使用</div></div>
+        </div>
+        <div class="cta-row">
+            <a class="cta cta-primary" href="#ai-tools">开始使用AI工具</a>
+            <a class="cta cta-secondary" href="./compare/">对比竞品</a>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-filter="all">全部工具</div>
+        <div class="tab" data-filter="ai">AI工具</div>
+        <div class="tab" data-filter="free">免费工具</div>
+        <div class="tab" data-filter="resource">资源</div>
+    </div>
+
+    <!-- AI Tools Section -->
+    <div class="section-title" id="ai-tools">🤖 AI智能工具</div>
+    <div class="grid" id="ai-grid">
+        <a class="card" data-cat="ai" href="./ai-ppt-generator/">
+            <div class="card-top"><div class="icon">📊</div><h2>AI PPT生成器 <span class="badge badge-hot">热门</span></h2></div>
+            <p>AI一键生成专业PPT，输入主题自动排版，支持多种风格模板，3分钟出完整演示文稿。</p>
         </a>
-        <a class="card" href="./ai-resume-optimizer/">
-            <div class="icon">🎯</div>
-            <h2>AI Resume Optimizer</h2>
-            <p>Optimize your resume with AI to match job descriptions and stand out.</p>
+        <a class="card" data-cat="ai" href="./ai-resume-optimizer/">
+            <div class="card-top"><div class="icon">🎯</div><h2>AI简历优化器 <span class="badge badge-ai">AI</span></h2></div>
+            <p>AI智能优化简历匹配JD，关键词提取+经历润色，面试通过率提升80%。</p>
         </a>
-        <a class="card" href="./ai-ppt-generator/">
-            <div class="icon">📊</div>
-            <h2>AI PPT Generator</h2>
-            <p>Generate professional presentations instantly with AI assistance.</p>
+        <a class="card" data-cat="ai" href="./ai-contract-generator/">
+            <div class="card-top"><div class="icon">⚖️</div><h2>AI合同生成器 <span class="badge badge-hot">热门</span></h2></div>
+            <p>专业法律文书智能生成，支持12种合同类型，一键导出Word，律师审核级质量。</p>
         </a>
-        <a class="card" href="./company-website/">
-            <div class="icon">🏢</div>
-            <h2>Company Website</h2>
-            <p>Official company website with product showcase and contact info.</p>
+        <a class="card" data-cat="ai" href="./ai-paper-rewriter/">
+            <div class="card-top"><div class="icon">📝</div><h2>论文降重助手 <span class="badge badge-hot">热门</span></h2></div>
+            <p>AI智能改写论文，一键降低查重率，保留原意的同时优化表达，毕业论文必备神器。</p>
         </a>
-        <a class="card" href="./ai-contract-generator/">
-            <div class="icon">⚖️</div>
-            <h2>AI合同生成器</h2>
-            <p>专业法律文书智能生成，支持12种合同类型，一键导出。</p>
+        <a class="card" data-cat="ai" href="./ai-email-writer/">
+            <div class="card-top"><div class="icon">✉️</div><h2>AI邮件写作器 <span class="badge badge-ai">AI</span></h2></div>
+            <p>智能撰写专业邮件，10种场景多语气，商务/求职/感谢一键生成。</p>
         </a>
-        <a class="card" href="./ai-email-writer/">
-            <div class="icon">✉️</div>
-            <h2>AI邮件写作器</h2>
-            <p>智能撰写专业邮件，多场景多语气，一键生成。</p>
+        <a class="card" data-cat="ai" href="./ai-translator/">
+            <div class="card-top"><div class="icon">🌐</div><h2>AI翻译工具 <span class="badge badge-ai">AI</span></h2></div>
+            <p>基于DeepSeek的智能多语言翻译，8种语言互译，支持学术/商务/口语多种风格。</p>
         </a>
-        <a class="card" href="./ai-paper-rewriter/">
-            <div class="icon">📝</div>
-            <h2>论文降重助手</h2>
-            <p>AI智能改写论文，一键降低查重率，毕业论文必备神器。</p>
+        <a class="card" data-cat="ai" href="./ai-code-explainer/">
+            <div class="card-top"><div class="icon">💻</div><h2>AI代码解释器 <span class="badge badge-ai">AI</span></h2></div>
+            <p>AI逐行解释代码逻辑，支持代码优化与生成，覆盖30+编程语言。</p>
         </a>
-        <a class="card" href="./ai-translator/">
-            <div class="icon">🌐</div>
-            <h2>AI翻译工具</h2>
-            <p>基于DeepSeek的智能多语言翻译，支持8种语言互译，多种翻译风格。</p>
-        </a>
-        <a class="card" href="./ai-code-explainer/">
-            <div class="icon">💻</div>
-            <h2>AI代码解释器</h2>
-            <p>AI逐行解释代码逻辑，支持代码优化与生成，30+编程语言。</p>
-        </a>
-        <a class="card" href="./ai-summarizer/">
-            <div class="icon">📝</div>
-            <h2>AI文本摘要 <span style="background:#f59e0b;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>免费在线AI摘要工具，智能TextRank算法，秒级生成文章摘要与关键词提取。</p>
-        </a>
-        <a class="card" href="./json-formatter/">
-            <div class="icon">🔧</div>
-            <h2>JSON格式化 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线JSON验证、美化、压缩、树形视图、JSON Path查询，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./qr-generator/">
-            <div class="icon">📱</div>
-            <h2>二维码生成器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>免费在线QR Code生成，支持自定义颜色尺寸、批量生成，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./regex-tester/">
-            <div class="icon">🔍</div>
-            <h2>正则表达式测试器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线正则表达式测试工具，实时匹配、分组高亮、常用正则库，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./color-picker/">
-            <div class="icon">🎨</div>
-            <h2>颜色选择器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线颜色选择器，HEX/RGB/HSL转换、配色方案生成、CSS渐变生成，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./markdown-editor/">
-            <div class="icon">📝</div>
-            <h2>Markdown编辑器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线Markdown编辑器，实时预览、工具栏快捷操作、导出HTML，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./base64-tool/">
-            <div class="icon">🔐</div>
-            <h2>Base64编解码 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线Base64编解码工具，支持文本/图片/文件互转，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./url-tool/">
-            <div class="icon">🔗</div>
-            <h2>URL编解码 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线URL编解码工具，支持参数解析编辑、encodeURIComponent/encodeURI，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./timestamp-tool/">
-            <div class="icon">⏱️</div>
-            <h2>时间戳转换 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线Unix时间戳转换工具，支持多时区、日期差计算，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./password-generator/">
-            <div class="icon">🔑</div>
-            <h2>密码生成器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线随机强密码生成，支持自定义规则、强度检测、批量生成，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./word-counter/">
-            <div class="icon">📊</div>
-            <h2>字数统计 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线文字计数工具，实时统计字数/词频/阅读时间，支持中英文分析，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./image-compressor/">
-            <div class="icon">🖼️</div>
-            <h2>图片压缩 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>在线批量压缩图片，支持JPG/PNG/WebP，自定义质量与尺寸，本地处理隐私安全。</p>
-        </a>
-        <a class="card" href="./calculator/">
-            <div class="icon">🧮</div>
-            <h2>在线计算器 <span style="background:#10b981;color:#fff;font-size:0.7rem;padding:2px 8px;border-radius:10px;margin-left:6px;vertical-align:middle">免费</span></h2>
-            <p>免费科学计算器，支持函数运算、单位换算、计算历史，100%客户端处理。</p>
-        </a>
-        <a class="card" href="./api-docs/">
-            <div class="icon">📖</div>
-            <h2>API文档</h2>
-            <p>完整的API接口文档，快速集成NexTool服务，支持多种编程语言。</p>
-        </a>
-        <a class="card" href="./launch-plan/">
-            <div class="icon">🚀</div>
-            <h2>冷启动计划</h2>
-            <p>产品冷启动策略与执行计划，从0到1的增长路径规划。</p>
-        </a>
-        <a class="card" href="./payment-guide/">
-            <div class="icon">💳</div>
-            <h2>支付指南</h2>
-            <p>支付产品接入指南，覆盖支付宝、微信等主流支付方式。</p>
-        </a>
-        <a class="card" href="./referral/">
-            <div class="icon">🎁</div>
-            <h2>推荐有奖</h2>
-            <p>邀请好友使用工具，双方均可获得奖励，分享越多收益越多。</p>
-        </a>
-        <a class="card" href="./pricing/">
-            <div class="icon">💰</div>
-            <h2>定价方案</h2>
-            <p>简单透明的定价，按需购买或一键解锁全部AI工具。</p>
+        <a class="card" data-cat="ai" href="./ai-summarizer/">
+            <div class="card-top"><div class="icon">📋</div><h2>AI文本摘要 <span class="badge badge-free">免费</span></h2></div>
+            <p>免费在线摘要工具，TextRank算法秒级生成文章摘要与关键词提取，无需API。</p>
         </a>
     </div>
-    <footer>&copy; 2026 NextTool. All rights reserved.</footer>
-<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
+
+    <!-- Free Tools Section -->
+    <div class="section-title" id="free-tools">🛠️ 免费在线工具</div>
+    <div class="grid" id="free-grid">
+        <a class="card" data-cat="free" href="./pdf-toolkit/">
+            <div class="card-top"><div class="icon">📄</div><h2>PDF工具箱 <span class="badge badge-free">免费</span></h2></div>
+            <p>PDF合并/拆分/压缩/转图片/加水印/图片转PDF，6大功能一站式搞定。</p>
+        </a>
+        <a class="card" data-cat="free" href="./password-generator/">
+            <div class="card-top"><div class="icon">🔑</div><h2>密码生成器 <span class="badge badge-free">免费</span></h2></div>
+            <p>随机强密码生成，自定义规则+强度检测+批量生成，crypto安全随机数。</p>
+        </a>
+        <a class="card" data-cat="free" href="./word-counter/">
+            <div class="card-top"><div class="icon">📊</div><h2>字数统计 <span class="badge badge-free">免费</span></h2></div>
+            <p>实时统计字数/词频/阅读时间，支持中英文分析，写作者必备。</p>
+        </a>
+        <a class="card" data-cat="free" href="./image-compressor/">
+            <div class="card-top"><div class="icon">🖼️</div><h2>图片压缩 <span class="badge badge-free">免费</span></h2></div>
+            <p>批量压缩JPG/PNG/WebP，自定义质量与尺寸，本地处理隐私安全。</p>
+        </a>
+        <a class="card" data-cat="free" href="./calculator/">
+            <div class="card-top"><div class="icon">🧮</div><h2>在线计算器 <span class="badge badge-free">免费</span></h2></div>
+            <p>科学计算器+单位换算，支持函数运算、计算历史、键盘操作。</p>
+        </a>
+        <a class="card" data-cat="free" href="./json-formatter/">
+            <div class="card-top"><div class="icon">🔧</div><h2>JSON格式化 <span class="badge badge-free">免费</span></h2></div>
+            <p>JSON验证/美化/压缩/树形视图/JSON Path查询，开发者必备。</p>
+        </a>
+        <a class="card" data-cat="free" href="./qr-generator/">
+            <div class="card-top"><div class="icon">📱</div><h2>二维码生成器 <span class="badge badge-free">免费</span></h2></div>
+            <p>QR Code生成，自定义颜色尺寸、批量生成、支持Logo嵌入。</p>
+        </a>
+        <a class="card" data-cat="free" href="./regex-tester/">
+            <div class="card-top"><div class="icon">🔍</div><h2>正则测试器 <span class="badge badge-free">免费</span></h2></div>
+            <p>正则表达式实时匹配、分组高亮、常用正则库，前端开发利器。</p>
+        </a>
+        <a class="card" data-cat="free" href="./color-picker/">
+            <div class="card-top"><div class="icon">🎨</div><h2>颜色选择器 <span class="badge badge-free">免费</span></h2></div>
+            <p>HEX/RGB/HSL转换、配色方案生成、CSS渐变生成，设计师必备。</p>
+        </a>
+        <a class="card" data-cat="free" href="./markdown-editor/">
+            <div class="card-top"><div class="icon">📝</div><h2>Markdown编辑器 <span class="badge badge-free">免费</span></h2></div>
+            <p>实时预览、工具栏快捷操作、导出HTML，写文档利器。</p>
+        </a>
+        <a class="card" data-cat="free" href="./base64-tool/">
+            <div class="card-top"><div class="icon">🔐</div><h2>Base64编解码 <span class="badge badge-free">免费</span></h2></div>
+            <p>文本/图片/文件互转，开发者调试常用工具。</p>
+        </a>
+        <a class="card" data-cat="free" href="./url-tool/">
+            <div class="card-top"><div class="icon">🔗</div><h2>URL编解码 <span class="badge badge-free">免费</span></h2></div>
+            <p>URL编码解码、参数解析编辑，前后端开发必备。</p>
+        </a>
+        <a class="card" data-cat="free" href="./timestamp-tool/">
+            <div class="card-top"><div class="icon">⏱️</div><h2>时间戳转换 <span class="badge badge-free">免费</span></h2></div>
+            <p>Unix时间戳转换，多时区支持、日期差计算。</p>
+        </a>
+    </div>
+
+    <!-- Resources Section -->
+    <div class="section-title" id="resources">📚 资源与指南</div>
+    <div class="grid" id="resource-grid">
+        <a class="card" data-cat="resource" href="./compare/">
+            <div class="card-top"><div class="icon">⚔️</div><h2>竞品对比</h2></div>
+            <p>NextTool vs 竞品功能价格全面对比，帮你选对工具。</p>
+        </a>
+        <a class="card" data-cat="resource" href="./blog/">
+            <div class="card-top"><div class="icon">📖</div><h2>使用指南</h2></div>
+            <p>AI工具使用教程、效率提升技巧、行业最佳实践。</p>
+        </a>
+        <a class="card" data-cat="resource" href="./pricing/">
+            <div class="card-top"><div class="icon">💰</div><h2>定价方案</h2></div>
+            <p>简单透明的定价，按需购买或一键解锁全部AI工具。</p>
+        </a>
+        <a class="card" data-cat="resource" href="./referral/">
+            <div class="card-top"><div class="icon">🎁</div><h2>推荐有奖</h2></div>
+            <p>邀请好友使用工具，双方均可获得奖励，分享越多收益越多。</p>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="./">首页</a>
+            <a href="./compare/">对比</a>
+            <a href="./blog/">博客</a>
+            <a href="./pricing/">定价</a>
+            <a href="./referral/">推荐</a>
+        </div>
+        <p>&copy; 2026 NextTool. All rights reserved. | 免费AI在线工具箱</p>
+    </footer>
+
+    <!-- PWA Install Banner -->
+    <div class="install-banner" id="installBanner">📱 安装NextTool到桌面，随时使用</div>
+
+    <script>
+    // Tab filtering
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.filter;
+            document.querySelectorAll('.card').forEach(card => {
+                if (filter === 'all' || card.dataset.cat === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.querySelectorAll('.section-title').forEach(s => {
+                if (filter === 'all') { s.style.display = ''; return; }
+                const sectionId = s.id;
+                if (!sectionId) return;
+                const grid = s.nextElementSibling;
+                if (!grid) return;
+                const hasVisible = grid.querySelector(`.card[data-cat="${filter}"]`);
+                s.style.display = hasVisible ? '' : 'none';
+            });
+        });
+    });
+
+    // PWA install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'block';
+    });
+    document.getElementById('installBanner').addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt = null;
+            document.getElementById('installBanner').style.display = 'none';
+        }
+    });
+    </script>
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
 </body>
 </html>
