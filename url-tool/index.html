@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL编解码工具 - 在线URL编码转换 | NexTool</title>
+<meta name="description" content="免费在线URL编解码工具，支持URL编码解码、encodeURIComponent/encodeURI、URL参数解析编辑。纯客户端处理，数据不上传。">
+<meta name="keywords" content="URL编解码, URL编码转换, 在线URL编码, URL参数解析, URL解码, encodeURIComponent, encodeURI">
+<link rel="canonical" href="https://lishoulan.github.io/nextool-apps/url-tool/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e1e4ed;--text2:#8b8fa3;--accent:#0984e3;--accent2:#74b9ff;--success:#00b894;--error:#e17055;--warn:#fdcb6e;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:960px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px}
+header h1{font-size:1.8rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+header p{color:var(--text2);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card h2{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:6px}
+textarea,input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:'Consolas','Monaco',monospace;font-size:.9rem;transition:border-color .2s}
+textarea{min-height:120px;resize:vertical}
+input[type=text]{height:42px}
+textarea:focus,input:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder,input::placeholder{color:var(--text2)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.btn{padding:10px 20px;border:none;border-radius:8px;font-size:.9rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-secondary{background:var(--border);color:var(--text)}
+.btn-secondary:hover{background:#363a4a}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{opacity:.9}
+.btn-danger{background:var(--error);color:#fff}
+.btn-danger:hover{opacity:.9}
+.btn-sm{padding:7px 14px;font-size:.8rem}
+.result-area{position:relative}
+.result-area textarea{background:#0a0c12;border-color:#1e2030}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--border);border:none;color:var(--text);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.copy-btn:hover{background:var(--accent);color:#fff}
+.tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.tab{padding:10px 20px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s;font-size:.9rem}
+.tab.active{color:var(--accent2);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--text)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.url-part{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.url-part .key{color:var(--accent2);font-weight:600;min-width:70px;font-size:.85rem}
+.url-part .val{color:var(--text);font-size:.85rem;word-break:break-all;flex:1}
+.param-table{width:100%;border-collapse:collapse;margin-top:10px}
+.param-table th{text-align:left;padding:8px 10px;background:var(--bg);color:var(--text2);font-size:.8rem;font-weight:500}
+.param-table td{padding:8px 10px;border-bottom:1px solid var(--border);font-size:.85rem}
+.param-table input{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:6px 8px;border-radius:4px;width:100%;font-size:.85rem}
+.param-table input:focus{outline:none;border-color:var(--accent)}
+.param-table .btn-sm{padding:4px 10px;font-size:.75rem}
+.add-param-row{display:flex;gap:8px;margin-top:10px;align-items:center}
+.add-param-row input{flex:1}
+footer{text-align:center;padding:30px 0;color:var(--text2);font-size:.8rem}
+footer a{color:var(--accent2);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.cta{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:12px;transition:all .2s}
+.cta:hover{opacity:.9;transform:translateY(-2px)}
+.toast{position:fixed;top:20px;right:20px;background:var(--success);color:#fff;padding:12px 20px;border-radius:8px;font-size:.9rem;transform:translateX(120%);transition:transform .3s;z-index:999}
+.toast.show{transform:translateX(0)}
+@media(max-width:600px){.container{padding:12px}header h1{font-size:1.4rem}.btn-row{gap:6px}.btn{padding:8px 14px;font-size:.8rem}.url-part{flex-direction:column;gap:2px}.url-part .key{min-width:auto}}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>🔗 URL 编解码工具</h1>
+<p>URL 编码解码 / 参数解析编辑，纯客户端处理</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" data-tab="encode">编解码</div>
+<div class="tab" data-tab="parse">URL 解析</div>
+</div>
+
+<div class="tab-content active" id="tab-encode">
+<div class="card">
+<h2><span class="icon">📝</span> 输入</h2>
+<textarea id="inputUrl" placeholder="输入 URL 或文本，如 https://example.com/路径?参数=值"></textarea>
+<div class="btn-row">
+<button class="btn btn-primary" onclick="encodeComponent()">编码 (encodeURIComponent)</button>
+<button class="btn btn-secondary" onclick="decodeComponent()">解码 (decodeURIComponent)</button>
+</div>
+<div class="btn-row">
+<button class="btn btn-secondary btn-sm" onclick="encodeFull()">完整编码 (encodeURI)</button>
+<button class="btn btn-secondary btn-sm" onclick="decodeFull()">完整解码 (decodeURI)</button>
+<button class="btn btn-secondary btn-sm" onclick="swapUrl()">⇅ 交换</button>
+<button class="btn btn-secondary btn-sm" onclick="clearUrl()">清空</button>
+</div>
+</div>
+<div class="card result-area">
+<h2><span class="icon">📋</span> 结果</h2>
+<textarea id="outputUrl" placeholder="结果将显示在此..." readonly></textarea>
+<button class="copy-btn" onclick="copyResult('outputUrl')">复制</button>
+</div>
+</div>
+
+<div class="tab-content" id="tab-parse">
+<div class="card">
+<h2><span class="icon">🔍</span> URL 解析</h2>
+<input type="text" id="parseInput" placeholder="输入完整 URL，如 https://example.com:8080/path?key=value&name=测试#hash">
+<button class="btn btn-primary" style="margin-top:10px" onclick="parseUrl()">解析 URL</button>
+</div>
+
+<div class="card" id="parseResult" style="display:none">
+<h2><span class="icon">📊</span> URL 组成部分</h2>
+<div id="urlParts"></div>
+</div>
+
+<div class="card" id="paramSection" style="display:none">
+<h2><span class="icon">✏️</span> 查询参数编辑</h2>
+<table class="param-table">
+<thead><tr><th>参数名</th><th>参数值</th><th>操作</th></tr></thead>
+<tbody id="paramBody"></tbody>
+</table>
+<div class="add-param-row">
+<input type="text" id="newParamKey" placeholder="参数名">
+<input type="text" id="newParamVal" placeholder="参数值">
+<button class="btn btn-success btn-sm" onclick="addParam()">添加</button>
+</div>
+<div style="margin-top:12px">
+<button class="btn btn-primary btn-sm" onclick="buildUrl()">生成 URL</button>
+</div>
+<div class="result-area" style="margin-top:12px">
+<textarea id="builtUrl" placeholder="生成的 URL..." readonly style="min-height:60px"></textarea>
+<button class="copy-btn" onclick="copyResult('builtUrl')">复制</button>
+</div>
+</div>
+</div>
+
+<div style="text-align:center;margin-top:20px">
+<a class="cta" href="https://lishoulan.github.io/nextool-apps/" target="_blank">🛠️ 探索更多 NexTool 开发者工具</a>
+</div>
+
+<footer>
+<p>NexTool — 免费在线开发者工具集 | 纯客户端处理，数据不上传</p>
+<p><a href="https://lishoulan.github.io/nextool-apps/">NexTool 工具首页</a></p>
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+let parsedUrl=null;
+let params=[];
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+function encodeComponent(){
+  const v=document.getElementById('inputUrl').value;
+  if(!v){showToast('请输入内容','error');return;}
+  document.getElementById('outputUrl').value=encodeURIComponent(v);
+}
+function decodeComponent(){
+  const v=document.getElementById('inputUrl').value;
+  if(!v){showToast('请输入内容','error');return;}
+  try{document.getElementById('outputUrl').value=decodeURIComponent(v);}
+  catch(e){showToast('解码失败: '+e.message,'error');}
+}
+function encodeFull(){
+  const v=document.getElementById('inputUrl').value;
+  if(!v){showToast('请输入内容','error');return;}
+  document.getElementById('outputUrl').value=encodeURI(v);
+}
+function decodeFull(){
+  const v=document.getElementById('inputUrl').value;
+  if(!v){showToast('请输入内容','error');return;}
+  try{document.getElementById('outputUrl').value=decodeURI(v);}
+  catch(e){showToast('解码失败: '+e.message,'error');}
+}
+function swapUrl(){
+  const a=document.getElementById('inputUrl');
+  const b=document.getElementById('outputUrl');
+  const tmp=a.value;a.value=b.value;b.value=tmp;
+}
+function clearUrl(){
+  document.getElementById('inputUrl').value='';
+  document.getElementById('outputUrl').value='';
+}
+
+function parseUrl(){
+  const raw=document.getElementById('parseInput').value.trim();
+  if(!raw){showToast('请输入URL','error');return;}
+  try{
+    parsedUrl=new URL(raw);
+    const parts=document.getElementById('urlParts');
+    const items=[
+      ['协议 (protocol)',parsedUrl.protocol],
+      ['主机 (host)',parsedUrl.host],
+      ['主机名 (hostname)',parsedUrl.hostname],
+      ['端口 (port)',parsedUrl.port||'默认'],
+      ['路径 (pathname)',parsedUrl.pathname],
+      ['搜索 (search)',parsedUrl.search],
+      ['哈希 (hash)',parsedUrl.hash],
+      ['来源 (origin)',parsedUrl.origin],
+    ];
+    parts.innerHTML=items.map(([k,v])=>`<div class="url-part"><span class="key">${k}</span><span class="val">${esc(v)}</span></div>`).join('');
+    document.getElementById('parseResult').style.display='block';
+
+    // Parse params
+    params=[];
+    parsedUrl.searchParams.forEach((v,k)=>params.push({key:k,value:v}));
+    renderParams();
+    document.getElementById('paramSection').style.display='block';
+  }catch(e){showToast('URL 格式无效: '+e.message,'error');}
+}
+
+function renderParams(){
+  const body=document.getElementById('paramBody');
+  body.innerHTML=params.map((p,i)=>`<tr>
+    <td><input value="${esc(p.key)}" onchange="params[${i}].key=this.value"></td>
+    <td><input value="${esc(p.value)}" onchange="params[${i}].value=this.value"></td>
+    <td><button class="btn btn-danger btn-sm" onclick="params.splice(${i},1);renderParams()">删除</button></td>
+  </tr>`).join('');
+}
+
+function addParam(){
+  const k=document.getElementById('newParamKey').value.trim();
+  const v=document.getElementById('newParamVal').value.trim();
+  if(!k){showToast('请输入参数名','error');return;}
+  params.push({key:k,value:v});
+  renderParams();
+  document.getElementById('newParamKey').value='';
+  document.getElementById('newParamVal').value='';
+}
+
+function buildUrl(){
+  if(!parsedUrl){showToast('请先解析URL','error');return;}
+  const base=parsedUrl.origin+parsedUrl.pathname;
+  const qs=params.filter(p=>p.key).map(p=>encodeURIComponent(p.key)+'='+encodeURIComponent(p.value)).join('&');
+  const hash=parsedUrl.hash||'';
+  const result=qs?base+'?'+qs+hash:base+hash;
+  document.getElementById('builtUrl').value=result;
+}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function copyResult(id){
+  const el=document.getElementById(id);
+  if(!el.value){showToast('没有内容可复制','error');return;}
+  navigator.clipboard.writeText(el.value).then(()=>showToast('已复制到剪贴板'));
+}
+
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='error'?'var(--error)':'var(--success)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+</script>
+</body>
+</html>

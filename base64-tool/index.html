@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base64编解码工具 - 在线Base64转换 | NexTool</title>
+<meta name="description" content="免费在线Base64编解码工具，支持文本转Base64、Base64解码、图片转Base64 Data URI、文件转Base64。纯客户端处理，数据不上传。">
+<meta name="keywords" content="Base64编解码, Base64转换, 在线Base64, 图片转Base64, 文件转Base64, Base64解码, Base64编码">
+<link rel="canonical" href="https://lishoulan.github.io/nextool-apps/base64-tool/">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f1117;--card:#1a1d27;--border:#2a2d3a;--text:#e1e4ed;--text2:#8b8fa3;--accent:#6c5ce7;--accent2:#a29bfe;--success:#00b894;--error:#e17055;--radius:10px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;min-height:100vh}
+.container{max-width:900px;margin:0 auto;padding:20px}
+header{text-align:center;padding:30px 0 20px}
+header h1{font-size:1.8rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px}
+header p{color:var(--text2);font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:16px}
+.card h2{font-size:1.1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card h2 .icon{font-size:1.2rem}
+label{display:block;font-size:.85rem;color:var(--text2);margin-bottom:6px}
+textarea{width:100%;min-height:140px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-family:'Consolas','Monaco',monospace;font-size:.9rem;resize:vertical;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--accent)}
+textarea::placeholder{color:var(--text2)}
+.btn-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.btn{padding:10px 20px;border:none;border-radius:8px;font-size:.9rem;cursor:pointer;transition:all .2s;font-weight:500}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-secondary{background:var(--border);color:var(--text)}
+.btn-secondary:hover{background:#363a4a}
+.btn-success{background:var(--success);color:#fff}
+.btn-success:hover{opacity:.9}
+.btn-sm{padding:7px 14px;font-size:.8rem}
+.result-area{position:relative}
+.result-area textarea{background:#0a0c12;border-color:#1e2030}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--border);border:none;color:var(--text);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
+.copy-btn:hover{background:var(--accent);color:#fff}
+.hint{font-size:.8rem;color:var(--accent2);margin-top:8px;padding:8px 12px;background:rgba(108,92,231,.1);border-radius:6px;display:none}
+.hint.show{display:block}
+.file-upload{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.file-upload:hover{border-color:var(--accent);background:rgba(108,92,231,.05)}
+.file-upload p{color:var(--text2);font-size:.9rem}
+.file-upload .icon{font-size:2rem;margin-bottom:8px}
+.image-preview{max-width:100%;max-height:200px;border-radius:8px;margin-top:10px;display:none}
+.tabs{display:flex;gap:0;margin-bottom:16px;border-bottom:1px solid var(--border)}
+.tab{padding:10px 20px;cursor:pointer;color:var(--text2);border-bottom:2px solid transparent;transition:all .2s;font-size:.9rem}
+.tab.active{color:var(--accent2);border-bottom-color:var(--accent)}
+.tab:hover{color:var(--text)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+footer{text-align:center;padding:30px 0;color:var(--text2);font-size:.8rem}
+footer a{color:var(--accent2);text-decoration:none}
+footer a:hover{text-decoration:underline}
+.cta{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;margin-top:12px;transition:all .2s}
+.cta:hover{opacity:.9;transform:translateY(-2px)}
+.toast{position:fixed;top:20px;right:20px;background:var(--success);color:#fff;padding:12px 20px;border-radius:8px;font-size:.9rem;transform:translateX(120%);transition:transform .3s;z-index:999}
+.toast.show{transform:translateX(0)}
+@media(max-width:600px){.container{padding:12px}header h1{font-size:1.4rem}.btn-row{gap:6px}.btn{padding:8px 14px;font-size:.8rem}}
+</style>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>🔐 Base64 编解码工具</h1>
+<p>文本 / 图片 / 文件 Base64 互转，纯客户端处理</p>
+</header>
+
+<div class="tabs">
+<div class="tab active" data-tab="text">文本编解码</div>
+<div class="tab" data-tab="image">图片转Base64</div>
+<div class="tab" data-tab="file">文件转Base64</div>
+</div>
+
+<div class="tab-content active" id="tab-text">
+<div class="card">
+<h2><span class="icon">📝</span> 输入文本</h2>
+<textarea id="inputText" placeholder="在此输入需要编码或解码的文本..."></textarea>
+<div class="hint" id="autoHint">💡 检测到输入可能是 Base64 编码，建议点击「解码」</div>
+<div class="btn-row">
+<button class="btn btn-primary" onclick="encodeText()">编码 → Base64</button>
+<button class="btn btn-secondary" onclick="decodeText()">解码 ← Base64</button>
+<button class="btn btn-secondary btn-sm" onclick="swapText()">⇅ 交换</button>
+<button class="btn btn-secondary btn-sm" onclick="clearAll()">清空</button>
+</div>
+</div>
+<div class="card result-area">
+<h2><span class="icon">📋</span> 结果</h2>
+<textarea id="outputText" placeholder="结果将显示在此..." readonly></textarea>
+<button class="copy-btn" onclick="copyResult('outputText')">复制</button>
+</div>
+</div>
+
+<div class="tab-content" id="tab-image">
+<div class="card">
+<h2><span class="icon">🖼️</span> 图片转 Base64 Data URI</h2>
+<div class="file-upload" id="imageDropZone" onclick="document.getElementById('imageInput').click()">
+<div class="icon">📁</div>
+<p>点击上传图片或拖拽图片到此处</p>
+<p style="font-size:.75rem;margin-top:4px">支持 PNG / JPG / GIF / SVG / WebP</p>
+</div>
+<input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImage(event)">
+<img id="imagePreview" class="image-preview" alt="预览">
+</div>
+<div class="card result-area">
+<h2><span class="icon">📋</span> Data URI 结果</h2>
+<textarea id="imageResult" placeholder="上传图片后自动生成 Data URI..." readonly style="min-height:100px"></textarea>
+<button class="copy-btn" onclick="copyResult('imageResult')">复制</button>
+</div>
+</div>
+
+<div class="tab-content" id="tab-file">
+<div class="card">
+<h2><span class="icon">📄</span> 文件转 Base64</h2>
+<div class="file-upload" onclick="document.getElementById('fileInput').click()">
+<div class="icon">📂</div>
+<p>点击选择文件或拖拽文件到此处</p>
+<p style="font-size:.75rem;margin-top:4px">建议文件大小不超过 5MB</p>
+</div>
+<input type="file" id="fileInput" style="display:none" onchange="handleFile(event)">
+<div id="fileInfo" style="display:none;font-size:.85rem;color:var(--text2);margin-top:8px"></div>
+</div>
+<div class="card result-area">
+<h2><span class="icon">📋</span> Base64 结果</h2>
+<textarea id="fileResult" placeholder="选择文件后自动生成 Base64..." readonly style="min-height:100px"></textarea>
+<button class="copy-btn" onclick="copyResult('fileResult')">复制</button>
+</div>
+</div>
+
+<div style="text-align:center;margin-top:20px">
+<a class="cta" href="https://lishoulan.github.io/nextool-apps/" target="_blank">🛠️ 探索更多 NexTool 开发者工具</a>
+</div>
+
+<footer>
+<p>NexTool — 免费在线开发者工具集 | 纯客户端处理，数据不上传</p>
+<p><a href="https://lishoulan.github.io/nextool-apps/">NexTool 工具首页</a></p>
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+// Auto-detect Base64
+const inputText=document.getElementById('inputText');
+inputText.addEventListener('input',()=>{
+  const v=inputText.value.trim();
+  const hint=document.getElementById('autoHint');
+  if(v.length>4&&/^[A-Za-z0-9+/=]+$/.test(v)&&v.length%4===0){
+    try{atob(v);hint.classList.add('show');}catch(e){hint.classList.remove('show');}
+  }else{hint.classList.remove('show');}
+});
+
+function encodeText(){
+  const input=document.getElementById('inputText').value;
+  if(!input){showToast('请输入文本','error');return;}
+  try{
+    const encoded=btoa(unescape(encodeURIComponent(input)));
+    document.getElementById('outputText').value=encoded;
+  }catch(e){showToast('编码失败: '+e.message,'error');}
+}
+
+function decodeText(){
+  const input=document.getElementById('inputText').value.trim();
+  if(!input){showToast('请输入Base64','error');return;}
+  try{
+    const decoded=decodeURIComponent(escape(atob(input)));
+    document.getElementById('outputText').value=decoded;
+  }catch(e){showToast('解码失败，输入不是有效的Base64','error');}
+}
+
+function swapText(){
+  const a=document.getElementById('inputText');
+  const b=document.getElementById('outputText');
+  const tmp=a.value;a.value=b.value;b.value=tmp;
+}
+
+function clearAll(){
+  document.getElementById('inputText').value='';
+  document.getElementById('outputText').value='';
+  document.getElementById('autoHint').classList.remove('show');
+}
+
+// Image to Base64
+function handleImage(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    document.getElementById('imagePreview').src=ev.target.result;
+    document.getElementById('imagePreview').style.display='block';
+    document.getElementById('imageResult').value=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// File to Base64
+function handleFile(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const info=document.getElementById('fileInfo');
+  info.style.display='block';
+  info.textContent=`文件: ${file.name} | 大小: ${formatSize(file.size)} | 类型: ${file.type||'未知'}`;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    document.getElementById('fileResult').value=ev.target.result.split(',')[1]||ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function formatSize(b){
+  if(b<1024)return b+' B';
+  if(b<1048576)return (b/1024).toFixed(1)+' KB';
+  return (b/1048576).toFixed(1)+' MB';
+}
+
+// Copy
+function copyResult(id){
+  const el=document.getElementById(id);
+  if(!el.value){showToast('没有内容可复制','error');return;}
+  navigator.clipboard.writeText(el.value).then(()=>showToast('已复制到剪贴板'));
+}
+
+// Toast
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='error'?'var(--error)':'var(--success)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+// Drag & drop
+['imageDropZone'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.addEventListener('dragover',e=>{e.preventDefault();el.style.borderColor='var(--accent)';});
+  el.addEventListener('dragleave',()=>{el.style.borderColor='var(--border)';});
+  el.addEventListener('drop',e=>{
+    e.preventDefault();el.style.borderColor='var(--border)';
+    const f=e.dataTransfer.files[0];
+    if(f&&f.type.startsWith('image/')){
+      const dt=new DataTransfer();dt.items.add(f);
+      document.getElementById('imageInput').files=dt.files;
+      document.getElementById('imageInput').dispatchEvent(new Event('change'));
+    }
+  });
+});
+</script>
+</body>
+</html>
