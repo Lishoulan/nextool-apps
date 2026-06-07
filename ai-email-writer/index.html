@@ -246,14 +246,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
     </div>
     <div class="modal-body">
       <div class="form-group">
-        <label class="form-label">DeepSeek API Key</label>
-        <input class="form-input" id="apiKeyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx">
-        <p style="font-size:12px;color:var(--text-light);margin-top:6px">API Key仅保存在本地浏览器中，不会上传到任何服务器</p>
+        <label class="form-label">DeepSeek API Key <span style="font-weight:400;color:var(--text-light)">(可选，留空使用公共代理)</span></label>
+        <input class="form-input" id="apiKeyInput" type="password" placeholder="sk-xxxxxxxxxxxxxxxx (留空使用公共代理)">
+        <p style="font-size:12px;color:var(--text-light);margin-top:6px">无需 API Key 即可使用！如需使用自己的 Key，请在此输入</p>
       </div>
       <div class="form-group">
-        <label class="form-label">API 地址</label>
-        <input class="form-input" id="apiBaseInput" type="text" placeholder="https://api.deepseek.com">
-        <p style="font-size:12px;color:var(--text-light);margin-top:6px">默认为DeepSeek官方地址，可替换为兼容接口</p>
+        <label class="form-label">API 代理地址</label>
+        <input class="form-input" id="apiBaseInput" type="text" placeholder="http://localhost:8001">
+        <p style="font-size:12px;color:var(--text-light);margin-top:6px">默认使用本地代理，可替换为线上代理地址</p>
       </div>
     </div>
     <div class="modal-footer">
@@ -313,11 +313,12 @@ let currentScenario = '商务合作';
 let currentTone = '正式';
 let currentEmail = null;
 let isPro = false;
+const PROXY_URL = 'http://localhost:8001';
 
 // ===== Init =====
 (function init() {
   const key = localStorage.getItem('de_api_key') || '';
-  const base = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+  const base = localStorage.getItem('de_api_base') || PROXY_URL;
   document.getElementById('apiKeyInput').value = key;
   document.getElementById('apiBaseInput').value = base;
   isPro = localStorage.getItem('de_is_pro') === 'true';
@@ -366,8 +367,7 @@ function updateUsage() {
 async function writeEmail() {
   const desc = document.getElementById('description').value.trim();
   if (!desc) { showToast('请输入邮件描述内容', true); return; }
-  const apiKey = localStorage.getItem('de_api_key');
-  if (!apiKey) { openSettings(); showToast('请先设置API Key', true); return; }
+  // API Key is now optional - proxy provides default key
   if (!isPro && getTodayUsage() >= 3) { openProModal(); showToast('今日免费次数已用完', true); return; }
 
   const btn = document.getElementById('writeBtn');
@@ -376,7 +376,8 @@ async function writeEmail() {
 
   const recipient = document.getElementById('recipient').value.trim();
   const sender = document.getElementById('sender').value.trim();
-  const apiBase = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+  const apiBase = localStorage.getItem('de_api_base') || PROXY_URL;
+  const apiKey = localStorage.getItem('de_api_key') || '';
 
   const systemPrompt = `你是一位专业的中文邮件撰写助手。请根据用户提供的场景、语气和描述，撰写一封高质量的中文邮件。
 
@@ -396,18 +397,23 @@ ${sender ? '发件人：' + sender : ''}
 描述：${desc}`;
 
   try {
-    const res = await fetch(apiBase + '/v1/chat/completions', {
+    const requestBody = {
+      model: 'deepseek-chat',
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 1500
+    };
+    if (apiKey) {
+      requestBody.api_key = apiKey;
+    }
+
+    const res = await fetch(apiBase + '/api/chat', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.7,
-        max_tokens: 1500
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestBody)
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
@@ -534,7 +540,7 @@ function escapeHtml(str) {
 // ===== Settings =====
 function openSettings() {
   document.getElementById('apiKeyInput').value = localStorage.getItem('de_api_key') || '';
-  document.getElementById('apiBaseInput').value = localStorage.getItem('de_api_base') || 'https://api.deepseek.com';
+  document.getElementById('apiBaseInput').value = localStorage.getItem('de_api_base') || PROXY_URL;
   openModal('settingsModal');
 }
 function saveSettings() {

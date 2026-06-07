@@ -239,13 +239,14 @@ body{
     <span class="badge">PROFESSIONAL LEGAL AI</span>
   </div>
 
-  <!-- API Key -->
-  <div class="api-bar">
-    <label>🔑 DeepSeek API Key</label>
-    <input type="password" id="apiKey" placeholder="sk-... 输入您的 DeepSeek API Key" autocomplete="off">
+  <!-- API Key（高级设置，可选） -->
+  <div class="api-bar" id="apiBar" style="display:none">
+    <label>🔑 自定义 API Key（可选）</label>
+    <input type="password" id="apiKey" placeholder="sk-... 留空则使用公共代理" autocomplete="off">
     <button class="save-btn" onclick="saveApiKey()">保存</button>
     <span class="api-status" id="apiStatus"></span>
   </div>
+  <button onclick="document.getElementById('apiBar').style.display='flex';this.style.display='none'" style="background:none;border:none;color:var(--gold-dark);cursor:pointer;font-size:0.82em;text-decoration:underline;margin-bottom:12px">⚙️ 高级设置（自定义 API Key）</button>
 
   <!-- Usage -->
   <div class="usage-bar">
@@ -471,6 +472,7 @@ const FORM_FIELDS = {
 // ============ State ============
 let selectedType = null;
 let generatedText = '';
+const PROXY_URL = 'http://localhost:8001';
 
 // ============ Init ============
 window.addEventListener('DOMContentLoaded', () => {
@@ -553,7 +555,7 @@ function saveApiKey() {
   } else {
     localStorage.removeItem('deepseek_api_key');
     updateApiStatus('');
-    showToast('API Key 已清除', 'error');
+    showToast('已切换为公共代理模式', 'error');
   }
 }
 
@@ -590,11 +592,6 @@ function incrementUsage() {
 
 // ============ Generate ============
 async function generateContract() {
-  const apiKey = localStorage.getItem('deepseek_api_key');
-  if (!apiKey) {
-    showToast('请先配置 DeepSeek API Key', 'error');
-    return;
-  }
   if (!selectedType) {
     showToast('请先选择合同类型', 'error');
     return;
@@ -638,21 +635,26 @@ async function generateContract() {
   output.innerHTML = '<div class="placeholder-text"><span class="big-icon">⏳</span>AI 正在撰写专业合同，请稍候...</div>';
 
   try {
-    const res = await fetch('https://api.deepseek.com/chat/completions', {
+    const apiKey = localStorage.getItem('deepseek_api_key') || '';
+    const requestBody = {
+      model: 'deepseek-chat',
+      messages: [
+        { role: 'system', content: '你是一位资深的中国法律文书专家，精通《中华人民共和国民法典》及相关法律法规，擅长起草各类专业合同和法律文件。你生成的合同必须格式规范、条款完整、法律用语准确。' },
+        { role: 'user', content: prompt },
+      ],
+      temperature: 0.3,
+      max_tokens: 4096,
+    };
+    if (apiKey) {
+      requestBody.api_key = apiKey;
+    }
+
+    const res = await fetch(PROXY_URL + '/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        messages: [
-          { role: 'system', content: '你是一位资深的中国法律文书专家，精通《中华人民共和国民法典》及相关法律法规，擅长起草各类专业合同和法律文件。你生成的合同必须格式规范、条款完整、法律用语准确。' },
-          { role: 'user', content: prompt },
-        ],
-        temperature: 0.3,
-        max_tokens: 4096,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!res.ok) {

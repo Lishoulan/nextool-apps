@@ -267,18 +267,19 @@
     <p>粘贴你的简历，输入目标岗位，AI 帮你优化措辞、突出亮点，让 HR 眼前一亮</p>
   </div>
 
-  <!-- API Key 配置 -->
-  <div class="card apikey-section">
-    <div class="card-title"><span class="step">🔑</span> DeepSeek API 配置</div>
+  <!-- API Key 配置（高级设置，可选） -->
+  <div class="card apikey-section" id="apikeySection" style="display:none">
+    <div class="card-title"><span class="step">🔑</span> 高级设置 - 自定义 API Key</div>
     <div class="apikey-row">
-      <input type="password" id="apiKeyInput" placeholder="输入你的 DeepSeek API Key（sk-...）" autocomplete="off">
+      <input type="password" id="apiKeyInput" placeholder="输入你的 DeepSeek API Key（sk-...）留空则使用公共代理" autocomplete="off">
       <button class="btn-save" id="btnSaveKey" onclick="saveApiKey()">保存</button>
     </div>
     <div class="apikey-hint">
-      没有 API Key？<a href="https://platform.deepseek.com/api_keys" target="_blank">前往 DeepSeek 平台获取</a>，新用户赠送额度
+      无需 API Key 即可使用！如需使用自己的 Key，<a href="https://platform.deepseek.com/api_keys" target="_blank">前往 DeepSeek 平台获取</a>
     </div>
     <div class="apikey-status" id="apiKeyStatus"></div>
   </div>
+  <button onclick="document.getElementById('apikeySection').style.display='block';this.style.display='none'" style="background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:12px;margin-bottom:16px;text-decoration:underline">⚙️ 高级设置（自定义 API Key）</button>
 
   <!-- 简历输入 -->
   <div class="card">
@@ -347,6 +348,7 @@
 <script>
 // ===== 状态管理 =====
 const FREE_LIMIT = 1; // 每日免费次数
+const PROXY_URL = 'http://localhost:8001';
 let apiKey = localStorage.getItem('deepseek_api_key') || '';
 let optimizedText = '';
 
@@ -370,7 +372,12 @@ function saveApiKey() {
   const input = document.getElementById('apiKeyInput');
   const val = input.value.trim();
   if (!val) {
-    showToast('请输入 API Key', 'error');
+    // 清除自定义 Key，使用代理
+    apiKey = '';
+    localStorage.removeItem('deepseek_api_key');
+    input.value = '';
+    showApiKeyStatus(false);
+    showToast('已切换为公共代理模式', 'info');
     return;
   }
   // 如果已保存且输入是掩码形式，不更新
@@ -440,10 +447,6 @@ async function optimizeResume() {
   const jobTarget = document.getElementById('jobTarget').value.trim();
 
   // 校验
-  if (!apiKey) {
-    showToast('请先配置 DeepSeek API Key', 'error');
-    return;
-  }
   if (!resumeText) {
     showToast('请输入简历内容', 'error');
     return;
@@ -522,21 +525,27 @@ ${resumeText}
 
 请直接输出优化后的完整简历内容，不需要解释优化了哪些地方。`;
 
-  const response = await fetch('https://api.deepseek.com/chat/completions', {
+  const requestBody = {
+    model: 'deepseek-chat',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ],
+    temperature: 0.7,
+    max_tokens: 4096
+  };
+
+  // If user has custom API key, pass it in the body for the proxy
+  if (apiKey) {
+    requestBody.api_key = apiKey;
+  }
+
+  const response = await fetch(PROXY_URL + '/api/chat', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer ' + apiKey
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      model: 'deepseek-chat',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      temperature: 0.7,
-      max_tokens: 4096
-    })
+    body: JSON.stringify(requestBody)
   });
 
   if (!response.ok) {
