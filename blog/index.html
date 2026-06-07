@@ -70,6 +70,8 @@ footer a{color:var(--accent-light);text-decoration:none}
 </style>
 </head>
 <body>
+<div id="breadcrumb" data-product="博客"></div>
+<script src="../js/breadcrumb.js"></script>
 <nav class="nav">
   <a href="https://lishoulan.github.io/nextool-apps/" class="nav-logo">⚡ NextTool</a>
   <ul class="nav-links">
@@ -395,8 +397,8 @@ footer a{color:var(--accent-light);text-decoration:none}
 
   searchInput.addEventListener('input', filterPosts);
 })();
-
-if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}
 </script>
+<script src="../js/email-capture.js" data-auto></script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

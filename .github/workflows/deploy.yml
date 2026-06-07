@@ -1,0 +1,135 @@
+name: Deploy & Validate
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate HTML files exist
+        run: |
+          echo "🔍 Checking all index.html files..."
+          MISSING=0
+          # Expected tool directories based on sitemap
+          DIRS=(
+            "ai-ppt-generator"
+            "ai-code-explainer"
+            "ai-translator"
+            "ai-paper-rewriter"
+            "ai-email-writer"
+            "ai-contract-generator"
+            "ai-resume-optimizer"
+            "ai-summarizer"
+            "pdf-toolkit"
+            "calculator"
+            "image-compressor"
+            "word-counter"
+            "timestamp-tool"
+            "url-tool"
+            "base64-tool"
+            "password-generator"
+            "markdown-editor"
+            "color-picker"
+            "regex-tester"
+            "qr-generator"
+            "json-formatter"
+            "blog"
+            "compare"
+            "pricing"
+            "referral"
+            "company-website"
+            "api-docs"
+            "launch-plan"
+            "payment-guide"
+            "admin"
+          )
+          for dir in "${DIRS[@]}"; do
+            if [ ! -f "$dir/index.html" ]; then
+              echo "❌ MISSING: $dir/index.html"
+              MISSING=$((MISSING + 1))
+            else
+              echo "✅ OK: $dir/index.html"
+            fi
+          done
+          # Also check root index.html
+          if [ ! -f "index.html" ]; then
+            echo "❌ MISSING: index.html (root)"
+            MISSING=$((MISSING + 1))
+          else
+            echo "✅ OK: index.html (root)"
+          fi
+          if [ $MISSING -gt 0 ]; then
+            echo "::error::$MISSING index.html file(s) missing!"
+            exit 1
+          fi
+          echo "✅ All expected index.html files found."
+
+      - name: Check for broken internal links
+        run: |
+          echo "🔗 Checking internal links in HTML files..."
+          ERRORS=0
+          find . -name "*.html" -not -path "./.github/*" | while read -r file; do
+            # Extract href values that are relative internal links
+            grep -oP 'href="(/[^"]*|\.\/[^"]*|\.\.\/[^"]*|[^http][^":]*)"' "$file" 2>/dev/null | while read -r link; do
+              # Clean up the link
+              link=$(echo "$link" | sed 's/href="//;s/"$//')
+              # Skip external links, anchors, and special links
+              if echo "$link" | grep -qE "^(https?://|mailto:|tel:|#|javascript:)"; then
+                continue
+              fi
+              # Resolve relative path
+              dir=$(dirname "$file")
+              target="$dir/$link"
+              # Remove trailing slash and add index.html if directory
+              target=$(echo "$target" | sed 's:/$::')
+              if [ -d "$target" ]; then
+                target="$target/index.html"
+              fi
+              # Check if target exists (skip fragment identifiers)
+              target=$(echo "$target" | cut -d'#' -f1)
+              if [ -n "$target" ] && [ ! -f "$target" ] && [ ! -d "${target%/*}" ]; then
+                echo "⚠️  Broken link in $file: $link -> $target"
+              fi
+            done
+          done
+          echo "✅ Internal link check complete."
+
+      - name: Update sitemap
+        run: python .github/scripts/update-sitemap.py
+
+      - name: Check for sitemap changes
+        id: sitemap_changes
+        run: |
+          if git diff --quiet sitemap.xml; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "📋 No sitemap changes detected."
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "📋 Sitemap changes detected:"
+            git diff sitemap.xml
+          fi
+
+      - name: Commit and push sitemap changes
+        if: steps.sitemap_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add sitemap.xml
+          git commit -m "chore: update sitemap.xml lastmod dates [skip ci]"
+          git push

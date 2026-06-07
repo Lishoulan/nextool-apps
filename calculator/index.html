@@ -126,6 +126,8 @@ footer a{color:var(--accent2)}
 </style>
 </head>
 <body>
+<div id="breadcrumb" data-product="在线计算器"></div>
+<script src="../js/breadcrumb.js"></script>
 <div class="cta-banner">
   🚀 需要 AI 工具？查看 <a href="https://nextool.app" target="_blank">NextTool — AI 驱动的效率工具集</a>
 </div>
@@ -743,6 +745,7 @@ function showToast(msg) {
 renderHistory();
 updateDisplay();
 </script>
+<script src="../js/email-capture.js" data-auto></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 </body>
 </html>

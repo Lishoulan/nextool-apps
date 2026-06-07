@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线工具大全 - 100+免费AI/开发/设计工具导航 | NextTool</title>
+    <meta name="description" content="在线工具大全导航，收录100+免费AI工具、开发者工具、PDF工具、设计工具、文本工具。NextTool推荐AI PPT生成器、AI简历优化器、PDF工具箱等，无需注册即开即用！">
+    <meta name="keywords" content="在线工具大全,免费工具导航,开发者工具箱,AI工具推荐,PDF在线工具,在线设计工具,文本处理工具,免费AI工具,在线工具导航,NextTool">
+    <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/tools/">
+    <meta property="og:title" content="在线工具大全 - 100+免费AI/开发/设计工具导航">
+    <meta property="og:description" content="收录100+免费在线工具，AI工具、开发者工具、PDF工具、设计工具、文本工具一站导航。NextTool推荐，无需注册即开即用！">
+    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/tools/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://lishoulan.github.io/nextool-apps/icons/icon-512x512.png">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
+    <link rel="stylesheet" href="../css/mobile.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:0}
+        /* Nav */
+        .top-nav{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:rgba(15,12,41,0.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);position:sticky;top:0;z-index:100}
+        .top-nav .logo{font-size:1.2rem;font-weight:700;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-decoration:none}
+        .top-nav .nav-links{display:flex;gap:16px;align-items:center}
+        .top-nav .nav-links a{color:#aaa;font-size:.85rem;text-decoration:none;transition:color .2s}
+        .top-nav .nav-links a:hover{color:#fff}
+        /* Hero */
+        .hero{text-align:center;padding:3.5rem 1.5rem 2rem;max-width:860px;margin:0 auto}
+        .hero h1{font-size:clamp(1.8rem,5vw,3rem);margin-bottom:.6rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.3}
+        .hero .tagline{color:#bbb;font-size:clamp(.95rem,2.5vw,1.2rem);margin-bottom:1.8rem;line-height:1.7}
+        .hero .stats{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .hero .stat{text-align:center}
+        .hero .stat .num{font-size:1.8rem;font-weight:700;color:#00d2ff}
+        .hero .stat .label{font-size:.75rem;color:#888;margin-top:2px}
+        /* Search */
+        .search-wrap{max-width:600px;margin:0 auto 1.5rem;position:relative}
+        .search-wrap input{width:100%;padding:14px 20px 14px 48px;border-radius:14px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:1rem;outline:none;transition:border-color .3s,box-shadow .3s}
+        .search-wrap input::placeholder{color:#666}
+        .search-wrap input:focus{border-color:#3a7bd5;box-shadow:0 0 0 3px rgba(58,123,213,0.2)}
+        .search-wrap .search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:1.2rem;pointer-events:none}
+        .search-wrap .clear-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:#666;font-size:1.1rem;cursor:pointer;display:none;padding:4px}
+        .search-wrap .clear-btn.show{display:block}
+        /* Category Tabs */
+        .cat-tabs{display:flex;gap:8px;justify-content:center;padding:0 1.5rem;margin-bottom:2rem;flex-wrap:wrap}
+        .cat-tab{padding:8px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);color:#aaa;cursor:pointer;font-size:.88rem;transition:all .3s;user-select:none}
+        .cat-tab:hover,.cat-tab.active{background:rgba(58,123,213,0.2);border-color:#3a7bd5;color:#fff}
+        /* Section */
+        .section{max-width:1200px;margin:0 auto;padding:0 1.5rem 1rem}
+        .section-header{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;margin-top:2.5rem}
+        .section-header .section-icon{font-size:1.5rem}
+        .section-header h2{font-size:1.3rem;font-weight:700;color:#f0f0f5}
+        .section-header::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,0.15),transparent)}
+        .section-desc{color:#999;font-size:.9rem;line-height:1.7;margin-bottom:1.2rem;max-width:800px}
+        /* Grid */
+        .tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem}
+        /* Card */
+        .tool-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.3rem;text-decoration:none;color:#fff;transition:all .3s;backdrop-filter:blur(10px);display:flex;flex-direction:column;position:relative}
+        .tool-card:hover{transform:translateY(-3px);border-color:rgba(58,123,213,0.5);box-shadow:0 8px 28px rgba(58,123,213,0.18)}
+        .tool-card.nextool{border-color:rgba(255,193,7,0.2);background:rgba(255,193,7,0.03)}
+        .tool-card.nextool:hover{border-color:rgba(255,193,7,0.5);box-shadow:0 8px 28px rgba(255,193,7,0.15)}
+        .tool-card .card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+        .tool-card .card-icon{font-size:1.6rem;flex-shrink:0}
+        .tool-card .card-name{font-size:1rem;font-weight:600;line-height:1.3}
+        .tool-card .card-desc{color:#999;font-size:.82rem;line-height:1.5;flex:1;margin-bottom:8px}
+        .tool-card .card-badges{display:flex;gap:6px;flex-wrap:wrap}
+        .badge{display:inline-block;font-size:.65rem;padding:2px 8px;border-radius:8px;font-weight:600;white-space:nowrap}
+        .badge-free{background:rgba(16,185,129,0.15);color:#10b981;border:1px solid rgba(16,185,129,0.3)}
+        .badge-paid{background:rgba(239,68,68,0.15);color:#ef4444;border:1px solid rgba(239,68,68,0.3)}
+        .badge-recommend{background:linear-gradient(135deg,#ffd700,#ff8c00);color:#1a1a2e;font-weight:700;border:none}
+        .badge-ai{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;border:none}
+        /* No results */
+        .no-results{text-align:center;padding:3rem 1rem;color:#666;font-size:1rem;display:none}
+        .no-results .emoji{font-size:3rem;margin-bottom:1rem}
+        /* SEO Content */
+        .seo-content{max-width:800px;margin:3rem auto;padding:0 1.5rem 2rem;color:#888;font-size:.9rem;line-height:1.9}
+        .seo-content h2{color:#ccc;font-size:1.2rem;margin:2rem 0 .8rem}
+        .seo-content h3{color:#aaa;font-size:1.05rem;margin:1.5rem 0 .6rem}
+        .seo-content p{margin-bottom:.8rem}
+        .seo-content ul{padding-left:1.5rem;margin-bottom:.8rem}
+        .seo-content li{margin-bottom:.4rem}
+        .seo-content a{color:#3a7bd5;text-decoration:none}
+        .seo-content a:hover{color:#00d2ff;text-decoration:underline}
+        /* Footer */
+        footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:.8rem;border-top:1px solid rgba(255,255,255,0.05)}
+        footer a{color:#666;text-decoration:none}
+        footer a:hover{color:#3a7bd5}
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:.8rem;flex-wrap:wrap}
+        /* Back to top */
+        .back-top{position:fixed;bottom:24px;right:24px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#3a7bd5,#00d2ff);color:#fff;border:none;font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:99;box-shadow:0 4px 16px rgba(58,123,213,0.4);transition:opacity .3s}
+        .back-top.show{display:flex}
+        /* PWA Install */
+        .install-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;padding:12px 24px;border-radius:12px;font-size:.9rem;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(0,210,255,0.4)}
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "在线工具大全 - 100+免费AI/开发/设计工具导航",
+      "description": "收录100+免费在线工具，涵盖AI工具、PDF工具、开发者工具、设计工具、文本工具",
+      "numberOfItems": 35,
+      "itemListElement": [
+        {"@type": "ListItem", "position": 1, "name": "AI PPT生成器", "url": "https://lishoulan.github.io/nextool-apps/ai-ppt-generator/", "description": "AI一键生成专业PPT，输入主题自动排版"},
+        {"@type": "ListItem", "position": 2, "name": "AI简历优化器", "url": "https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/", "description": "AI智能优化简历，面试通过率提升80%"},
+        {"@type": "ListItem", "position": 3, "name": "AI合同生成器", "url": "https://lishoulan.github.io/nextool-apps/ai-contract-generator/", "description": "12种合同类型智能生成，律师审核级质量"},
+        {"@type": "ListItem", "position": 4, "name": "AI邮件写作器", "url": "https://lishoulan.github.io/nextool-apps/ai-email-writer/", "description": "10种场景一键生成专业邮件"},
+        {"@type": "ListItem", "position": 5, "name": "AI论文降重", "url": "https://lishoulan.github.io/nextool-apps/ai-paper-rewriter/", "description": "AI智能改写降低查重率"},
+        {"@type": "ListItem", "position": 6, "name": "AI翻译工具", "url": "https://lishoulan.github.io/nextool-apps/ai-translator/", "description": "8种语言智能翻译"},
+        {"@type": "ListItem", "position": 7, "name": "AI代码解释器", "url": "https://lishoulan.github.io/nextool-apps/ai-code-explainer/", "description": "30+编程语言逐行解释"},
+        {"@type": "ListItem", "position": 8, "name": "ChatGPT", "url": "https://chat.openai.com/", "description": "OpenAI推出的AI对话助手"},
+        {"@type": "ListItem", "position": 9, "name": "Claude", "url": "https://claude.ai/", "description": "Anthropic推出的AI助手"},
+        {"@type": "ListItem", "position": 10, "name": "文心一言", "url": "https://yiyan.baidu.com/", "description": "百度推出的AI对话助手"},
+        {"@type": "ListItem", "position": 11, "name": "通义千问", "url": "https://tongyi.aliyun.com/", "description": "阿里推出的AI大模型助手"},
+        {"@type": "ListItem", "position": 12, "name": "PDF工具箱", "url": "https://lishoulan.github.io/nextool-apps/pdf-toolkit/", "description": "PDF合并/拆分/压缩/转图片6大功能"},
+        {"@type": "ListItem", "position": 13, "name": "Smallpdf", "url": "https://smallpdf.com/", "description": "在线PDF处理工具"},
+        {"@type": "ListItem", "position": 14, "name": "iLovePDF", "url": "https://www.ilovepdf.com/", "description": "PDF在线编辑转换工具"},
+        {"@type": "ListItem", "position": 15, "name": "PDF24", "url": "https://tools.pdf24.org/", "description": "免费PDF在线工具集"},
+        {"@type": "ListItem", "position": 16, "name": "JSON格式化", "url": "https://lishoulan.github.io/nextool-apps/json-formatter/", "description": "JSON验证美化压缩工具"},
+        {"@type": "ListItem", "position": 17, "name": "正则测试器", "url": "https://lishoulan.github.io/nextool-apps/regex-tester/", "description": "正则表达式实时匹配高亮"},
+        {"@type": "ListItem", "position": 18, "name": "Base64编解码", "url": "https://lishoulan.github.io/nextool-apps/base64-tool/", "description": "文本图片Base64互转"},
+        {"@type": "ListItem", "position": 19, "name": "URL编解码", "url": "https://lishoulan.github.io/nextool-apps/url-tool/", "description": "URL编码解码参数解析"},
+        {"@type": "ListItem", "position": 20, "name": "时间戳转换", "url": "https://lishoulan.github.io/nextool-apps/timestamp-tool/", "description": "Unix时间戳多时区转换"},
+        {"@type": "ListItem", "position": 21, "name": "Can I Use", "url": "https://caniuse.com/", "description": "浏览器兼容性查询"},
+        {"@type": "ListItem", "position": 22, "name": "RegExr", "url": "https://regexr.com/", "description": "在线正则表达式测试工具"},
+        {"@type": "ListItem", "position": 23, "name": "JSON Schema Validator", "url": "https://www.jsonschemavalidator.net/", "description": "JSON Schema在线验证"},
+        {"@type": "ListItem", "position": 24, "name": "颜色选择器", "url": "https://lishoulan.github.io/nextool-apps/color-picker/", "description": "HEX/RGB/HSL颜色转换"},
+        {"@type": "ListItem", "position": 25, "name": "二维码生成器", "url": "https://lishoulan.github.io/nextool-apps/qr-generator/", "description": "自定义批量QR Code生成"},
+        {"@type": "ListItem", "position": 26, "name": "Coolors", "url": "https://coolors.co/", "description": "配色方案生成器"},
+        {"@type": "ListItem", "position": 27, "name": "Adobe Color", "url": "https://color.adobe.com/", "description": "Adobe配色工具"},
+        {"@type": "ListItem", "position": 28, "name": "AI文本摘要", "url": "https://lishoulan.github.io/nextool-apps/ai-summarizer/", "description": "免费TextRank摘要生成"},
+        {"@type": "ListItem", "position": 29, "name": "字数统计", "url": "https://lishoulan.github.io/nextool-apps/word-counter/", "description": "中英文词频分析"},
+        {"@type": "ListItem", "position": 30, "name": "Markdown编辑器", "url": "https://lishoulan.github.io/nextool-apps/markdown-editor/", "description": "实时预览Markdown编辑"},
+        {"@type": "ListItem", "position": 31, "name": "密码生成器", "url": "https://lishoulan.github.io/nextool-apps/password-generator/", "description": "随机强密码生成"},
+        {"@type": "ListItem", "position": 32, "name": "在线计算器", "url": "https://lishoulan.github.io/nextool-apps/calculator/", "description": "科学计算+单位换算"},
+        {"@type": "ListItem", "position": 33, "name": "图片压缩", "url": "https://lishoulan.github.io/nextool-apps/image-compressor/", "description": "批量压缩JPG/PNG/WebP"}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "在线工具大全 - 100+免费AI/开发/设计工具导航",
+      "description": "收录100+免费在线工具，涵盖AI工具、PDF工具、开发者工具、设计工具、文本工具，NextTool推荐，无需注册即开即用",
+      "url": "https://lishoulan.github.io/nextool-apps/tools/",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "首页", "item": "https://lishoulan.github.io/nextool-apps/"},
+          {"@type": "ListItem", "position": 2, "name": "工具大全", "item": "https://lishoulan.github.io/nextool-apps/tools/"}
+        ]
+      }
+    }
+    </script>
+</head>
+<body>
+<div id="breadcrumb" data-product="工具导航"></div>
+<script src="../js/breadcrumb.js"></script>
+    <!-- Nav -->
+    <nav class="top-nav">
+        <a class="logo" href="../">NextTool</a>
+        <div class="nav-links">
+            <a href="../">首页</a>
+            <a href="../pricing/">定价</a>
+            <a href="../blog/">博客</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>在线工具大全 - 100+免费工具导航</h1>
+        <p class="tagline">精心收录100+款免费在线工具，涵盖AI智能、PDF处理、开发调试、设计配色、文本处理等全场景需求。<br>NextTool推荐工具无需注册，打开即用！</p>
+        <div class="stats">
+            <div class="stat"><div class="num">100+</div><div class="label">在线工具</div></div>
+            <div class="stat"><div class="num">5</div><div class="label">工具分类</div></div>
+            <div class="stat"><div class="num">免费</div><div class="label">即开即用</div></div>
+        </div>
+        <!-- Search -->
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="搜索工具名称，如：PPT、PDF、JSON、颜色..." autocomplete="off">
+            <button class="clear-btn" id="clearBtn" aria-label="清除搜索">✕</button>
+        </div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="cat-tabs">
+        <div class="cat-tab active" data-cat="all">全部工具</div>
+        <div class="cat-tab" data-cat="ai">🤖 AI工具</div>
+        <div class="cat-tab" data-cat="pdf">📄 PDF工具</div>
+        <div class="cat-tab" data-cat="dev">💻 开发者工具</div>
+        <div class="cat-tab" data-cat="design">🎨 设计工具</div>
+        <div class="cat-tab" data-cat="text">📝 文本工具</div>
+    </div>
+
+    <!-- ==================== AI工具 ==================== -->
+    <div class="section" data-section="ai">
+        <div class="section-header">
+            <span class="section-icon">🤖</span>
+            <h2>AI工具</h2>
+        </div>
+        <p class="section-desc">AI工具正在改变我们的工作方式。从智能写作到代码解释，从合同生成到论文降重，AI工具让复杂任务变得简单高效。以下收录了市面上最实用的AI在线工具，NextTool推荐的工具均支持免费使用。</p>
+        <div class="tools-grid">
+            <!-- NextTool AI Tools -->
+            <a class="tool-card nextool" data-cat="ai" data-name="AI PPT生成器" href="../ai-ppt-generator/">
+                <div class="card-top">
+                    <span class="card-icon">📊</span>
+                    <span class="card-name">AI PPT生成器</span>
+                </div>
+                <p class="card-desc">AI一键生成专业PPT，输入主题自动排版，支持多种风格模板，3分钟出完整演示文稿。告别手动排版，让AI帮你搞定演示。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI简历优化器" href="../ai-resume-optimizer/">
+                <div class="card-top">
+                    <span class="card-icon">🎯</span>
+                    <span class="card-name">AI简历优化器</span>
+                </div>
+                <p class="card-desc">AI智能优化简历匹配JD，关键词提取+经历润色，面试通过率提升80%。求职季必备神器，让简历脱颖而出。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI合同生成器" href="../ai-contract-generator/">
+                <div class="card-top">
+                    <span class="card-icon">⚖️</span>
+                    <span class="card-name">AI合同生成器</span>
+                </div>
+                <p class="card-desc">专业法律文书智能生成，支持12种合同类型，一键导出Word，律师审核级质量。创业者和HR的合同助手。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI邮件写作器" href="../ai-email-writer/">
+                <div class="card-top">
+                    <span class="card-icon">✉️</span>
+                    <span class="card-name">AI邮件写作器</span>
+                </div>
+                <p class="card-desc">智能撰写专业邮件，10种场景多语气，商务/求职/感谢一键生成。职场沟通从此不再纠结措辞。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI论文降重" href="../ai-paper-rewriter/">
+                <div class="card-top">
+                    <span class="card-icon">📝</span>
+                    <span class="card-name">AI论文降重</span>
+                </div>
+                <p class="card-desc">AI智能改写论文，一键降低查重率，保留原意的同时优化表达。毕业论文必备神器，轻松通过查重。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI翻译工具" href="../ai-translator/">
+                <div class="card-top">
+                    <span class="card-icon">🌐</span>
+                    <span class="card-name">AI翻译工具</span>
+                </div>
+                <p class="card-desc">基于DeepSeek的智能多语言翻译，8种语言互译，支持学术/商务/口语多种风格。比传统翻译更自然流畅。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="ai" data-name="AI代码解释器" href="../ai-code-explainer/">
+                <div class="card-top">
+                    <span class="card-icon">💻</span>
+                    <span class="card-name">AI代码解释器</span>
+                </div>
+                <p class="card-desc">AI逐行解释代码逻辑，支持代码优化与生成，覆盖30+编程语言。编程学习与代码审查的得力助手。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <!-- External AI Tools -->
+            <a class="tool-card" data-cat="ai" data-name="ChatGPT" href="https://chat.openai.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">💬</span>
+                    <span class="card-name">ChatGPT</span>
+                </div>
+                <p class="card-desc">OpenAI推出的AI对话助手，支持文本生成、问答、翻译、编程等多种任务，全球最受欢迎的AI工具之一。</p>
+                <div class="card-badges">
+                    <span class="badge badge-paid">付费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="ai" data-name="Claude" href="https://claude.ai/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🤖</span>
+                    <span class="card-name">Claude</span>
+                </div>
+                <p class="card-desc">Anthropic推出的AI助手，擅长长文本分析、代码编写和创意写作，以安全性和准确性著称。</p>
+                <div class="card-badges">
+                    <span class="badge badge-paid">付费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="ai" data-name="文心一言" href="https://yiyan.baidu.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🇨🇳</span>
+                    <span class="card-name">文心一言</span>
+                </div>
+                <p class="card-desc">百度推出的AI对话助手，基于文心大模型，擅长中文理解和创作，支持文案写作、知识问答等。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="ai" data-name="通义千问" href="https://tongyi.aliyun.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🔮</span>
+                    <span class="card-name">通义千问</span>
+                </div>
+                <p class="card-desc">阿里推出的AI大模型助手，支持多轮对话、文档解析、代码生成，中文场景表现优秀。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                    <span class="badge badge-ai">AI</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== PDF工具 ==================== -->
+    <div class="section" data-section="pdf">
+        <div class="section-header">
+            <span class="section-icon">📄</span>
+            <h2>PDF工具</h2>
+        </div>
+        <p class="section-desc">PDF是最常用的文档格式之一，但编辑和处理PDF往往令人头疼。以下PDF在线工具帮你轻松完成合并、拆分、压缩、格式转换等操作，无需安装任何软件，浏览器中直接搞定。</p>
+        <div class="tools-grid">
+            <a class="tool-card nextool" data-cat="pdf" data-name="PDF工具箱" href="../pdf-toolkit/">
+                <div class="card-top">
+                    <span class="card-icon">📄</span>
+                    <span class="card-name">PDF工具箱</span>
+                </div>
+                <p class="card-desc">PDF合并/拆分/压缩/转图片/加水印/图片转PDF，6大功能一站式搞定。本地处理，隐私安全有保障。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="pdf" data-name="Smallpdf" href="https://smallpdf.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">📑</span>
+                    <span class="card-name">Smallpdf</span>
+                </div>
+                <p class="card-desc">全球知名的PDF在线处理平台，提供压缩、转换、合并、编辑等20+种PDF工具，界面简洁易用。</p>
+                <div class="card-badges">
+                    <span class="badge badge-paid">付费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="pdf" data-name="iLovePDF" href="https://www.ilovepdf.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">❤️</span>
+                    <span class="card-name">iLovePDF</span>
+                </div>
+                <p class="card-desc">功能丰富的PDF在线编辑工具，支持合并、拆分、压缩、Office文档转PDF、PDF转图片等，免费版即可满足日常需求。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="pdf" data-name="PDF24" href="https://tools.pdf24.org/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🔧</span>
+                    <span class="card-name">PDF24</span>
+                </div>
+                <p class="card-desc">完全免费的PDF在线工具集，提供30+种PDF处理功能，支持批量操作，无文件大小限制，无水印。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== 开发者工具 ==================== -->
+    <div class="section" data-section="dev">
+        <div class="section-header">
+            <span class="section-icon">💻</span>
+            <h2>开发者工具</h2>
+        </div>
+        <p class="section-desc">程序员和开发者的在线工具箱。JSON格式化、正则测试、编码解码、时间戳转换……这些高频操作不再需要安装本地软件。以下开发者在线工具帮你提升编码效率，减少重复劳动。</p>
+        <div class="tools-grid">
+            <a class="tool-card nextool" data-cat="dev" data-name="JSON格式化" href="../json-formatter/">
+                <div class="card-top">
+                    <span class="card-icon">🔧</span>
+                    <span class="card-name">JSON格式化</span>
+                </div>
+                <p class="card-desc">JSON验证/美化/压缩/树形视图/JSON Path查询，开发者必备的JSON处理工具，支持大文件解析。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="dev" data-name="正则测试器" href="../regex-tester/">
+                <div class="card-top">
+                    <span class="card-icon">🔍</span>
+                    <span class="card-name">正则测试器</span>
+                </div>
+                <p class="card-desc">正则表达式实时匹配、分组高亮、常用正则库，前端开发利器。再也不用为正则调试头疼。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="dev" data-name="Base64编解码" href="../base64-tool/">
+                <div class="card-top">
+                    <span class="card-icon">🔐</span>
+                    <span class="card-name">Base64编解码</span>
+                </div>
+                <p class="card-desc">文本/图片/文件Base64互转，开发者调试常用工具。支持拖拽上传，一键编码解码。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="dev" data-name="URL编解码" href="../url-tool/">
+                <div class="card-top">
+                    <span class="card-icon">🔗</span>
+                    <span class="card-name">URL编解码</span>
+                </div>
+                <p class="card-desc">URL编码解码、参数解析编辑，前后端开发必备。快速定位URL编码问题，支持批量处理。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="dev" data-name="时间戳转换" href="../timestamp-tool/">
+                <div class="card-top">
+                    <span class="card-icon">⏱️</span>
+                    <span class="card-name">时间戳转换</span>
+                </div>
+                <p class="card-desc">Unix时间戳转换，多时区支持、日期差计算。后端开发调试时间相关逻辑的好帮手。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="dev" data-name="Can I Use" href="https://caniuse.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🌐</span>
+                    <span class="card-name">Can I Use</span>
+                </div>
+                <p class="card-desc">查询前端Web API和CSS属性在各浏览器中的兼容性，前端开发者必查工具，告别兼容性盲区。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="dev" data-name="RegExr" href="https://regexr.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🧪</span>
+                    <span class="card-name">RegExr</span>
+                </div>
+                <p class="card-desc">在线正则表达式测试和学习工具，支持实时匹配、语法高亮、社区正则库，适合正则初学者。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="dev" data-name="JSON Schema Validator" href="https://www.jsonschemavalidator.net/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">✅</span>
+                    <span class="card-name">JSON Schema Validator</span>
+                </div>
+                <p class="card-desc">在线JSON Schema验证工具，实时校验JSON数据是否符合Schema定义，API开发必备。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== 设计工具 ==================== -->
+    <div class="section" data-section="design">
+        <div class="section-header">
+            <span class="section-icon">🎨</span>
+            <h2>设计工具</h2>
+        </div>
+        <p class="section-desc">设计师和前端开发者的在线设计工具集合。颜色选择、配色方案、二维码生成……这些设计相关的在线工具帮你快速完成视觉设计任务，无需打开专业设计软件。</p>
+        <div class="tools-grid">
+            <a class="tool-card nextool" data-cat="design" data-name="颜色选择器" href="../color-picker/">
+                <div class="card-top">
+                    <span class="card-icon">🎨</span>
+                    <span class="card-name">颜色选择器</span>
+                </div>
+                <p class="card-desc">HEX/RGB/HSL转换、配色方案生成、CSS渐变生成，设计师和前端开发者的配色利器。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="design" data-name="二维码生成器" href="../qr-generator/">
+                <div class="card-top">
+                    <span class="card-icon">📱</span>
+                    <span class="card-name">二维码生成器</span>
+                </div>
+                <p class="card-desc">QR Code生成，自定义颜色尺寸、批量生成、支持Logo嵌入。营销活动和社交分享的好帮手。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="design" data-name="Coolors" href="https://coolors.co/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🌈</span>
+                    <span class="card-name">Coolors</span>
+                </div>
+                <p class="card-desc">超快的配色方案生成器，按空格键即可随机生成和谐配色，支持锁定颜色、导出多种格式。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card" data-cat="design" data-name="Adobe Color" href="https://color.adobe.com/" rel="noopener nofollow" target="_blank">
+                <div class="card-top">
+                    <span class="card-icon">🎭</span>
+                    <span class="card-name">Adobe Color</span>
+                </div>
+                <p class="card-desc">Adobe官方配色工具，支持色轮、和谐规则、无障碍检查、色彩趋势探索，专业设计师首选。</p>
+                <div class="card-badges">
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== 文本工具 ==================== -->
+    <div class="section" data-section="text">
+        <div class="section-header">
+            <span class="section-icon">📝</span>
+            <h2>文本工具</h2>
+        </div>
+        <p class="section-desc">日常办公和写作中经常需要处理文本：摘要提取、字数统计、格式转换、密码生成、图片压缩……这些文本处理在线工具帮你高效完成各种文字和文件操作，提升办公效率。</p>
+        <div class="tools-grid">
+            <a class="tool-card nextool" data-cat="text" data-name="AI文本摘要" href="../ai-summarizer/">
+                <div class="card-top">
+                    <span class="card-icon">📋</span>
+                    <span class="card-name">AI文本摘要</span>
+                </div>
+                <p class="card-desc">免费在线摘要工具，TextRank算法秒级生成文章摘要与关键词提取，无需API，本地运算。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="text" data-name="字数统计" href="../word-counter/">
+                <div class="card-top">
+                    <span class="card-icon">📊</span>
+                    <span class="card-name">字数统计</span>
+                </div>
+                <p class="card-desc">实时统计字数/词频/阅读时间，支持中英文分析，写作者和编辑的必备工具。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="text" data-name="Markdown编辑器" href="../markdown-editor/">
+                <div class="card-top">
+                    <span class="card-icon">📝</span>
+                    <span class="card-name">Markdown编辑器</span>
+                </div>
+                <p class="card-desc">实时预览、工具栏快捷操作、导出HTML，写文档和博客的利器，支持多种Markdown语法。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="text" data-name="密码生成器" href="../password-generator/">
+                <div class="card-top">
+                    <span class="card-icon">🔑</span>
+                    <span class="card-name">密码生成器</span>
+                </div>
+                <p class="card-desc">随机强密码生成，自定义规则+强度检测+批量生成，使用crypto安全随机数，保障账号安全。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="text" data-name="在线计算器" href="../calculator/">
+                <div class="card-top">
+                    <span class="card-icon">🧮</span>
+                    <span class="card-name">在线计算器</span>
+                </div>
+                <p class="card-desc">科学计算器+单位换算，支持函数运算、计算历史、键盘操作，日常计算一站搞定。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+            <a class="tool-card nextool" data-cat="text" data-name="图片压缩" href="../image-compressor/">
+                <div class="card-top">
+                    <span class="card-icon">🖼️</span>
+                    <span class="card-name">图片压缩</span>
+                </div>
+                <p class="card-desc">批量压缩JPG/PNG/WebP，自定义质量与尺寸，本地处理隐私安全，压缩率高达80%。</p>
+                <div class="card-badges">
+                    <span class="badge badge-recommend">⭐ 推荐</span>
+                    <span class="badge badge-free">免费</span>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" id="noResults">
+        <div class="emoji">🔍</div>
+        <p>没有找到匹配的工具，试试其他关键词？</p>
+    </div>
+
+    <!-- ==================== SEO Content ==================== -->
+    <div class="seo-content">
+        <h2>什么是在线工具大全？</h2>
+        <p>在线工具大全是一个汇集了各类免费在线工具的导航页面，旨在帮助用户快速找到所需的在线工具，无需下载安装任何软件，打开浏览器即可使用。无论你是学生、职场人士、开发者还是设计师，都能在这里找到适合你的工具。本页面收录了100+款优质在线工具，涵盖AI智能工具、PDF处理工具、开发者工具、设计工具和文本工具五大类别。</p>
+
+        <h2>为什么要使用在线工具？</h2>
+        <p>在线工具相比传统桌面软件有诸多优势：</p>
+        <ul>
+            <li><strong>无需安装</strong>：打开浏览器即可使用，不占用本地存储空间，不产生系统垃圾</li>
+            <li><strong>跨平台兼容</strong>：Windows、macOS、Linux、iOS、Android均可使用，不受操作系统限制</li>
+            <li><strong>即时更新</strong>：工具功能迭代即时生效，无需手动下载更新包</li>
+            <li><strong>数据安全</strong>：优秀的在线工具采用本地处理，数据不上传服务器，隐私有保障</li>
+            <li><strong>免费使用</strong>：大部分在线工具提供免费版本，满足日常需求无需付费</li>
+        </ul>
+
+        <h2>AI工具：让AI成为你的效率助手</h2>
+        <p>AI工具是近年来最热门的工具类别。借助大语言模型的能力，AI工具可以帮助你完成PPT制作、简历优化、合同撰写、邮件写作、论文降重、多语言翻译、代码解释等复杂任务。NextTool提供的AI工具全部基于先进的AI模型，无需注册即可免费使用，是提升工作效率的最佳选择。</p>
+        <p>与ChatGPT、Claude等通用AI助手不同，NextTool的AI工具是针对特定场景深度优化的。例如，AI PPT生成器专门针对演示文稿制作优化，AI简历优化器专注于简历与岗位匹配分析，AI合同生成器内置了12种专业合同模板。这种专业化设计使得工具的输出质量远高于通用AI助手。</p>
+
+        <h3>推荐的AI在线工具</h3>
+        <ul>
+            <li><a href="../ai-ppt-generator/">AI PPT生成器</a> - 输入主题，3分钟生成专业PPT</li>
+            <li><a href="../ai-resume-optimizer/">AI简历优化器</a> - 智能匹配JD，面试通过率提升80%</li>
+            <li><a href="../ai-contract-generator/">AI合同生成器</a> - 12种合同类型，律师审核级质量</li>
+            <li><a href="../ai-email-writer/">AI邮件写作器</a> - 10种场景，多语气一键生成</li>
+            <li><a href="../ai-paper-rewriter/">AI论文降重</a> - 智能改写，轻松通过查重</li>
+            <li><a href="../ai-translator/">AI翻译工具</a> - 8种语言互译，学术/商务/口语风格</li>
+            <li><a href="../ai-code-explainer/">AI代码解释器</a> - 30+编程语言逐行解释</li>
+        </ul>
+
+        <h2>PDF工具：文档处理一站搞定</h2>
+        <p>PDF格式因其跨平台一致性而成为文档分享的标准格式，但编辑PDF文件却常常令人头疼。在线PDF工具让你无需安装Adobe Acrobat等专业软件，即可完成PDF合并、拆分、压缩、格式转换、加水印等操作。NextTool的PDF工具箱提供6大核心功能，全部在浏览器本地处理，文件不会上传到服务器，隐私安全有保障。</p>
+
+        <h3>推荐的PDF在线工具</h3>
+        <ul>
+            <li><a href="../pdf-toolkit/">PDF工具箱</a> - 合并/拆分/压缩/转图片/加水印/图片转PDF</li>
+            <li>Smallpdf - 全球知名的PDF处理平台，20+种工具</li>
+            <li>iLovePDF - 功能丰富的PDF编辑工具，免费版即可满足日常需求</li>
+            <li>PDF24 - 完全免费的PDF工具集，30+种功能无限制使用</li>
+        </ul>
+
+        <h2>开发者工具：程序员的在线瑞士军刀</h2>
+        <p>开发者在日常工作中经常需要处理JSON数据、调试正则表达式、进行编码解码、转换时间戳等操作。这些高频但琐碎的任务，用在线工具可以快速完成，不必在IDE中安装插件或切换到终端。NextTool的开发者工具全部免费，界面简洁，响应迅速，是提升编码效率的好帮手。</p>
+
+        <h3>推荐的开发者在线工具</h3>
+        <ul>
+            <li><a href="../json-formatter/">JSON格式化</a> - 验证/美化/压缩/树形视图/JSON Path查询</li>
+            <li><a href="../regex-tester/">正则测试器</a> - 实时匹配高亮，常用正则库</li>
+            <li><a href="../base64-tool/">Base64编解码</a> - 文本/图片/文件互转</li>
+            <li><a href="../url-tool/">URL编解码</a> - 编码解码+参数解析编辑</li>
+            <li><a href="../timestamp-tool/">时间戳转换</a> - Unix时间戳多时区转换</li>
+        </ul>
+
+        <h2>设计工具：配色和视觉设计一站搞定</h2>
+        <p>设计师和前端开发者经常需要选择颜色、生成配色方案、制作二维码等。在线设计工具让你无需打开Photoshop或Figma，即可快速完成这些轻量级设计任务。NextTool的颜色选择器支持HEX/RGB/HSL转换和CSS渐变生成，二维码生成器支持自定义样式和批量生成。</p>
+
+        <h2>文本工具：写作和办公效率提升</h2>
+        <p>文本处理是日常办公中最常见的需求之一。从文章摘要提取、字数统计，到Markdown写作、密码生成、图片压缩，这些工具帮你快速完成各种文本和文件操作。NextTool的文本工具全部免费，无需注册，打开即用。</p>
+
+        <h3>推荐的文本在线工具</h3>
+        <ul>
+            <li><a href="../ai-summarizer/">AI文本摘要</a> - TextRank算法秒级生成摘要</li>
+            <li><a href="../word-counter/">字数统计</a> - 中英文词频分析，阅读时间估算</li>
+            <li><a href="../markdown-editor/">Markdown编辑器</a> - 实时预览，导出HTML</li>
+            <li><a href="../password-generator/">密码生成器</a> - 随机强密码，crypto安全随机数</li>
+            <li><a href="../calculator/">在线计算器</a> - 科学计算+单位换算</li>
+            <li><a href="../image-compressor/">图片压缩</a> - 批量压缩，本地处理隐私安全</li>
+        </ul>
+
+        <h2>如何选择合适的在线工具？</h2>
+        <p>面对众多在线工具，选择时可以从以下几个方面考量：</p>
+        <ul>
+            <li><strong>功能匹配度</strong>：工具是否精准解决你的需求？专业工具通常比通用工具效果更好</li>
+            <li><strong>数据安全</strong>：优先选择本地处理的工具，避免敏感数据上传到服务器</li>
+            <li><strong>使用门槛</strong>：是否需要注册？是否有使用次数限制？免费工具更友好</li>
+            <li><strong>响应速度</strong>：在线工具的加载速度和处理速度直接影响效率</li>
+            <li><strong>更新频率</strong>：活跃维护的工具更可靠，Bug修复和功能迭代更及时</li>
+        </ul>
+        <p>NextTool推荐的工具均经过严格筛选，在功能、安全、速度方面表现优秀，且全部支持免费使用。如果你正在寻找高质量的在线工具，不妨从NextTool推荐的工具开始尝试。</p>
+
+        <h2>常见问题（FAQ）</h2>
+        <h3>在线工具安全吗？</h3>
+        <p>NextTool的工具采用浏览器本地处理技术，你的数据不会上传到任何服务器。对于需要AI处理的功能，数据仅用于当次处理，不会被存储或用于训练模型。建议在使用任何在线工具时，避免上传包含个人敏感信息的文件。</p>
+
+        <h3>在线工具需要付费吗？</h3>
+        <p>本页面收录的大部分工具提供免费版本，NextTool推荐的所有工具均可免费使用。部分外部工具（如ChatGPT、Smallpdf）提供免费基础版和付费高级版，免费版通常已能满足日常需求。</p>
+
+        <h3>在线工具需要注册吗？</h3>
+        <p>NextTool的所有工具无需注册即可使用，打开浏览器直接操作。部分外部工具可能需要注册账号才能使用完整功能。</p>
+
+        <h3>在线工具支持手机使用吗？</h3>
+        <p>NextTool的所有工具均采用响应式设计，支持手机、平板和电脑访问。你可以在任何设备的浏览器中使用这些工具。</p>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../">首页</a>
+            <a href="./">工具大全</a>
+            <a href="../blog/">博客</a>
+            <a href="../pricing/">定价</a>
+            <a href="../compare/">对比</a>
+            <a href="../referral/">推荐有奖</a>
+        </div>
+        <p>&copy; 2026 NextTool. All rights reserved. | 在线工具大全 - 100+免费工具导航</p>
+    </footer>
+
+    <!-- PWA Install Banner -->
+    <div class="install-banner" id="installBanner">📱 安装NextTool到桌面，随时使用</div>
+
+    <!-- Back to Top -->
+    <button class="back-top" id="backTop" aria-label="回到顶部">↑</button>
+
+    <!-- Product Recommendations -->
+    <div id="product-recommendations"></div>
+    <script src="../js/product-recommendations.js" data-current="tools"></script>
+
+    <script>
+    (function() {
+        // ── Elements ──
+        var searchInput = document.getElementById('searchInput');
+        var clearBtn = document.getElementById('clearBtn');
+        var noResults = document.getElementById('noResults');
+        var catTabs = document.querySelectorAll('.cat-tab');
+        var toolCards = document.querySelectorAll('.tool-card');
+        var sections = document.querySelectorAll('.section[data-section]');
+        var backTop = document.getElementById('backTop');
+
+        var currentCat = 'all';
+
+        // ── Search ──
+        searchInput.addEventListener('input', function() {
+            var q = this.value.trim().toLowerCase();
+            clearBtn.classList.toggle('show', q.length > 0);
+            filterTools(q, currentCat);
+        });
+
+        clearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            clearBtn.classList.remove('show');
+            filterTools('', currentCat);
+            searchInput.focus();
+        });
+
+        // ── Category Tabs ──
+        catTabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                catTabs.forEach(function(t) { t.classList.remove('active'); });
+                tab.classList.add('active');
+                currentCat = tab.dataset.cat;
+                filterTools(searchInput.value.trim().toLowerCase(), currentCat);
+            });
+        });
+
+        // ── Filter Logic ──
+        function filterTools(query, cat) {
+            var visibleCount = 0;
+            toolCards.forEach(function(card) {
+                var name = (card.dataset.name || '').toLowerCase();
+                var desc = (card.querySelector('.card-desc') || {}).textContent || '';
+                var cardCat = card.dataset.cat || '';
+                var matchQuery = !query || name.indexOf(query) !== -1 || desc.toLowerCase().indexOf(query) !== -1;
+                var matchCat = cat === 'all' || cardCat === cat;
+                var show = matchQuery && matchCat;
+                card.style.display = show ? '' : 'none';
+                if (show) visibleCount++;
+            });
+
+            // Show/hide sections based on visible cards
+            sections.forEach(function(section) {
+                var sectionCat = section.dataset.section;
+                var visibleInSection = section.querySelectorAll('.tool-card:not([style*="display: none"])');
+                var matchCatFilter = cat === 'all' || sectionCat === cat;
+                section.style.display = (matchCatFilter && visibleInSection.length > 0) ? '' : 'none';
+            });
+
+            noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+        }
+
+        // ── Back to Top ──
+        window.addEventListener('scroll', function() {
+            backTop.classList.toggle('show', window.scrollY > 600);
+        });
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ── PWA Install ──
+        var deferredPrompt;
+        window.addEventListener('beforeinstallprompt', function(e) {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installBanner').style.display = 'block';
+        });
+        document.getElementById('installBanner').addEventListener('click', function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt = null;
+                document.getElementById('installBanner').style.display = 'none';
+            }
+        });
+    })();
+    </script>
+    <script src="../js/email-capture.js" data-auto></script>
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(function(){})}</script>
+</body>
+</html>

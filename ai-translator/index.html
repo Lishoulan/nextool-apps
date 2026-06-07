@@ -132,6 +132,9 @@ footer a{color:var(--accent);text-decoration:none}
 }
 </script>
 </head>
+<body>
+<div id="breadcrumb" data-product="AI翻译工具"></div>
+<script src="../js/breadcrumb.js"></script>
 <div class="container">
   <header>
     <div class="logo">NexTool AI 翻译</div>
@@ -489,6 +492,7 @@ function showToast(msg, type = 'success') {
 <script src="../js/product-recommendations.js" data-current="ai-translate"></script>
 <div id="social-share"></div>
 <script src="../js/social-share.js"></script>
+<script src="../js/email-capture.js" data-auto></script>
 <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
 
 <!-- Exit Intent Popup -->
