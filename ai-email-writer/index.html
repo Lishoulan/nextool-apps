@@ -252,7 +252,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hira
       </div>
       <div class="form-group">
         <label class="form-label">API 代理地址</label>
-        <input class="form-input" id="apiBaseInput" type="text" placeholder="http://localhost:8001">
+        <input class="form-input" id="apiBaseInput" type="text" placeholder="https://nextool-api-proxy-vercel.vercel.app">
         <p style="font-size:12px;color:var(--text-light);margin-top:6px">默认使用本地代理，可替换为线上代理地址</p>
       </div>
     </div>
@@ -313,7 +313,7 @@ let currentScenario = '商务合作';
 let currentTone = '正式';
 let currentEmail = null;
 let isPro = false;
-const PROXY_URL = 'https://nextool-api-proxy.onrender.com';
+const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 
 // ===== Init =====
 (function init() {
