@@ -59,6 +59,33 @@
   gtag('js', new Date());
   gtag('config', 'G-XXXXXXXXXX');
 </script>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "NexTool",
+      "url": "https://lishoulan.github.io/nextool-apps/",
+      "description": "AI驱动的效率工具平台",
+      "sameAs": []
+    }
+    </script>
+
+    <!-- Structured Data: WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "NexTool",
+      "url": "https://lishoulan.github.io/nextool-apps/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://lishoulan.github.io/nextool-apps/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 </style>
 </head>
 <body>
