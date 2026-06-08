@@ -951,6 +951,237 @@
             }
         }
 
+        /* ===== Payment Channels ===== */
+        .payment-channels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 48px;
+        }
+
+        .channel-card {
+            background: var(--card-bg);
+            border: 2px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 28px 24px;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .channel-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .channel-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .channel-icon {
+            font-size: 2.2rem;
+            line-height: 1;
+        }
+
+        .channel-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .channel-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .channel-badge {
+            margin-left: auto;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .channel-badge.auto {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .channel-badge.manual {
+            background: rgba(240, 185, 11, 0.15);
+            color: var(--accent-gold);
+            border: 1px solid rgba(240, 185, 11, 0.3);
+        }
+
+        .channel-detail {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex: 1;
+        }
+
+        .channel-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all var(--transition);
+        }
+
+        .channel-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .afdian-btn {
+            background: linear-gradient(90deg, #9462ff, #6c5ce7);
+            color: #fff;
+        }
+
+        .afdian-btn:hover {
+            box-shadow: 0 8px 24px rgba(148, 98, 255, 0.4);
+        }
+
+        .mianbaoduo-btn {
+            background: linear-gradient(90deg, #f0b90b, #f59e0b);
+            color: #000;
+        }
+
+        .mianbaoduo-btn:hover {
+            box-shadow: 0 8px 24px rgba(240, 185, 11, 0.4);
+        }
+
+        .wechat-btn {
+            background: linear-gradient(90deg, #09c160, #07c160);
+            color: #fff;
+        }
+
+        .wechat-btn:hover {
+            box-shadow: 0 8px 24px rgba(9, 193, 96, 0.4);
+        }
+
+        /* ===== Wechat Pay Panel ===== */
+        .wechat-pay-panel {
+            margin-bottom: 48px;
+        }
+
+        /* ===== Redeem Section ===== */
+        .redeem-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius-xl);
+            padding: 40px;
+            margin-top: 48px;
+        }
+
+        .redeem-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .redeem-input-group {
+            display: flex;
+            gap: 12px;
+        }
+
+        .redeem-input {
+            flex: 1;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            transition: all var(--transition);
+        }
+
+        .redeem-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: rgba(0, 210, 255, 0.05);
+        }
+
+        .redeem-input::placeholder {
+            color: var(--text-muted);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+            letter-spacing: 0;
+        }
+
+        .redeem-btn {
+            padding: 14px 32px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--transition);
+            white-space: nowrap;
+        }
+
+        .redeem-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 210, 255, 0.4);
+        }
+
+        .redeem-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .redeem-status {
+            margin-top: 12px;
+            font-size: 0.9rem;
+            min-height: 24px;
+        }
+
+        .redeem-status.success {
+            color: var(--accent-green);
+        }
+
+        .redeem-status.error {
+            color: #ef4444;
+        }
+
+        .redeem-status.loading {
+            color: var(--accent-primary);
+        }
+
+        .activation-info {
+            margin-bottom: 20px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-md);
+        }
+
+        .activation-info p {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .activation-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .activation-info strong {
+            color: var(--text-primary);
+        }
+
         /* ===== Responsive ===== */
         @media (max-width: 768px) {
             .nav-links {
@@ -981,6 +1212,14 @@
             .pricing-card.featured:hover {
                 transform: translateY(-4px);
             }
+
+            .redeem-input-group {
+                flex-direction: column;
+            }
+
+            .payment-channels {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 
@@ -1007,7 +1246,7 @@
             <a href="../" class="nav-logo">⚡ <span>NextTool</span></a>
             <ul class="nav-links">
                 <li><a href="#pricing">选择套餐</a></li>
-                <li><a href="#payment">微信支付</a></li>
+                <li><a href="#payment">购买支付</a></li>
                 <li><a href="#faq">常见问题</a></li>
                 <li><a href="../">返回首页</a></li>
             </ul>
@@ -1109,90 +1348,153 @@
 
     <!-- Payment Section -->
     <section class="payment-section" id="payment">
-        <h2 class="section-title">微信支付</h2>
-        <p class="section-subtitle">扫码支付，安全便捷</p>
+        <h2 class="section-title">选择支付方式</h2>
+        <p class="section-subtitle">支持爱发电、面包多、微信支付，安全便捷</p>
 
-        <div class="payment-container">
-            <div class="payment-left">
-                <h3>📋 支付流程</h3>
-                
-                <div class="selected-plan" id="selectedPlanDisplay">
-                    <div class="plan-name" id="selectedPlanName">Pro 专业版</div>
-                    <div class="plan-price" id="selectedPlanPrice">¥99 / 月</div>
+        <!-- Payment Channels -->
+        <div class="payment-channels">
+            <!-- 爱发电 -->
+            <div class="channel-card" id="channelAfdian">
+                <div class="channel-header">
+                    <span class="channel-icon">💡</span>
+                    <div>
+                        <h3 class="channel-name">爱发电</h3>
+                        <p class="channel-desc">推荐 · 自动发放兑换码</p>
+                    </div>
+                    <span class="channel-badge auto">自动</span>
                 </div>
-
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h4>选择套餐</h4>
-                            <p>从上方选择适合你的套餐</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h4>扫码支付</h4>
-                            <p>使用微信扫描右侧二维码</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h4>获取兑换码</h4>
-                            <p>输入邮箱，立即获取兑换码</p>
-                        </div>
-                    </div>
-                </div>
+                <p class="channel-detail">通过爱发电购买，付款后系统自动发送兑换码到您的邮箱，无需等待人工确认。</p>
+                <a href="https://afdian.net/a/nextool" target="_blank" rel="noopener noreferrer" class="channel-btn afdian-btn" id="afdianBuyBtn">
+                    💡 前往爱发电购买
+                </a>
             </div>
 
-            <div class="payment-right">
-                <h3>💳 微信扫码支付</h3>
-                
-                <div class="qr-container">
-                    <div class="qr-placeholder">
-                        <div class="icon">📱</div>
-                        <div class="text">微信支付二维码</div>
+            <!-- 面包多 -->
+            <div class="channel-card" id="channelMianbaoduo">
+                <div class="channel-header">
+                    <span class="channel-icon">🍞</span>
+                    <div>
+                        <h3 class="channel-name">面包多</h3>
+                        <p class="channel-desc">自动发货 · 即买即得</p>
+                    </div>
+                    <span class="channel-badge auto">自动</span>
+                </div>
+                <p class="channel-detail">通过面包多购买，付款后自动获取兑换码，支持微信/支付宝支付。</p>
+                <a href="https://mbd.pub/o/bread/XXXXX" target="_blank" rel="noopener noreferrer" class="channel-btn mianbaoduo-btn" id="mianbaoduoBuyBtn">
+                    🍞 前往面包多购买
+                </a>
+            </div>
+
+            <!-- 微信支付 -->
+            <div class="channel-card" id="channelWechat">
+                <div class="channel-header">
+                    <span class="channel-icon">💬</span>
+                    <div>
+                        <h3 class="channel-name">微信支付</h3>
+                        <p class="channel-desc">扫码支付 · 人工确认</p>
+                    </div>
+                    <span class="channel-badge manual">手动</span>
+                </div>
+                <p class="channel-detail">使用微信扫码支付，付款后输入邮箱获取兑换码（需人工确认，可能延迟）。</p>
+                <button class="channel-btn wechat-btn" onclick="showWechatPay()">
+                    💬 微信扫码支付
+                </button>
+            </div>
+        </div>
+
+        <!-- Wechat Pay QR (hidden by default) -->
+        <div class="wechat-pay-panel" id="wechatPayPanel" style="display: none;">
+            <div class="payment-container">
+                <div class="payment-left">
+                    <h3>📋 微信支付流程</h3>
+                    
+                    <div class="selected-plan" id="selectedPlanDisplay">
+                        <div class="plan-name" id="selectedPlanName">Pro 专业版</div>
+                        <div class="plan-price" id="selectedPlanPrice">¥99 / 月</div>
+                    </div>
+
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>选择套餐</h4>
+                                <p>从上方选择适合你的套餐</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>扫码支付</h4>
+                                <p>使用微信扫描右侧二维码</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>联系客服</h4>
+                                <p>支付后联系客服获取兑换码</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <p class="payment-hint">
-                    <span class="wechat-icon">✓</span> 请使用 <strong>微信</strong> 扫描上方二维码
-                </p>
+                <div class="payment-right">
+                    <h3>💳 微信扫码支付</h3>
+                    
+                    <div class="qr-container">
+                        <div class="qr-placeholder">
+                            <div class="icon">📱</div>
+                            <div class="text">微信支付二维码</div>
+                        </div>
+                    </div>
 
-                <div class="email-form">
+                    <p class="payment-hint">
+                        <span class="wechat-icon">✓</span> 请使用 <strong>微信</strong> 扫描上方二维码
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Redemption Code Section -->
+        <div class="redeem-section" id="redeemSection">
+            <h3 class="section-title" style="font-size:1.4rem;">🎫 兑换码激活</h3>
+            <p class="section-subtitle">已购买？输入兑换码立即激活</p>
+
+            <div class="redeem-form">
+                <div class="redeem-input-group">
                     <input 
-                        type="email" 
-                        id="emailInput" 
-                        class="email-input" 
-                        placeholder="请输入您的邮箱地址"
-                        oninput="validateEmail()"
+                        type="text" 
+                        id="redeemCodeInput" 
+                        class="redeem-input" 
+                        placeholder="请输入兑换码，如 NT-PRO-A1B2C3D4"
+                        oninput="onRedeemInput()"
                     >
                     <button 
-                        id="getCodeBtn" 
-                        class="get-code-btn" 
-                        onclick="generateCode()"
+                        id="redeemBtn" 
+                        class="redeem-btn" 
+                        onclick="redeemCode()"
                         disabled
                     >
-                        🎁 获取兑换码
+                        激活
                     </button>
                 </div>
+                <div class="redeem-status" id="redeemStatus"></div>
+            </div>
 
-                <!-- Code Display -->
-                <div class="code-display" id="codeDisplay">
-                    <div class="success-title">
-                        <span>✅</span>
-                        <span>兑换码已生成！</span>
-                    </div>
-                    <div class="code-box">
-                        <div class="code-label">您的兑换码</div>
-                        <div class="code-value" id="codeValue">NT2026XXXX</div>
-                    </div>
-                    <button class="copy-btn" id="copyBtn" onclick="copyCode()">
-                        <span id="copyIcon">📋</span>
-                        <span id="copyText">复制兑换码</span>
-                    </button>
+            <!-- Activation Result -->
+            <div class="code-display" id="activationResult">
+                <div class="success-title">
+                    <span>🎉</span>
+                    <span>激活成功！</span>
                 </div>
+                <div class="activation-info" id="activationInfo">
+                    <p>套餐：<strong id="activatedPlan">专业版</strong></p>
+                    <p>有效期：<strong id="activatedExpiry">30天</strong></p>
+                </div>
+                <button class="copy-btn" onclick="goToTools()">
+                    <span>🚀</span>
+                    <span>开始使用工具</span>
+                </button>
             </div>
         </div>
     </section>
@@ -1295,7 +1597,11 @@
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
-                        目前支持微信支付。我们正在积极接入支付宝、银行卡等更多支付方式，敬请期待。如有特殊需求，请联系客服。
+                        目前支持三种支付方式：<br>
+                        💡 <strong>爱发电</strong>（推荐）：付款后自动发放兑换码，无需等待<br>
+                        🍞 <strong>面包多</strong>：自动发货，支持微信/支付宝<br>
+                        💬 <strong>微信支付</strong>：扫码支付后人工确认，可能稍有延迟<br>
+                        推荐使用爱发电或面包多，可即时获取兑换码。
                     </div>
                 </div>
             </div>
@@ -1307,7 +1613,7 @@
                 </button>
                 <div class="faq-answer">
                     <div class="faq-answer-inner">
-                        支付成功后，输入邮箱地址，点击「获取兑换码」按钮，立即就能看到您的兑换码。兑换码也会发送到您的邮箱中（如未收到，请检查垃圾邮件）。
+                        通过<strong>爱发电</strong>或<strong>面包多</strong>购买，付款后系统自动发放兑换码，即时到账。通过微信支付购买，需人工确认，通常在 1-2 小时内发送兑换码到您的邮箱。
                     </div>
                 </div>
             </div>
@@ -1367,12 +1673,16 @@
     </footer>
 
     <script>
+        // ===== 配置 =====
+        const API_BASE = 'https://api-proxy-vercel.vercel.app';  // TODO: 替换为实际API地址
+
         let selectedPlan = {
             id: 'pro',
             name: '专业版',
             price: 99
         };
 
+        // ===== 套餐选择 =====
         function selectPlan(id, name, price) {
             selectedPlan = { id, name, price };
             
@@ -1397,51 +1707,94 @@
             }
         }
 
-        function validateEmail() {
-            const email = document.getElementById('emailInput').value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isValid = emailRegex.test(email);
-            document.getElementById('getCodeBtn').disabled = !isValid;
-        }
-
-        function generateCode() {
-            const email = document.getElementById('emailInput').value;
-            if (!email) return;
-
-            const year = new Date().getFullYear();
-            const random = Math.floor(Math.random() * 9000) + 1000;
-            const code = `NT${year}${random}`;
-            
-            document.getElementById('codeValue').textContent = code;
-            document.getElementById('codeDisplay').classList.add('show');
-            
+        // ===== 微信支付面板 =====
+        function showWechatPay() {
+            const panel = document.getElementById('wechatPayPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
             if (window.gtag) {
-                gtag('event', 'generate_code', {
-                    'plan_id': selectedPlan.id,
-                    'email': email.substring(0, 3) + '...'
-                });
+                gtag('event', 'show_wechat_pay');
             }
         }
 
-        function copyCode() {
-            const code = document.getElementById('codeValue').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                const copyBtn = document.getElementById('copyBtn');
-                const copyIcon = document.getElementById('copyIcon');
-                const copyText = document.getElementById('copyText');
-                
-                copyBtn.classList.add('copied');
-                copyIcon.textContent = '✅';
-                copyText.textContent = '已复制！';
-                
-                setTimeout(() => {
-                    copyBtn.classList.remove('copied');
-                    copyIcon.textContent = '📋';
-                    copyText.textContent = '复制兑换码';
-                }, 2000);
-            });
+        // ===== 兑换码输入验证 =====
+        function onRedeemInput() {
+            const code = document.getElementById('redeemCodeInput').value.trim();
+            document.getElementById('redeemBtn').disabled = code.length < 8;
         }
 
+        // ===== 兑换码激活 =====
+        async function redeemCode() {
+            const code = document.getElementById('redeemCodeInput').value.trim().toUpperCase();
+            const statusEl = document.getElementById('redeemStatus');
+            const resultEl = document.getElementById('activationResult');
+
+            if (!code) return;
+
+            statusEl.className = 'redeem-status loading';
+            statusEl.textContent = '正在验证兑换码...';
+            resultEl.classList.remove('show');
+
+            try {
+                // 先验证兑换码
+                const verifyResp = await fetch(`${API_BASE}/api/verify-code?code=${encodeURIComponent(code)}`);
+                const verifyData = await verifyResp.json();
+
+                if (!verifyData.valid) {
+                    statusEl.className = 'redeem-status error';
+                    statusEl.textContent = verifyData.error === 'Code already used' 
+                        ? '❌ 该兑换码已被使用' 
+                        : '❌ 兑换码无效，请检查后重试';
+                    return;
+                }
+
+                // 标记兑换码为已使用
+                const redeemResp = await fetch(`${API_BASE}/api/verify-code`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+                const redeemData = await redeemResp.json();
+
+                if (redeemData.success) {
+                    statusEl.className = 'redeem-status success';
+                    statusEl.textContent = '✅ 激活成功！';
+                    
+                    document.getElementById('activatedPlan').textContent = redeemData.plan_name || '专业版';
+                    document.getElementById('activatedExpiry').textContent = '30天';
+                    resultEl.classList.add('show');
+
+                    // 保存激活状态到 localStorage
+                    localStorage.setItem('nextool_activated', JSON.stringify({
+                        plan: redeemData.plan,
+                        plan_name: redeemData.plan_name,
+                        code: code,
+                        activated_at: new Date().toISOString()
+                    }));
+
+                    if (window.gtag) {
+                        gtag('event', 'redeem_code', {
+                            'plan': redeemData.plan,
+                            'source': 'verify_api'
+                        });
+                    }
+                } else {
+                    statusEl.className = 'redeem-status error';
+                    statusEl.textContent = `❌ ${redeemData.error || '激活失败'}`;
+                }
+            } catch (err) {
+                // API不可用时，本地验证模式
+                statusEl.className = 'redeem-status error';
+                statusEl.textContent = '⚠️ 网络错误，请稍后重试';
+                console.error('Redeem error:', err);
+            }
+        }
+
+        // ===== 跳转到工具页 =====
+        function goToTools() {
+            window.location.href = '../';
+        }
+
+        // ===== FAQ 折叠 =====
         function toggleFaq(button) {
             const item = button.parentElement;
             const wasOpen = item.classList.contains('open');
@@ -1454,6 +1807,18 @@
                 item.classList.add('open');
             }
         }
+
+        // ===== 页面加载时检查激活状态 =====
+        document.addEventListener('DOMContentLoaded', function() {
+            const activated = localStorage.getItem('nextool_activated');
+            if (activated) {
+                try {
+                    const info = JSON.parse(activated);
+                    document.getElementById('redeemCodeInput').value = info.code || '';
+                    onRedeemInput();
+                } catch(e) {}
+            }
+        });
     </script>
 
     <script src="../js/email-capture.js" data-auto></script>
