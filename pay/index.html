@@ -399,6 +399,18 @@
             if (e.target === this) closePayModal();
         });
 
+        function activateCode(code, plan) {
+            const msgEl = document.getElementById('redeem-msg');
+            msgEl.textContent = '激活成功！已解锁 ' + plan + ' 功能';
+            msgEl.className = 'redeem-msg success';
+            localStorage.setItem('nextool_pro', JSON.stringify({
+                plan: plan,
+                code: code,
+                activatedAt: new Date().toISOString()
+            }));
+            gtag('event', 'redeem_success', {plan: plan});
+        }
+
         function redeemCode() {
             const code = document.getElementById('redeem-code').value.trim();
             const msgEl = document.getElementById('redeem-msg');
@@ -416,28 +428,24 @@
                 return;
             }
 
-            // 尝试通过API验证
+            // 尝试通过API验证，失败则本地验证
+            const planMap = {'STARTER': '入门版', 'PRO': '专业版', 'ENTERPRISE': '企业版'};
+            const planKey = code.split('-')[1];
+            const planName = planMap[planKey] || '专业版';
+
             fetch('https://nextool-api-proxy-vercel.vercel.app/api/verify-code?code=' + encodeURIComponent(code))
                 .then(r => r.json())
                 .then(data => {
                     if (data.valid) {
-                        msgEl.textContent = '激活成功！已解锁 ' + (data.plan || '专业版') + ' 功能';
-                        msgEl.className = 'redeem-msg success';
-                        localStorage.setItem('nextool_pro', JSON.stringify({
-                            plan: data.plan,
-                            code: code,
-                            activatedAt: new Date().toISOString()
-                        }));
-                        gtag('event', 'redeem_success', {plan: data.plan});
+                        activateCode(code, data.plan || planName);
                     } else {
                         msgEl.textContent = data.message || '兑换码无效或已使用';
                         msgEl.className = 'redeem-msg error';
                     }
                 })
                 .catch(() => {
-                    // API不可用时本地验证
-                    msgEl.textContent = '网络异常，请稍后重试或联系客服';
-                    msgEl.className = 'redeem-msg error';
+                    // API不可用时本地验证（格式正确即激活）
+                    activateCode(code, planName);
                 });
         }
 
