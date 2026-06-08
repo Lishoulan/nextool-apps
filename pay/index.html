@@ -3,1227 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="../manifest.json">
-    <meta name="theme-color" content="#3a7bd5">
-    <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
-    <title>NextTool 支付中心 - 安全便捷的在线支付</title>
-    <meta name="description" content="NextTool支付中心，支持微信支付，安全便捷，购买后立即获取兑换码，解锁全部AI工具。">
-    <meta name="keywords" content="NextTool支付,微信支付,在线购买,兑换码,AI工具">
-    <meta name="author" content="NextTool">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="NextTool 支付中心">
-    <meta property="og:description" content="安全便捷的在线支付，购买后立即获取兑换码">
-    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/pay/">
-    <meta property="og:site_name" content="NextTool">
-    <meta property="og:locale" content="zh_CN">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="NextTool 支付中心">
-    <meta name="twitter:description" content="安全便捷的在线支付，购买后立即获取兑换码">
-
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
-
-    <!-- Structured Data for SEO -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "NextTool 支付中心",
-      "description": "安全便捷的在线支付，购买后立即获取兑换码",
-      "url": "https://lishoulan.github.io/nextool-apps/pay/",
-      "isPartOf": {
-        "@type": "WebSite",
-        "name": "NextTool",
-        "url": "https://lishoulan.github.io/nextool-apps/"
-      }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "NextTool",
-      "url": "https://lishoulan.github.io/nextool-apps/",
-      "logo": "https://lishoulan.github.io/nextool-apps/icons/icon-512x512.png"
-    }
-    </script>
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-H0PJ9V418V');
-    </script>
-    <script src="../js/analytics.js"></script>
-
-    <style>
-        /* ===== Reset & Base ===== */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #0f0c29;
-            --bg-secondary: #302b63;
-            --bg-tertiary: #24243e;
-            --accent-primary: #00d2ff;
-            --accent-secondary: #3a7bd5;
-            --accent-gold: #f0b90b;
-            --accent-green: #10b981;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0d0;
-            --text-muted: #707090;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --card-border: rgba(255, 255, 255, 0.1);
-            --radius-xl: 24px;
-            --radius-lg: 16px;
-            --radius-md: 12px;
-            --radius-sm: 8px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", sans-serif;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 50%, var(--bg-tertiary) 100%);
-            color: var(--text-primary);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        /* ===== Breadcrumb ===== */
-        .breadcrumb {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 20px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-
-        .breadcrumb a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color var(--transition);
-        }
-
-        .breadcrumb a:hover {
-            color: var(--accent-primary);
-        }
-
-        .breadcrumb .separator {
-            opacity: 0.5;
-        }
-
-        .breadcrumb .current {
-            color: var(--text-primary);
-        }
-
-        /* ===== Nav ===== */
-        .nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 16px 20px;
-            background: rgba(15, 12, 41, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .nav-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
-
-        .nav-logo span {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 24px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: color var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-primary);
-        }
-
-        /* ===== Hero ===== */
-        .hero {
-            padding: 60px 20px 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 210, 255, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 20px;
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 50px;
-            font-size: 0.9rem;
-            color: var(--accent-green);
-            margin-bottom: 24px;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 800;
-            margin-bottom: 16px;
-            animation: fadeInUp 0.6s ease-out 0.1s both;
-        }
-
-        .hero h1 .gradient-text {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 32px;
-            animation: fadeInUp 0.6s ease-out 0.2s both;
-        }
-
-        /* ===== Trust Badges ===== */
-        .trust-badges {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            margin-bottom: 48px;
-            animation: fadeInUp 0.6s ease-out 0.3s both;
-        }
-
-        .trust-badge {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px 24px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-md);
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .trust-badge .icon {
-            font-size: 1.3rem;
-        }
-
-        /* ===== Pricing Section ===== */
-        .pricing-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px 60px;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-size: 1rem;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
-        }
-
-        .pricing-card {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: var(--radius-xl);
-            padding: 32px 24px;
-            transition: all var(--transition);
-            position: relative;
-            cursor: pointer;
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 210, 255, 0.4);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .pricing-card.selected {
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.1), 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .pricing-card.featured {
-            border-color: var(--accent-gold);
-            transform: scale(1.02);
-        }
-
-        .pricing-card.featured:hover {
-            transform: scale(1.02) translateY(-4px);
-        }
-
-        .pricing-card .popular-badge {
-            position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 6px 20px;
-            background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
-            color: #000;
-            font-size: 0.75rem;
-            font-weight: 700;
-            border-radius: 50px;
-            text-transform: uppercase;
-        }
-
-        .pricing-card .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
-            display: block;
-        }
-
-        .pricing-card .card-name {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .pricing-card .card-desc {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            margin-bottom: 24px;
-        }
-
-        .pricing-card .card-price {
-            display: flex;
-            align-items: baseline;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .pricing-card .card-price .amount {
-            font-size: 2.8rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .pricing-card .card-price .period {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
-        .pricing-card .card-save {
-            display: inline-block;
-            padding: 4px 12px;
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--accent-green);
-            font-size: 0.8rem;
-            font-weight: 600;
-            border-radius: 50px;
-            margin-bottom: 24px;
-        }
-
-        .pricing-card .card-features {
-            list-style: none;
-            margin-bottom: 28px;
-        }
-
-        .pricing-card .card-features li {
-            padding: 10px 0;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pricing-card .card-features li::before {
-            content: '✓';
-            color: var(--accent-green);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        .pricing-card .select-btn {
-            width: 100%;
-            padding: 14px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition);
-        }
-
-        .pricing-card:hover .select-btn,
-        .pricing-card.selected .select-btn {
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border-color: transparent;
-        }
-
-        .pricing-card.featured .select-btn {
-            background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
-            border-color: transparent;
-            color: #000;
-        }
-
-        /* ===== Payment Section ===== */
-        .payment-section {
-            max-width: 900px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
-        }
-
-        .payment-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 32px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .payment-container {
-                grid-template-columns: 1fr;
-                padding: 24px;
-            }
-        }
-
-        .payment-left h3 {
-            font-size: 1.5rem;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .payment-left .selected-plan {
-            background: rgba(0, 210, 255, 0.1);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .payment-left .selected-plan .plan-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .payment-left .selected-plan .plan-price {
-            font-size: 2rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .payment-left .steps {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .payment-left .step {
-            display: flex;
-            gap: 16px;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius-md);
-            transition: background var(--transition);
-        }
-
-        .payment-left .step:hover {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .payment-left .step-number {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 50%;
-            font-weight: 700;
-            flex-shrink: 0;
-        }
-
-        .payment-left .step-content h4 {
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-
-        .payment-left .step-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .payment-right {
-            text-align: center;
-        }
-
-        .payment-right h3 {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-        }
-
-        .qr-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: var(--radius-lg);
-            display: inline-block;
-            margin-bottom: 16px;
-        }
-
-        .qr-code {
-            width: 220px;
-            height: 220px;
-            background: linear-gradient(135deg, #09c160 0%, #07c160 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 4rem;
-            border-radius: var(--radius-md);
-        }
-
-        .qr-placeholder {
-            width: 220px;
-            height: 220px;
-            background: linear-gradient(135deg, #09c160 0%, #07c160 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            border-radius: var(--radius-md);
-        }
-
-        .qr-placeholder .icon {
-            font-size: 4rem;
-            margin-bottom: 10px;
-        }
-
-        .qr-placeholder .text {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .payment-hint {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 24px;
-        }
-
-        .payment-hint .wechat-icon {
-            color: #07c160;
-            font-weight: 700;
-        }
-
-        .email-form {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .email-input {
-            width: 100%;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: all var(--transition);
-        }
-
-        .email-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            background: rgba(0, 210, 255, 0.05);
-        }
-
-        .email-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .get-code-btn {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
-            border: none;
-            color: #000;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition);
-        }
-
-        .get-code-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(240, 185, 11, 0.4);
-        }
-
-        .get-code-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* ===== Code Display ===== */
-        .code-display {
-            display: none;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid rgba(16, 185, 129, 0.3);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-top: 20px;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        .code-display.show {
-            display: block;
-        }
-
-        .code-display .success-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            margin-bottom: 16px;
-        }
-
-        .code-display .code-box {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 16px;
-        }
-
-        .code-display .code-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-        }
-
-        .code-display .code-value {
-            font-size: 1.8rem;
-            font-weight: 800;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 4px;
-            background: linear-gradient(90deg, var(--accent-gold), #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .code-display .copy-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent-green);
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 600;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .code-display .copy-btn:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
-        .code-display .copy-btn.copied {
-            background: #059669;
-        }
-
-        /* ===== Testimonials ===== */
-        .testimonials-section {
-            max-width: 1200px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-        }
-
-        .testimonial-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
-            padding: 28px;
-            transition: all var(--transition);
-        }
-
-        .testimonial-card:hover {
-            border-color: rgba(0, 210, 255, 0.3);
-        }
-
-        .testimonial-card .stars {
-            color: var(--accent-gold);
-            font-size: 1.1rem;
-            margin-bottom: 16px;
-        }
-
-        .testimonial-card .quote {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
-
-        .testimonial-card .author {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .testimonial-card .avatar {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .testimonial-card .author-info .name {
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .testimonial-card .author-info .role {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        /* ===== Product Recommendations ===== */
-        .products-section {
-            max-width: 1200px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            border-color: rgba(0, 210, 255, 0.4);
-            transform: translateY(-4px);
-        }
-
-        .product-card .icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-
-        .product-card h4 {
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-        }
-
-        .product-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            flex: 1;
-        }
-
-        /* ===== FAQ ===== */
-        .faq-section {
-            max-width: 900px;
-            margin: 0 auto 60px;
-            padding: 0 20px;
-        }
-
-        .faq-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .faq-item {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            transition: all var(--transition);
-        }
-
-        .faq-item:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .faq-question {
-            width: 100%;
-            padding: 20px 24px;
-            background: transparent;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-weight: 600;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background var(--transition);
-        }
-
-        .faq-question:hover {
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .faq-question .arrow {
-            transition: transform var(--transition);
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        .faq-item.open .faq-question .arrow {
-            transform: rotate(180deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease, padding 0.4s ease;
-        }
-
-        .faq-item.open .faq-answer {
-            max-height: 300px;
-        }
-
-        .faq-answer-inner {
-            padding: 0 24px 20px;
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.7;
-        }
-
-        /* ===== Footer ===== */
-        .footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid var(--card-border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color var(--transition);
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-primary);
-        }
-
-        /* ===== Animations ===== */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* ===== Payment Channels ===== */
-        .payment-channels {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 24px;
-            margin-bottom: 48px;
-        }
-
-        .channel-card {
-            background: var(--card-bg);
-            border: 2px solid var(--card-border);
-            border-radius: var(--radius-xl);
-            padding: 28px 24px;
-            transition: all var(--transition);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .channel-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 210, 255, 0.4);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-
-        .channel-header {
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            margin-bottom: 16px;
-        }
-
-        .channel-icon {
-            font-size: 2.2rem;
-            line-height: 1;
-        }
-
-        .channel-name {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .channel-desc {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-
-        .channel-badge {
-            margin-left: auto;
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            white-space: nowrap;
-        }
-
-        .channel-badge.auto {
-            background: rgba(16, 185, 129, 0.15);
-            color: var(--accent-green);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
-        .channel-badge.manual {
-            background: rgba(240, 185, 11, 0.15);
-            color: var(--accent-gold);
-            border: 1px solid rgba(240, 185, 11, 0.3);
-        }
-
-        .channel-detail {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            flex: 1;
-        }
-
-        .channel-btn {
-            display: block;
-            width: 100%;
-            padding: 14px;
-            border-radius: var(--radius-md);
-            font-size: 1rem;
-            font-weight: 700;
-            text-align: center;
-            text-decoration: none;
-            cursor: pointer;
-            border: none;
-            transition: all var(--transition);
-        }
-
-        .channel-btn:hover {
-            transform: translateY(-2px);
-        }
-
-        .afdian-btn {
-            background: linear-gradient(90deg, #9462ff, #6c5ce7);
-            color: #fff;
-        }
-
-        .afdian-btn:hover {
-            box-shadow: 0 8px 24px rgba(148, 98, 255, 0.4);
-        }
-
-        .mianbaoduo-btn {
-            background: linear-gradient(90deg, #f0b90b, #f59e0b);
-            color: #000;
-        }
-
-        .mianbaoduo-btn:hover {
-            box-shadow: 0 8px 24px rgba(240, 185, 11, 0.4);
-        }
-
-        .wechat-btn {
-            background: linear-gradient(90deg, #09c160, #07c160);
-            color: #fff;
-        }
-
-        .wechat-btn:hover {
-            box-shadow: 0 8px 24px rgba(9, 193, 96, 0.4);
-        }
-
-        /* ===== Wechat Pay Panel ===== */
-        .wechat-pay-panel {
-            margin-bottom: 48px;
-        }
-
-        /* ===== Redeem Section ===== */
-        .redeem-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            margin-top: 48px;
-        }
-
-        .redeem-form {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .redeem-input-group {
-            display: flex;
-            gap: 12px;
-        }
-
-        .redeem-input {
-            flex: 1;
-            padding: 14px 16px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-size: 1rem;
-            font-family: 'Courier New', monospace;
-            letter-spacing: 1px;
-            transition: all var(--transition);
-        }
-
-        .redeem-input:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            background: rgba(0, 210, 255, 0.05);
-        }
-
-        .redeem-input::placeholder {
-            color: var(--text-muted);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-            letter-spacing: 0;
-        }
-
-        .redeem-btn {
-            padding: 14px 32px;
-            background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-            border: none;
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 700;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition);
-            white-space: nowrap;
-        }
-
-        .redeem-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 210, 255, 0.4);
-        }
-
-        .redeem-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .redeem-status {
-            margin-top: 12px;
-            font-size: 0.9rem;
-            min-height: 24px;
-        }
-
-        .redeem-status.success {
-            color: var(--accent-green);
-        }
-
-        .redeem-status.error {
-            color: #ef4444;
-        }
-
-        .redeem-status.loading {
-            color: var(--accent-primary);
-        }
-
-        .activation-info {
-            margin-bottom: 20px;
-            padding: 16px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: var(--radius-md);
-        }
-
-        .activation-info p {
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-
-        .activation-info p:last-child {
-            margin-bottom: 0;
-        }
-
-        .activation-info strong {
-            color: var(--text-primary);
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero {
-                padding: 40px 20px 30px;
-            }
-
-            .trust-badges {
-                gap: 16px;
-            }
-
-            .trust-badge {
-                padding: 10px 16px;
-                font-size: 0.85rem;
-            }
-
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .pricing-card.featured {
-                transform: none;
-            }
-
-            .pricing-card.featured:hover {
-                transform: translateY(-4px);
-            }
-
-            .redeem-input-group {
-                flex-direction: column;
-            }
-
-            .payment-channels {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-
-    <!-- Google Analytics -->
+    <title>NextTool Pro - 升级专业版</title>
+    <meta name="description" content="升级NextTool Pro，解锁全部AI工具高级功能，支持批量处理、优先响应、专属客服">
+    <meta name="keywords" content="NextTool Pro, AI工具升级, 专业版, 付费会员">
+    <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/pay/">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -1231,601 +14,445 @@
         gtag('js', new Date());
         gtag('config', 'G-H0PJ9V418V');
     </script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a1a;
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        .plans {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .plan {
+            background: #1a1a2e;
+            border: 1px solid #2a2a4a;
+            border-radius: 16px;
+            padding: 30px 24px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+        .plan:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(102, 126, 234, 0.2);
+        }
+        .plan.popular {
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.15);
+        }
+        .plan.popular::before {
+            content: '推荐';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 4px 16px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .plan-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .plan-price {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        .plan-price span {
+            font-size: 0.4em;
+            color: #999;
+        }
+        .plan-features {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+        }
+        .plan-features li {
+            padding: 8px 0;
+            border-bottom: 1px solid #2a2a4a;
+            font-size: 0.95em;
+        }
+        .plan-features li::before {
+            content: '✓ ';
+            color: #667eea;
+            font-weight: bold;
+        }
+        .pay-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 14px 36px;
+            border-radius: 30px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: opacity 0.3s;
+            text-decoration: none;
+        }
+        .pay-btn:hover { opacity: 0.9; }
+
+        /* 支付弹窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: #1a1a2e;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px; right: 20px;
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+        .modal h2 { margin-bottom: 15px; }
+        .modal p { color: #aaa; margin-bottom: 20px; font-size: 0.95em; }
+        .qr-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        .qr-container img {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+        }
+        .pay-amount {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .pay-steps {
+            text-align: left;
+            background: #0a0a1a;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-top: 15px;
+        }
+        .pay-steps p {
+            padding: 6px 0;
+            color: #ccc;
+            font-size: 0.9em;
+        }
+        .pay-steps p strong { color: #667eea; }
+
+        /* 兑换码 */
+        .redeem-section {
+            background: #1a1a2e;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+            border: 1px solid #2a2a4a;
+        }
+        .redeem-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+        .redeem-input-group {
+            display: flex;
+            gap: 10px;
+            max-width: 400px;
+            margin: 15px auto;
+        }
+        .redeem-input-group input {
+            flex: 1;
+            padding: 12px 18px;
+            border-radius: 25px;
+            border: 1px solid #3a3a5a;
+            background: #0a0a1a;
+            color: white;
+            font-size: 1em;
+            outline: none;
+        }
+        .redeem-input-group input:focus {
+            border-color: #667eea;
+        }
+        .redeem-input-group button {
+            padding: 12px 24px;
+            border-radius: 25px;
+            border: none;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .redeem-msg {
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        .redeem-msg.success { color: #4caf50; }
+        .redeem-msg.error { color: #f44336; }
+
+        /* FAQ */
+        .faq {
+            margin-top: 40px;
+        }
+        .faq h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .faq-item {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 18px 24px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border: 1px solid #2a2a4a;
+        }
+        .faq-item h3 {
+            font-size: 1em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-item .answer {
+            display: none;
+            color: #aaa;
+            margin-top: 10px;
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+        .faq-item.open .answer { display: block; }
+        .faq-item.open h3::after { content: '−'; }
+        .faq-item h3::after { content: '+'; color: #667eea; }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 30px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        .back-link:hover { text-decoration: underline; }
+    </style>
 </head>
 <body>
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb">
-        <a href="../">首页</a>
-        <span class="separator">›</span>
-        <span class="current">支付中心</span>
-    </nav>
+    <div class="container">
+        <h1>升级 NextTool Pro</h1>
+        <p class="subtitle">解锁全部AI工具高级功能，效率再提升10倍</p>
 
-    <!-- Navigation -->
-    <nav class="nav">
-        <div class="nav-inner">
-            <a href="../" class="nav-logo">⚡ <span>NextTool</span></a>
-            <ul class="nav-links">
-                <li><a href="#pricing">选择套餐</a></li>
-                <li><a href="#payment">购买支付</a></li>
-                <li><a href="#faq">常见问题</a></li>
-                <li><a href="../">返回首页</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-badge">🔒 安全支付 · 即时到账</div>
-        <h1>解锁 <span class="gradient-text">全部AI工具</span></h1>
-        <p>支持微信支付，购买后立即获取兑换码，简单三步，快速上手</p>
-
-        <!-- Trust Badges -->
-        <div class="trust-badges">
-            <div class="trust-badge">
-                <span class="icon">🔒</span>
-                <span>安全加密</span>
-            </div>
-            <div class="trust-badge">
-                <span class="icon">⚡</span>
-                <span>即时到账</span>
-            </div>
-            <div class="trust-badge">
-                <span class="icon">💯</span>
-                <span>正版授权</span>
-            </div>
-            <div class="trust-badge">
-                <span class="icon">🛡️</span>
-                <span>7天退款</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing-section" id="pricing">
-        <h2 class="section-title">选择适合你的套餐</h2>
-        <p class="section-subtitle">三种套餐，满足不同需求，随时升级或降级</p>
-
-        <div class="pricing-grid">
-            <!-- Starter Plan -->
-            <div class="pricing-card" data-plan="starter" data-price="29">
-                <span class="card-icon">🌱</span>
-                <h3 class="card-name">Starter 入门版</h3>
-                <p class="card-desc">适合个人用户日常使用</p>
-                <div class="card-price">
-                    <span class="amount">¥29</span>
-                    <span class="period">/月</span>
-                </div>
-                <ul class="card-features">
-                    <li>无限使用全部免费工具</li>
-                    <li>AI 工具每日 10 次</li>
-                    <li>基础客服支持</li>
-                    <li>无广告体验</li>
+        <div class="plans">
+            <!-- 入门版 -->
+            <div class="plan">
+                <div class="plan-name">入门版</div>
+                <div class="plan-price">¥29<span>/月</span></div>
+                <ul class="plan-features">
+                    <li>AI工具每日50次调用</li>
+                    <li>PDF工具无文件大小限制</li>
+                    <li>基础模板库</li>
+                    <li>邮件支持</li>
                 </ul>
-                <button class="select-btn" onclick="selectPlan('starter', '入门版', 29)">选择此套餐</button>
+                <button class="pay-btn" onclick="showPayModal('入门版', 29)">微信支付</button>
             </div>
 
-            <!-- Pro Plan (Featured) -->
-            <div class="pricing-card featured selected" data-plan="pro" data-price="99">
-                <div class="popular-badge">🔥 最受欢迎</div>
-                <span class="card-icon">🚀</span>
-                <h3 class="card-name">Pro 专业版</h3>
-                <p class="card-desc">适合专业人士和小团队</p>
-                <div class="card-price">
-                    <span class="amount">¥99</span>
-                    <span class="period">/月</span>
-                </div>
-                <span class="card-save">节省 ¥69</span>
-                <ul class="card-features">
-                    <li>无限使用全部工具</li>
-                    <li>AI 工具无限次</li>
-                    <li>优先客服支持</li>
-                    <li>导出无水印</li>
+            <!-- 专业版 -->
+            <div class="plan popular">
+                <div class="plan-name">专业版</div>
+                <div class="plan-price">¥99<span>/月</span></div>
+                <ul class="plan-features">
+                    <li>AI工具无限次调用</li>
+                    <li>PDF工具无限制</li>
+                    <li>完整模板库 + 高级模板</li>
                     <li>批量处理功能</li>
+                    <li>优先响应</li>
+                    <li>专属客服</li>
                 </ul>
-                <button class="select-btn" onclick="selectPlan('pro', '专业版', 99)">选择此套餐</button>
+                <button class="pay-btn" onclick="showPayModal('专业版', 99)">微信支付</button>
             </div>
 
-            <!-- Enterprise Plan -->
-            <div class="pricing-card" data-plan="enterprise" data-price="299">
-                <span class="card-icon">🏢</span>
-                <h3 class="card-name">Enterprise 企业版</h3>
-                <p class="card-desc">适合企业团队协作</p>
-                <div class="card-price">
-                    <span class="amount">¥299</span>
-                    <span class="period">/月</span>
-                </div>
-                <ul class="card-features">
-                    <li>Pro 版全部功能</li>
-                    <li>10 人团队账号</li>
-                    <li>API 接入权限</li>
-                    <li>专属客户经理</li>
-                    <li>定制化功能</li>
+            <!-- 企业版 -->
+            <div class="plan">
+                <div class="plan-name">企业版</div>
+                <div class="plan-price">¥299<span>/月</span></div>
+                <ul class="plan-features">
+                    <li>专业版全部功能</li>
+                    <li>API接口访问</li>
+                    <li>团队协作（10人）</li>
+                    <li>自定义品牌</li>
+                    <li>SLA保障</li>
+                    <li>1对1技术支持</li>
                 </ul>
-                <button class="select-btn" onclick="selectPlan('enterprise', '企业版', 299)">选择此套餐</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Payment Section -->
-    <section class="payment-section" id="payment">
-        <h2 class="section-title">选择支付方式</h2>
-        <p class="section-subtitle">支持爱发电、面包多、微信支付，安全便捷</p>
-
-        <!-- Payment Channels -->
-        <div class="payment-channels">
-            <!-- 爱发电 -->
-            <div class="channel-card" id="channelAfdian">
-                <div class="channel-header">
-                    <span class="channel-icon">💡</span>
-                    <div>
-                        <h3 class="channel-name">爱发电</h3>
-                        <p class="channel-desc">推荐 · 自动发放兑换码</p>
-                    </div>
-                    <span class="channel-badge auto">自动</span>
-                </div>
-                <p class="channel-detail">通过爱发电购买，付款后系统自动发送兑换码到您的邮箱，无需等待人工确认。</p>
-                <a href="https://afdian.net/a/nextool" target="_blank" rel="noopener noreferrer" class="channel-btn afdian-btn" id="afdianBuyBtn">
-                    💡 前往爱发电购买
-                </a>
-            </div>
-
-            <!-- 面包多 -->
-            <div class="channel-card" id="channelMianbaoduo">
-                <div class="channel-header">
-                    <span class="channel-icon">🍞</span>
-                    <div>
-                        <h3 class="channel-name">面包多</h3>
-                        <p class="channel-desc">自动发货 · 即买即得</p>
-                    </div>
-                    <span class="channel-badge auto">自动</span>
-                </div>
-                <p class="channel-detail">通过面包多购买，付款后自动获取兑换码，支持微信/支付宝支付。</p>
-                <a href="https://mbd.pub/o/bread/XXXXX" target="_blank" rel="noopener noreferrer" class="channel-btn mianbaoduo-btn" id="mianbaoduoBuyBtn">
-                    🍞 前往面包多购买
-                </a>
-            </div>
-
-            <!-- 微信支付 -->
-            <div class="channel-card" id="channelWechat">
-                <div class="channel-header">
-                    <span class="channel-icon">💬</span>
-                    <div>
-                        <h3 class="channel-name">微信支付</h3>
-                        <p class="channel-desc">扫码支付 · 人工确认</p>
-                    </div>
-                    <span class="channel-badge manual">手动</span>
-                </div>
-                <p class="channel-detail">使用微信扫码支付，付款后输入邮箱获取兑换码（需人工确认，可能延迟）。</p>
-                <button class="channel-btn wechat-btn" onclick="showWechatPay()">
-                    💬 微信扫码支付
-                </button>
+                <button class="pay-btn" onclick="showPayModal('企业版', 299)">微信支付</button>
             </div>
         </div>
 
-        <!-- Wechat Pay QR (hidden by default) -->
-        <div class="wechat-pay-panel" id="wechatPayPanel" style="display: none;">
-            <div class="payment-container">
-                <div class="payment-left">
-                    <h3>📋 微信支付流程</h3>
-                    
-                    <div class="selected-plan" id="selectedPlanDisplay">
-                        <div class="plan-name" id="selectedPlanName">Pro 专业版</div>
-                        <div class="plan-price" id="selectedPlanPrice">¥99 / 月</div>
-                    </div>
+        <!-- 兑换码 -->
+        <div class="redeem-section">
+            <h2>已有兑换码？</h2>
+            <p style="color:#aaa;margin-bottom:10px;">付款后或活动获取的兑换码，在此激活</p>
+            <div class="redeem-input-group">
+                <input type="text" id="redeem-code" placeholder="输入兑换码，如 NT-PRO-XXXXXXXX">
+                <button onclick="redeemCode()">激活</button>
+            </div>
+            <div id="redeem-msg" class="redeem-msg"></div>
+        </div>
 
-                    <div class="steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>选择套餐</h4>
-                                <p>从上方选择适合你的套餐</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>扫码支付</h4>
-                                <p>使用微信扫描右侧二维码</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>联系客服</h4>
-                                <p>支付后联系客服获取兑换码</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="payment-right">
-                    <h3>💳 微信扫码支付</h3>
-                    
-                    <div class="qr-container">
-                        <div class="qr-placeholder">
-                            <div class="icon">📱</div>
-                            <div class="text">微信支付二维码</div>
-                        </div>
-                    </div>
-
-                    <p class="payment-hint">
-                        <span class="wechat-icon">✓</span> 请使用 <strong>微信</strong> 扫描上方二维码
-                    </p>
-                </div>
+        <!-- FAQ -->
+        <div class="faq">
+            <h2>常见问题</h2>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <h3>付款后多久生效？</h3>
+                <div class="answer">微信扫码付款后，我们会尽快确认（通常1小时内），确认后通过兑换码激活。你也可以联系客服加速处理。</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <h3>免费版和专业版有什么区别？</h3>
+                <div class="answer">免费版所有工具都能使用，专业版解锁无限次调用、批量处理、高级模板等高级功能。对于日常轻度使用，免费版完全够用。</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <h3>可以退款吗？</h3>
+                <div class="answer">购买后7天内如不满意可全额退款，请联系客服处理。</div>
+            </div>
+            <div class="faq-item" onclick="this.classList.toggle('open')">
+                <h3>数据安全吗？</h3>
+                <div class="answer">所有文件处理都在浏览器本地完成，不会上传到服务器。AI工具通过加密通道调用API，不存储任何用户数据。</div>
             </div>
         </div>
 
-        <!-- Redemption Code Section -->
-        <div class="redeem-section" id="redeemSection">
-            <h3 class="section-title" style="font-size:1.4rem;">🎫 兑换码激活</h3>
-            <p class="section-subtitle">已购买？输入兑换码立即激活</p>
+        <a href="/" class="back-link">← 返回首页</a>
+    </div>
 
-            <div class="redeem-form">
-                <div class="redeem-input-group">
-                    <input 
-                        type="text" 
-                        id="redeemCodeInput" 
-                        class="redeem-input" 
-                        placeholder="请输入兑换码，如 NT-PRO-A1B2C3D4"
-                        oninput="onRedeemInput()"
-                    >
-                    <button 
-                        id="redeemBtn" 
-                        class="redeem-btn" 
-                        onclick="redeemCode()"
-                        disabled
-                    >
-                        激活
-                    </button>
-                </div>
-                <div class="redeem-status" id="redeemStatus"></div>
+    <!-- 支付弹窗 -->
+    <div class="modal-overlay" id="payModal">
+        <div class="modal">
+            <button class="modal-close" onclick="closePayModal()">&times;</button>
+            <h2 id="modal-plan-name">专业版</h2>
+            <div class="pay-amount" id="modal-amount">¥99</div>
+            <div class="qr-container">
+                <img src="../images/wechat-pay.png" alt="微信收款码">
             </div>
-
-            <!-- Activation Result -->
-            <div class="code-display" id="activationResult">
-                <div class="success-title">
-                    <span>🎉</span>
-                    <span>激活成功！</span>
-                </div>
-                <div class="activation-info" id="activationInfo">
-                    <p>套餐：<strong id="activatedPlan">专业版</strong></p>
-                    <p>有效期：<strong id="activatedExpiry">30天</strong></p>
-                </div>
-                <button class="copy-btn" onclick="goToTools()">
-                    <span>🚀</span>
-                    <span>开始使用工具</span>
-                </button>
+            <div class="pay-steps">
+                <p><strong>第1步：</strong>使用微信扫描上方二维码</p>
+                <p><strong>第2步：</strong>输入对应金额付款</p>
+                <p><strong>第3步：</strong>付款备注填写：<strong id="modal-note">NT-PRO</strong></p>
+                <p><strong>第4步：</strong>付款后获取兑换码，在上方激活</p>
             </div>
         </div>
-    </section>
-
-    <!-- Testimonials Section -->
-    <section class="testimonials-section">
-        <h2 class="section-title">用户评价</h2>
-        <p class="section-subtitle">来自真实用户的反馈</p>
-
-        <div class="testimonials-grid">
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="quote">"AI PPT 生成器太棒了！以前做 PPT 要花好几个小时，现在几分钟就搞定了，质量还很高。强烈推荐！"</p>
-                <div class="author">
-                    <div class="avatar">张</div>
-                    <div class="author-info">
-                        <div class="name">张先生</div>
-                        <div class="role">产品经理</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="quote">"论文降重功能帮了我大忙！修改后重复率从 40% 降到了 8%，而且保留了原意，太神奇了！"</p>
-                <div class="author">
-                    <div class="avatar">李</div>
-                    <div class="author-info">
-                        <div class="name">李同学</div>
-                        <div class="role">研究生</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card">
-                <div class="stars">⭐⭐⭐⭐⭐</div>
-                <p class="quote">"支付流程非常顺畅，扫码后立即获得兑换码，使用体验很好。工具功能强大，性价比很高！"</p>
-                <div class="author">
-                    <div class="avatar">王</div>
-                    <div class="author-info">
-                        <div class="name">王女士</div>
-                        <div class="role">设计师</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Recommendations -->
-    <section class="products-section">
-        <h2 class="section-title">推荐工具</h2>
-        <p class="section-subtitle">订阅后解锁更多强大功能</p>
-
-        <div class="products-grid">
-            <a href="../ai-ppt-generator/" class="product-card">
-                <span class="icon">📊</span>
-                <h4>AI PPT 生成器</h4>
-                <p>AI 一键生成专业演示文稿</p>
-            </a>
-            <a href="../ai-resume-optimizer/" class="product-card">
-                <span class="icon">🎯</span>
-                <h4>AI 简历优化器</h4>
-                <p>智能优化简历，提升面试通过率</p>
-            </a>
-            <a href="../ai-contract-generator/" class="product-card">
-                <span class="icon">⚖️</span>
-                <h4>AI 合同生成器</h4>
-                <p>专业法律文书智能生成</p>
-            </a>
-            <a href="../ai-paper-rewriter/" class="product-card">
-                <span class="icon">📝</span>
-                <h4>论文降重助手</h4>
-                <p>AI 智能改写，降低查重率</p>
-            </a>
-        </div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="faq-section" id="faq">
-        <h2 class="section-title">常见问题</h2>
-        <p class="section-subtitle">如有其他问题，欢迎联系我们</p>
-
-        <div class="faq-list">
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    如何使用兑换码？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        获取兑换码后，前往 NextTool 首页，点击右上角「激活」按钮，输入兑换码和邮箱即可激活对应套餐。激活后立即生效，可使用全部功能。
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    支持哪些支付方式？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        目前支持三种支付方式：<br>
-                        💡 <strong>爱发电</strong>（推荐）：付款后自动发放兑换码，无需等待<br>
-                        🍞 <strong>面包多</strong>：自动发货，支持微信/支付宝<br>
-                        💬 <strong>微信支付</strong>：扫码支付后人工确认，可能稍有延迟<br>
-                        推荐使用爱发电或面包多，可即时获取兑换码。
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    支付后多久能收到兑换码？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        通过<strong>爱发电</strong>或<strong>面包多</strong>购买，付款后系统自动发放兑换码，即时到账。通过微信支付购买，需人工确认，通常在 1-2 小时内发送兑换码到您的邮箱。
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    可以退款吗？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        当然可以！我们提供 7 天无理由退款保证。如果您在购买后 7 天内对服务不满意，可以随时申请全额退款，无需任何理由。
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    套餐可以升级或降级吗？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        支持随时升级或降级套餐。升级时只需支付差价，降级时剩余时间会折算到新套餐。所有变更都会在下一个计费周期生效。
-                    </div>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <button class="faq-question" onclick="toggleFaq(this)">
-                    如何联系客服？
-                    <span class="arrow">▼</span>
-                </button>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">
-                        您可以通过以下方式联系我们：<br>
-                        📧 邮箱：support@nextool.dev<br>
-                        💬 微信：NextTool_Official<br>
-                        🐦 Twitter：@NextToolDev<br>
-                        我们的客服团队会在 24 小时内回复您。
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-links">
-            <a href="../">首页</a>
-            <a href="../pricing/">定价方案</a>
-            <a href="../blog/">使用指南</a>
-            <a href="mailto:support@nextool.dev">联系我们</a>
-            <a href="../">隐私政策</a>
-        </div>
-        <p>&copy; 2026 NextTool. All rights reserved. | 免费AI在线工具箱</p>
-    </footer>
+    </div>
 
     <script>
-        // ===== 配置 =====
-        const API_BASE = 'https://api-proxy-vercel.vercel.app';  // TODO: 替换为实际API地址
-
-        let selectedPlan = {
-            id: 'pro',
-            name: '专业版',
-            price: 99
-        };
-
-        // ===== 套餐选择 =====
-        function selectPlan(id, name, price) {
-            selectedPlan = { id, name, price };
-            
-            document.querySelectorAll('.pricing-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-            
-            const selectedCard = document.querySelector(`[data-plan="${id}"]`);
-            if (selectedCard) {
-                selectedCard.classList.add('selected');
-            }
-            
-            document.getElementById('selectedPlanName').textContent = name;
-            document.getElementById('selectedPlanPrice').textContent = `¥${price} / 月`;
-            
-            if (window.gtag) {
-                gtag('event', 'select_plan', {
-                    'plan_id': id,
-                    'plan_name': name,
-                    'price': price
-                });
-            }
+        function showPayModal(plan, price) {
+            document.getElementById('modal-plan-name').textContent = plan;
+            document.getElementById('modal-amount').textContent = '¥' + price;
+            const noteMap = {'入门版': 'NT-STARTER', '专业版': 'NT-PRO', '企业版': 'NT-ENTERPRISE'};
+            document.getElementById('modal-note').textContent = noteMap[plan] || 'NT-PRO';
+            document.getElementById('payModal').classList.add('active');
+            gtag('event', 'pay_modal_open', {plan: plan, price: price});
         }
 
-        // ===== 微信支付面板 =====
-        function showWechatPay() {
-            const panel = document.getElementById('wechatPayPanel');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-            if (window.gtag) {
-                gtag('event', 'show_wechat_pay');
+        function closePayModal() {
+            document.getElementById('payModal').classList.remove('active');
+        }
+
+        // 点击遮罩关闭
+        document.getElementById('payModal').addEventListener('click', function(e) {
+            if (e.target === this) closePayModal();
+        });
+
+        function redeemCode() {
+            const code = document.getElementById('redeem-code').value.trim();
+            const msgEl = document.getElementById('redeem-msg');
+
+            if (!code) {
+                msgEl.textContent = '请输入兑换码';
+                msgEl.className = 'redeem-msg error';
+                return;
             }
-        }
 
-        // ===== 兑换码输入验证 =====
-        function onRedeemInput() {
-            const code = document.getElementById('redeemCodeInput').value.trim();
-            document.getElementById('redeemBtn').disabled = code.length < 8;
-        }
+            // 验证兑换码格式
+            if (!code.match(/^NT-(STARTER|PRO|ENTERPRISE)-[A-F0-9]{8}$/i)) {
+                msgEl.textContent = '兑换码格式不正确，正确格式如：NT-PRO-F6B2C515';
+                msgEl.className = 'redeem-msg error';
+                return;
+            }
 
-        // ===== 兑换码激活 =====
-        async function redeemCode() {
-            const code = document.getElementById('redeemCodeInput').value.trim().toUpperCase();
-            const statusEl = document.getElementById('redeemStatus');
-            const resultEl = document.getElementById('activationResult');
-
-            if (!code) return;
-
-            statusEl.className = 'redeem-status loading';
-            statusEl.textContent = '正在验证兑换码...';
-            resultEl.classList.remove('show');
-
-            try {
-                // 先验证兑换码
-                const verifyResp = await fetch(`${API_BASE}/api/verify-code?code=${encodeURIComponent(code)}`);
-                const verifyData = await verifyResp.json();
-
-                if (!verifyData.valid) {
-                    statusEl.className = 'redeem-status error';
-                    statusEl.textContent = verifyData.error === 'Code already used' 
-                        ? '❌ 该兑换码已被使用' 
-                        : '❌ 兑换码无效，请检查后重试';
-                    return;
-                }
-
-                // 标记兑换码为已使用
-                const redeemResp = await fetch(`${API_BASE}/api/verify-code`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ code: code })
-                });
-                const redeemData = await redeemResp.json();
-
-                if (redeemData.success) {
-                    statusEl.className = 'redeem-status success';
-                    statusEl.textContent = '✅ 激活成功！';
-                    
-                    document.getElementById('activatedPlan').textContent = redeemData.plan_name || '专业版';
-                    document.getElementById('activatedExpiry').textContent = '30天';
-                    resultEl.classList.add('show');
-
-                    // 保存激活状态到 localStorage
-                    localStorage.setItem('nextool_activated', JSON.stringify({
-                        plan: redeemData.plan,
-                        plan_name: redeemData.plan_name,
-                        code: code,
-                        activated_at: new Date().toISOString()
-                    }));
-
-                    if (window.gtag) {
-                        gtag('event', 'redeem_code', {
-                            'plan': redeemData.plan,
-                            'source': 'verify_api'
-                        });
+            // 尝试通过API验证
+            fetch('https://nextool-api-proxy-vercel.vercel.app/api/verify-code?code=' + encodeURIComponent(code))
+                .then(r => r.json())
+                .then(data => {
+                    if (data.valid) {
+                        msgEl.textContent = '激活成功！已解锁 ' + (data.plan || '专业版') + ' 功能';
+                        msgEl.className = 'redeem-msg success';
+                        localStorage.setItem('nextool_pro', JSON.stringify({
+                            plan: data.plan,
+                            code: code,
+                            activatedAt: new Date().toISOString()
+                        }));
+                        gtag('event', 'redeem_success', {plan: data.plan});
+                    } else {
+                        msgEl.textContent = data.message || '兑换码无效或已使用';
+                        msgEl.className = 'redeem-msg error';
                     }
-                } else {
-                    statusEl.className = 'redeem-status error';
-                    statusEl.textContent = `❌ ${redeemData.error || '激活失败'}`;
-                }
-            } catch (err) {
-                // API不可用时，本地验证模式
-                statusEl.className = 'redeem-status error';
-                statusEl.textContent = '⚠️ 网络错误，请稍后重试';
-                console.error('Redeem error:', err);
-            }
+                })
+                .catch(() => {
+                    // API不可用时本地验证
+                    msgEl.textContent = '网络异常，请稍后重试或联系客服';
+                    msgEl.className = 'redeem-msg error';
+                });
         }
 
-        // ===== 跳转到工具页 =====
-        function goToTools() {
-            window.location.href = '../';
-        }
-
-        // ===== FAQ 折叠 =====
-        function toggleFaq(button) {
-            const item = button.parentElement;
-            const wasOpen = item.classList.contains('open');
-            
-            document.querySelectorAll('.faq-item').forEach(i => {
-                i.classList.remove('open');
-            });
-            
-            if (!wasOpen) {
-                item.classList.add('open');
-            }
-        }
-
-        // ===== 页面加载时检查激活状态 =====
-        document.addEventListener('DOMContentLoaded', function() {
-            const activated = localStorage.getItem('nextool_activated');
-            if (activated) {
+        // 检查已激活状态
+        window.addEventListener('load', function() {
+            const pro = localStorage.getItem('nextool_pro');
+            if (pro) {
                 try {
-                    const info = JSON.parse(activated);
-                    document.getElementById('redeemCodeInput').value = info.code || '';
-                    onRedeemInput();
+                    const data = JSON.parse(pro);
+                    const msgEl = document.getElementById('redeem-msg');
+                    msgEl.textContent = '当前已激活 ' + (data.plan || '专业版') + '（兑换码：' + data.code + '）';
+                    msgEl.className = 'redeem-msg success';
                 } catch(e) {}
             }
         });
-    </script>
-
-    <script src="../js/email-capture.js" data-auto></script>
-    <script>
-        if('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('../sw.js').catch(() => {});
-        }
     </script>
 </body>
 </html>
