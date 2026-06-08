@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>颜色选择器 - 在线取色器配色工具 | NexTool</title>
 <meta name="description" content="免费在线颜色选择器，支持HEX/RGB/HSL转换、配色方案生成、CSS渐变生成。颜色选择器, 取色器, color picker, HEX转RGB, 配色方案">
 <meta name="keywords" content="颜色选择器, 取色器, color picker, HEX转RGB, 配色方案, HSL, RGB转换, 渐变生成器">
@@ -162,6 +171,11 @@ footer{text-align:center;padding:20px;color:var(--text2);font-size:.8rem}
 <div class="toast" id="toast"></div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('color-picker');
+}
+
 // Color conversion utilities
 function hsvToRgb(h,s,v){h/=360;s/=100;v/=100;let r,g,b;const i=Math.floor(h*6),f=h*6-i,p=v*(1-s),q=v*(1-f*s),t=v*(1-(1-f)*s);switch(i%6){case 0:r=v;g=t;b=p;break;case 1:r=q;g=v;b=p;break;case 2:r=p;g=v;b=t;break;case 3:r=p;g=q;b=v;break;case 4:r=t;g=p;b=v;break;case 5:r=v;g=p;b=q;break}return[Math.round(r*255),Math.round(g*255),Math.round(b*255)]}
 function rgbToHsv(r,g,b){r/=255;g/=255;b/=255;const max=Math.max(r,g,b),min=Math.min(r,g,b),d=max-min;let h,s=max===0?0:d/max,v=max;if(max===min)h=0;else{switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break}h/=6}return[Math.round(h*360),Math.round(s*100),Math.round(v*100)]}

@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>论文降重助手 - AI智能改写工具</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -398,6 +407,11 @@ let state = {
 
 // ====== 初始化 ======
 function init() {
+  // 初始化 GA 页面跟踪
+  if (window.NextToolAnalytics) {
+    window.NextToolAnalytics.initPageTracking('ai-paper-rewriter');
+  }
+  
   const saved = localStorage.getItem('paperRewriter');
   if (saved) {
     try {
@@ -624,6 +638,11 @@ async function startRewrite() {
 
     // 显示结果
     displayResult(text, rewritten);
+    
+    // 跟踪论文改写事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('rewrite', { intensity: state.intensity, targetSim: state.targetSim });
+    }
 
   } catch (err) {
     resultArea.className = 'result-area';

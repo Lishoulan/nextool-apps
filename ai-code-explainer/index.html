@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>NexTool AI 代码解释 - 智能代码理解与生成工具</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -295,6 +304,11 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="toast" id="toast"></div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('ai-code-explainer');
+}
+
 const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 const STORAGE_KEY = 'nextool_explainer_history';
 const USAGE_KEY = 'nextool_explainer_usage';
@@ -467,6 +481,12 @@ explainBtn.addEventListener('click', async () => {
     }
 
     saveHistory(code, 'explain');
+    
+    // 跟踪解释事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('explain', { language: langSelect.value, level: currentLevel });
+    }
+    
     showToast('代码解释完成', 'success');
   } catch (e) {
     showToast(e.message, 'error');
@@ -503,6 +523,12 @@ optimizeBtn.addEventListener('click', async () => {
     optimizeText.textContent = result;
     optimizeResult.style.display = 'block';
     resultSection.classList.add('show');
+    
+    // 跟踪优化事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('optimize', { language: langSelect.value });
+    }
+    
     showToast('优化建议已生成', 'success');
   } catch (e) {
     showToast(e.message, 'error');
@@ -550,6 +576,12 @@ generateBtn.addEventListener('click', async () => {
     }
 
     saveHistory(desc, 'generate');
+    
+    // 跟踪生成事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('generate', { language: langSelect.value });
+    }
+    
     showToast('代码生成完成', 'success');
   } catch (e) {
     showToast(e.message, 'error');

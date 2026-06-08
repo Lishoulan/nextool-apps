@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>Base64编解码工具 - 在线Base64转换 | NexTool</title>
 <meta name="description" content="免费在线Base64编解码工具，支持文本转Base64、Base64解码、图片转Base64 Data URI、文件转Base64。纯客户端处理，数据不上传。">
 <meta name="keywords" content="Base64编解码, Base64转换, 在线Base64, 图片转Base64, 文件转Base64, Base64解码, Base64编码">
@@ -61,14 +70,6 @@ footer a:hover{text-decoration:underline}
 .toast.show{transform:translateX(0)}
 @media(max-width:600px){.container{padding:12px}header h1{font-size:1.4rem}.btn-row{gap:6px}.btn{padding:8px 14px;font-size:.8rem}}
 </style>
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-H0PJ9V418V');
-</script>
 </head>
 <body>
 <div id="breadcrumb" data-product="Base64编解码"></div>
@@ -153,6 +154,11 @@ footer a:hover{text-decoration:underline}
 <div class="toast" id="toast"></div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('base64-tool');
+}
+
 // Tab switching
 document.querySelectorAll('.tab').forEach(tab=>{
   tab.addEventListener('click',()=>{
@@ -179,6 +185,11 @@ function encodeText(){
   try{
     const encoded=btoa(unescape(encodeURIComponent(input)));
     document.getElementById('outputText').value=encoded;
+    
+    // 跟踪编码事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('encode', { input_length: input.length });
+    }
   }catch(e){showToast('编码失败: '+e.message,'error');}
 }
 
@@ -188,6 +199,11 @@ function decodeText(){
   try{
     const decoded=decodeURIComponent(escape(atob(input)));
     document.getElementById('outputText').value=decoded;
+    
+    // 跟踪解码事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('decode', { input_length: input.length });
+    }
   }catch(e){showToast('解码失败，输入不是有效的Base64','error');}
 }
 

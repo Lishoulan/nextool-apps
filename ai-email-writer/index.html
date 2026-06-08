@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>AI邮件助手 - 智能邮件撰写工具</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -383,6 +392,11 @@ const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 
 // ===== Init =====
 (function init() {
+  // 初始化 GA 页面跟踪
+  if (window.NextToolAnalytics) {
+    window.NextToolAnalytics.initPageTracking('ai-email-writer');
+  }
+  
   const key = localStorage.getItem('de_api_key') || '';
   const base = localStorage.getItem('de_api_base') || PROXY_URL;
   document.getElementById('apiKeyInput').value = key;
@@ -501,6 +515,11 @@ ${sender ? '发件人：' + sender : ''}
     displayEmail(currentEmail);
     incrementUsage();
     saveToHistory(currentEmail);
+    
+    // 跟踪邮件生成事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('generate', { scenario: currentScenario, tone: currentTone });
+    }
   } catch(e) {
     showToast('生成失败：' + e.message, true);
   } finally {

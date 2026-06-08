@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>NexTool AI 翻译 - 智能多语言翻译工具</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -261,6 +270,11 @@ footer a{color:var(--accent);text-decoration:none}
 <div class="toast" id="toast"></div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('ai-translator');
+}
+
 const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 const STORAGE_KEY = 'nextool_translator_history';
 const USAGE_KEY = 'nextool_translator_usage';
@@ -403,6 +417,12 @@ translateBtn.addEventListener('click', async () => {
     }
 
     saveHistory(text, result);
+    
+    // 跟踪翻译事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('translate', { srcLang: srcLang.value, tgtLang: tgtLang.value, style: currentStyle });
+    }
+    
     showToast('翻译完成', 'success');
   } catch (e) {
     tgtText.value = '错误：' + e.message;

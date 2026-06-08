@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>AI合同生成器 - 专业法律文书智能生成</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -401,6 +410,11 @@ body{
 </div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('ai-contract-generator');
+}
+
 // ============ Contract Types & Templates ============
 const CONTRACT_TYPES = [
   { id:'labor', name:'劳动合同', icon:'👷', desc:'雇佣关系' },
@@ -758,6 +772,12 @@ async function generateContract() {
     renderContract(text);
     incrementUsage();
     document.getElementById('outputActions').style.display = 'flex';
+    
+    // 跟踪合同生成事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('generate', { contractType: selectedType });
+    }
+    
     showToast('合同生成成功！', 'success');
   } catch (err) {
     output.innerHTML = `<div class="placeholder-text" style="color:var(--error)"><span class="big-icon">⚠️</span>生成失败: ${err.message}</div>`;
@@ -879,6 +899,12 @@ function copyContract() {
 function downloadContract() {
   if (!generatedText) return;
   const typeName = CONTRACT_TYPES.find(t => t.id === selectedType)?.name || '合同';
+  
+  // 跟踪合同下载事件
+  if (window.NextToolAnalytics) {
+    window.NextToolAnalytics.trackToolEvent('download', { contractType: selectedType });
+  }
+  
   const blob = new Blob([generatedText], { type: 'text/plain;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');

@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>AI 简历优化器 - 智能润色，脱颖而出</title>
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
@@ -420,6 +429,11 @@ let optimizedText = '';
 
 // ===== 初始化 =====
 document.addEventListener('DOMContentLoaded', () => {
+  // 初始化 GA 页面跟踪
+  if (window.NextToolAnalytics) {
+    window.NextToolAnalytics.initPageTracking('ai-resume-optimizer');
+  }
+  
   // 恢复 API Key
   if (apiKey) {
     document.getElementById('apiKeyInput').value = 'sk-********' + apiKey.slice(-4);
@@ -548,6 +562,11 @@ async function optimizeResume() {
     document.getElementById('originalContent').textContent = resumeText;
     document.getElementById('optimizedContent').textContent = result;
     document.getElementById('compareSection').classList.add('show');
+
+    // 跟踪简历优化事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('optimize', { jobTarget: jobTarget });
+    }
 
     // 计次
     incrementUsage();

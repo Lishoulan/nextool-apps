@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>免费密码生成器 - 在线随机强密码生成工具 | NextTool</title>
 <meta name="description" content="免费在线密码生成器，支持自定义长度、字符类型、排除歧义字符、批量生成、密码强度检测与熵值计算。纯客户端处理，安全可靠。">
 <meta name="keywords" content="密码生成器,随机密码,强密码生成,在线密码工具,密码强度检测,密码熵,批量密码生成">
@@ -250,6 +259,11 @@ footer a:hover{text-decoration:underline}
 <div class="toast" id="toast"></div>
 
 <script>
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('password-generator');
+}
+
 const CHARS = {
   upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
   lower: 'abcdefghijklmnopqrstuvwxyz',

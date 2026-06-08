@@ -15,10 +15,27 @@
 
   var adSlots = {
     top: { format: 'horizontal', label: '广告', height: '90px' },
+    middle: { format: 'rectangle', label: '广告', height: '250px' },
     bottom: { format: 'horizontal', label: '广告', height: '90px' },
     sidebar: { format: 'vertical', label: '广告', height: '250px' },
     inline: { format: 'rectangle', label: '广告', height: '250px' }
   };
+
+  // Google Analytics event tracking
+  function trackAdEvent(action, slot, format) {
+    if (typeof gtag === 'function') {
+      gtag('event', action, {
+        'event_category': 'Ad',
+        'event_label': slot + '_' + format
+      });
+    } else if (typeof dataLayer !== 'undefined') {
+      dataLayer.push({
+        'event': action,
+        'event_category': 'Ad',
+        'event_label': slot + '_' + format
+      });
+    }
+  }
 
   // Inject styles
   var style = document.createElement('style');
@@ -39,6 +56,9 @@
 
     adEl.setAttribute('data-format', format);
 
+    // Track ad impression
+    trackAdEvent('ad_impression', slot, format);
+
     // If AdSense is configured, show real ad
     if (ADSENSE_ID !== 'ca-pub-XXXXXXXXXXXXXXXX') {
       var ins = document.createElement('ins');
@@ -48,16 +68,30 @@
       ins.setAttribute('data-ad-slot', slot);
       ins.setAttribute('data-ad-format', 'auto');
       ins.setAttribute('data-full-width-responsive', 'true');
+      
+      // Add click tracking
+      adEl.addEventListener('click', function() {
+        trackAdEvent('ad_click', slot, format);
+      });
+      
       adEl.innerHTML = '';
       adEl.appendChild(ins);
       (adsbygoogle = window.adsbygoogle || []).push({});
     } else {
       // Show placeholder until AdSense is configured
-      adEl.innerHTML =
-        '<div class="nextool-ad-inner">' +
-          '<span class="nextool-ad-label">' + config.label + '</span>' +
-          '<div class="nextool-ad-placeholder">Ad 广告位<br><small>配置 AdSense 后显示</small></div>' +
-        '</div>';
+      var placeholder = document.createElement('div');
+      placeholder.className = 'nextool-ad-inner';
+      placeholder.innerHTML = 
+        '<span class="nextool-ad-label">' + config.label + '</span>' +
+        '<div class="nextool-ad-placeholder">Ad 广告位<br><small>配置 AdSense 后显示</small></div>';
+      
+      // Add click tracking to placeholder
+      placeholder.addEventListener('click', function() {
+        trackAdEvent('ad_click', slot, format);
+      });
+      
+      adEl.innerHTML = '';
+      adEl.appendChild(placeholder);
     }
   });
 

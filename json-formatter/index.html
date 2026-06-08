@@ -7,6 +7,15 @@
     <meta name="theme-color" content="#3a7bd5">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>JSON格式化工具 - 在线JSON验证、美化、压缩 | NexTool</title>
     <meta name="description" content="免费在线JSON格式化工具，支持JSON验证、美化、压缩、树形视图、JSON Path查询。100%客户端处理，无需API。">
     <meta name="keywords" content="JSON格式化, JSON在线工具, JSON验证, JSON编辑器, JSON美化, JSON压缩, JSON Path">
@@ -128,6 +137,11 @@
         <p>JSON 格式化工具 · 100% 客户端处理，数据不会上传 · <a href="https://nextool.app" style="color:var(--accent);">NexTool</a></p>
     </footer>
     <script>
+        // 初始化 GA 页面跟踪
+        if (window.NextToolAnalytics) {
+          window.NextToolAnalytics.initPageTracking('json-formatter');
+        }
+        
         let currentJSON = null;
         let currentView = 'code';
 

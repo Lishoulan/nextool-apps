@@ -7,6 +7,15 @@
 <meta name="theme-color" content="#3a7bd5">
 <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>AI PPT 生成器 - 智能幻灯片制作</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -453,6 +462,7 @@ body::before{
   gtag('js', new Date());
   gtag('config', 'G-H0PJ9V418V');
 </script>
+<script src="../js/analytics.js"></script>
 </head>
 <body>
 <div id="breadcrumb" data-product="AI PPT生成器"></div>
@@ -640,6 +650,11 @@ const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', () => {
+  // 初始化 GA 页面跟踪
+  if (window.NextToolAnalytics) {
+    window.NextToolAnalytics.initPageTracking('ai-ppt-generator');
+  }
+  
   updateTierUI();
   updateUsageUI();
   if (apiKey) {
@@ -845,7 +860,12 @@ async function generatePPT() {
 
     // Render preview
     renderPreview(parsed, style);
-
+    
+    // 跟踪 PPT 生成事件
+    if (window.NextToolAnalytics) {
+      window.NextToolAnalytics.trackToolEvent('generate', { slideCount: slideCount, style: style });
+    }
+    
     showToast('✅ 幻灯片生成成功！', 'success');
 
   } catch (err) {

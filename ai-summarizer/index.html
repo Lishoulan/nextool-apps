@@ -7,6 +7,15 @@
     <meta name="theme-color" content="#3a7bd5">
     <link rel="apple-touch-icon" href="../icons/icon-192.png">
 <link rel="stylesheet" href="../css/mobile.css">
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-H0PJ9V418V');
+</script>
+<script src="../js/analytics.js"></script>
 <title>免费AI摘要工具 - 在线文本摘要生成器 | NexTool</title>
     <meta name="description" content="免费在线AI摘要工具，无需注册，无需API密钥。使用智能TextRank算法快速提取文章核心内容，支持中文文本摘要、关键词提取。">
     <meta name="keywords" content="免费AI摘要工具, 文本摘要, 文章总结, 在线摘要生成器, 文本摘要工具, 自动摘要, 关键词提取, TextRank摘要">
@@ -659,6 +668,11 @@
 <script>
 // ==================== TextRank Summarizer ====================
 
+// 初始化 GA 页面跟踪
+if (window.NextToolAnalytics) {
+  window.NextToolAnalytics.initPageTracking('ai-summarizer');
+}
+
 let currentRatio = 0.3;
 
 // Character count
@@ -835,6 +849,11 @@ function summarize() {
 
             // Render
             renderResult(text, selectedSentences, sentences);
+            
+            // 跟踪文本摘要事件
+            if (window.NextToolAnalytics) {
+              window.NextToolAnalytics.trackToolEvent('summarize', { ratio: currentRatio, charCount: text.length });
+            }
         } catch (e) {
             console.error(e);
             showToast('生成摘要时出错，请重试');

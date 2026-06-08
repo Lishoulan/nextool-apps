@@ -29,8 +29,10 @@
         subtitle: '输入邮箱即可领取，可用于任意 AI 工具',
         creditAmount: 5,
         position: 'bottom-right',
-        delay: 5000,
+        delay: 10000,  // 延迟10秒显示，而不是5秒
         showOncePerDay: true,
+        showOnScrollPercent: 60,  // 滚动60%显示
+        showOnExitIntent: true,  // 检测退出意图
         buttonText: '🎁 免费领取',
         placeholder: '请输入您的邮箱',
         submitText: '立即领取',
@@ -381,6 +383,29 @@
                 EmailCapture.hide();
             }
         });
+
+        // 智能触发机制：滚动60%显示
+        let scrollShown = false;
+        if (config.showOnScrollPercent) {
+            window.addEventListener('scroll', function() {
+                if (scrollShown) return;
+                const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+                if (scrollPercent >= config.showOnScrollPercent && !wasShownToday()) {
+                    scrollShown = true;
+                    showModal();
+                }
+            });
+        }
+
+        // 退出意图检测
+        if (config.showOnExitIntent) {
+            document.addEventListener('mouseout', function(e) {
+                if (wasShownToday()) return;
+                if (e.clientY < 10) {  // 鼠标移出顶部
+                    showModal();
+                }
+            });
+        }
     }
 
     function showModal() {
