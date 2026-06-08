@@ -1,0 +1,254 @@
+name: SEO Monitor
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  seo-monitor:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run SEO Monitor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -c "
+          import requests
+          import xml.etree.ElementTree as ET
+          import json
+          import os
+          from datetime import datetime
+
+          SITE_URL = 'https://lishoulan.github.io/nextool-apps/'
+          GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
+          REPO = os.environ.get('GITHUB_REPOSITORY', 'Lishoulan/nextool-apps')
+          REPORTS_DIR = 'reports'
+
+          os.makedirs(REPORTS_DIR, exist_ok=True)
+
+          report = {
+              'date': datetime.now().isoformat(),
+              'site_url': SITE_URL,
+              'checks': {},
+              'issues': []
+          }
+
+          # 1. Check site accessibility
+          print('Checking site accessibility...')
+          try:
+              resp = requests.get(SITE_URL, timeout=30, allow_redirects=True)
+              site_ok = resp.status_code == 200
+              report['checks']['site_accessible'] = {
+                  'status': 'pass' if site_ok else 'fail',
+                  'status_code': resp.status_code,
+                  'response_time_ms': round(resp.elapsed.total_seconds() * 1000)
+              }
+              if not site_ok:
+                  report['issues'].append(f'Site returned status {resp.status_code}')
+          except Exception as e:
+              report['checks']['site_accessible'] = {'status': 'fail', 'error': str(e)}
+              report['issues'].append(f'Site inaccessible: {e}')
+
+          # 2. Check sitemap accessibility
+          print('Checking sitemap...')
+          sitemap_url = SITE_URL + 'sitemap.xml'
+          try:
+              resp = requests.get(sitemap_url, timeout=30)
+              sitemap_ok = resp.status_code == 200
+              url_count = 0
+              if sitemap_ok:
+                  try:
+                      root = ET.fromstring(resp.text)
+                      ns = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+                      url_count = len(root.findall('sm:url', ns))
+                  except:
+                      pass
+              report['checks']['sitemap'] = {
+                  'status': 'pass' if sitemap_ok else 'fail',
+                  'url_count': url_count
+              }
+              if not sitemap_ok:
+                  report['issues'].append(f'Sitemap returned status {resp.status_code}')
+          except Exception as e:
+              report['checks']['sitemap'] = {'status': 'fail', 'error': str(e)}
+              report['issues'].append(f'Sitemap inaccessible: {e}')
+
+          # 3. Check robots.txt
+          print('Checking robots.txt...')
+          robots_url = SITE_URL + 'robots.txt'
+          try:
+              resp = requests.get(robots_url, timeout=30)
+              robots_ok = resp.status_code == 200
+              has_sitemap_ref = False
+              if robots_ok:
+                  has_sitemap_ref = 'sitemap' in resp.text.lower()
+              report['checks']['robots_txt'] = {
+                  'status': 'pass' if robots_ok else 'fail',
+                  'has_sitemap_reference': has_sitemap_ref
+              }
+              if not robots_ok:
+                  report['issues'].append('robots.txt not accessible')
+              if not has_sitemap_ref:
+                  report['issues'].append('robots.txt missing sitemap reference')
+          except Exception as e:
+              report['checks']['robots_txt'] = {'status': 'fail', 'error': str(e)}
+              report['issues'].append(f'robots.txt inaccessible: {e}')
+
+          # 4. Check key pages accessibility
+          print('Checking key pages...')
+          key_pages = [
+              'ai-ppt-generator/',
+              'ai-resume-optimizer/',
+              'pdf-toolkit/',
+              'ai-contract-generator/',
+              'ai-email-writer/',
+              'json-formatter/',
+              'qr-generator/',
+              'blog/',
+          ]
+          page_results = []
+          for page in key_pages:
+              url = SITE_URL + page
+              try:
+                  resp = requests.get(url, timeout=15, allow_redirects=True)
+                  ok = resp.status_code == 200
+                  page_results.append({
+                      'url': url,
+                      'status': 'pass' if ok else 'fail',
+                      'status_code': resp.status_code
+                  })
+                  if not ok:
+                      report['issues'].append(f'Page {url} returned {resp.status_code}')
+              except Exception as e:
+                  page_results.append({'url': url, 'status': 'fail', 'error': str(e)})
+                  report['issues'].append(f'Page {url} error: {e}')
+
+          report['checks']['key_pages'] = {
+              'total': len(key_pages),
+              'pass': sum(1 for p in page_results if p['status'] == 'pass'),
+              'fail': sum(1 for p in page_results if p['status'] == 'fail'),
+              'details': page_results
+          }
+
+          # 5. Check HTTPS and redirects
+          print('Checking HTTPS...')
+          try:
+              resp = requests.get('http://lishoulan.github.io/nextool-apps/', timeout=15, allow_redirects=True)
+              https_redirect = resp.url.startswith('https://')
+              report['checks']['https_redirect'] = {
+                  'status': 'pass' if https_redirect else 'fail',
+                  'final_url': resp.url
+              }
+              if not https_redirect:
+                  report['issues'].append('HTTP does not redirect to HTTPS')
+          except Exception as e:
+              report['checks']['https_redirect'] = {'status': 'fail', 'error': str(e)}
+
+          # 6. Check Bing index (via site: search)
+          print('Checking Bing index status...')
+          try:
+              bing_url = 'https://www.bing.com/search?q=site%3Alishoulan.github.io%2Fnextool-apps'
+              headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+              resp = requests.get(bing_url, headers=headers, timeout=15)
+              bing_indexed = 'lishoulan.github.io/nextool-apps' in resp.text
+              report['checks']['bing_index'] = {
+                  'status': 'pass' if bing_indexed else 'warning',
+                  'indexed': bing_indexed
+              }
+              if not bing_indexed:
+                  report['issues'].append('Site may not be indexed by Bing')
+          except Exception as e:
+              report['checks']['bing_index'] = {'status': 'unknown', 'error': str(e)}
+
+          # Save report
+          date_str = datetime.now().strftime('%Y-%m-%d')
+          report_path = os.path.join(REPORTS_DIR, f'seo-report-{date_str}.json')
+          with open(report_path, 'w', encoding='utf-8') as f:
+              json.dump(report, f, indent=2, ensure_ascii=False)
+          print(f'Report saved to {report_path}')
+
+          # Generate markdown summary
+          md_lines = [
+              f'# SEO Monitor Report - {date_str}',
+              '',
+              f'**Site:** {SITE_URL}',
+              '',
+              '## Check Results',
+              '',
+          ]
+          for check_name, check_data in report['checks'].items():
+              status = check_data.get('status', 'unknown')
+              emoji = {'pass': '✅', 'fail': '❌', 'warning': '⚠️', 'unknown': '❓'}.get(status, '❓')
+              md_lines.append(f'- {emoji} **{check_name}**: {status}')
+              for k, v in check_data.items():
+                  if k != 'status':
+                      md_lines.append(f'  - {k}: {v}')
+
+          if report['issues']:
+              md_lines.append('')
+              md_lines.append('## Issues Found')
+              md_lines.append('')
+              for issue in report['issues']:
+                  md_lines.append(f'- ❌ {issue}')
+
+          md_path = os.path.join(REPORTS_DIR, f'seo-report-{date_str}.md')
+          with open(md_path, 'w', encoding='utf-8') as f:
+              f.write('\n'.join(md_lines))
+          print(f'Markdown report saved to {md_path}')
+
+          # Create GitHub Issue if issues found
+          if report['issues'] and GITHUB_TOKEN:
+              print(f'Found {len(report[\"issues\"])} issues, creating GitHub Issue...')
+              issue_title = f'SEO Monitor: {len(report[\"issues\"])} issues found - {date_str}'
+              issue_body = '\n'.join(md_lines)
+              issue_data = {
+                  'title': issue_title,
+                  'body': issue_body,
+                  'labels': ['seo-monitor', 'automated']
+              }
+              api_url = f'https://api.github.com/repos/{REPO}/issues'
+              try:
+                  resp = requests.post(api_url, json=issue_data, headers={
+                      'Authorization': f'token {GITHUB_TOKEN}',
+                      'Accept': 'application/vnd.github.v3+json'
+                  })
+                  if resp.status_code in (200, 201):
+                      print(f'Issue created: {resp.json().get(\"html_url\", \"unknown\")}')
+                  else:
+                      print(f'Failed to create issue: {resp.status_code} {resp.text[:200]}')
+              except Exception as e:
+                  print(f'Error creating issue: {e}')
+          else:
+              print('No issues found or no GitHub token available.')
+
+          # Print summary
+          print('\n=== SEO Monitor Summary ===')
+          print(f'Date: {date_str}')
+          print(f'Issues: {len(report[\"issues\"])}')
+          for check_name, check_data in report['checks'].items():
+              print(f'  {check_name}: {check_data.get(\"status\", \"unknown\")}')
+          "
+
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add reports/ || true
+          git diff --staged --quiet || git commit -m "📊 SEO monitor report - $(date +%Y-%m-%d)"
+          git push

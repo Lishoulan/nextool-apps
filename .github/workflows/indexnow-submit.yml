@@ -1,0 +1,93 @@
+name: IndexNow Submit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  submit-indexnow:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Submit URLs to IndexNow
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: |
+          python -c "
+          import xml.etree.ElementTree as ET
+          import requests
+          import json
+          import sys
+          import os
+
+          SITE_URL = 'https://lishoulan.github.io/nextool-apps/'
+          SITEMAP_PATH = 'sitemap.xml'
+          INDEXNOW_KEY = os.environ.get('INDEXNOW_KEY', 'nextool2026indexkey')
+
+          # Parse sitemap.xml
+          try:
+              tree = ET.parse(SITEMAP_PATH)
+              root = tree.getroot()
+          except Exception as e:
+              print(f'Error parsing sitemap: {e}')
+              sys.exit(1)
+
+          # Extract URLs from sitemap
+          ns = {'sm': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+          urls = []
+          for url_elem in root.findall('sm:url', ns):
+              loc = url_elem.find('sm:loc', ns)
+              if loc is not None and loc.text:
+                  urls.append(loc.text.strip())
+
+          if not urls:
+              print('No URLs found in sitemap!')
+              sys.exit(1)
+
+          print(f'Found {len(urls)} URLs in sitemap')
+
+          # Submit to IndexNow API (Bing, Yandex, etc.)
+          indexnow_endpoints = [
+              'https://api.indexnow.org/indexnow',
+              'https://www.bing.com/indexnow',
+              'https://yandex.com/indexnow',
+          ]
+
+          payload = {
+              'host': 'lishoulan.github.io',
+              'key': INDEXNOW_KEY,
+              'keyLocation': f'{SITE_URL}{INDEXNOW_KEY}.txt',
+              'urlList': urls
+          }
+
+          headers = {'Content-Type': 'application/json; charset=utf-8'}
+
+          success_count = 0
+          for endpoint in indexnow_endpoints:
+              try:
+                  resp = requests.post(endpoint, json=payload, headers=headers, timeout=30)
+                  print(f'{endpoint} -> Status: {resp.status_code}')
+                  if resp.status_code in (200, 202, 204):
+                      success_count += 1
+                  else:
+                      print(f'  Response: {resp.text[:200]}')
+              except Exception as e:
+                  print(f'{endpoint} -> Error: {e}')
+
+          print(f'Successfully submitted to {success_count}/{len(indexnow_endpoints)} endpoints')
+          print(f'Total URLs submitted: {len(urls)}')
+          "
