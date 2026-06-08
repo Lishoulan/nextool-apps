@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextTool - Free AI Online Toolkit | 25+ Productivity Tools, No Registration</title>
+    <meta name="description" content="NextTool free online AI toolkit with 25+ productivity tools: AI PPT Generator, AI Resume Optimizer, AI Contract Generator, PDF Toolkit, Password Generator, Image Compressor and more. No registration required!">
+    <meta name="keywords" content="AI tools,online tools,free tools,PPT generator,resume optimizer,contract generator,PDF tools,password generator,image compressor,text summarizer,translator">
+    <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/en/">
+    <meta property="og:title" content="NextTool - Free AI Online Toolkit">
+    <meta property="og:description" content="25+ free AI productivity tools, no registration required">
+    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/en/">
+    <meta property="og:type" content="website">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H0PJ9V418V');
+    </script>
+    <script src="../js/analytics.js"></script>
+    <link rel="stylesheet" href="../css/mobile.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:0}
+        /* Language Switcher */
+        .lang-switcher{position:fixed;top:12px;right:16px;z-index:100;display:flex;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:3px 4px;backdrop-filter:blur(10px)}
+        .lang-switcher a{padding:4px 12px;border-radius:16px;font-size:0.8rem;text-decoration:none;color:#aaa;transition:all .2s;font-weight:500}
+        .lang-switcher a.active{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .lang-switcher a:not(.active):hover{color:#fff;background:rgba(255,255,255,0.08)}
+        /* Hero */
+        .hero{text-align:center;padding:3rem 1.5rem 2rem;max-width:800px;margin:0 auto}
+        .hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:0.5rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .tagline{color:#ccc;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:1.5rem;line-height:1.6}
+        .hero .stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
+        .hero .stat{text-align:center}
+        .hero .stat .num{font-size:1.8rem;font-weight:700;color:#00d2ff}
+        .hero .stat .label{font-size:0.75rem;color:#888;margin-top:2px}
+        .hero .cta-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .hero .cta{display:inline-block;padding:12px 28px;border-radius:12px;font-size:1rem;font-weight:600;text-decoration:none;transition:all .3s}
+        .hero .cta-primary{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .hero .cta-primary:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,210,255,0.4)}
+        .hero .cta-secondary{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ccc}
+        .hero .cta-secondary:hover{border-color:#3a7bd5;color:#fff}
+        /* Tabs */
+        .tabs{display:flex;gap:8px;justify-content:center;padding:0 1.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+        .tab{padding:8px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.03);color:#aaa;cursor:pointer;font-size:0.9rem;transition:all .3s}
+        .tab:hover,.tab.active{background:rgba(58,123,213,0.2);border-color:#3a7bd5;color:#fff}
+        /* Grid */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto;padding:0 1.5rem 2rem}
+        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:1.5rem;text-decoration:none;color:#fff;transition:all .3s;backdrop-filter:blur(10px);display:flex;flex-direction:column}
+        .card:hover{transform:translateY(-3px);border-color:rgba(58,123,213,0.5);box-shadow:0 8px 28px rgba(58,123,213,0.2)}
+        .card .card-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+        .card .icon{font-size:1.8rem;flex-shrink:0}
+        .card h2{font-size:1.05rem;line-height:1.3}
+        .card p{color:#999;font-size:0.82rem;line-height:1.5;flex:1}
+        .card .badge{display:inline-block;font-size:0.65rem;padding:2px 8px;border-radius:8px;margin-left:6px;vertical-align:middle;font-weight:600}
+        .badge-free{background:#10b981;color:#fff}
+        .badge-ai{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .badge-hot{background:#ef4444;color:#fff}
+        /* Section */
+        .section-title{font-size:1.1rem;color:#aaa;margin:1.5rem 1.5rem 0.8rem;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:8px}
+        .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}
+        /* Footer */
+        footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.05)}
+        footer a{color:#666;text-decoration:none}
+        footer a:hover{color:#3a7bd5}
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:0.8rem;flex-wrap:wrap}
+        /* Install banner */
+        .install-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;padding:12px 24px;border-radius:12px;font-size:0.9rem;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(0,210,255,0.4)}
+    </style>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"Organization",
+      "name":"NextTool",
+      "url":"https://lishoulan.github.io/nextool-apps/",
+      "description":"AI-powered free online productivity toolkit with 25+ tools, no registration required",
+      "sameAs":[]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebSite",
+      "name":"NextTool",
+      "url":"https://lishoulan.github.io/nextool-apps/en/",
+      "potentialAction":{
+        "@type":"SearchAction",
+        "target":"https://lishoulan.github.io/nextool-apps/?q={search_term_string}",
+        "query-input":"required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"ItemList",
+      "name":"NextTool Online Tools List",
+      "numberOfItems":25,
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"AI PPT Generator","url":"https://lishoulan.github.io/nextool-apps/ai-ppt-generator/"},
+        {"@type":"ListItem","position":2,"name":"AI Resume Optimizer","url":"https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/"},
+        {"@type":"ListItem","position":3,"name":"AI Contract Generator","url":"https://lishoulan.github.io/nextool-apps/ai-contract-generator/"},
+        {"@type":"ListItem","position":4,"name":"PDF Toolkit","url":"https://lishoulan.github.io/nextool-apps/pdf-toolkit/"},
+        {"@type":"ListItem","position":5,"name":"AI Paper Rewriter","url":"https://lishoulan.github.io/nextool-apps/ai-paper-rewriter/"},
+        {"@type":"ListItem","position":6,"name":"AI Translator","url":"https://lishoulan.github.io/nextool-apps/ai-translator/"},
+        {"@type":"ListItem","position":7,"name":"AI Email Writer","url":"https://lishoulan.github.io/nextool-apps/ai-email-writer/"},
+        {"@type":"ListItem","position":8,"name":"AI Code Explainer","url":"https://lishoulan.github.io/nextool-apps/ai-code-explainer/"},
+        {"@type":"ListItem","position":9,"name":"AI Text Summarizer","url":"https://lishoulan.github.io/nextool-apps/ai-summarizer/"},
+        {"@type":"ListItem","position":10,"name":"Password Generator","url":"https://lishoulan.github.io/nextool-apps/password-generator/"}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <a href="../">中文</a>
+        <a href="./" class="active">English</a>
+    </div>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>NextTool</h1>
+        <p class="tagline">Free AI Online Toolkit — 25+ productivity tools, no registration required</p>
+        <div class="stats">
+            <div class="stat"><div class="num">25+</div><div class="label">Online Tools</div></div>
+            <div class="stat"><div class="num">50K+</div><div class="label">Monthly Users</div></div>
+            <div class="stat"><div class="num">100%</div><div class="label">Free to Use</div></div>
+        </div>
+        <div class="cta-row">
+            <a class="cta cta-primary" href="#ai-tools">Explore AI Tools</a>
+            <a class="cta cta-secondary" href="../compare/">Compare</a>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" data-filter="all">All Tools</div>
+        <div class="tab" data-filter="ai">AI Tools</div>
+        <div class="tab" data-filter="free">Free Tools</div>
+        <div class="tab" data-filter="resource">Resources</div>
+    </div>
+
+    <!-- AI Tools Section -->
+    <div class="section-title" id="ai-tools">🤖 AI-Powered Tools</div>
+    <div class="grid" id="ai-grid">
+        <a class="card" data-cat="ai" href="../ai-ppt-generator/">
+            <div class="card-top"><div class="icon">📊</div><h2>AI PPT Generator <span class="badge badge-hot">Hot</span></h2></div>
+            <p>Generate professional presentations with AI. Enter a topic and get a fully designed deck in 3 minutes with multiple style templates.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-resume-optimizer/">
+            <div class="card-top"><div class="icon">🎯</div><h2>AI Resume Optimizer <span class="badge badge-ai">AI</span></h2></div>
+            <p>AI-powered resume optimization matching job descriptions. Keyword extraction + experience polishing. Boost interview rate by 80%.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-contract-generator/">
+            <div class="card-top"><div class="icon">⚖️</div><h2>AI Contract Generator <span class="badge badge-hot">Hot</span></h2></div>
+            <p>Professional legal document generation powered by AI. Supports 12 contract types with one-click Word export and lawyer-grade quality.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-paper-rewriter/">
+            <div class="card-top"><div class="icon">📝</div><h2>AI Paper Rewriter <span class="badge badge-hot">Hot</span></h2></div>
+            <p>AI-powered paper rewriting to reduce plagiarism rates. Preserves original meaning while optimizing expression. Essential for academic writing.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-email-writer/">
+            <div class="card-top"><div class="icon">✉️</div><h2>AI Email Writer <span class="badge badge-ai">AI</span></h2></div>
+            <p>Intelligent professional email writing. 10 scenarios with multiple tones — business, job application, thank you — generated in one click.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-translator/">
+            <div class="card-top"><div class="icon">🌐</div><h2>AI Translator <span class="badge badge-ai">AI</span></h2></div>
+            <p>Smart multilingual translation powered by DeepSeek. Translate between 8 languages with academic, business, and casual styles.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-code-explainer/">
+            <div class="card-top"><div class="icon">💻</div><h2>AI Code Explainer <span class="badge badge-ai">AI</span></h2></div>
+            <p>AI line-by-line code explanation with optimization and generation support. Covers 30+ programming languages.</p>
+        </a>
+        <a class="card" data-cat="ai" href="../ai-summarizer/">
+            <div class="card-top"><div class="icon">📋</div><h2>AI Text Summarizer <span class="badge badge-free">Free</span></h2></div>
+            <p>Free online summarization tool. TextRank algorithm generates article summaries and keyword extraction in seconds. No API needed.</p>
+        </a>
+    </div>
+
+    <!-- Free Tools Section -->
+    <div class="section-title" id="free-tools">🛠️ Free Online Tools</div>
+    <div class="grid" id="free-grid">
+        <a class="card" data-cat="free" href="../pdf-toolkit/">
+            <div class="card-top"><div class="icon">📄</div><h2>PDF Toolkit <span class="badge badge-free">Free</span></h2></div>
+            <p>PDF merge/split/compress/to-image/watermark/image-to-PDF — 6 features in one place.</p>
+        </a>
+        <a class="card" data-cat="free" href="../password-generator/">
+            <div class="card-top"><div class="icon">🔑</div><h2>Password Generator <span class="badge badge-free">Free</span></h2></div>
+            <p>Random strong password generation with custom rules, strength checking, and batch generation using crypto-secure randomness.</p>
+        </a>
+        <a class="card" data-cat="free" href="../word-counter/">
+            <div class="card-top"><div class="icon">📊</div><h2>Word Counter <span class="badge badge-free">Free</span></h2></div>
+            <p>Real-time word count, word frequency analysis, and reading time estimation. Supports both Chinese and English text analysis.</p>
+        </a>
+        <a class="card" data-cat="free" href="../image-compressor/">
+            <div class="card-top"><div class="icon">🖼️</div><h2>Image Compressor <span class="badge badge-free">Free</span></h2></div>
+            <p>Batch compress JPG/PNG/WebP images with custom quality and dimensions. Local processing for privacy and security.</p>
+        </a>
+        <a class="card" data-cat="free" href="../calculator/">
+            <div class="card-top"><div class="icon">🧮</div><h2>Online Calculator <span class="badge badge-free">Free</span></h2></div>
+            <p>Scientific calculator with unit conversion. Supports function operations, calculation history, and keyboard input.</p>
+        </a>
+        <a class="card" data-cat="free" href="../json-formatter/">
+            <div class="card-top"><div class="icon">🔧</div><h2>JSON Formatter <span class="badge badge-free">Free</span></h2></div>
+            <p>JSON validation, beautification, minification, tree view, and JSON Path queries. A must-have for developers.</p>
+        </a>
+        <a class="card" data-cat="free" href="../qr-generator/">
+            <div class="card-top"><div class="icon">📱</div><h2>QR Code Generator <span class="badge badge-free">Free</span></h2></div>
+            <p>QR Code generation with custom colors, sizes, batch generation, and logo embedding support.</p>
+        </a>
+        <a class="card" data-cat="free" href="../regex-tester/">
+            <div class="card-top"><div class="icon">🔍</div><h2>Regex Tester <span class="badge badge-free">Free</span></h2></div>
+            <p>Real-time regex matching, group highlighting, and common regex library. Essential for frontend development.</p>
+        </a>
+        <a class="card" data-cat="free" href="../color-picker/">
+            <div class="card-top"><div class="icon">🎨</div><h2>Color Picker <span class="badge badge-free">Free</span></h2></div>
+            <p>HEX/RGB/HSL conversion, color scheme generation, and CSS gradient builder. A designer's essential tool.</p>
+        </a>
+        <a class="card" data-cat="free" href="../markdown-editor/">
+            <div class="card-top"><div class="icon">📝</div><h2>Markdown Editor <span class="badge badge-free">Free</span></h2></div>
+            <p>Live preview, toolbar shortcuts, and HTML export. The perfect tool for writing documentation.</p>
+        </a>
+        <a class="card" data-cat="free" href="../base64-tool/">
+            <div class="card-top"><div class="icon">🔐</div><h2>Base64 Encoder/Decoder <span class="badge badge-free">Free</span></h2></div>
+            <p>Text/image/file conversion for Base64 encoding and decoding. A commonly used developer debugging tool.</p>
+        </a>
+        <a class="card" data-cat="free" href="../url-tool/">
+            <div class="card-top"><div class="icon">🔗</div><h2>URL Encoder/Decoder <span class="badge badge-free">Free</span></h2></div>
+            <p>URL encoding/decoding and parameter parsing and editing. Essential for frontend and backend development.</p>
+        </a>
+        <a class="card" data-cat="free" href="../timestamp-tool/">
+            <div class="card-top"><div class="icon">⏱️</div><h2>Timestamp Converter <span class="badge badge-free">Free</span></h2></div>
+            <p>Unix timestamp conversion with multi-timezone support and date difference calculation.</p>
+        </a>
+    </div>
+
+    <!-- Resources Section -->
+    <div class="section-title" id="resources">📚 Resources & Guides</div>
+    <div class="grid" id="resource-grid">
+        <a class="card" data-cat="resource" href="../chrome-extension/">
+            <div class="card-top"><div class="icon">🧩</div><h2>Chrome Extension <span class="badge badge-hot">New</span></h2></div>
+            <p>Browser 10-in-1 AI toolkit. Use AI right from the context menu. Free to install.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../tools/">
+            <div class="card-top"><div class="icon">🗂️</div><h2>Tool Directory <span class="badge badge-free">Free</span></h2></div>
+            <p>100+ online tools directory. AI, development, design, and text tools all in one place.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../pay/">
+            <div class="card-top"><div class="icon">💳</div><h2>Purchase Now <span class="badge badge-hot">Hot</span></h2></div>
+            <p>Secure and convenient payment. Get your redemption code instantly to unlock all AI tools.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../compare/">
+            <div class="card-top"><div class="icon">⚔️</div><h2>Competitor Comparison</h2></div>
+            <p>Comprehensive feature and price comparison of NextTool vs competitors. Make the right choice.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../blog/">
+            <div class="card-top"><div class="icon">📖</div><h2>User Guides</h2></div>
+            <p>AI tool tutorials, productivity tips, and industry best practices.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../pricing/">
+            <div class="card-top"><div class="icon">💰</div><h2>Pricing Plans</h2></div>
+            <p>Simple and transparent pricing. Pay as you go or unlock all AI tools at once.</p>
+        </a>
+        <a class="card" data-cat="resource" href="../referral/">
+            <div class="card-top"><div class="icon">🎁</div><h2>Referral Program</h2></div>
+            <p>Invite friends to use our tools and both of you earn rewards. Share more, earn more.</p>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="./">Home</a>
+            <a href="../compare/">Compare</a>
+            <a href="../blog/">Blog</a>
+            <a href="../pricing/">Pricing</a>
+            <a href="../referral/">Referral</a>
+        </div>
+        <p>&copy; 2026 NextTool. All rights reserved. | Free AI Online Toolkit</p>
+    </footer>
+
+    <!-- PWA Install Banner -->
+    <div class="install-banner" id="installBanner">📱 Install NextTool to your desktop for instant access</div>
+
+    <script>
+    // Tab filtering
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const filter = tab.dataset.filter;
+            document.querySelectorAll('.card').forEach(card => {
+                if (filter === 'all' || card.dataset.cat === filter) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.querySelectorAll('.section-title').forEach(s => {
+                if (filter === 'all') { s.style.display = ''; return; }
+                const sectionId = s.id;
+                if (!sectionId) return;
+                const grid = s.nextElementSibling;
+                if (!grid) return;
+                const hasVisible = grid.querySelector(`.card[data-cat="${filter}"]`);
+                s.style.display = hasVisible ? '' : 'none';
+            });
+        });
+    });
+
+    // PWA install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBanner').style.display = 'block';
+    });
+    document.getElementById('installBanner').addEventListener('click', () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt = null;
+            document.getElementById('installBanner').style.display = 'none';
+        }
+    });
+    </script>
+    <script src="../js/performance.js"></script>
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('../sw.js').catch(()=>{})}</script>
+</body>
+</html>

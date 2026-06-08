@@ -67,6 +67,11 @@
         .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:0.8rem;flex-wrap:wrap}
         /* Install banner */
         .install-banner{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;padding:12px 24px;border-radius:12px;font-size:0.9rem;cursor:pointer;z-index:999;box-shadow:0 4px 20px rgba(0,210,255,0.4)}
+        /* Language Switcher */
+        .lang-switcher{position:fixed;top:12px;right:16px;z-index:100;display:flex;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:3px 4px;backdrop-filter:blur(10px)}
+        .lang-switcher a{padding:4px 12px;border-radius:16px;font-size:0.8rem;text-decoration:none;color:#aaa;transition:all .2s;font-weight:500}
+        .lang-switcher a.active{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .lang-switcher a:not(.active):hover{color:#fff;background:rgba(255,255,255,0.08)}
         /* Structured data */
     </style>
     <script type="application/ld+json">
@@ -122,6 +127,12 @@
 </script>
 </head>
 <body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <a href="./" class="active">中文</a>
+        <a href="./en/">English</a>
+    </div>
+
     <!-- Hero -->
     <div class="hero">
         <h1>NextTool</h1>
