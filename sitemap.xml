@@ -1,14 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 首页 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/</loc>
     <lastmod>2026-06-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
-
-  <!-- 工具页 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/ai-ppt-generator/</loc>
     <lastmod>2026-06-08</lastmod>
@@ -135,8 +132,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- 其他页面 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/en/</loc>
     <lastmod>2026-06-08</lastmod>
@@ -161,8 +156,6 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-
-  <!-- 竞品替代页 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/compare/smallpdf-alternative.html</loc>
     <lastmod>2026-06-08</lastmod>
@@ -211,8 +204,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
-
-  <!-- 落地页 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/landing/free-ppt-maker.html</loc>
     <lastmod>2026-06-08</lastmod>
@@ -273,8 +264,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-
-  <!-- 博客文章 -->
   <url>
     <loc>https://lishoulan.github.io/nextool-apps/blog/articles/5-free-ai-tools-boost-productivity.html</loc>
     <lastmod>2026-06-08</lastmod>
@@ -394,5 +383,131 @@
     <lastmod>2026-06-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/admin/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/ai-summarizer/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/ai-translator/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/base64-tool/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/chrome-extension/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/company-website/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/launch-plan/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/payment-guide/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/pricing/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/qr-generator/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/referral/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/timestamp-tool/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/tools/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/url-tool/</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/ai-contract-generator-guide.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/ai-email-writer-guide.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/ai-paper-rewriter-guide.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/ai-ppt-generator-guide.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/ai-resume-optimizer-guide.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/blog/free-pdf-tools-online.html</loc>
+    <lastmod>2026-06-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
