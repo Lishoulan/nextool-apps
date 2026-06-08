@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#3a7bd5">
   <link rel="apple-touch-icon" href="./icons/icon-192.png">
 <link rel="stylesheet" href="./css/mobile.css">
-<title>404 - 页面未找到 | NexTool</title>
-  <meta name="description" content="页面未找到，浏览NexTool全部AI效率工具。">
+<title>404 - 页面未找到 | NextTool</title>
+  <meta name="description" content="页面未找到，浏览NextTool全部AI效率工具。">
   <meta name="robots" content="noindex, follow">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
@@ -21,6 +21,7 @@
       --accent-blue: #3a7bd5;
       --accent-cyan: #00d2ff;
       --accent-green: #00d4aa;
+      --accent-purple: #818CF8;
       --text-primary: #f0f0f5;
       --text-secondary: #a0a0b8;
       --text-muted: #6c6c80;
@@ -42,8 +43,8 @@
     /* 404 动画 */
     .not-found-hero {
       text-align: center;
-      margin-top: 6vh;
-      margin-bottom: 2rem;
+      margin-top: 5vh;
+      margin-bottom: 1.5rem;
     }
 
     .not-found-hero h1 {
@@ -58,9 +59,16 @@
     }
 
     .not-found-hero .subtitle {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: var(--text-secondary);
       margin-top: 0.5rem;
+      font-weight: 500;
+    }
+
+    .not-found-hero .hint {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
     }
 
     .not-found-hero .emoji {
@@ -90,21 +98,37 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.3); }
+      50% { box-shadow: 0 0 0 8px rgba(58, 123, 213, 0); }
+    }
+
     /* 搜索框 */
     .search-wrap {
       width: 100%;
-      max-width: 480px;
-      margin-bottom: 2rem;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      position: relative;
       animation: fadeInUp 0.5s ease 0.2s both;
+    }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      pointer-events: none;
+      opacity: 0.5;
     }
 
     .search-wrap input {
       width: 100%;
-      padding: 0.85rem 1.2rem;
+      padding: 0.9rem 1.2rem 0.9rem 2.8rem;
       font-size: 1rem;
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
+      border-radius: 14px;
       color: var(--text-primary);
       outline: none;
       transition: border-color 0.3s, box-shadow 0.3s;
@@ -117,50 +141,81 @@
       box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.2);
     }
 
-    /* 产品列表 */
+    /* 热门工具标题 */
+    .section-title {
+      width: 100%;
+      max-width: 720px;
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+      animation: fadeInUp 0.5s ease 0.25s both;
+    }
+
+    .section-title span {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    /* 产品卡片网格 */
     .products-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
       width: 100%;
-      max-width: 960px;
+      max-width: 720px;
       animation: fadeInUp 0.5s ease 0.3s both;
     }
 
     .product-link {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.8rem;
-      padding: 1rem 1.2rem;
+      text-align: center;
+      padding: 1.5rem 1rem;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 12px;
+      border-radius: 16px;
       text-decoration: none;
       color: var(--text-primary);
-      transition: all 0.25s ease;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
     }
 
     .product-link:hover {
-      transform: translateY(-2px);
+      transform: translateY(-4px);
       border-color: var(--accent-blue);
-      box-shadow: 0 6px 20px rgba(58, 123, 213, 0.2);
+      box-shadow: 0 8px 30px rgba(58, 123, 213, 0.25);
+      background: rgba(255, 255, 255, 0.07);
     }
 
-    .product-link .p-emoji { font-size: 1.6rem; flex-shrink: 0; }
+    .product-link .p-emoji {
+      font-size: 2.2rem;
+      margin-bottom: 0.6rem;
+      display: block;
+    }
 
-    .product-link .p-info { display: flex; flex-direction: column; }
+    .product-link .p-name {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
 
-    .product-link .p-name { font-size: 0.95rem; font-weight: 600; }
-
-    .product-link .p-desc { font-size: 0.78rem; color: var(--text-secondary); margin-top: 0.15rem; }
+    .product-link .p-desc {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
 
     .product-link.hidden { display: none; }
 
     /* 返回首页按钮 */
     .btn-home {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
       margin-top: 2.5rem;
-      padding: 0.8rem 2.2rem;
+      padding: 0.85rem 2.4rem;
       background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
       color: #fff;
       font-size: 1rem;
@@ -178,6 +233,8 @@
       box-shadow: 0 8px 28px rgba(58, 123, 213, 0.4);
     }
 
+    .btn-home .arrow { font-size: 1.2rem; }
+
     footer {
       margin-top: auto;
       padding-top: 3rem;
@@ -185,9 +242,14 @@
       font-size: 0.8rem;
     }
 
-    @media (max-width: 480px) {
+    @media (max-width: 640px) {
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .not-found-hero { margin-top: 3vh; }
+      .product-link { padding: 1.2rem 0.8rem; }
+    }
+
+    @media (max-width: 400px) {
       .products-grid { grid-template-columns: 1fr; }
-      .not-found-hero { margin-top: 4vh; }
     }
   </style>
 <!-- Google Analytics -->
@@ -205,66 +267,52 @@
     <div class="emoji">🔍</div>
     <h1>404</h1>
     <p class="subtitle">页面未找到</p>
+    <p class="hint">你访问的页面不存在或已被移动，试试搜索你需要的工具吧</p>
   </div>
 
   <div class="search-wrap">
-    <input type="text" id="search" placeholder="搜索工具..." autocomplete="off">
+    <span class="search-icon">🔎</span>
+    <input type="text" id="search" placeholder="搜索工具，如：PDF、简历、PPT..." autocomplete="off">
   </div>
+
+  <p class="section-title">🔥 热门工具推荐</p>
 
   <div class="products-grid" id="products">
-    <a class="product-link" href="./pdf-toolkit/">
-      <span class="p-emoji">📄</span>
-      <span class="p-info"><span class="p-name">PDF工具箱</span><span class="p-desc">合并、拆分、压缩、转图片</span></span>
-    </a>
-    <a class="product-link" href="./ai-resume-optimizer/">
-      <span class="p-emoji">🎯</span>
-      <span class="p-info"><span class="p-name">AI简历优化</span><span class="p-desc">3分钟优化简历，通过率提升300%</span></span>
-    </a>
-    <a class="product-link" href="./ai-ppt-generator/">
+    <a class="product-link" href="/nextool-apps/ai-ppt-generator/">
       <span class="p-emoji">📊</span>
-      <span class="p-info"><span class="p-name">AI PPT生成器</span><span class="p-desc">输入主题，10秒出完整幻灯片</span></span>
+      <span class="p-name">AI PPT生成器</span>
+      <span class="p-desc">输入主题，10秒出完整幻灯片</span>
     </a>
-    <a class="product-link" href="./ai-contract-generator/">
+    <a class="product-link" href="/nextool-apps/ai-resume-optimizer/">
+      <span class="p-emoji">🎯</span>
+      <span class="p-name">AI简历优化器</span>
+      <span class="p-desc">3分钟优化简历，通过率提升300%</span>
+    </a>
+    <a class="product-link" href="/nextool-apps/pdf-toolkit/">
+      <span class="p-emoji">📄</span>
+      <span class="p-name">PDF工具箱</span>
+      <span class="p-desc">合并、拆分、压缩、转图片</span>
+    </a>
+    <a class="product-link" href="/nextool-apps/ai-contract-generator/">
       <span class="p-emoji">⚖️</span>
-      <span class="p-info"><span class="p-name">AI合同生成器</span><span class="p-desc">1分钟生成专业法律合同</span></span>
+      <span class="p-name">AI合同生成器</span>
+      <span class="p-desc">1分钟生成专业法律合同</span>
     </a>
-    <a class="product-link" href="./ai-email-writer/">
-      <span class="p-emoji">✉️</span>
-      <span class="p-info"><span class="p-name">AI邮件写作器</span><span class="p-desc">10种场景一键生成邮件</span></span>
-    </a>
-    <a class="product-link" href="./ai-paper-rewriter/">
+    <a class="product-link" href="/nextool-apps/ai-paper-rewriter/">
       <span class="p-emoji">📝</span>
-      <span class="p-info"><span class="p-name">AI论文降重</span><span class="p-desc">一键降低查重率</span></span>
+      <span class="p-name">AI论文降重</span>
+      <span class="p-desc">一键降低查重率</span>
     </a>
-    <a class="product-link" href="./ai-translator/">
-      <span class="p-emoji">🌐</span>
-      <span class="p-info"><span class="p-name">AI翻译工具</span><span class="p-desc">8种语言智能翻译</span></span>
-    </a>
-    <a class="product-link" href="./ai-code-explainer/">
-      <span class="p-emoji">💻</span>
-      <span class="p-info"><span class="p-name">AI代码解释器</span><span class="p-desc">看不懂的代码秒懂</span></span>
-    </a>
-    <a class="product-link" href="./ai-summarizer/">
-      <span class="p-emoji">📋</span>
-      <span class="p-info"><span class="p-name">AI文本摘要</span><span class="p-desc">免费！一键生成文章摘要</span></span>
-    </a>
-    <a class="product-link" href="./json-formatter/">
-      <span class="p-emoji">🔧</span>
-      <span class="p-info"><span class="p-name">JSON格式化</span><span class="p-desc">免费！格式化、验证、查询</span></span>
-    </a>
-    <a class="product-link" href="./qr-generator/">
-      <span class="p-emoji">📱</span>
-      <span class="p-info"><span class="p-name">二维码生成器</span><span class="p-desc">免费！自定义颜色批量生成</span></span>
-    </a>
-    <a class="product-link" href="./pricing/">
-      <span class="p-emoji">💎</span>
-      <span class="p-info"><span class="p-name">全站套餐</span><span class="p-desc">¥199/月全部无限使用</span></span>
+    <a class="product-link" href="/nextool-apps/tools/">
+      <span class="p-emoji">🧭</span>
+      <span class="p-name">免费工具导航</span>
+      <span class="p-desc">25+免费在线AI工具大全</span>
     </a>
   </div>
 
-  <a href="./" class="btn-home">返回首页</a>
+  <a href="/nextool-apps/" class="btn-home"><span class="arrow">←</span> 返回首页</a>
 
-  <footer>© 2026 NexTool. All rights reserved.</footer>
+  <footer>© 2026 NextTool. All rights reserved.</footer>
 
   <script>
     (function () {
