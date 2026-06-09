@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精选AI工具推荐 - NextTool | 专业AI工具推荐与评测</title>
+    <meta name="description" content="NextTool精选高品质付费AI工具推荐，涵盖AI写作、AI设计、AI效率、AI开发工具，经过严格筛选，助力提升工作效率。">
+    <meta name="keywords" content="AI工具推荐,Jasper AI,Copy.ai,Midjourney,Notion AI,GitHub Copilot,付费AI工具,AI写作,AI设计,AI效率">
+    <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/premium">
+    <meta property="og:title" content="精选AI工具推荐 - NextTool">
+    <meta property="og:description" content="经过严格筛选的高品质AI工具，提升你的工作效率">
+    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/premium">
+    <meta property="og:type" content="website">
+    <link rel="manifest" href="./manifest.json">
+    <meta name="theme-color" content="#3a7bd5">
+    <link rel="apple-touch-icon" href="./icons/icon-192x192.png">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H0PJ9V418V');
+    </script>
+    <link rel="stylesheet" href="./css/mobile.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:0}
+
+        /* Navigation */
+        .nav{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:16px 1.5rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .nav-brand{font-size:1.3rem;font-weight:700;text-decoration:none;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .nav-links{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+        .nav-links a{color:#aaa;text-decoration:none;font-size:0.9rem;transition:color .3s}
+        .nav-links a:hover,.nav-links a.active{color:#fff}
+        .nav-links .nav-premium{color:#00d2ff;font-weight:600}
+
+        /* Hero */
+        .hero{text-align:center;padding:3rem 1.5rem 2rem;max-width:800px;margin:0 auto}
+        .hero h1{font-size:clamp(2rem,5vw,3.2rem);margin-bottom:0.5rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .tagline{color:#ccc;font-size:clamp(1rem,2.5vw,1.3rem);margin-bottom:1.5rem;line-height:1.6}
+        .hero .disclosure{color:#666;font-size:0.75rem;margin-top:1rem;line-height:1.5}
+
+        /* Section */
+        .section-title{font-size:1.2rem;color:#fff;margin:2.5rem 1.5rem 1rem;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:10px}
+        .section-title .section-icon{font-size:1.4rem}
+        .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}
+        .section-subtitle{color:#888;font-size:0.85rem;margin:0 1.5rem 1rem;max-width:1200px;margin-left:auto;margin-right:auto}
+
+        /* Grid */
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;max-width:1200px;margin:0 auto;padding:0 1.5rem 2rem}
+
+        /* Premium Card */
+        .premium-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.5rem;transition:all .3s;backdrop-filter:blur(10px);display:flex;flex-direction:column;position:relative;overflow:hidden}
+        .premium-card:hover{transform:translateY(-3px);border-color:rgba(58,123,213,0.5);box-shadow:0 8px 28px rgba(58,123,213,0.2)}
+        .premium-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#00d2ff,#3a7bd5);opacity:0;transition:opacity .3s}
+        .premium-card:hover::before{opacity:1}
+
+        .card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+        .card-icon{font-size:2rem;flex-shrink:0;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border-radius:12px}
+        .card-title{font-size:1.1rem;font-weight:600;line-height:1.3}
+        .card-desc{color:#999;font-size:0.85rem;line-height:1.6;margin-bottom:16px;flex:1}
+
+        /* Commission Badge */
+        .commission-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.75rem;font-weight:700;padding:4px 10px;border-radius:8px;background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(16,185,129,0.08));color:#10b981;border:1px solid rgba(16,185,129,0.3);margin-bottom:16px}
+
+        /* CTA Button */
+        .card-cta{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 24px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;font-size:0.9rem;font-weight:600;text-decoration:none;transition:all .3s;cursor:pointer;width:100%}
+        .card-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(0,210,255,0.4)}
+
+        /* Disclosure */
+        .card-disclosure{color:#555;font-size:0.7rem;margin-top:10px;text-align:center}
+
+        /* CTA Section */
+        .cta-section{text-align:center;padding:3rem 1.5rem;max-width:700px;margin:0 auto}
+        .cta-section h2{font-size:1.6rem;margin-bottom:0.8rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .cta-section p{color:#999;font-size:0.95rem;margin-bottom:1.5rem;line-height:1.6}
+        .cta-section .cta-btn{display:inline-block;padding:14px 36px;border-radius:14px;font-size:1rem;font-weight:600;text-decoration:none;transition:all .3s;background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .cta-section .cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,210,255,0.4)}
+        .cta-section .cta-secondary{display:inline-block;padding:14px 36px;border-radius:14px;font-size:1rem;font-weight:600;text-decoration:none;transition:all .3s;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.2);color:#ccc;margin-left:12px}
+        .cta-section .cta-secondary:hover{border-color:#3a7bd5;color:#fff}
+
+        /* Language Switcher */
+        .lang-switcher{position:fixed;top:12px;right:16px;z-index:100;display:flex;gap:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:20px;padding:3px 4px;backdrop-filter:blur(10px)}
+        .lang-switcher a{padding:4px 12px;border-radius:16px;font-size:0.8rem;text-decoration:none;color:#aaa;transition:all .2s;font-weight:500}
+        .lang-switcher a.active{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
+        .lang-switcher a:not(.active):hover{color:#fff;background:rgba(255,255,255,0.08)}
+
+        /* Footer */
+        footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.05)}
+        footer a{color:#666;text-decoration:none}
+        footer a:hover{color:#3a7bd5}
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:0.8rem;flex-wrap:wrap}
+
+        /* Responsive */
+        @media(max-width:640px){
+            .nav{flex-direction:column;gap:12px}
+            .grid{grid-template-columns:1fr}
+            .cta-section .cta-secondary{margin-left:0;margin-top:12px}
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Switcher -->
+    <div class="lang-switcher">
+        <a href="./" class="active">中文</a>
+        <a href="./en/">English</a>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="./" class="nav-brand">NextTool</a>
+        <div class="nav-links">
+            <a href="./">首页</a>
+            <a href="./compare/">对比</a>
+            <a href="./blog/">博客</a>
+            <a href="./pricing/">定价</a>
+            <a href="./premium" class="nav-premium active">⭐ 精选</a>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="hero">
+        <h1>精选AI工具推荐</h1>
+        <p class="tagline">经过严格筛选的高品质AI工具，提升你的工作效率</p>
+        <p class="disclosure">本页面包含推广链接，我们可能通过推荐获得佣金，这不会影响你的购买价格。我们仅推荐经过实际体验和验证的工具。</p>
+    </div>
+
+    <!-- Section 2: AI Writing Tools -->
+    <div class="section-title"><span class="section-icon">✍️</span> AI写作工具</div>
+    <p class="section-subtitle">智能写作助手，让内容创作更高效</p>
+    <div class="grid">
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">🤖</div>
+                <div class="card-title">Jasper AI</div>
+            </div>
+            <p class="card-desc">业界领先的AI写作助手，支持长文、博客、营销文案等多种内容类型，50+模板一键生成，团队协作首选。</p>
+            <div class="commission-badge">💰 赚20%佣金</div>
+            <a href="https://jasper.ai?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">📝</div>
+                <div class="card-title">Copy.ai</div>
+            </div>
+            <p class="card-desc">专注营销文案的AI生成工具，社交媒体、广告语、产品描述一键创作，90+场景模板覆盖全营销链路。</p>
+            <div class="commission-badge">💰 赚25%佣金</div>
+            <a href="https://www.copy.ai/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">✨</div>
+                <div class="card-title">Writesonic</div>
+            </div>
+            <p class="card-desc">全能型AI内容创作平台，支持文章写作、SEO优化、着陆页生成，内置Chatsonic对话助手，性价比极高。</p>
+            <div class="commission-badge">💰 赚30%佣金</div>
+            <a href="https://writesonic.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+    </div>
+
+    <!-- Section 3: AI Design Tools -->
+    <div class="section-title"><span class="section-icon">🎨</span> AI设计工具</div>
+    <p class="section-subtitle">从零到一，AI赋能创意设计</p>
+    <div class="grid">
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">🖼️</div>
+                <div class="card-title">Canva Pro</div>
+            </div>
+            <p class="card-desc">全球最受欢迎的在线设计平台，海量模板+AI设计建议，社交媒体、海报、PPT一站式搞定，零基础也能出专业设计。</p>
+            <div class="commission-badge">💰 $36/单</div>
+            <a href="https://www.canva.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">🎭</div>
+                <div class="card-title">Midjourney</div>
+            </div>
+            <p class="card-desc">顶级AI绘画工具，输入文字描述即可生成惊艳艺术作品，风格从写实到抽象无所不能，设计师和创作者的灵感引擎。</p>
+            <div class="commission-badge">💰 推荐奖励</div>
+            <a href="https://midjourney.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">✂️</div>
+                <div class="card-title">Remove.bg</div>
+            </div>
+            <p class="card-desc">一键AI智能去背景，5秒出图，支持批量处理和HD高清输出，电商产品图和证件照制作必备工具。</p>
+            <div class="commission-badge">💰 赚20%佣金</div>
+            <a href="https://www.remove.bg/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+    </div>
+
+    <!-- Section 4: AI Productivity -->
+    <div class="section-title"><span class="section-icon">⚡</span> AI效率工具</div>
+    <p class="section-subtitle">智能加持，让工作事半功倍</p>
+    <div class="grid">
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">📓</div>
+                <div class="card-title">Notion AI</div>
+            </div>
+            <p class="card-desc">知识管理+AI助手完美结合，智能摘要、写作辅助、任务管理一体化，团队和个人知识库的最佳选择。</p>
+            <div class="commission-badge">💰 $10/推荐</div>
+            <a href="https://www.notion.so/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">📖</div>
+                <div class="card-title">Grammarly</div>
+            </div>
+            <p class="card-desc">AI语法检查与写作增强工具，实时纠错+风格建议+语气调整，支持全平台浏览器插件，英文写作必备。</p>
+            <div class="commission-badge">💰 $25/单</div>
+            <a href="https://www.grammarly.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">📈</div>
+                <div class="card-title">Semrush</div>
+            </div>
+            <p class="card-desc">全功能SEO与数字营销工具，关键词研究、竞品分析、网站审计、内容优化一站式解决，数字营销人必备神器。</p>
+            <div class="commission-badge">💰 $200/单</div>
+            <a href="https://semrush.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+    </div>
+
+    <!-- Section 5: AI Developer Tools -->
+    <div class="section-title"><span class="section-icon">💻</span> AI开发工具</div>
+    <p class="section-subtitle">AI赋能编程，开发效率翻倍</p>
+    <div class="grid">
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">🐙</div>
+                <div class="card-title">GitHub Copilot</div>
+            </div>
+            <p class="card-desc">全球最流行的AI编程助手，实时代码补全+生成+解释，支持所有主流语言和IDE，程序员效率提升利器。</p>
+            <div class="commission-badge">💰 推荐链接</div>
+            <a href="https://github.com/features/copilot/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">🌀</div>
+                <div class="card-title">Replit</div>
+            </div>
+            <p class="card-desc">在线IDE+AI编程环境，支持100+语言，浏览器即可开发部署，AI辅助从想法到上线全流程，协作开发首选。</p>
+            <div class="commission-badge">💰 推荐链接</div>
+            <a href="https://replit.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+
+        <div class="premium-card">
+            <div class="card-header">
+                <div class="card-icon">▲</div>
+                <div class="card-title">Vercel</div>
+            </div>
+            <p class="card-desc">前端应用部署平台，零配置部署+全球CDN+自动HTTPS，Next.js官方推荐，从开发到上线只需一条命令。</p>
+            <div class="commission-badge">💰 $5/推荐</div>
+            <a href="https://vercel.com/?via=nextool" target="_blank" rel="noopener noreferrer" class="card-cta">立即体验 →</a>
+            <p class="card-disclosure">推广链接 | 我们可能获得佣金</p>
+        </div>
+    </div>
+
+    <!-- Section 6: CTA -->
+    <div class="cta-section">
+        <h2>免费工具不够用？试试这些专业版</h2>
+        <p>NextTool免费工具箱已提供25+款基础工具，当你需要更强大的专业能力时，以上精选工具值得投资。</p>
+        <a href="./" class="cta-btn">返回免费工具箱</a>
+        <a href="./pricing/" class="cta-secondary">查看定价方案</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="./">首页</a>
+            <a href="./compare/">对比</a>
+            <a href="./blog/">博客</a>
+            <a href="./pricing/">定价</a>
+            <a href="./referral/">推荐</a>
+            <a href="./premium">精选</a>
+        </div>
+        <p>&copy; 2026 NextTool. All rights reserved. | 免费AI在线工具箱</p>
+    </footer>
+
+    <script src="./js/analytics.js"></script>
+    <script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{})}</script>
+</body>
+</html>

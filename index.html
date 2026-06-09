@@ -60,6 +60,23 @@
         /* Section */
         .section-title{font-size:1.1rem;color:#aaa;margin:1.5rem 1.5rem 0.8rem;max-width:1200px;margin-left:auto;margin-right:auto;display:flex;align-items:center;gap:8px}
         .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.1)}
+        /* Newsletter / Subscribe */
+        .newsletter{text-align:center;padding:3rem 1.5rem;max-width:600px;margin:0 auto}
+        .newsletter h2{font-size:1.4rem;margin-bottom:0.5rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .newsletter p{color:#999;font-size:0.9rem;margin-bottom:1.5rem;line-height:1.6}
+        .newsletter-form{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+        .newsletter-form input[type="email"],.newsletter-form input[type="text"]{flex:1;min-width:160px;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:#fff;font-size:0.95rem;outline:none;transition:border-color .3s}
+        .newsletter-form input[type="email"]::placeholder,.newsletter-form input[type="text"]::placeholder{color:#666}
+        .newsletter-form input[type="email"]:focus,.newsletter-form input[type="text"]:focus{border-color:#3a7bd5}
+        .newsletter-form button{padding:12px 28px;border-radius:12px;border:none;background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;font-size:0.95rem;font-weight:600;cursor:pointer;transition:all .3s}
+        .newsletter-form button:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,210,255,0.4)}
+        .newsletter-form button:disabled{opacity:0.6;cursor:not-allowed;transform:none;box-shadow:none}
+        .newsletter-msg{margin-top:12px;font-size:0.85rem;min-height:1.2em}
+        .newsletter-msg.success{color:#10b981}
+        .newsletter-msg.error{color:#ef4444}
+        .newsletter-fallback{margin-top:8px;font-size:0.8rem;color:#666}
+        .newsletter-fallback a{color:#3a7bd5;text-decoration:none}
+        .newsletter-fallback a:hover{text-decoration:underline}
         /* Footer */
         footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.05)}
         footer a{color:#666;text-decoration:none}
@@ -72,6 +89,9 @@
         .lang-switcher a{padding:4px 12px;border-radius:16px;font-size:0.8rem;text-decoration:none;color:#aaa;transition:all .2s;font-weight:500}
         .lang-switcher a.active{background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff}
         .lang-switcher a:not(.active):hover{color:#fff;background:rgba(255,255,255,0.08)}
+        /* Subscribe nav link */
+        .nav-subscribe{position:fixed;top:12px;right:130px;z-index:100;display:inline-flex;align-items:center;gap:4px;padding:5px 14px;border-radius:20px;background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;font-size:0.8rem;font-weight:600;text-decoration:none;transition:all .3s;box-shadow:0 2px 12px rgba(0,210,255,0.3)}
+        .nav-subscribe:hover{transform:translateY(-1px);box-shadow:0 4px 18px rgba(0,210,255,0.5)}
         /* Structured data */
     </style>
     <script type="application/ld+json">
@@ -127,6 +147,11 @@
 </script>
 </head>
 <body>
+    <a href="./premium" class="nav-subscribe" style="right:330px">⭐ 精选</a>
+    <a href="./services.html" class="nav-subscribe" style="right:230px;background:linear-gradient(90deg,#ff6b6b,#ee5a24)">💼 服务</a>
+    <!-- Subscribe nav link -->
+    <a href="#newsletter" class="nav-subscribe">📬 订阅</a>
+
     <!-- Language Switcher -->
     <div class="lang-switcher">
         <a href="./" class="active">中文</a>
@@ -283,6 +308,22 @@
         </a>
     </div>
 
+    <!-- Newsletter / Subscribe Section -->
+    <div class="section-title" id="newsletter">📬 订阅NexTool</div>
+    <div class="newsletter">
+        <h2>获取最新AI工具推荐</h2>
+        <p>每周精选AI工具更新、效率技巧和独家优惠，直达你的邮箱。</p>
+        <form class="newsletter-form" id="subscribeForm" onsubmit="return false;">
+            <input type="text" id="subscribeName" placeholder="你的昵称" autocomplete="name">
+            <input type="email" id="subscribeEmail" placeholder="输入你的邮箱地址" required autocomplete="email">
+            <button type="submit" id="subscribeBtn">订阅</button>
+        </form>
+        <div class="newsletter-msg" id="subscribeMsg"></div>
+        <div class="newsletter-fallback" id="subscribeFallback" style="display:none;">
+            无法直接订阅？<a href="http://localhost:9000/subscription/form" target="_blank" rel="noopener">点击此处在新标签页打开订阅页面</a>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <div class="footer-links">
@@ -290,7 +331,9 @@
             <a href="./compare/">对比</a>
             <a href="./blog/">博客</a>
             <a href="./pricing/">定价</a>
+            <a href="./services.html">付费服务</a>
             <a href="./referral/">推荐</a>
+            <a href="./premium">精选</a>
         </div>
         <p>&copy; 2026 NextTool. All rights reserved. | 免费AI在线工具箱</p>
     </footer>
@@ -323,6 +366,69 @@
             });
         });
     });
+
+    // Newsletter subscription
+    (function() {
+        var form = document.getElementById('subscribeForm');
+        var nameInput = document.getElementById('subscribeName');
+        var emailInput = document.getElementById('subscribeEmail');
+        var btn = document.getElementById('subscribeBtn');
+        var msg = document.getElementById('subscribeMsg');
+        var fallback = document.getElementById('subscribeFallback');
+        var LISTMONK_API = 'http://localhost:9000/api/subscribers';
+        var LISTMONK_FORM = 'http://localhost:9000/subscription/form';
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var email = emailInput.value.trim();
+            var name = nameInput.value.trim() || email.split('@')[0];
+            if (!email) return;
+
+            btn.disabled = true;
+            btn.textContent = '订阅中...';
+            msg.textContent = '';
+            msg.className = 'newsletter-msg';
+            fallback.style.display = 'none';
+
+            fetch(LISTMONK_API, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    name: name,
+                    lists: [3],
+                    status: 'enabled'
+                })
+            })
+            .then(function(resp) {
+                if (resp.ok) {
+                    msg.textContent = '✅ 订阅成功！感谢你的关注。';
+                    msg.className = 'newsletter-msg success';
+                    emailInput.value = '';
+                } else if (resp.status === 409) {
+                    msg.textContent = 'ℹ️ 该邮箱已订阅，无需重复操作。';
+                    msg.className = 'newsletter-msg success';
+                    emailInput.value = '';
+                } else {
+                    return resp.json().then(function(data) {
+                        throw new Error(data.message || '订阅失败');
+                    }).catch(function() {
+                        throw new Error('订阅请求失败（状态码: ' + resp.status + '）');
+                    });
+                }
+            })
+            .catch(function(err) {
+                // CORS or network error — show fallback
+                msg.textContent = '⚠️ 直接订阅失败，可能是网络限制。';
+                msg.className = 'newsletter-msg error';
+                fallback.style.display = 'block';
+            })
+            .finally(function() {
+                btn.disabled = false;
+                btn.textContent = '订阅';
+            });
+        });
+    })();
 
     // PWA install prompt
     let deferredPrompt;
