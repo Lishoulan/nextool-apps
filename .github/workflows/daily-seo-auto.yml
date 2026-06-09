@@ -1,0 +1,128 @@
+name: Daily SEO Auto
+
+on:
+  schedule:
+    # 每天北京时间8:00（UTC 0:00）运行
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  SITE_URL: https://lishoulan.github.io/nextool-apps/
+  INDEXNOW_KEY: nextool2026indexnow
+
+jobs:
+  daily-seo:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests
+
+      - name: Generate SEO blog article
+        env:
+          DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          SITE_URL: ${{ env.SITE_URL }}
+        run: |
+          python scripts/daily-content.py
+
+      - name: Commit and push new article
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add blog/
+          if git diff --staged --quiet; then
+            echo "No new article to commit"
+          else
+            git commit -m "📝 auto: daily SEO blog article $(date +%Y-%m-%d)"
+            git push
+          fi
+
+      - name: Get new article filename
+        id: article
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          # Find the file created today
+          NEW_FILE=$(find blog/ -name "${TODAY}-*.html" -newer blog/index.html 2>/dev/null | head -1)
+          if [ -z "$NEW_FILE" ]; then
+            NEW_FILE=$(ls -t blog/${TODAY}-*.html 2>/dev/null | head -1)
+          fi
+          if [ -n "$NEW_FILE" ]; then
+            FILENAME=$(basename "$NEW_FILE")
+            echo "filename=${FILENAME}" >> $GITHUB_OUTPUT
+            echo "url=${{ env.SITE_URL }}blog/${FILENAME}" >> $GITHUB_OUTPUT
+            echo "Found new article: ${FILENAME}"
+          else
+            echo "filename=" >> $GITHUB_OUTPUT
+            echo "url=" >> $GITHUB_OUTPUT
+            echo "No new article found for today"
+          fi
+
+      - name: Push URL via IndexNow
+        if: steps.article.outputs.url != ''
+        run: |
+          echo "Pushing URL to IndexNow: ${{ steps.article.outputs.url }}"
+          RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://api.indexnow.org/IndexNow" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "lishoulan.github.io",
+              "key": "'${{ env.INDEXNOW_KEY }}'",
+              "keyLocation": "${{ env.SITE_URL }}${{ env.INDEXNOW_KEY }}.txt",
+              "urlList": ["${{ steps.article.outputs.url }}"]
+            }')
+          echo "IndexNow response code: ${RESPONSE}"
+
+          # Also push to Bing via IndexNow
+          BING_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://www.bing.com/indexnow" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "lishoulan.github.io",
+              "key": "'${{ env.INDEXNOW_KEY }}'",
+              "keyLocation": "${{ env.SITE_URL }}${{ env.INDEXNOW_KEY }}.txt",
+              "urlList": ["${{ steps.article.outputs.url }}"]
+            }')
+          echo "Bing IndexNow response code: ${BING_RESPONSE}"
+
+          # Also push to Yandex
+          YANDEX_RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" -X POST "https://yandex.com/indexnow" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "host": "lishoulan.github.io",
+              "key": "'${{ env.INDEXNOW_KEY }}'",
+              "keyLocation": "${{ env.SITE_URL }}${{ env.INDEXNOW_KEY }}.txt",
+              "urlList": ["${{ steps.article.outputs.url }}"]
+            }')
+          echo "Yandex IndexNow response code: ${YANDEX_RESPONSE}"
+
+      - name: Submit sitemap to search engines
+        run: |
+          SITEMAP_URL="${{ env.SITE_URL }}sitemap.xml"
+
+          # Submit to Bing
+          BING_KEY="${{ secrets.BING_WEBMASTER_KEY }}"
+          if [ -n "$BING_KEY" ]; then
+            curl -s "https://ssl.bing.com/webmaster/api.svc/json/SubmitUrl?apikey=${BING_KEY}&siteUrl=${{ env.SITE_URL }}&url=${SITEMAP_URL}" || true
+            echo "Sitemap submitted to Bing"
+          else
+            echo "BING_WEBMASTER_KEY not set, skipping Bing sitemap submission"
+          fi
+
+          # Ping search engines with sitemap
+          curl -s "https://www.google.com/ping?sitemap=${SITEMAP_URL}" || true
+          echo "Sitemap pinged to Google"
+
+          curl -s "https://www.bing.com/ping?sitemap=${SITEMAP_URL}" || true
+          echo "Sitemap pinged to Bing"
