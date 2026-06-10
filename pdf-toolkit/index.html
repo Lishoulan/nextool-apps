@@ -19,7 +19,6 @@
 <title>PDF 工具箱 - 免费在线PDF处理</title>
 <meta name="description" content="免费在线PDF合并、拆分、转图片、压缩、加水印，所有处理在浏览器端完成，无需上传服务器。">
 <!-- Google AdSense 广告位 - 替换为你的广告代码 -->
-<!-- 百度联盟广告 - 替换为你的真实代码 -->
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--primary:#4F46E5;--primary-hover:#4338CA;--primary-light:#EEF2FF;--success:#10B981;--danger:#EF4444;--warning:#F59E0B;--gray-50:#F9FAFB;--gray-100:#F3F4F6;--gray-200:#E5E7EB;--gray-300:#D1D5DB;--gray-400:#9CA3AF;--gray-500:#6B7280;--gray-600:#4B5563;--gray-700:#374151;--gray-800:#1F2937;--gray-900:#111827;--radius:12px;--shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);--shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);--shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05)}
@@ -168,50 +167,18 @@ PDF 工具箱
 </div>
 </header>
 
-<!-- 百度联盟广告位 -->
-<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;background:rgba(255,255,255,0.03);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-  <div id="baidu-clb-slot-XXXXXX"></div>
-  <script type="text/javascript" src="https://cbjs.baidu.com/js/m.js"></script>
-  <script type="text/javascript">
-  BAIDU_CLB_fillSlotAsync("XXXXXX", "baidu-clb-slot-XXXXXX");
-  </script>
+<!-- 穿山甲广告位 -->
+<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;">
+  <div id="pangolin-slot-XXXXXX"></div>
 </div>
-
-<div class="container">
-<!-- 工具选择 -->
-<div id="toolsPanel">
-<div class="tools-grid">
-<div class="tool-card" onclick="switchTool('merge')">
-<div class="tool-icon merge">📎</div>
-<h3>PDF 合并</h3>
-<p>多个PDF合为一个</p>
-</div>
-<div class="tool-card" onclick="switchTool('split')">
-<div class="tool-icon split">✂️</div>
-<h3>PDF 拆分</h3>
-<p>按页码拆分PDF</p>
-</div>
-<div class="tool-card" onclick="switchTool('pdf2img')">
-<div class="tool-icon pdf2img">🖼️</div>
-<h3>PDF 转图片</h3>
-<p>每页转为PNG</p>
-</div>
-<div class="tool-card" onclick="switchTool('img2pdf')">
-<div class="tool-icon img2pdf">📄</div>
-<h3>图片转 PDF</h3>
-<p>多张图片合成PDF</p>
-</div>
-<div class="tool-card" onclick="switchTool('compress')">
-<div class="tool-icon compress">📦</div>
-<h3>PDF 压缩</h3>
-<p>减小文件大小</p>
-</div>
-<div class="tool-card" onclick="switchTool('watermark')">
-<div class="tool-icon watermark">💧</div>
-<h3>PDF 加水印</h3>
-<p>添加文字水印</p>
-</div>
-</div>
+<script src="https://sf-cdn.tosshihou.com/pangolin-sdk/web/pangolin-sdk.js"></script>
+<script>
+  window.PANGOLIN_SDK && PANGOLIN_SDK.init({
+    slotId: "XXXXXX",
+    containerId: "pangolin-slot-XXXXXX",
+    renderMode: "insert"
+  });
+</script>
 </div>
 
 <!-- 合并工作区 -->
@@ -483,15 +450,18 @@ PDF 工具箱
 <div id="watermarkResult" class="result-area" style="display:none"></div>
 </div>
 
-<!-- 百度联盟广告位 -->
-<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;background:rgba(255,255,255,0.03);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-  <div id="baidu-clb-slot-XXXXXX"></div>
-  <script type="text/javascript" src="https://cbjs.baidu.com/js/m.js"></script>
-  <script type="text/javascript">
-  BAIDU_CLB_fillSlotAsync("XXXXXX", "baidu-clb-slot-XXXXXX");
-  </script>
+<!-- 穿山甲广告位 -->
+<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;">
+  <div id="pangolin-slot-XXXXXX"></div>
 </div>
-</div>
+<script src="https://sf-cdn.tosshihou.com/pangolin-sdk/web/pangolin-sdk.js"></script>
+<script>
+  window.PANGOLIN_SDK && PANGOLIN_SDK.init({
+    slotId: "XXXXXX",
+    containerId: "pangolin-slot-XXXXXX",
+    renderMode: "insert"
+  });
+</script>
 
 <footer class="footer">
 <p>PDF 工具箱 — 所有文件处理均在浏览器本地完成，不上传任何服务器</p>

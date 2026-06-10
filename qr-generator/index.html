@@ -87,7 +87,6 @@
   gtag('js', new Date());
   gtag('config', 'G-H0PJ9V418V');
 </script>
-<!-- 百度联盟广告 - 替换为你的真实代码 -->
 </head>
 <body>
 <div id="breadcrumb" data-product="二维码生成器"></div>
@@ -190,137 +189,18 @@
   <span style="display:inline-block;margin-left:12px;padding:10px 20px;border:1px solid rgba(108,92,231,0.5);border-radius:8px;font-size:0.9rem"><a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="color:#a855f7;text-decoration:none">☕ 或请我喝咖啡</a></span>
 </div>
 
-<!-- 百度联盟广告位 -->
-<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;background:rgba(255,255,255,0.03);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-  <div id="baidu-clb-slot-XXXXXX"></div>
-  <script type="text/javascript" src="https://cbjs.baidu.com/js/m.js"></script>
-  <script type="text/javascript">
-  BAIDU_CLB_fillSlotAsync("XXXXXX", "baidu-clb-slot-XXXXXX");
-  </script>
+<!-- 穿山甲广告位 -->
+<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;">
+  <div id="pangolin-slot-XXXXXX"></div>
 </div>
-
-</footer>
-    <script>
-        let qrSize = 256;
-        let currentQR = null;
-
-        function setSize(size) {
-            qrSize = size;
-            document.querySelectorAll('.size-selector .btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
-
-        function generateQR() {
-            const text = document.getElementById('qrText').value.trim();
-            if (!text) { alert('请输入文本或URL'); return; }
-            const fg = document.getElementById('fgColor').value;
-            const bg = document.getElementById('bgColor').value;
-            const container = document.getElementById('qrCode');
-            container.innerHTML = '';
-            container.style.display = 'block';
-            document.getElementById('qrPlaceholder').style.display = 'none';
-            currentQR = new QRCode(container, {
-                text: text,
-                width: qrSize,
-                height: qrSize,
-                colorDark: fg,
-                colorLight: bg,
-                correctLevel: QRCode.CorrectLevel.H
-            });
-            saveToHistory(text);
-        }
-
-        function downloadQR() {
-            const canvas = document.querySelector('#qrCode canvas');
-            if (!canvas) { alert('请先生成二维码'); return; }
-            const link = document.createElement('a');
-            link.download = 'qrcode.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }
-
-        function copyQRDataUrl() {
-            const canvas = document.querySelector('#qrCode canvas');
-            if (!canvas) { alert('请先生成二维码'); return; }
-            canvas.toBlob(blob => {
-                navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]).then(() => alert('已复制!'));
-            });
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById('tab-' + tab).classList.add('active');
-            if (tab === 'history') loadHistory();
-        }
-
-        function generateBatch() {
-            const input = document.getElementById('batchInput').value.trim();
-            if (!input) { alert('请输入内容'); return; }
-            const lines = input.split('\n').map(l => l.trim()).filter(l => l);
-            const container = document.getElementById('batchResults');
-            container.innerHTML = '';
-            lines.forEach((line, i) => {
-                const item = document.createElement('div');
-                item.className = 'batch-qr-item';
-                const qrDiv = document.createElement('div');
-                qrDiv.id = 'batch-qr-' + i;
-                item.appendChild(qrDiv);
-                const label = document.createElement('div');
-                label.className = 'label';
-                label.textContent = line.length > 40 ? line.substring(0, 40) + '...' : line;
-                item.appendChild(label);
-                const dlBtn = document.createElement('button');
-                dlBtn.className = 'btn btn-outline btn-sm';
-                dlBtn.style.marginTop = '8px';
-                dlBtn.textContent = '💾 下载';
-                dlBtn.onclick = function() {
-                    const c = qrDiv.querySelector('canvas');
-                    if (c) { const a = document.createElement('a'); a.download = `qrcode_${i+1}.png`; a.href = c.toDataURL('image/png'); a.click(); }
-                };
-                item.appendChild(dlBtn);
-                container.appendChild(item);
-                new QRCode(qrDiv, { text: line, width: 150, height: 150, colorDark: '#000000', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
-                saveToHistory(line);
-            });
-        }
-
-        function downloadAllBatch() {
-            const canvases = document.querySelectorAll('#batchResults canvas');
-            if (canvases.length === 0) { alert('请先生成批量二维码'); return; }
-            canvases.forEach((c, i) => {
-                const a = document.createElement('a');
-                a.download = `qrcode_${i+1}.png`;
-                a.href = c.toDataURL('image/png');
-                a.click();
-            });
-        }
-
-        function saveToHistory(text) {
-            let history = JSON.parse(localStorage.getItem('qr_history') || '[]');
-            history = history.filter(h => h.text !== text);
-            history.unshift({ text, date: new Date().toLocaleString('zh-CN') });
-            if (history.length > 20) history = history.slice(0, 20);
-            localStorage.setItem('qr_history', JSON.stringify(history));
-        }
-
-        function loadHistory() {
-            const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
-            const container = document.getElementById('historyList');
-            if (history.length === 0) {
-                container.innerHTML = '<p style="color:var(--text2);text-align:center;">暂无记录</p>';
-                return;
-            }
-            container.innerHTML = history.map((h, i) => `
-                <div class="history-item">
-                    <span class="text">${h.text}</span>
-                    <span class="date">${h.date}</span>
-                    <div class="actions">
-                        <button class="btn btn-outline btn-sm" onclick="reuseHistory(${i})">🔄</button>
-                        <button class="btn btn-outline btn-sm" onclick="deleteHistory(${i})" style="color:var(--red);">✕</button>
-                    </div>
-                </div>
+<script src="https://sf-cdn.tosshihou.com/pangolin-sdk/web/pangolin-sdk.js"></script>
+<script>
+  window.PANGOLIN_SDK && PANGOLIN_SDK.init({
+    slotId: "XXXXXX",
+    containerId: "pangolin-slot-XXXXXX",
+    renderMode: "insert"
+  });
+</script>
             `).join('');
         }
 

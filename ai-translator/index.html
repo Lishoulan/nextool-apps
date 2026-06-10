@@ -170,7 +170,6 @@ footer a{color:var(--accent);text-decoration:none}
   ]
 }
 </script>
-<!-- 百度联盟广告 - 替换为你的真实代码 -->
 </head>
 <body>
 <div id="breadcrumb" data-product="AI翻译工具"></div>
@@ -278,30 +277,18 @@ footer a{color:var(--accent);text-decoration:none}
   <span style="display:inline-block;margin-left:12px;padding:10px 20px;border:1px solid rgba(108,92,231,0.5);border-radius:8px;font-size:0.9rem"><a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="color:#a855f7;text-decoration:none">☕ 或请我喝咖啡</a></span>
 </div>
 
-<!-- 百度联盟广告位 -->
-<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;background:rgba(255,255,255,0.03);border-radius:8px;display:flex;align-items:center;justify-content:center;">
-  <div id="baidu-clb-slot-XXXXXX"></div>
-  <script type="text/javascript" src="https://cbjs.baidu.com/js/m.js"></script>
-  <script type="text/javascript">
-  BAIDU_CLB_fillSlotAsync("XXXXXX", "baidu-clb-slot-XXXXXX");
-  </script>
+<!-- 穿山甲广告位 -->
+<div style="max-width:728px;margin:20px auto;text-align:center;min-height:90px;">
+  <div id="pangolin-slot-XXXXXX"></div>
 </div>
-
-</footer>
-</div>
-
-<!-- 升级弹窗 -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" style="position:relative">
-    <button class="modal-close" id="modalClose">&times;</button>
-    <h2>升级 NexTool Pro</h2>
-    <p>解锁无限翻译次数，享受更优质的翻译体验</p>
-    <div class="plan-cards">
-      <div class="plan-card" id="planFree">
-        <div class="plan-name">免费版</div>
-        <div class="plan-price">¥0</div>
-        <div class="plan-desc">3次/天</div>
-      </div>
+<script src="https://sf-cdn.tosshihou.com/pangolin-sdk/web/pangolin-sdk.js"></script>
+<script>
+  window.PANGOLIN_SDK && PANGOLIN_SDK.init({
+    slotId: "XXXXXX",
+    containerId: "pangolin-slot-XXXXXX",
+    renderMode: "insert"
+  });
+</script>
       <div class="plan-card active" id="planPro">
         <div class="plan-name">Pro</div>
         <div class="plan-price">¥19<span style="font-size:13px;font-weight:400">/月</span></div>
