@@ -391,7 +391,7 @@
   </div>
 
   <!-- 优化按钮 -->
-  <button class="btn-optimize" id="btnOptimize" onclick="optimizeResume()">
+  <button class="btn-optimize" id="btnOptimize" onclick="if(!window.__nextoolCheckLimit())return false;optimizeResume()">
     🚀 一键优化简历
   </button>
 
@@ -404,7 +404,7 @@
   <div class="compare-section" id="compareSection">
     <div class="compare-header">
       <h2>📊 优化对比</h2>
-      <button class="btn-copy" id="btnCopy" onclick="copyResult()">📋 复制优化结果</button>
+      <button class="btn-copy" id="btnCopy" onclick="if(!window.__nextoolCheckLimit())return false;copyResult()">📋 复制优化结果</button>
     </div>
     <div class="compare-grid">
       <div class="compare-pane">
@@ -786,5 +786,50 @@ if(ql)ql.textContent=30+Math.floor(Math.random()*30);
     <span>☕</span> 支持 NexTool · 解锁 Pro
   </a>
 </div>
+<!-- NexTool 免费使用限制 -->
+<script>
+(function(){
+  var KEY='nextool-usage';
+  var LIMIT=3;
+  var AFDIAN='https://afdian.com/a/nextool-apps';
+  function getUsage(){
+    try{
+      var d=JSON.parse(localStorage.getItem(KEY)||'{}');
+      var today=new Date().toISOString().slice(0,10);
+      if(d.date!==today)return{date:today,count:0};
+      return d;
+    }catch(e){return{date:new Date().toISOString().slice(0,10),count:0};}
+  }
+  function saveUsage(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
+  function showUpgradeModal(){
+    var existing=document.getElementById('nextool-limit-modal');
+    if(existing)return;
+    var m=document.createElement('div');
+    m.id='nextool-limit-modal';
+    m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;';
+    m.innerHTML='<div style="background:#1a1a2e;border:1px solid rgba(108,92,231,0.5);border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;">'+
+      '<div style="font-size:48px;margin-bottom:12px;">🔒</div>'+
+      '<h3 style="color:#e8e6e3;font-size:1.3rem;margin-bottom:8px;">今日免费次数已用完</h3>'+
+      '<p style="color:#9a9aaa;font-size:0.95rem;margin-bottom:20px;">免费用户每日限用'+LIMIT+'次，升级Pro解锁无限使用</p>'+
+      '<a href="'+AFDIAN+'" target="_blank" rel="noopener" style="display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:1rem;margin-bottom:12px;">⭐ 升级 Pro · ¥19/月</a>'+
+      '<br><a href="javascript:void(0)" onclick="document.getElementById(\'nextool-limit-modal\').remove()" style="color:#666;font-size:0.85rem;text-decoration:none;margin-top:8px;display:inline-block;">继续浏览（不可使用功能）</a>'+
+      '</div>';
+    document.body.appendChild(m);
+  }
+  window.__nextoolCheckLimit=function(){
+    var u=getUsage();
+    if(u.count>=LIMIT){showUpgradeModal();return false;}
+    u.count++;saveUsage(u);
+    return true;
+  };
+  window.__nextoolGetUsage=function(){return getUsage();};
+  // Show usage indicator
+  var u=getUsage();
+  var indicator=document.createElement('div');
+  indicator.style.cssText='position:fixed;top:10px;right:80px;z-index:9998;background:rgba(26,26,46,0.9);border:1px solid rgba(108,92,231,0.3);border-radius:20px;padding:6px 14px;font-size:12px;color:#9a9aaa;';
+  indicator.innerHTML='今日已用 <span style="color:#a855f7;font-weight:600;">'+u.count+'</span>/'+LIMIT+' · <a href="'+AFDIAN+'" target="_blank" style="color:#6c5ce7;text-decoration:none;">升级Pro</a>';
+  document.body.appendChild(indicator);
+})();
+</script>
 </body>
 </html>
