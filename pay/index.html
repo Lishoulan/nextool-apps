@@ -3,137 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>支持NextTool - 请作者喝杯咖啡 | 免费AI工具箱</title>
-    <meta name="description" content="支持NextTool免费AI工具箱持续运营，您的每一份支持都是我们前进的动力！">
-    <meta name="keywords" content="NextTool赞助,支持免费工具,打赏,捐赠,AI工具箱">
+    <title>支持 NexTool - 为免费工具加油</title>
+    <meta name="description" content="支持 NexTool 持续开发免费AI工具。选择适合你的赞助方案，解锁 Pro 功能，助力工具成长。">
+    <meta name="keywords" content="NexTool,赞助,支持,Pro,付费,AI工具,爱发电">
     <link rel="canonical" href="https://lishoulan.github.io/nextool-apps/pay/">
+    <meta property="og:title" content="支持 NexTool - 为免费工具加油">
+    <meta property="og:description" content="选择适合你的赞助方案，解锁 Pro 功能，助力 NexTool 成长">
+    <meta property="og:url" content="https://lishoulan.github.io/nextool-apps/pay/">
+    <meta property="og:type" content="website">
+    <link rel="manifest" href="../manifest.json">
+    <meta name="theme-color" content="#6c5ce7">
+    <link rel="apple-touch-icon" href="../icons/icon-192x192.png">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-H0PJ9V418V');
+    </script>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);min-height:100vh;color:#fff;padding:2rem 1rem}
-        .container{max-width:600px;margin:0 auto}
-        h1{text-align:center;font-size:1.8rem;margin-bottom:0.5rem;background:linear-gradient(90deg,#00d2ff,#3a7bd5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-        .subtitle{text-align:center;color:#aaa;margin-bottom:2rem;font-size:1rem;line-height:1.6}
-        .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:2rem;margin-bottom:1.5rem;backdrop-filter:blur(10px)}
-        .card h2{font-size:1.2rem;margin-bottom:1rem;color:#00d2ff}
-        .card p{color:#ccc;line-height:1.8;margin-bottom:1rem;font-size:0.95rem}
-        .qr-container{display:flex;gap:1.5rem;justify-content:center;flex-wrap:wrap;margin:1.5rem 0}
-        .qr-item{text-align:center;flex:1;min-width:200px;max-width:280px}
-        .qr-item img{width:180px;height:180px;border-radius:12px;border:2px solid rgba(255,255,255,0.1);margin-bottom:0.5rem}
-        .qr-item .label{color:#aaa;font-size:0.85rem}
-        .stats{display:flex;gap:1rem;justify-content:center;margin:1.5rem 0;flex-wrap:wrap}
-        .stat{text-align:center;padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;flex:1;min-width:120px}
-        .stat .num{font-size:1.5rem;font-weight:700;color:#00d2ff}
-        .stat .desc{font-size:0.75rem;color:#888;margin-top:4px}
-        .benefits{list-style:none;padding:0}
-        .benefits li{padding:0.5rem 0;color:#ccc;font-size:0.9rem;display:flex;align-items:center;gap:8px}
-        .benefits li::before{content:'✓';color:#10b981;font-weight:700}
-        .cta{text-align:center;margin:2rem 0}
-        .cta a{display:inline-block;background:linear-gradient(90deg,#00d2ff,#3a7bd5);color:#fff;padding:12px 32px;border-radius:12px;text-decoration:none;font-weight:600;font-size:1rem;transition:all .3s}
-        .cta a:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,210,255,0.4)}
-        .back{text-align:center;margin-top:2rem}
-        .back a{color:#aaa;text-decoration:none;font-size:0.9rem}
-        .back a:hover{color:#00d2ff}
-        .amount-options{display:flex;gap:0.8rem;justify-content:center;flex-wrap:wrap;margin:1rem 0}
-        .amount-btn{padding:8px 20px;border-radius:20px;border:1px solid rgba(0,210,255,0.3);background:rgba(0,210,255,0.05);color:#00d2ff;cursor:pointer;font-size:0.9rem;transition:all .2s}
-        .amount-btn:hover,.amount-btn.active{background:rgba(0,210,255,0.2);border-color:#00d2ff}
-        .note{text-align:center;color:#666;font-size:0.8rem;margin-top:1rem;line-height:1.6}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0f;min-height:100vh;color:#fff;padding:0}
+
+        /* Navigation */
+        .nav{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:16px 1.5rem;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .nav-brand{font-size:1.3rem;font-weight:700;text-decoration:none;background:linear-gradient(90deg,#6c5ce7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .nav-links{display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+        .nav-links a{color:#aaa;text-decoration:none;font-size:0.9rem;transition:color .3s}
+        .nav-links a:hover{color:#fff}
+
+        /* Hero */
+        .hero{text-align:center;padding:3rem 1.5rem 2rem;max-width:800px;margin:0 auto}
+        .hero h1{font-size:clamp(1.8rem,5vw,2.8rem);margin-bottom:0.5rem;background:linear-gradient(90deg,#6c5ce7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero .tagline{color:#ccc;font-size:clamp(1rem,2.5vw,1.2rem);margin-bottom:1.5rem;line-height:1.6}
+        .hero .desc{color:#888;font-size:0.9rem;line-height:1.6;max-width:560px;margin:0 auto}
+
+        /* Tier Cards */
+        .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:960px;margin:2.5rem auto;padding:0 1.5rem}
+        .tier-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+        .tier-card:hover{transform:translateY(-4px);border-color:rgba(108,92,231,0.5);box-shadow:0 8px 32px rgba(108,92,231,0.15)}
+        .tier-card.featured{border-color:rgba(168,85,247,0.4);background:rgba(108,92,231,0.06)}
+        .tier-card.featured::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#6c5ce7,#a855f7)}
+        .tier-icon{font-size:2.5rem;margin-bottom:0.8rem}
+        .tier-name{font-size:1.2rem;font-weight:700;margin-bottom:0.3rem}
+        .tier-price{font-size:1.6rem;font-weight:700;background:linear-gradient(90deg,#6c5ce7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.8rem}
+        .tier-price span{font-size:0.85rem;font-weight:400;-webkit-text-fill-color:#888}
+        .tier-desc{color:#999;font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem}
+        .tier-btn{display:inline-block;padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(90deg,#6c5ce7,#a855f7);color:#fff;font-size:1rem;font-weight:600;text-decoration:none;transition:all .3s;cursor:pointer}
+        .tier-btn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(108,92,231,0.4)}
+        .tier-card.featured .tier-btn{padding:14px 36px;font-size:1.05rem}
+
+        /* One-time Section */
+        .onetime{max-width:600px;margin:3rem auto;padding:0 1.5rem;text-align:center}
+        .onetime h2{font-size:1.4rem;margin-bottom:0.5rem;background:linear-gradient(90deg,#6c5ce7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .onetime p{color:#999;font-size:0.9rem;line-height:1.6;margin-bottom:1.5rem}
+        .qr-box{display:inline-block;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:1.5rem 2rem}
+        .qr-placeholder{width:200px;height:200px;background:rgba(255,255,255,0.08);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#666;font-size:0.85rem;flex-direction:column;gap:8px}
+        .qr-placeholder .qr-icon{font-size:2.5rem}
+        .qr-label{color:#aaa;font-size:0.85rem;margin-top:0.8rem}
+
+        /* Why Section */
+        .why{max-width:800px;margin:3rem auto;padding:0 1.5rem;text-align:center}
+        .why h2{font-size:1.4rem;margin-bottom:1rem;background:linear-gradient(90deg,#6c5ce7,#a855f7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.2rem;margin-top:1.5rem}
+        .why-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;text-align:center}
+        .why-item .why-icon{font-size:1.8rem;margin-bottom:0.5rem}
+        .why-item h3{font-size:0.95rem;margin-bottom:0.3rem}
+        .why-item p{color:#888;font-size:0.8rem;line-height:1.5}
+
+        /* Footer */
+        footer{text-align:center;padding:2rem 1.5rem;color:#555;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.05)}
+        footer a{color:#666;text-decoration:none}
+        footer a:hover{color:#a855f7}
+        .footer-links{display:flex;gap:1.5rem;justify-content:center;margin-bottom:0.8rem;flex-wrap:wrap}
+
+        /* Responsive */
+        @media(max-width:640px){
+            .tiers{grid-template-columns:1fr}
+            .nav-links{gap:1rem}
+        }
     </style>
+    <script type="application/ld+json">
+    {
+      "@context":"https://schema.org",
+      "@type":"WebPage",
+      "name":"支持 NexTool - 为免费工具加油",
+      "description":"支持 NexTool 持续开发免费AI工具。选择适合你的赞助方案，解锁 Pro 功能。",
+      "url":"https://lishoulan.github.io/nextool-apps/pay/"
+    }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h1>支持 NextTool</h1>
-        <p class="subtitle">您的每一份支持，都是我们持续提供免费工具的动力</p>
-        
-        <div class="stats">
-            <div class="stat">
-                <div class="num">25+</div>
-                <div class="desc">免费工具</div>
-            </div>
-            <div class="stat">
-                <div class="num">100%</div>
-                <div class="desc">永久免费</div>
-            </div>
-            <div class="stat">
-                <div class="num">0</div>
-                <div class="desc">广告弹窗</div>
-            </div>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="../" class="nav-brand">NexTool</a>
+        <div class="nav-links">
+            <a href="../">首页</a>
+            <a href="../pricing/">定价</a>
+            <a href="../compare/">对比</a>
+            <a href="./" style="color:#a855f7;font-weight:600">支持</a>
         </div>
+    </nav>
 
-        <div class="card">
-            <h2>为什么需要您的支持？</h2>
-            <p>NextTool所有工具完全免费，但服务器、API调用、域名等都需要成本。您的支持能帮我们：</p>
-            <ul class="benefits">
-                <li>维持现有25+工具的免费运营</li>
-                <li>持续开发新的AI工具</li>
-                <li>提升服务器性能和响应速度</li>
-                <li>保持无广告、无弹窗的清爽体验</li>
-            </ul>
+    <!-- Hero -->
+    <div class="hero">
+        <h1>支持 NexTool - 为免费工具加油</h1>
+        <p class="tagline">你的每一份支持，都是我们持续打造免费好工具的动力</p>
+        <p class="desc">NexTool 始终坚持核心功能免费开放。如果你觉得我们的工具有价值，欢迎通过赞助支持我们持续开发与维护。</p>
+    </div>
+
+    <!-- Tier Cards -->
+    <div class="tiers">
+        <!-- Tier 1 -->
+        <div class="tier-card">
+            <div class="tier-icon">☕</div>
+            <div class="tier-name">请我喝咖啡</div>
+            <div class="tier-price">¥5<span>/月</span></div>
+            <div class="tier-desc">支持持续开发，让免费工具走得更远</div>
+            <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" class="tier-btn">支持</a>
         </div>
-
-        <div class="card">
-            <h2>选择支持金额</h2>
-            <div class="amount-options">
-                <button class="amount-btn" onclick="selectAmount(this)">☕ 6元</button>
-                <button class="amount-btn active" onclick="selectAmount(this)">🍔 15元</button>
-                <button class="amount-btn" onclick="selectAmount(this)">🍕 30元</button>
-                <button class="amount-btn" onclick="selectAmount(this)">🎁 50元</button>
-                <button class="amount-btn" onclick="selectAmount(this)">💎 100元</button>
-            </div>
+        <!-- Tier 2 -->
+        <div class="tier-card featured">
+            <div class="tier-icon">⭐</div>
+            <div class="tier-name">工具爱好者</div>
+            <div class="tier-price">¥19<span>/月</span></div>
+            <div class="tier-desc">解锁所有 Pro 功能，无限制使用全部 AI 工具</div>
+            <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" class="tier-btn">支持</a>
         </div>
-
-        <div class="card">
-            <h2>扫码支持</h2>
-            <p>请选择微信或支付宝扫码支付：</p>
-            <div class="qr-container">
-                <div class="qr-item">
-                    <img src="../images/wechat-pay.png" alt="微信支付">
-                    <div class="label">微信支付</div>
-                </div>
-                <div class="qr-item">
-                    <img src="https://qr.alipay.com/fkx19329f2n6aqdxi5njqc4" alt="支付宝" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22180%22 height=%22180%22><rect fill=%22%231677ff%22 width=%22180%22 height=%22180%22 rx=%2212%22/><text x=%2290%22 y=%2295%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2214%22>支付宝</text></svg>'">
-                    <div class="label">支付宝</div>
-                </div>
-            </div>
-            <p class="note">支付时请备注"NextTool"，感谢您的支持！<br>所有收入将用于服务器和API成本。</p>
-        </div>
-
-        <div class="card">
-            <h2>其他支持方式</h2>
-            <ul class="benefits">
-                <li>分享NextTool给朋友和同事</li>
-                <li>在社交媒体推荐NextTool</li>
-                <li>给我们提建议和反馈</li>
-                <li>写博客/文章介绍NextTool</li>
-            </ul>
-        </div>
-
-        <div class="cta">
-            <a href="/">返回NextTool首页</a>
-        </div>
-
-        <div class="back">
-            <a href="/">&larr; 返回首页</a> | <a href="/blog/">博客</a> | <a href="/tools/">工具列表</a>
+        <!-- Tier 3 -->
+        <div class="tier-card">
+            <div class="tier-icon">🚀</div>
+            <div class="tier-name">效率达人</div>
+            <div class="tier-price">¥49<span>/月</span></div>
+            <div class="tier-desc">Pro 功能 + 优先支持 + 新功能内测资格</div>
+            <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" class="tier-btn">支持</a>
         </div>
     </div>
 
-    <script>
-    function selectAmount(btn) {
-        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    }
-    </script>
-    <script>
-    (function(){
-        var bp = document.createElement('script');
-        var curProtocol = window.location.protocol.split(':')[0];
-        if (curProtocol === 'https') {
-            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
-        } else {
-            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-        }
-        var s = document.getElementsByTagName("script")[0];
-        s.parentNode.insertBefore(bp, s);
-    })();
-    </script>
+    <!-- One-time Support -->
+    <div class="onetime">
+        <h2>一次性支持</h2>
+        <p>如果你更喜欢一次性打赏，也可以通过微信支付直接支持我们。每一分钱都会用于工具的开发和维护。</p>
+        <div class="qr-box">
+            <div class="qr-placeholder">
+                <div class="qr-icon">💳</div>
+                微信支付二维码
+            </div>
+            <div class="qr-label">微信扫一扫，支持 NexTool</div>
+        </div>
+    </div>
+
+    <!-- Why Support -->
+    <div class="why">
+        <h2>为什么要支持 NexTool？</h2>
+        <div class="why-grid">
+            <div class="why-item">
+                <div class="why-icon">🛠️</div>
+                <h3>持续维护</h3>
+                <p>服务器与 API 成本需要持续投入，你的支持让工具稳定运行</p>
+            </div>
+            <div class="why-item">
+                <div class="why-icon">🆕</div>
+                <h3>新功能开发</h3>
+                <p>赞助帮助我们开发更多实用 AI 工具，惠及所有用户</p>
+            </div>
+            <div class="why-item">
+                <div class="why-icon">🤝</div>
+                <h3>保持免费</h3>
+                <p>你的支持让核心功能永久免费，帮助更多人提升效率</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="../">首页</a>
+            <a href="../pricing/">定价</a>
+            <a href="../compare/">对比</a>
+            <a href="../blog/">博客</a>
+            <a href="../referral/">推荐</a>
+        </div>
+        <p>&copy; 2026 NexTool. All rights reserved. | 免费AI在线工具箱</p>
+    </footer>
 </body>
 </html>
