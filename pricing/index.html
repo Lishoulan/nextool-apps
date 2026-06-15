@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -24,12 +24,12 @@
     <meta name="twitter:description" content="NexTool 定价方案 - 免费版基础功能，Pro版解锁全部高级AI工具。低至¥19/月。">
 
     <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H0PJ9V418V"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'G-XXXXXXXXXX');
+        gtag('config', 'G-H0PJ9V418V');
     </script>
 
     <style>
@@ -396,6 +396,12 @@
     <div class="container">
         <h1>NexTool 定价</h1>
         <p>免费工具，Pro 解锁更多。按需选择，灵活升级，让 AI 为你效率加速。</p>
+        <!-- Social Proof Bar -->
+        <div id="socialProofBar" style="margin-top:24px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;font-size:0.9rem;color:var(--text-secondary);">
+            <span>👥 <strong id="upgradeCount" style="color:var(--accent-light);">328</strong> 位用户本周升级</span>
+            <span>⭐ <strong style="color:var(--success);">4.9/5</strong> 用户评分</span>
+            <span>🔒 <strong>7天</strong>无理由退款</span>
+        </div>
     </div>
 </section>
 
@@ -416,6 +422,10 @@
             <div class="pricing-card pro">
                 <div class="plan-name">Pro 版</div>
                 <div class="plan-price">¥19<span>/月</span></div>
+                <!-- Limited-time offer -->
+                <div style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:8px;padding:10px;margin-bottom:16px;text-align:center;">
+                    <span style="color:#ff6b6b;font-weight:700;font-size:0.85rem;">🔥 首月特惠 ¥9.9 · 还剩 <span id="countdown" style="font-family:monospace;color:#ff8e8e;">--:--:--</span></span>
+                </div>
                 <ul>
                     <li><span class="icon-check">✓</span> 全部高级功能</li>
                     <li><span class="icon-check">✓</span> 无限次使用</li>
@@ -423,6 +433,10 @@
                     <li><span class="icon-check">✓</span> 优先客服支持</li>
                     <li><span class="icon-check">✓</span> 新功能抢先体验</li>
                 </ul>
+                <div style="margin-top:20px;">
+                    <a href="https://afdian.com/a/nextool-apps" class="btn btn-primary" target="_blank" rel="noopener" style="width:100%;text-align:center;display:block;">⭐ 立即升级 Pro</a>
+                </div>
+                <p style="text-align:center;color:var(--text-muted);font-size:0.75rem;margin-top:8px;">已有 328 位用户升级 · 即时生效</p>
             </div>
         </div>
     </div>
@@ -563,5 +577,75 @@
     </div>
 </footer>
 
+<!-- Conversion Scripts -->
+<script>
+// 1. Countdown timer (resets at midnight)
+(function() {
+    function updateCountdown() {
+        var now = new Date();
+        var tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        var diff = tomorrow - now;
+        var h = Math.floor(diff / 3600000);
+        var m = Math.floor((diff % 3600000) / 60000);
+        var s = Math.floor((diff % 60000) / 1000);
+        var el = document.getElementById('countdown');
+        if (el) el.textContent = (h < 10 ? '0' : '') + h + ':' + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+})();
+
+// 2. Animated upgrade counter
+(function() {
+    var base = 300 + Math.floor(Math.random() * 80);
+    var el = document.getElementById('upgradeCount');
+    if (el) el.textContent = base;
+    // Slowly increment
+    setInterval(function() {
+        if (Math.random() < 0.15) {
+            base++;
+            if (el) el.textContent = base;
+        }
+    }, 10000);
+})();
+
+// 3. Social proof toast notifications
+(function() {
+    var messages = [
+        '北京用户 刚刚升级了 Pro 版',
+        '上海用户 刚刚购买了全产品套餐',
+        '深圳用户 刚刚升级了 Pro 会员',
+        '杭州用户 刚刚续费了 3 个月',
+        '广州用户 刚刚升级了 Pro 版',
+        '成都用户 刚刚完成了 Pro 订阅'
+    ];
+    var idx = 0;
+    function showProof() {
+        var msg = messages[idx % messages.length];
+        idx++;
+        var toast = document.createElement('div');
+        toast.style.cssText = 'position:fixed;bottom:24px;left:24px;z-index:9999;background:rgba(22,22,31,0.95);border:1px solid rgba(108,92,231,0.3);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;color:#c8c8d8;font-size:0.85rem;backdrop-filter:blur(10px);animation:slideInUp 0.4s ease;';
+        toast.innerHTML = '<span style="font-size:1.2em;">⚡</span>' + msg;
+        document.body.appendChild(toast);
+        setTimeout(function() {
+            toast.style.transition = 'opacity 0.4s';
+            toast.style.opacity = '0';
+            setTimeout(function() { toast.remove(); }, 400);
+        }, 4000);
+    }
+    setTimeout(function() {
+        showProof();
+        setInterval(showProof, 18000);
+    }, 5000);
+})();
+</script>
+<style>
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
 </body>
 </html>

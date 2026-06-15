@@ -475,6 +475,19 @@
                 });
             }
 
+            // 同步到后端 API
+            fetch('https://nextool-api-proxy-vercel.vercel.app/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    source: window.location.pathname
+                })
+            }).catch(function(err) {
+                // 静默失败，不影响用户体验
+                console.warn('Backend email sync failed:', err);
+            });
+
             // Auto close after 3 seconds
             setTimeout(() => {
                 EmailCapture.hide();

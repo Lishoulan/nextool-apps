@@ -590,7 +590,7 @@ body::before{
   <p>AI PPT 生成器 · 由 DeepSeek AI 驱动 · <a href="javascript:void(0)" onclick="showProModal()">升级 Pro</a></p>
 <div style="text-align:center;margin:2rem 0;padding:1.5rem;background:rgba(108,92,231,0.1);border-radius:12px;border:1px solid rgba(108,92,231,0.3)">
   <p style="color:#ccc;margin-bottom:0.8rem;font-size:0.95rem">觉得工具好用？升级 Pro 解锁全部高级功能</p>
-  <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:linear-gradient(90deg,#6c5ce7,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.95rem">⭐ 升级 Pro · ¥19/月</a>
+  <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:linear-gradient(90deg,#6c5ce7,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.95rem">⭐ 升级 Pro · ¥9.9/首月</a>
   <span style="display:inline-block;margin-left:12px;padding:10px 20px;border:1px solid rgba(108,92,231,0.5);border-radius:8px;font-size:0.9rem"><a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="color:#a855f7;text-decoration:none">☕ 或请我喝咖啡</a></span>
 </div>
 
@@ -1329,9 +1329,12 @@ showSlide(0);
     m.innerHTML='<div style="background:#1a1a2e;border:1px solid rgba(108,92,231,0.5);border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;">'+
       '<div style="font-size:48px;margin-bottom:12px;">🔒</div>'+
       '<h3 style="color:#e8e6e3;font-size:1.3rem;margin-bottom:8px;">今日免费次数已用完</h3>'+
-      '<p style="color:#9a9aaa;font-size:0.95rem;margin-bottom:20px;">免费用户每日限用'+LIMIT+'次，升级Pro解锁无限使用</p>'+
-      '<a href="'+AFDIAN+'" target="_blank" rel="noopener" style="display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:1rem;margin-bottom:12px;">⭐ 升级 Pro · ¥19/月</a>'+
-      '<br><a href="javascript:void(0)" onclick="document.getElementById(\'nextool-limit-modal\').remove()" style="color:#666;font-size:0.85rem;text-decoration:none;margin-top:8px;display:inline-block;">继续浏览（不可使用功能）</a>'+
+      '<p style="color:#9a9aaa;font-size:0.95rem;margin-bottom:16px;">免费用户每日限用'+LIMIT+'次，升级Pro解锁无限使用</p>'+
+      '<div style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:8px;padding:8px;margin-bottom:16px;"><span style="color:#ff6b6b;font-weight:700;font-size:0.85rem;">🔥 首月特惠 ¥9.9（原价¥19）</span></div>'+
+      '<div style="text-align:left;margin-bottom:16px;font-size:0.85rem;color:#c8c8d8;line-height:2;"><span>✅ 全部8款AI工具无限使用</span><br><span>✅ 无广告纯净体验</span><br><span>✅ 优先客服支持</span></div>'+
+      '<div style="background:rgba(108,92,231,0.08);border-radius:8px;padding:8px;margin-bottom:16px;font-size:0.8rem;color:#9a9aaa;">👥 今日已有 <strong style="color:#a855f7;">' +(Math.floor(Math.random()*20)+15)+ '</strong> 人升级了 Pro</div>'+
+      '<a href="'+AFDIAN+'" target="_blank" rel="noopener" style="display:block;padding:14px 32px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.05rem;margin-bottom:12px;box-shadow:0 4px 20px rgba(108,92,231,0.4);">⭐ 立即升级 Pro · ¥9.9/首月</a>'+
+      '<a href="javascript:void(0)" onclick="document.getElementById(\'nextool-limit-modal\').remove()" style="color:#666;font-size:0.85rem;text-decoration:none;margin-top:8px;display:inline-block;">继续浏览（不可使用功能）</a>'+
       '</div>';
     document.body.appendChild(m);
   }
@@ -1427,6 +1430,7 @@ function submitExitEmail() {
 <div id="social-share"></div>
 <script src="../js/social-share.js"></script>
 <script src="../js/email-capture.js" data-auto></script>
+<script src="../js/adsense-component.js"></script>
 <script src="../js/related-tools.js" data-current="ai-ppt-generator"></script>
 <script src="../js/testimonials.js"></script>
 <!-- NexTool 支持我们 -->

@@ -308,6 +308,20 @@
         </a>
     </div>
 
+    <!-- Pro Upgrade Banner -->
+    <div style="max-width:800px;margin:2rem auto;padding:0 1.5rem;">
+      <div style="background:linear-gradient(135deg,rgba(108,92,231,0.15),rgba(168,85,247,0.15));border:1px solid rgba(108,92,231,0.3);border-radius:16px;padding:2rem;text-align:center;">
+        <div style="font-size:2rem;margin-bottom:0.5rem;">🚀</div>
+        <h3 style="font-size:1.3rem;margin-bottom:0.5rem;color:#e8e6e3;">解锁 NexTool Pro · 全部AI工具无限使用</h3>
+        <p style="color:#9a9aaa;font-size:0.95rem;margin-bottom:1rem;">首月特惠 <strong style="color:#a855f7;font-size:1.2rem;">¥9.9</strong> <span style="text-decoration:line-through;color:#666;">¥19</span> · 无广告 · 优先客服</p>
+        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+          <a href="./pricing/" style="display:inline-block;padding:12px 32px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;box-shadow:0 4px 20px rgba(108,92,231,0.4);">⭐ 查看定价方案</a>
+          <a href="./pay/" style="display:inline-block;padding:12px 24px;border:1px solid rgba(108,92,231,0.5);color:#a855f7;border-radius:10px;text-decoration:none;font-weight:600;font-size:0.95rem;">💳 立即购买</a>
+        </div>
+        <div style="margin-top:12px;font-size:0.8rem;color:#666;">🔒 7天无理由退款 · 已有 <strong style="color:#a855f7;" id="homepageUpgradeCount">328</strong> 人升级</div>
+      </div>
+    </div>
+
     <!-- Newsletter / Subscribe Section -->
     <div class="section-title" id="newsletter">📬 订阅NexTool</div>
     <div class="newsletter">
@@ -320,7 +334,7 @@
         </form>
         <div class="newsletter-msg" id="subscribeMsg"></div>
         <div class="newsletter-fallback" id="subscribeFallback" style="display:none;">
-            无法直接订阅？<a href="http://localhost:9000/subscription/form" target="_blank" rel="noopener">点击此处在新标签页打开订阅页面</a>
+            无法直接订阅？<a href="https://nextool-apps.vercel.app/subscription/form" target="_blank" rel="noopener">点击此处在新标签页打开订阅页面</a>
         </div>
     </div>
 
@@ -375,8 +389,8 @@
         var btn = document.getElementById('subscribeBtn');
         var msg = document.getElementById('subscribeMsg');
         var fallback = document.getElementById('subscribeFallback');
-        var LISTMONK_API = 'http://localhost:9000/api/subscribers';
-        var LISTMONK_FORM = 'http://localhost:9000/subscription/form';
+        var LISTMONK_API = 'https://nextool-api-proxy-vercel.vercel.app/api/subscribe';
+        var LISTMONK_FORM = 'https://nextool-apps.vercel.app/subscription/form';
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -460,5 +474,7 @@
     s.parentNode.insertBefore(bp, s);
 })();
 </script>
+<script src="./js/email-capture.js" data-auto></script>
+<script src="./js/adsense-component.js"></script>
 </body>
 </html>

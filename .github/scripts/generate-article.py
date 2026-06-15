@@ -2,6 +2,7 @@
 """
 Daily blog article generator for NextTool.
 Uses DeepSeek API to generate SEO-optimized blog articles.
+Falls back to template-based generation if API is unavailable.
 Creates HTML files in the blog/ directory.
 """
 
@@ -12,7 +13,10 @@ import random
 from datetime import datetime, timezone
 from pathlib import Path
 
-from openai import OpenAI
+try:
+    from openai import OpenAI
+except ImportError:
+    OpenAI = None
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 BLOG_DIR = os.path.join(REPO_ROOT, "blog")
@@ -76,8 +80,11 @@ def select_topic():
     return random.choice(available)
 
 
-def generate_article(topic):
+def generate_article_api(topic):
     """Use DeepSeek API to generate a blog article."""
+    if OpenAI is None:
+        raise ImportError("openai package not installed")
+
     client = OpenAI(
         api_key=os.environ.get("DEEPSEEK_API_KEY"),
         base_url="https://api.deepseek.com"
@@ -135,6 +142,99 @@ def generate_article(topic):
             raise ValueError("Could not extract JSON from API response")
 
     return article
+
+
+def generate_article_template(topic):
+    """Generate article using pre-built templates (fallback when API unavailable)."""
+    title = topic['title']
+    keywords = topic['keywords']
+    kw_list = [k.strip() for k in keywords.split(',')]
+    tool = topic['tool']
+    tool_url = f"{BASE_URL}/{tool}/"
+    main_kw = kw_list[0]
+
+    # Tool display names
+    tool_names = {
+        'ai-summarizer': 'AI智能摘要', 'json-formatter': 'JSON格式化工具',
+        'ai-contract-generator': 'AI合同生成器', 'password-generator': '密码生成器',
+        'markdown-editor': 'Markdown编辑器', 'color-picker': '颜色选择器',
+        'regex-tester': '正则表达式测试工具', 'ai-resume-optimizer': 'AI简历优化工具',
+        'image-compressor': '图片压缩工具', 'base64-tool': 'Base64编码解码工具',
+        'url-tool': 'URL编码解码工具', 'timestamp-tool': '时间戳转换工具',
+        'word-counter': '字数统计工具', 'ai-translator': 'AI翻译工具',
+        'ai-ppt-generator': 'AI PPT生成器', 'ai-paper-rewriter': 'AI论文改写工具',
+        'calculator': '科学计算器', 'qr-generator': 'QR码生成器',
+        'ai-email-writer': 'AI邮件写作助手', 'ai-code-explainer': 'AI代码解释器',
+        'pdf-toolkit': 'PDF工具箱',
+    }
+    tool_name = tool_names.get(tool, main_kw)
+
+    desc = f"详细介绍{main_kw}的使用方法、技巧和最佳实践。NexTool提供免费在线{main_kw}，无需注册即开即用。"
+
+    content_html = f"""<h2>什么是{main_kw}？</h2>
+<p>在数字化时代，{main_kw}已经成为许多人日常工作和学习中不可或缺的工具。无论你是学生、职场人士还是自由职业者，掌握{main_kw}的使用方法都能大幅提升你的工作效率。</p>
+<p><a href="{BASE_URL}/">NexTool</a>平台提供的免费在线{main_kw}，无需下载安装，打开浏览器即可使用，非常方便。</p>
+
+<h2>{main_kw}的核心功能与优势</h2>
+<p>市面上有很多{main_kw}，但选择一个好用的工具至关重要。以下是优质{main_kw}应具备的核心功能：</p>
+<ul>
+<li><strong>操作简单</strong> — 直观的界面设计，新手也能快速上手</li>
+<li><strong>处理速度快</strong> — 基于云端计算，大文件也能秒级处理</li>
+<li><strong>结果精准</strong> — 采用先进的AI算法，确保输出质量</li>
+<li><strong>隐私安全</strong> — 数据不上传服务器，保护用户隐私</li>
+<li><strong>完全免费</strong> — 基础功能无需付费，零门槛使用</li>
+</ul>
+
+<h2>如何使用{tool_name}？详细步骤指南</h2>
+<p>使用NexTool的<a href="{tool_url}">{tool_name}</a>非常简单，只需以下几个步骤：</p>
+<ol>
+<li><strong>打开工具</strong>：访问 <a href="{tool_url}">{tool_name}</a> 页面</li>
+<li><strong>输入内容</strong>：在输入框中粘贴或上传你需要处理的内容</li>
+<li><strong>调整设置</strong>：根据需要选择相关参数和选项</li>
+<li><strong>开始处理</strong>：点击处理按钮，等待几秒即可</li>
+<li><strong>获取结果</strong>：查看并下载处理后的结果</li>
+</ol>
+<blockquote>💡 <strong>小贴士</strong>：对于复杂任务，建议先使用小样本测试效果，满意后再批量处理。</blockquote>
+
+<h2>{main_kw}的实际应用场景</h2>
+<p>{main_kw}在实际工作中有着广泛的应用场景：</p>
+<ul>
+<li><strong>学生群体</strong>：论文写作、课程作业、资料整理</li>
+<li><strong>职场人士</strong>：报告撰写、数据分析、文档处理</li>
+<li><strong>自由职业者</strong>：客户交付、内容创作、项目交付</li>
+<li><strong>开发者</strong>：代码调试、技术文档、API测试</li>
+</ul>
+<p>无论你属于哪个群体，善用{main_kw}都能帮你节省大量重复劳动的时间。</p>
+
+<h2>选择{main_kw}时需要注意什么？</h2>
+<p>在众多{main_kw}中做选择时，以下几点值得重点关注：</p>
+<ul>
+<li>是否支持中文界面和中文内容处理</li>
+<li>免费额度是否足够日常使用</li>
+<li>是否有文件大小或长度限制</li>
+<li>处理结果的准确性和可用性</li>
+<li>是否提供API接口供开发者集成</li>
+</ul>
+<p>综合以上因素，NexTool的<a href="{tool_url}">{tool_name}</a>在这些方面表现均衡，是一个值得尝试的选择。</p>"""
+
+    faq_html = f"""<ul>
+<li><strong>Q: {main_kw}是否免费？</strong><br>A: NexTool提供的{main_kw}基础功能完全免费，Pro用户可享受无限使用次数。</li>
+<li><strong>Q: 数据安全吗？</strong><br>A: 所有处理均在浏览器端完成，数据不会上传到服务器，确保您的隐私安全。</li>
+<li><strong>Q: 支持哪些设备和浏览器？</strong><br>A: 支持所有现代浏览器（Chrome、Firefox、Safari、Edge），电脑和手机均可使用。</li>
+<li><strong>Q: 处理结果不满意怎么办？</strong><br>A: 可以尝试调整输入内容或参数设置，Pro用户还可享受优先客服支持。</li>
+</ul>"""
+
+    conclusion_html = f"""<p>{main_kw}是提升工作和学习效率的实用工具。通过本文的介绍，相信你已经对如何选择和使用{main_kw}有了更清晰的认识。</p>
+<p>NexTool平台提供包括{tool_name}在内的<a href="{BASE_URL}/">25+款免费AI效率工具</a>，无需注册即可使用。如果你需要更高级的功能，也可以考虑升级到Pro版本，首月仅需¥9.9。</p>
+<p>希望这篇文章对你有帮助，快去试试吧！</p>"""
+
+    return {
+        'title': title,
+        'description': desc,
+        'content_html': content_html,
+        'faq_html': faq_html,
+        'conclusion_html': conclusion_html,
+    }
 
 
 def create_blog_html(article, topic):
@@ -274,19 +374,39 @@ footer a{{color:var(--accent2);text-decoration:none}}
 def main():
     print(f"🤖 Daily SEO Article Generator - {TODAY}")
 
-    if not os.environ.get("DEEPSEEK_API_KEY"):
-        print("❌ DEEPSEEK_API_KEY not set, skipping article generation.")
-        return
-
     topic = select_topic()
     print(f"📋 Selected topic: {topic['title']}")
 
+    article = None
+
+    # Try API-based generation first
+    if os.environ.get("DEEPSEEK_API_KEY"):
+        try:
+            print("📡 Attempting API-based generation...")
+            article = generate_article_api(topic)
+            print("✅ API generation successful")
+        except Exception as e:
+            err_msg = str(e)
+            if "402" in err_msg or "Insufficient Balance" in err_msg:
+                print("⚠️ DeepSeek API balance insufficient, switching to template fallback")
+            elif "429" in err_msg or "rate" in err_msg.lower():
+                print("⚠️ DeepSeek API rate limited, switching to template fallback")
+            else:
+                print(f"⚠️ API generation failed: {e}")
+                print("📝 Switching to template-based generation...")
+    else:
+        print("ℹ️ DEEPSEEK_API_KEY not set, using template-based generation")
+
+    # Fallback to template-based generation
+    if article is None:
+        article = generate_article_template(topic)
+        print("✅ Template generation successful")
+
     try:
-        article = generate_article(topic)
         filename = create_blog_html(article, topic)
-        print(f"🎉 Successfully generated blog article: {filename}")
+        print(f"🎉 Blog article created: {filename}")
     except Exception as e:
-        print(f"❌ Failed to generate article: {e}")
+        print(f"❌ Failed to create blog file: {e}")
         raise
 
 
