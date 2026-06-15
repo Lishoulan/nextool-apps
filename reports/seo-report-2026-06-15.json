@@ -1,0 +1,77 @@
+{
+  "date": "2026-06-15T07:13:13.723492",
+  "site_url": "https://lishoulan.github.io/nextool-apps/",
+  "checks": {
+    "site_accessible": {
+      "status": "pass",
+      "status_code": 200,
+      "response_time_ms": 60
+    },
+    "sitemap": {
+      "status": "pass",
+      "url_count": 65
+    },
+    "robots_txt": {
+      "status": "pass",
+      "has_sitemap_reference": true
+    },
+    "key_pages": {
+      "total": 8,
+      "pass": 7,
+      "fail": 1,
+      "details": [
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/ai-ppt-generator/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/ai-resume-optimizer/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/pdf-toolkit/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/ai-contract-generator/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/ai-email-writer/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/json-formatter/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/qr-generator/",
+          "status": "pass",
+          "status_code": 200
+        },
+        {
+          "url": "https://lishoulan.github.io/nextool-apps/blog/",
+          "status": "fail",
+          "status_code": 404
+        }
+      ]
+    },
+    "https_redirect": {
+      "status": "pass",
+      "final_url": "https://lishoulan.github.io/nextool-apps/"
+    },
+    "bing_index": {
+      "status": "pass",
+      "indexed": true
+    }
+  },
+  "issues": [
+    "Page https://lishoulan.github.io/nextool-apps/blog/ returned 404"
+  ]
+}
