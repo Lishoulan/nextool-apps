@@ -81,13 +81,17 @@ def select_topic():
 
 
 def generate_article_api(topic):
-    """Use DeepSeek API to generate a blog article."""
+    """Use SiliconFlow (DeepSeek V3) API to generate a blog article."""
     if OpenAI is None:
         raise ImportError("openai package not installed")
 
+    api_key = os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("SILICONFLOW_API_KEY")
+    if not api_key:
+        raise ValueError("No API key found (DEEPSEEK_API_KEY or SILICONFLOW_API_KEY)")
+
     client = OpenAI(
-        api_key=os.environ.get("DEEPSEEK_API_KEY"),
-        base_url="https://api.deepseek.com"
+        api_key=api_key,
+        base_url=os.environ.get("LLM_BASE_URL", "https://api.siliconflow.cn/v1")
     )
 
     prompt = f"""你是一位专业的技术博客写手，为NexTool（一个在线AI效率工具平台）撰写SEO优化的博客文章。
@@ -115,8 +119,9 @@ def generate_article_api(topic):
   "conclusion_html": "总结部分的HTML内容"
 }}"""
 
+    model_name = os.environ.get("LLM_MODEL", "deepseek-ai/DeepSeek-V3")
     response = client.chat.completions.create(
-        model="deepseek-chat",
+        model=model_name,
         messages=[
             {"role": "system", "content": "你是一位专业的中文技术博客写手，擅长撰写SEO优化的实用指南类文章。输出必须是纯JSON格式，不要包含markdown代码块标记。"},
             {"role": "user", "content": prompt}
@@ -380,17 +385,18 @@ def main():
     article = None
 
     # Try API-based generation first
-    if os.environ.get("DEEPSEEK_API_KEY"):
+    has_key = os.environ.get("DEEPSEEK_API_KEY") or os.environ.get("SILICONFLOW_API_KEY")
+    if has_key:
         try:
-            print("📡 Attempting API-based generation...")
+            print("📡 Attempting API-based generation (SiliconFlow)...")
             article = generate_article_api(topic)
             print("✅ API generation successful")
         except Exception as e:
             err_msg = str(e)
             if "402" in err_msg or "Insufficient Balance" in err_msg:
-                print("⚠️ DeepSeek API balance insufficient, switching to template fallback")
+                print("⚠️ API balance insufficient, switching to template fallback")
             elif "429" in err_msg or "rate" in err_msg.lower():
-                print("⚠️ DeepSeek API rate limited, switching to template fallback")
+                print("⚠️ API rate limited, switching to template fallback")
             else:
                 print(f"⚠️ API generation failed: {e}")
                 print("📝 Switching to template-based generation...")

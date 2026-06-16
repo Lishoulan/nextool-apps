@@ -128,19 +128,21 @@ def generate_article(topic):
 
 请直接输出Markdown格式的文章内容，不要包含JSON或其他格式包装。"""
 
-    # Try DeepSeek first, fall back to template generation
-    api_key = os.environ.get("DEEPSEEK_API_KEY")
+    # Try SiliconFlow (DeepSeek V3) first, fall back to template generation
+    api_key = os.environ.get("SILICONFLOW_API_KEY") or os.environ.get("DEEPSEEK_API_KEY")
+    base_url = os.environ.get("LLM_BASE_URL", "https://api.siliconflow.cn/v1")
+    model_name = os.environ.get("LLM_MODEL", "deepseek-ai/DeepSeek-V3")
     
     if api_key:
         try:
             response = requests.post(
-                "https://api.deepseek.com/chat/completions",
+                f"{base_url}/chat/completions",
                 headers={
                     "Authorization": f"Bearer {api_key}",
                     "Content-Type": "application/json",
                 },
                 json={
-                    "model": "deepseek-chat",
+                    "model": model_name,
                     "messages": [
                         {
                             "role": "system",
@@ -465,9 +467,9 @@ def save_article(content, topic):
 def main():
     print(f"🤖 Auto Blog Article Generator - {TODAY}")
 
-    api_key = os.environ.get("DEEPSEEK_API_KEY")
+    api_key = os.environ.get("SILICONFLOW_API_KEY") or os.environ.get("DEEPSEEK_API_KEY")
     if not api_key:
-        print("❌ DEEPSEEK_API_KEY environment variable not set.")
+        print("❌ SILICONFLOW_API_KEY or DEEPSEEK_API_KEY environment variable not set.")
         raise SystemExit(1)
 
     topic = select_topic()

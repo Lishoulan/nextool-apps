@@ -30,14 +30,15 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests
+          pip install requests openai
 
       - name: Generate SEO blog article
         env:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+          SILICONFLOW_API_KEY: ${{ secrets.SILICONFLOW_API_KEY }}
           SITE_URL: ${{ env.SITE_URL }}
         run: |
-          python scripts/daily-content.py
+          python .github/scripts/generate-article.py
 
       - name: Commit and push new article
         run: |
