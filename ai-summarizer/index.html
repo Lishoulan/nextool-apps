@@ -1014,82 +1014,32 @@ function showToast(msg) {
 <p style="color:#666;font-size:0.7rem;margin-top:8px;">我们尊重您的隐私，绝不发送垃圾邮件</p>
 </div>
 </div>
+
+<!-- NexTool Pro 密钥验证系统 -->
+<script src="/pro-check.js"></script>
 <script>
-(function(){
-var shown=false;
-document.addEventListener('mouseout',function(e){
-if(!shown&&e.clientY<5){
-shown=true;
-document.getElementById('exitPopup').style.display='flex';
-}
-});
-})();
-</script>
-<script>
-(function(){
-var uc=document.getElementById('userCount');
-var tc=document.getElementById('todayCount');
-var ql=document.getElementById('quotaLeft');
-if(uc)uc.textContent=(12847+Math.floor(Math.random()*200)).toLocaleString();
-if(tc)tc.textContent=386+Math.floor(Math.random()*50);
-if(ql)ql.textContent=30+Math.floor(Math.random()*30);
-})();
-</script>
-<script src="../js/related-tools.js" data-current="ai-summarizer"></script>
-<script src="../js/testimonials.js"></script>
-<!-- NexTool 支持我们 -->
-<div id="nextool-support-cta" style="position:fixed;bottom:20px;right:20px;z-index:9999;">
-  <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:8px;padding:12px 20px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:50px;text-decoration:none;font-size:14px;font-weight:600;box-shadow:0 4px 15px rgba(108,92,231,0.4);transition:transform 0.2s,box-shadow 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(108,92,231,0.6)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 15px rgba(108,92,231,0.4)'">
-    <span>☕</span> 支持 NexTool · 解锁 Pro
-  </a>
-</div>
-<!-- NexTool 免费使用限制 -->
-<script>
-(function(){
-  var KEY='nextool-usage';
-  var LIMIT=3;
-  var AFDIAN='https://afdian.com/a/nextool-apps';
-  function getUsage(){
-    try{
-      var d=JSON.parse(localStorage.getItem(KEY)||'{}');
-      var today=new Date().toISOString().slice(0,10);
-      if(d.date!==today)return{date:today,count:0};
-      return d;
-    }catch(e){return{date:new Date().toISOString().slice(0,10),count:0};}
-  }
-  function saveUsage(d){try{localStorage.setItem(KEY,JSON.stringify(d));}catch(e){}}
-  function showUpgradeModal(){
-    var existing=document.getElementById('nextool-limit-modal');
-    if(existing)return;
-    var m=document.createElement('div');
-    m.id='nextool-limit-modal';
-    m.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:99999;display:flex;align-items:center;justify-content:center;';
-    m.innerHTML='<div style="background:#1a1a2e;border:1px solid rgba(108,92,231,0.5);border-radius:16px;padding:32px;max-width:420px;width:90%;text-align:center;">'+
-      '<div style="font-size:48px;margin-bottom:12px;">🔒</div>'+
-      '<h3 style="color:#e8e6e3;font-size:1.3rem;margin-bottom:8px;">今日免费次数已用完</h3>'+
-      '<p style="color:#9a9aaa;font-size:0.95rem;margin-bottom:16px;">免费用户每日限用'+LIMIT+'次，升级Pro解锁无限使用</p>'+
-      '<div style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.3);border-radius:8px;padding:8px;margin-bottom:16px;"><span style="color:#ff6b6b;font-weight:700;font-size:0.85rem;">🔥 首月特惠 ¥9.9（原价¥19）</span></div>'+
-      '<div style="text-align:left;margin-bottom:16px;font-size:0.85rem;color:#c8c8d8;line-height:2;"><span>✅ 全部8款AI工具无限使用</span><br><span>✅ 无广告纯净体验</span><br><span>✅ 优先客服支持</span></div>'+
-      '<div style="background:rgba(108,92,231,0.08);border-radius:8px;padding:8px;margin-bottom:16px;font-size:0.8rem;color:#9a9aaa;">👥 今日已有 <strong style="color:#a855f7;">' +(Math.floor(Math.random()*20)+15)+ '</strong> 人升级了 Pro</div>'+
-      '<a href="'+AFDIAN+'" target="_blank" rel="noopener" style="display:block;padding:14px 32px;background:linear-gradient(135deg,#6c5ce7,#a855f7);color:#fff;border-radius:10px;text-decoration:none;font-weight:700;font-size:1.05rem;margin-bottom:12px;box-shadow:0 4px 20px rgba(108,92,231,0.4);">⭐ 立即升级 Pro · ¥9.9/首月</a>'+
-      '<a href="javascript:void(0)" onclick="document.getElementById(\'nextool-limit-modal\').remove()" style="color:#666;font-size:0.85rem;text-decoration:none;margin-top:8px;display:inline-block;">继续浏览（不可使用功能）</a>'+
-      '</div>';
-    document.body.appendChild(m);
-  }
-  window.__nextoolCheckLimit=function(){
-    var u=getUsage();
-    if(u.count>=LIMIT){showUpgradeModal();return false;}
-    u.count++;saveUsage(u);
-    return true;
-  };
-  window.__nextoolGetUsage=function(){return getUsage();};
-  // Show usage indicator
-  var u=getUsage();
-  var indicator=document.createElement('div');
-  indicator.style.cssText='position:fixed;top:10px;right:80px;z-index:9998;background:rgba(26,26,46,0.9);border:1px solid rgba(108,92,231,0.3);border-radius:20px;padding:6px 14px;font-size:12px;color:#9a9aaa;';
-  indicator.innerHTML='今日已用 <span style="color:#a855f7;font-weight:600;">'+u.count+'</span>/'+LIMIT+' · <a href="'+AFDIAN+'" target="_blank" style="color:#6c5ce7;text-decoration:none;">升级Pro</a>';
-  document.body.appendChild(indicator);
-})();
+// 替换原有的 __nextoolCheckLimit，改用服务端验证
+window.__nextoolCheckLimit = async function() {
+    var result = await NEXTOOL_PRO.canUse();
+    if (result.allowed) {
+        if (!result.is_pro) NEXTOOL_PRO.recordUsage();
+        NEXTOOL_PRO.showProBadge();
+        return true;
+    }
+    NEXTOOL_PRO.showProModal('limit');
+    return false;
+};
+// 同步版本（用于 onclick 等同步场景）
+window.__nextoolCheckLimitSync = function() {
+    if (NEXTOOL_PRO.isProLocal()) return true;
+    var used = NEXTOOL_PRO.getUsageToday();
+    if (used < NEXTOOL_PRO.FREE_LIMIT) {
+        NEXTOOL_PRO.recordUsage();
+        return true;
+    }
+    NEXTOOL_PRO.showProModal('limit');
+    return false;
+};
 </script>
 </body>
 </html>

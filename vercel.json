@@ -1,0 +1,28 @@
+{
+  "builds": [
+    { "src": "api/chat.py", "use": "@vercel/python" },
+    { "src": "api/health.py", "use": "@vercel/python" },
+    { "src": "api/pro-verify.py", "use": "@vercel/python" },
+    { "src": "api/pro-activate.py", "use": "@vercel/python" },
+    { "src": "api/afdian-webhook.py", "use": "@vercel/python" },
+    { "src": "api/subscribe.py", "use": "@vercel/python" },
+    { "src": "api/subscribers.py", "use": "@vercel/python" },
+    { "src": "api/verify-code.py", "use": "@vercel/python" },
+    { "src": "**/*.html", "use": "@vercel/static" },
+    { "src": "**/*.js", "use": "@vercel/static" },
+    { "src": "**/*.css", "use": "@vercel/static" },
+    { "src": "**/*.png", "use": "@vercel/static" },
+    { "src": "**/*.ico", "use": "@vercel/static" },
+    { "src": "**/*.xml", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/chat", "dest": "api/chat.py" },
+    { "src": "/api/health", "dest": "api/health.py" },
+    { "src": "/api/pro/verify", "dest": "api/pro-verify.py" },
+    { "src": "/api/pro/activate", "dest": "api/pro-activate.py" },
+    { "src": "/api/afdian/webhook", "dest": "api/afdian-webhook.py" },
+    { "src": "/api/subscribe", "dest": "api/subscribe.py" },
+    { "src": "/api/subscribers", "dest": "api/subscribers.py" },
+    { "src": "/api/verify-code", "dest": "api/verify-code.py" }
+  ]
+}
