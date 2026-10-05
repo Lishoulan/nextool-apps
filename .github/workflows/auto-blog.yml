@@ -1,9 +1,11 @@
 name: Auto Blog Generator
 
 on:
-  schedule:
-    # 每周一 UTC 02:00 运行（北京时间 10:00）
-    - cron: '0 2 * * 1'
+  # Disabled: replaced by daily-seo-auto.yml which writes blog/{slug}.html directly
+  # and also handles IndexNow + sitemap submission. Kept for reference / manual runs.
+  # schedule:
+  #   # 每周一 UTC 02:00 运行（北京时间 10:00）
+  #   - cron: '0 2 * * 1'
   workflow_dispatch: # 支持手动触发
 
 permissions:
@@ -26,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install openai
+          pip install requests openai
 
       - name: Generate blog article
         env:
@@ -38,7 +40,8 @@ jobs:
       - name: Check for changes
         id: check_changes
         run: |
-          if git diff --quiet; then
+          git add blog/articles/
+          if git diff --staged --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
           else
             echo "has_changes=true" >> $GITHUB_OUTPUT
@@ -49,6 +52,5 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add blog/articles/
           git commit -m "📝 auto: generate weekly blog article $(date +%Y-%m-%d)"
           git push
