@@ -241,7 +241,7 @@ footer a{color:var(--accent);text-decoration:none}
     </div>
 
     <div class="actions">
-      <button onclick="if(!window.__nextoolCheckLimitSync())return false;" class="translate-btn" id="translateBtn">翻译</button>
+      <button class="translate-btn" id="translateBtn">翻译</button>
       <button class="copy-btn" id="copyBtn">📋 复制结果</button>
     </div>
 
@@ -387,6 +387,7 @@ updateUsageUI();
 
 // Translate
 translateBtn.addEventListener('click', async () => {
+  if (!window.__nextoolCheckLimitSync()) return;
   const text = srcText.value.trim();
   if (!text) return showToast('请输入要翻译的文本', 'warning');
   if (srcLang.value === tgtLang.value) return showToast('源语言和目标语言不能相同', 'warning');

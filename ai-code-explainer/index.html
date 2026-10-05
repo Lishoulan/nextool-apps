@@ -243,9 +243,9 @@ footer a{color:var(--accent);text-decoration:none}
       </div>
 
       <div class="actions">
-        <button onclick="if(!window.__nextoolCheckLimitSync())return false;" class="explain-btn" id="explainBtn">解释代码</button>
-        <button onclick="if(!window.__nextoolCheckLimitSync())return false;" class="optimize-btn" id="optimizeBtn">⚡ 优化代码</button>
-        <button onclick="if(!window.__nextoolCheckLimitSync())return false;" class="copy-btn" id="copyBtn">📋 复制解释</button>
+        <button class="explain-btn" id="explainBtn">解释代码</button>
+        <button class="optimize-btn" id="optimizeBtn">⚡ 优化代码</button>
+        <button class="copy-btn" id="copyBtn">📋 复制解释</button>
       </div>
 
       <!-- Urgency -->
@@ -264,7 +264,7 @@ footer a{color:var(--accent);text-decoration:none}
       </div>
 
       <div class="actions">
-        <button onclick="if(!window.__nextoolCheckLimitSync())return false;" class="explain-btn" id="generateBtn">生成代码</button>
+        <button class="explain-btn" id="generateBtn">生成代码</button>
       </div>
     </div>
 
@@ -444,6 +444,7 @@ async function callDeepSeek(systemPrompt, userContent) {
 
 // Explain code
 explainBtn.addEventListener('click', async () => {
+  if (!window.__nextoolCheckLimitSync()) return;
   const code = codeInput.value.trim();
   if (!code) return showToast('请输入要解释的代码', 'warning');
 
@@ -531,6 +532,7 @@ explainBtn.addEventListener('click', async () => {
 
 // Optimize code
 optimizeBtn.addEventListener('click', async () => {
+  if (!window.__nextoolCheckLimitSync()) return;
   const code = codeInput.value.trim();
   if (!code) return showToast('请先输入代码', 'warning');
 
@@ -573,6 +575,7 @@ optimizeBtn.addEventListener('click', async () => {
 
 // Generate code
 generateBtn.addEventListener('click', async () => {
+  if (!window.__nextoolCheckLimitSync()) return;
   const desc = descInput.value.trim();
   if (!desc) return showToast('请描述你想要的代码', 'warning');
 
@@ -626,6 +629,7 @@ generateBtn.addEventListener('click', async () => {
 
 // Copy
 copyBtn.addEventListener('click', async () => {
+  if (!window.__nextoolCheckLimitSync()) return;
   const text = lastExplanation || summaryText.textContent + '\n' + lineExplanationContent.textContent;
   if (!text) return showToast('没有可复制的内容', 'warning');
   try {
