@@ -610,7 +610,7 @@
                 </div>
 
                 <div class="action-btns">
-                    <button class="btn-action" onclick="if(!window.__nextoolCheckLimit())return false;copySummary()">📋 复制摘要</button>
+                    <button class="btn-action" onclick="if(!window.__nextoolCheckLimitSync())return false;copySummary()">📋 复制摘要</button>
                     <button class="btn-action" onclick="copyLink()">🔗 分享链接</button>
                 </div>
             </div>
@@ -1016,7 +1016,7 @@ function showToast(msg) {
 </div>
 
 <!-- NexTool Pro 密钥验证系统 -->
-<script src="/pro-check.js"></script>
+<script src="../pro-check.js"></script>
 <script>
 // 替换原有的 __nextoolCheckLimit，改用服务端验证
 window.__nextoolCheckLimit = async function() {

@@ -538,7 +538,7 @@ body::before{
       </div>
       <div class="form-group">
         <label class="form-label">&nbsp;</label>
-        <button class="btn-generate" id="generateBtn" onclick="if(!window.__nextoolCheckLimit())return false;generatePPT()">
+        <button class="btn-generate" id="generateBtn" onclick="if(!window.__nextoolCheckLimitSync())return false;generatePPT()">
           ✨ 生成 PPT
         </button>
       </div>
@@ -1308,7 +1308,7 @@ showSlide(0);
 <!-- NexTool 免费使用限制 -->
 
 <!-- NexTool Pro 密钥验证系统 -->
-<script src="/pro-check.js"></script>
+<script src="../pro-check.js"></script>
 <script>
 // 替换原有的 __nextoolCheckLimit，改用服务端验证
 window.__nextoolCheckLimit = async function() {
@@ -1420,7 +1420,7 @@ function submitExitEmail() {
   </a>
 </div>
 <!-- NexTool Pro 密钥验证系统 -->
-<script src="/pro-check.js"></script>
+<script src="../pro-check.js"></script>
 <script>
 // 替换原有的 __nextoolCheckLimit，改用服务端验证
 window.__nextoolCheckLimit = async function() {

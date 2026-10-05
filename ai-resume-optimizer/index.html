@@ -391,7 +391,7 @@
   </div>
 
   <!-- 优化按钮 -->
-  <button class="btn-optimize" id="btnOptimize" onclick="if(!window.__nextoolCheckLimit())return false;optimizeResume()">
+  <button class="btn-optimize" id="btnOptimize" onclick="if(!window.__nextoolCheckLimitSync())return false;optimizeResume()">
     🚀 一键优化简历
   </button>
 
@@ -404,7 +404,7 @@
   <div class="compare-section" id="compareSection">
     <div class="compare-header">
       <h2>📊 优化对比</h2>
-      <button class="btn-copy" id="btnCopy" onclick="if(!window.__nextoolCheckLimit())return false;copyResult()">📋 复制优化结果</button>
+      <button class="btn-copy" id="btnCopy" onclick="if(!window.__nextoolCheckLimitSync())return false;copyResult()">📋 复制优化结果</button>
     </div>
     <div class="compare-grid">
       <div class="compare-pane">
@@ -471,7 +471,7 @@
 <script src="../js/adsense-component.js"></script>
 <script src="../js/upgrade-cta.js" data-tool="AI简历优化器" data-limit="3"></script>
 <!-- NexTool Pro 密钥验证系统 -->
-<script src="/pro-check.js"></script>
+<script src="../pro-check.js"></script>
 <script>
 // 替换原有的 __nextoolCheckLimit，改用服务端验证
 window.__nextoolCheckLimit = async function() {

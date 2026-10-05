@@ -8,7 +8,7 @@ import json
 from datetime import datetime
 
 SITE_URL = os.environ.get("SITE_URL", "https://lishoulan.github.io/nextool-apps/")
-INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "nextool2026indexnow")
+INDEXNOW_KEY = os.environ.get("INDEXNOW_KEY", "a1b2c3d4e5f60789a1b2c3d4e5f60789")
 
 # 预设文章模板
 ARTICLE_TEMPLATES = [

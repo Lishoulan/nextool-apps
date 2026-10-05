@@ -11,7 +11,9 @@ permissions:
 
 env:
   SITE_URL: https://lishoulan.github.io/nextool-apps/
-  INDEXNOW_KEY: nextool2026indexnow
+  # Must equal both the key file's filename and its content, because
+  # keyLocation below is built as SITE_URL + INDEXNOW_KEY + ".txt".
+  INDEXNOW_KEY: a1b2c3d4e5f60789a1b2c3d4e5f60789
 
 jobs:
   daily-seo:

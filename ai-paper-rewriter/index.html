@@ -271,7 +271,7 @@
           </div>
 
           <div class="action-bar">
-            <button class="btn btn-primary btn-lg" id="rewriteBtn" onclick="if(!window.__nextoolCheckLimit())return false;startRewrite()">🚀 开始降重</button>
+            <button class="btn btn-primary btn-lg" id="rewriteBtn" onclick="if(!window.__nextoolCheckLimitSync())return false;startRewrite()">🚀 开始降重</button>
             <button class="btn btn-outline" onclick="clearAll()">🗑️ 清空</button>
           </div>
 
@@ -913,7 +913,7 @@ function submitExitEmail() {
 <!-- NexTool 免费使用限制 -->
 
 <!-- NexTool Pro 密钥验证系统 -->
-<script src="/pro-check.js"></script>
+<script src="../pro-check.js"></script>
 <script>
 // 替换原有的 __nextoolCheckLimit，改用服务端验证
 window.__nextoolCheckLimit = async function() {
