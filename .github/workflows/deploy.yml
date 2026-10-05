@@ -22,6 +22,22 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Rebuild blog index
+        run: python .github/scripts/rebuild-blog-index.py
+
+      - name: Commit and push blog index
+        run: |
+          git add blog/index.html
+          if git diff --staged --quiet; then
+            echo "📋 No blog index changes detected."
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git commit -m "chore: rebuild blog index [skip ci]"
+            git push
+            echo "📬 Blog index rebuilt."
+          fi
+
       - name: Validate HTML files exist
         run: |
           echo "🔍 Checking all index.html files..."
