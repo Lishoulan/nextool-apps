@@ -241,12 +241,6 @@
     <lastmod>2026-10-05</lastmod>
   </url>
   <url>
-    <loc>https://lishoulan.github.io/nextool-apps/admin/</loc>
-    <lastmod>2026-10-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
     <loc>https://lishoulan.github.io/nextool-apps/blog/</loc>
     <lastmod>2026-10-05</lastmod>
     <changefreq>weekly</changefreq>
@@ -377,5 +371,65 @@
     <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/premium.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/services.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/adobe-acrobat-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/canva-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/deepl-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/grammarly-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/ilovepdf-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/resume-io-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/smallpdf-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://lishoulan.github.io/nextool-apps/compare/wps-alternative.html</loc>
+    <lastmod>2026-10-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

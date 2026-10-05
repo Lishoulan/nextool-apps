@@ -89,13 +89,16 @@ def read_meta(path: Path) -> tuple[str, str, str]:
 
 def build():
     articles = []
-    for f in sorted(BLOG_DIR.glob("*.html")):
+    # Top-level blog/*.html plus the older blog/articles/*.html archive, so
+    # nothing that is already indexed in the sitemap gets orphaned here.
+    for f in sorted(BLOG_DIR.glob("*.html")) + sorted((BLOG_DIR / "articles").glob("*.html")):
         if f.name == "index.html":
             continue
         title, desc, date = read_meta(f)
+        rel = f.relative_to(BLOG_DIR).as_posix()
         articles.append(
             {
-                "file": f.name,
+                "file": rel,
                 "title": title,
                 "desc": desc,
                 "date": date,
