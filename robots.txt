@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# Internal admin panel — must not be indexed.
+Disallow: /admin/
 
 Sitemap: https://lishoulan.github.io/nextool-apps/sitemap.xml

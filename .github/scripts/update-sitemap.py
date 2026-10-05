@@ -21,6 +21,7 @@ PRIORITY_MAP = {
     "": "1.0",          # Root homepage
     "blog": "0.7",      # Blog index
     "compare": "0.7",
+    "landing": "0.8",
     "pricing": "0.8",
     "referral": "0.7",
     "company-website": "0.7",
@@ -83,8 +84,11 @@ def discover_urls():
         if os.path.exists(os.path.join(REPO_ROOT, fname)):
             urls.append((fname, changefreq, priority))
 
-    # Second-level pages inside content directories, e.g. compare/*.html
-    for subdir in ("compare",):
+    # Second-level pages inside content directories.
+    # compare/ and landing/ both target high-intent queries ("smallpdf
+    # alternative", "free pdf tools") and were previously never submitted,
+    # while carrying canonical tags that asked to be indexed.
+    for subdir in ("compare", "landing"):
         sub_path = os.path.join(REPO_ROOT, subdir)
         if not os.path.isdir(sub_path):
             continue
@@ -92,6 +96,14 @@ def discover_urls():
         for fname in sorted(os.listdir(sub_path)):
             if fname.endswith(".html") and fname != "index.html":
                 urls.append((f"{subdir}/{fname}", "monthly", priority))
+
+    # Legacy article archive: blog/articles/*.html are canonical-tagged and
+    # linked from the blog index, so they belong in the sitemap too.
+    articles_dir = os.path.join(REPO_ROOT, "blog", "articles")
+    if os.path.isdir(articles_dir):
+        for fname in sorted(os.listdir(articles_dir)):
+            if fname.endswith(".html") and fname != "index.html":
+                urls.append((f"blog/articles/{fname}", "monthly", DEFAULT_BLOG_PRIORITY))
 
     # Blog index
     blog_index = os.path.join(REPO_ROOT, "blog", "index.html")
