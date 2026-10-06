@@ -1,4 +1,4 @@
-$baseDir = "d:\100\nextool-apps"
+﻿$baseDir = $PSScriptRoot
 $pages = @(
     'ai-code-explainer',
     'ai-contract-generator',

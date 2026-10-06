@@ -1,4 +1,4 @@
-$baseDir = "d:\100\nextool-apps"
+﻿$baseDir = $PSScriptRoot
 
 $howToSchemas = @{
     'ai-ppt-generator' = @'

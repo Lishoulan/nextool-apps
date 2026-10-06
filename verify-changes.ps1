@@ -1,4 +1,4 @@
-$baseDir = "d:\100\nextool-apps"
+﻿$baseDir = $PSScriptRoot
 
 Write-Output "=== Checking related-tools.js ==="
 $allPages = @(
