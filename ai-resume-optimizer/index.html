@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -430,7 +430,7 @@
   <div class="modal">
     <div class="modal-icon">💎</div>
     <h3>解锁无限优化次数</h3>
-    <p>免费用户每天仅可使用 1 次，升级后畅享无限优化</p>
+    <p>免费用户每天可使用 3 次，升级后畅享无限优化</p>
     <div class="price-tag">¥29.9<span>/月</span></div>
     <ul class="features">
       <li>无限次简历优化</li>
@@ -501,6 +501,227 @@ window.__nextoolCheckLimitSync = function() {
     NEXTOOL_PRO.showProModal('limit');
     return false;
 };
+</script>
+
+<script>
+// ====== AI 简历优化器 · 业务逻辑 ======
+// 此前本页 HTML 完整、UI 齐全，但调用的 7 个函数从未实现过
+// （根提交 1de6f28 起即缺），点击「一键优化」直接 ReferenceError。
+// 以下实现沿用 ai-paper-rewriter 的既有范式：共用 /api/chat，
+// 读取同一把 localStorage['deepseek_api_key']，不新增服务端成本结构。
+
+const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
+const AFDIAN_URL = 'https://afdian.com/a/nextool-apps';
+
+// ====== Toast ======
+let toastTimer = null;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.className = 'toast show' + (type ? ' ' + type : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast'; }, 2600);
+}
+
+// ====== 升级弹窗 ======
+function showUpgradeModal() {
+  const m = document.getElementById('upgradeModal');
+  if (m) m.classList.add('show');
+}
+function hideUpgradeModal() {
+  const m = document.getElementById('upgradeModal');
+  if (m) m.classList.remove('show');
+}
+function handleUpgrade() {
+  hideUpgradeModal();
+  window.open(AFDIAN_URL, '_blank', 'noopener');
+}
+
+// ====== API Key ======
+function saveApiKey() {
+  const input = document.getElementById('apiKeyInput');
+  const status = document.getElementById('apiKeyStatus');
+  if (!input) return;
+  const key = input.value.trim();
+  if (!key) {
+    localStorage.removeItem('deepseek_api_key');
+    if (status) {
+      status.textContent = '未设置，将使用公共代理';
+      status.className = 'apikey-status';
+    }
+    showToast('已清除 API Key', 'info');
+    return;
+  }
+  localStorage.setItem('deepseek_api_key', key);
+  if (status) {
+    status.textContent = '✓ 已保存到本地';
+    status.className = 'apikey-status ok';
+  }
+  showToast('API Key 已保存', 'success');
+}
+
+function renderKeyStatus() {
+  const input = document.getElementById('apiKeyInput');
+  const status = document.getElementById('apiKeyStatus');
+  const key = localStorage.getItem('deepseek_api_key') || '';
+  if (input) input.value = key;
+  if (!status) return;
+  if (key) {
+    status.textContent = '✓ 已保存到本地';
+    status.className = 'apikey-status ok';
+  } else {
+    status.textContent = '未设置，将使用公共代理';
+    status.className = 'apikey-status';
+  }
+}
+
+// ====== 复制 ======
+function copyResult() {
+  const box = document.getElementById('optimizedContent');
+  const text = box ? box.innerText.trim() : '';
+  if (!text) {
+    showToast('还没有可复制的内容', 'info');
+    return;
+  }
+  const done = () => showToast('已复制优化后的简历', 'success');
+  const fallback = () => {
+    // clipboard API 在非 HTTPS 或旧浏览器下不可用
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      done();
+    } catch (e) {
+      showToast('复制失败，请手动选中复制', 'error');
+    }
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(done).catch(fallback);
+  } else {
+    fallback();
+  }
+}
+
+// ====== 核心：简历优化 ======
+async function optimizeResume() {
+  const resume = document.getElementById('resumeInput');
+  const job = document.getElementById('jobTarget');
+  const btn = document.getElementById('btnOptimize');
+  const compare = document.getElementById('compareSection');
+  const original = document.getElementById('originalContent');
+  const optimized = document.getElementById('optimizedContent');
+
+  const source = resume ? resume.value.trim() : '';
+  if (!source) {
+    showToast('❌ 请先粘贴简历内容', 'error');
+    if (resume) resume.focus();
+    return;
+  }
+  // 目标岗位可留空，只按通用优化处理
+  const target = job ? job.value.trim() : '';
+
+  const originalLabel = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '优化中…';
+  }
+
+  try {
+    const body = {
+      model: 'deepseek-chat',
+      messages: [
+        {
+          role: 'system',
+          content: '你是一位资深简历顾问与招聘经理。你的任务是优化用户提供的简历，' +
+                   '在不虚构经历的前提下改进措辞、结构和岗位匹配度。' +
+                   '严禁编造用户未提供的公司、项目、技能或数字。' +
+                   '只输出优化后的简历纯文本，不要任何解释、前言或 Markdown 标题符号。'
+        },
+        {
+          role: 'user',
+          content: (target
+            ? `目标岗位：${target}\n\n请优化以下简历：\n\n${source}`
+            : `请优化以下简历：\n\n${source}`)
+        }
+      ],
+      temperature: 0.7,
+      max_tokens: 4096
+    };
+
+    // 与 ai-paper-rewriter 用同一把 key、同一套「有才带」逻辑
+    const userKey = localStorage.getItem('deepseek_api_key');
+    if (userKey) body.api_key = userKey;
+
+    const resp = await fetch(PROXY_URL + '/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (!resp.ok) {
+      // 服务端可能返回 JSON 错误体，也可能直接 502 HTML
+      const err = await resp.json().catch(() => ({}));
+      throw new Error(err.error?.message || err.message || `服务返回 ${resp.status}`);
+    }
+
+    const data = await resp.json();
+    const result = data.choices?.[0]?.message?.content?.trim();
+    if (!result) throw new Error('响应里没有内容');
+
+    if (original) original.textContent = source;
+    if (optimized) optimized.textContent = result;
+    if (compare) {
+      compare.classList.add('show');
+      compare.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    showToast('✅ 优化完成，对比左右查看', 'success');
+  } catch (err) {
+    // 不要把网络失败归因到用户的 API Key——请求可能根本没离开浏览器。
+    // 原始信息留在 console 供排查。
+    console.error('[resume-optimizer]', err);
+    if (compare) {
+      compare.classList.add('show');
+      if (original) original.textContent = source;
+      if (optimized) {
+        optimized.textContent = '服务暂时不可用，请稍后重试。\n\n若你自带了 API Key，也请稍后再试——问题可能出在服务端。';
+      }
+    }
+    showToast('服务暂时不可用，请稍后重试', 'error');
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = originalLabel;
+    }
+  }
+}
+
+// ====== 初始化 ======
+(function init() {
+  const resume = document.getElementById('resumeInput');
+  const counter = document.getElementById('resumeCharCount');
+  if (resume && counter) {
+    const update = () => { counter.textContent = resume.value.length; };
+    resume.addEventListener('input', update);
+    update();
+  }
+  renderKeyStatus();
+
+  const modal = document.getElementById('upgradeModal');
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) hideUpgradeModal();
+    });
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') hideUpgradeModal();
+  });
+})();
 </script>
 
 <!-- 静态内链（供搜索引擎抓取，勿删） -->
