@@ -136,13 +136,16 @@ const NexToolPay = {
   },
 
   confirmPayment(productKey) {
-    // 在实际生产中，这里应该调用后端验证支付状态
-    // 目前先用本地激活（面包多支付成功后会跳回带参数的页面）
-    this.setProStatus(true, productKey);
+    // 不再因为点击按钮就授予 Pro。此前这里直接 setProStatus(true)，
+    // 任何人都能白嫖。Pro 权益必须经pro-check.js 的服务端密钥校验。
     this.closeModal();
-    this.showToast('Pro 已激活！感谢您的支持', 'success');
-    // 刷新页面状态
-    setTimeout(() => window.location.reload(), 1000);
+    this.showToast('请在 Pro 弹窗中输入您的激活密钥完成验证', 'info');
+    if (typeof window.__nextoolProModal === 'function') {
+      window.__nextoolProModal();
+    } else {
+      const badge = document.getElementById('nextool-pro-badge');
+      if (badge && typeof badge.click === 'function') badge.click();
+    }
   },
 
   closeModal() {
@@ -152,16 +155,13 @@ const NexToolPay = {
 
   // ===== URL 回调检测 =====
   checkPaymentCallback() {
+    // 保留 URL 清理，但不再据 ?paid=1 授予 Pro —— 那个参数任何人
+    // 都能自己加上。付费状态一律以 pro-check.js 的服务端校验为准。
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('paid') === '1') {
-      const product = urlParams.get('product');
-      if (product && this.products[product]) {
-        this.setProStatus(true, product);
-        this.showToast('支付成功！Pro 已激活', 'success');
-        // 清除URL参数
-        window.history.replaceState({}, '', window.location.pathname);
-        return true;
-      }
+      window.history.replaceState({}, '', window.location.pathname);
+      this.showToast('支付完成，请输入激活密钥完成 Pro 验证', 'info');
+      return false;
     }
     return false;
   },
