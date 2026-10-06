@@ -9,11 +9,21 @@ name: API Health Check
 # /api/health returns a static payload, so it only proves the deployment is
 # alive. It cannot see an expired LLM key or a dead upstream, hence the
 # once-a-day end-to-end probe below.
+#
+# Schedule note: this originally ran on '17,47 * * * *', twice an hour. Over
+# seven hours it fired zero times, while manual dispatch worked, so the file
+# itself is fine and the problem is scheduling. This repo's schedule queue is
+# visibly backed up -- seo-monitor (cron '0 2 * * *') consistently runs five
+# to six hours late. A 48-times-a-day cron in a queue like that is the most
+# likely thing to be dropped outright rather than merely delayed, so it is cut
+# to one run a day to find out which it is. Note that a real 30-minute alert
+# cannot come from GitHub Actions on this repo at all; that needs an external
+# scheduler calling workflow_dispatch.
 
 on:
   schedule:
-    - cron: '17,47 * * * *'   # every 30 min, off the hour to avoid the rush
-    - cron: '23 3 * * *'       # one deeper probe a day, 03:23 UTC
+    - cron: '23 3 * * *'   # once a day; same frequency as daily-seo-auto,
+                           # which does fire (about three hours late)
   workflow_dispatch:
 
 permissions:
@@ -63,10 +73,10 @@ jobs:
     name: Chat end-to-end
     runs-on: ubuntu-latest
     timeout-minutes: 8
-    # Only on the daily 03:23 UTC run, or when dispatched by hand. A real
-    # chat request spends shared quota and counts against chat.py's
-    # 10-per-hour per-IP limit, so it must not run on every 30-minute tick.
-    # The half-hourly trigger fires at :17 and :47; this one at :23.
+    # Every scheduled run is the daily one, so this no longer needs a guard.
+    # Kept explicit anyway: a real chat request spends shared quota and
+    # counts against chat.py's 10-per-hour per-IP limit, so this must never
+    # become a high-frequency job.
     if: github.event_name == 'workflow_dispatch' || github.event.schedule == '23 3 * * *'
     steps:
       - name: Probe the real chat path
