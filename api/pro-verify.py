@@ -102,7 +102,7 @@ def handler(request):
                 "valid": True,
                 "plan": key_info.get("plan", "monthly"),
                 "expires_at": key_info.get("expires_at"),
-                "email": key_info.get("email", ""),
+                # 订单备注仅供人工排查，不返回给前端
             }),
         }
 

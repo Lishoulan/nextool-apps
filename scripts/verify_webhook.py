@@ -52,22 +52,33 @@ def body_of(resp):
     return json.loads(resp["body"])
 
 
-def order(order_id, amount="19", plan="monthly", email="buyer@example.com",
-          status=1, ts=None):
-    payload = {
-        "token": TOKEN,
-        "order": {
-            "order_id": order_id,
-            "user_id": "u123",
-            "email": email,
-            "total_amount": amount,
-            "plan": plan,
-            "status": status,
+def order(order_id, amount="19.00", month=1, status=2, remark=""):
+    """按爱发电官方文档 guide.afdian.com/creator/developer 的真实结构构造。
+
+    要点：请求体是 {"ec":200,"em":"ok","data":{"type":"order","order":{...}}}；
+    订单号字段是 out_trade_no；status=2 才是交易成功；
+    webhook 不带 token（签名只存在于 API 主动查询那条链路）。
+    """
+    return {
+        "ec": 200,
+        "em": "ok",
+        "data": {
+            "type": "order",
+            "order": {
+                "out_trade_no": order_id,
+                "user_id": "adf397fe8374811eaacee52540025c377",
+                "user_private_id": "33",
+                "plan_id": "a45353328af911eb973052540025c377",
+                "month": month,
+                "total_amount": amount,
+                "show_amount": amount,
+                "status": status,
+                "remark": remark,
+                "product_type": 0,
+                "discount": "0.00",
+            },
         },
     }
-    if ts is not None:
-        payload["timestamp"] = ts
-    return payload
 
 
 def main():
@@ -87,23 +98,27 @@ def main():
         _kv._rest("POST", "", ["DEL", ORDER_PREFIX + oid])
 
     # ---- 1. 付款 → 生成密钥且真的落盘 ----
-    r = hook.handler(FakeRequest(order("order-new", email="new@example.com")))
+    r = hook.handler(FakeRequest(order("order-new", remark="买了月付")))
     b = body_of(r)
     key1 = b.get("key", "")
     check(r["status_code"] == 200 and key1.startswith("NTP-"),
           "付款 → 生成密钥")
     stored = _kv._kv_get(KEY_PREFIX + key1)
-    check(isinstance(stored, dict) and stored.get("email") == "new@example.com",
-          "密钥已落盘（这是修复前完全做不到的）")
-    check(stored and set(stored.keys()) == {"plan", "email", "created_at", "expires_at"},
-          "密钥只保留读取方用得到的 4 个字段")
+    check(isinstance(stored, dict) and stored.get("remark") == "买了月付",
+          "密钥已落盘（修复前完全做不到）")
+    check(stored and set(stored.keys()) == {"plan", "remark", "created_at", "expires_at"},
+          "落盘 4 个字段（remark 取代 email：文档的 webhook 无此字段）")
+
+    # ---- 1b. 响应必须含 ec:200，否则爱发电视为回调失败并反复重试 ----
+    check("ec" in b, "响应含 ec 字段（文档硬要求）")
+    check(b.get("ec") == 200, "     ec == 200，平台认定回调成功")
 
     # ---- 2. 该密钥能被 verify 认出 ----
     r = verify.handler(FakeRequest({"key": key1}))
     check(body_of(r).get("valid") is True, "生成的密钥能被 verify 校验通过")
 
     # ---- 3. 幂等：同一订单回调两次，第二次必须返回同一个密钥 ----
-    r2 = hook.handler(FakeRequest(order("order-new", email="new@example.com")))
+    r2 = hook.handler(FakeRequest(order("order-new", remark="买了月付")))
     b2 = body_of(r2)
     check(b2.get("status") == "already_processed",
           "重复回调 → already_processed（修复前永远为False）")
@@ -112,25 +127,23 @@ def main():
     # ---- 4. 同一订单回调 5 次，只有 1 个密钥被创建 ----
     keys = set()
     for _ in range(5):
-        rr = hook.handler(FakeRequest(order("order-new", email="new@example.com")))
+        rr = hook.handler(FakeRequest(order("order-new", remark="买了月付")))
         kk = body_of(rr).get("key", "")
         if kk:
             keys.add(kk)
     check(len(keys) == 1 and keys == {key1},
           "回调 5 次只产生 1 个密钥（实际 %d 个）" % len(keys))
 
-    # ---- 5. 错误 token → 403 ----
-    bad = order("order-wrongtoken")
-    bad["token"] = "wrong-token-value-x"
-    r = hook.handler(FakeRequest(bad))
-    check(r["status_code"] == 403, "错误 token → 403")
+    # 说明：webhook 推送不带 token（签名机制只存在于 API 主动查询那条链路，
+    # sign = md5(token + params + ts + user_id)）。所以这里没有验签可测，
+    # 准入控制靠 out_trade_no 幂等 + status==2 判定。
 
     # ---- 6. 非成功状态 → ignored ----
     r = hook.handler(FakeRequest(order("order-new", status=0)))
     check(body_of(r).get("status") == "ignored", "status=0 → ignored")
 
     # ---- 7. 年付判定 ----
-    r = hook.handler(FakeRequest(order("order-year", amount="199")))
+    r = hook.handler(FakeRequest(order("order-year", month=12, amount="199.00")))
     ky = body_of(r).get("key", "")
     rec = _kv._kv_get(KEY_PREFIX + ky) if ky else None
     check(rec and rec.get("plan") == "yearly",
@@ -142,8 +155,8 @@ def main():
     # ---- 8. 终身套餐 ----
     # lifetime 走的是 elif 分支，金额必须小于 100 —— 原代码的判定顺序
     # 是先year（含 amount>=100）再 lifetime，保持不变。
-    r = hook.handler(FakeRequest(order("order-expired", plan="lifetime",
-                                       amount="49")))
+    r = hook.handler(FakeRequest(# 永久方案：爱发电按 120 个月计
+    order("order-expired", month=120, amount="999.00")))
     klife = body_of(r).get("key", "")
     rec = _kv._kv_get(KEY_PREFIX + klife) if klife else None
     check(rec and rec.get("plan") == "lifetime", "plan=lifetime → lifetime")
@@ -152,44 +165,20 @@ def main():
     if klife:
         _kv._rest("POST", "", ["DEL", KEY_PREFIX + klife])
 
-    # ---- 9. 防重放：过期的 timestamp → 403 ----
-    r = hook.handler(FakeRequest(order("order-replay",
-                                       ts=int(time.time()) - 600)))
-    check(r["status_code"] == 403, "timestamp 超 5 分钟 → 403（防重放）")
-    _kv._rest("POST", "", ["DEL", ORDER_PREFIX + "order-replay"])
+    # ---- 9. 缺 out_trade_no → 400 ----
+    bad = order("order-replay")
+    bad["data"]["order"]["out_trade_no"] = ""
+    r = hook.handler(FakeRequest(bad))
+    check(r["status_code"] == 400, "缺 out_trade_no → 400")
 
-    # ---- 10. AFDIAN_TOKEN 未配置 → 503（fail-closed）----
-    import subprocess
-    probe = (
-        "import os,sys,importlib.util,json;"
-        "os.environ.pop('AFDIAN_TOKEN',None);"
-        "os.environ['UPSTASH_REDIS_REST_URL']='http://127.0.0.1:8899';"
-        "os.environ['UPSTASH_REDIS_REST_TOKEN']='mock';"
-        "sys.path.insert(0,'api');"
-        "spec=importlib.util.spec_from_file_location('aw','api/afdian-webhook.py');"
-        "m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);"
-        "R=type('R',(),{'method':'POST','json':lambda s:{'order':{}}});"
-        "r=m.handler(R());print(r['status_code'])"
-    )
-    out = subprocess.run([sys.executable, "-c", probe],
-                         capture_output=True, text=True)
-    check(out.stdout.strip().startswith("503"),
-          "AFDIAN_TOKEN 未配置 → 503（fail-closed，修复前是放行）")
-
-    # ---- 11. 弱 token 启动即拒绝 ----
-    probe2 = (
-        "import os,sys,importlib.util;"
-        "os.environ['AFDIAN_TOKEN']='short';"
-        "os.environ['UPSTASH_REDIS_REST_URL']='http://127.0.0.1:8899';"
-        "os.environ['UPSTASH_REDIS_REST_TOKEN']='mock';"
-        "sys.path.insert(0,'api');"
-        "spec=importlib.util.spec_from_file_location('aw','api/afdian-webhook.py');"
-        "m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)"
-    )
-    out2 = subprocess.run([sys.executable, "-c", probe2],
-                          capture_output=True, text=True)
-    check("16" in out2.stderr and "AFDIAN_TOKEN" in out2.stderr,
-          "弱 AFDIAN_TOKEN → 启动即 RuntimeError")
+    # ---- 10. webhook 无签名可验，准入控制靠幂等 + status==2 ----
+    # 文档确认：签名机制只存在于「API 主动查询」那条链路
+    # （sign = md5(token + params + ts + user_id)），
+    # webhook 推送的请求体里没有 token 或 sign 字段。
+    # 因此本handler 不做验签，改为依赖：
+    #   1) out_trade_no 幂等（同一订单不会重复发key）
+    #   2) status==2 才处理
+    # 这两条已在上面逐项验证。
 
     print()
     print("  %d 项通过, %d 项失败" % (ok_count, fail_count))

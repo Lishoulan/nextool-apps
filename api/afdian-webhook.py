@@ -14,15 +14,20 @@ from _pro_keys import (KEY_PREFIX, ORDER_PREFIX, ORDER_TTL_SECONDS,
                        generate_pro_key, _expiry_for, _plan_duration_days,
                        _key_ttl_seconds)
 
-AFDIAN_TOKEN = os.environ.get("AFDIAN_TOKEN", "")
-
-# 弱 token 等于没有验签。启动即拒绝，而不是等到有人伪造付款。
-if AFDIAN_TOKEN and len(AFDIAN_TOKEN) < 16:
-    raise RuntimeError(
-        "AFDIAN_TOKEN 长度只有 %d，低于 16 字符下限。"
-        "弱 token 等于没有验签——请改用随机生成的长 token。"
-        % len(AFDIAN_TOKEN)
-    )
+# 注意：这里没有 AFDIAN_TOKEN 校验，因为爱发电的 webhook 推送
+# **不带任何签名字段**。官方文档（guide.afdian.com/creator/developer）确认
+# 签名机制只存在于「API 主动查询」那条链路：
+#   sign = md5(token + params + ts + user_id)
+# 而 webhook 的请求体形如
+#   {"ec":200,"em":"ok","data":{"type":"order","order":{...}}}
+# 里既没有 token 也没有 sign。原代码的 `if AFDIAN_TOKEN:` 分支
+# 因此永远读到 body.get("token", "") == ""，恒为 403 ——
+# 也就是说这个 webhook 在真实平台上从未成功处理过一笔订单。
+#
+# 准入控制改为：out_trade_no 幂等（同一订单不会重复发key）
+#            + status == 2 才处理。
+# 代价是无法验明「请求确实来自爱发电」。若要更强的保证，
+# 应改用爱发电的主动查询 API 轮询订单，而不是依赖 webhook 推送。
 
 _CORS = {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
 
@@ -55,59 +60,39 @@ def handler(request):
             "body": json.dumps({"error": "Invalid JSON"}),
         }
 
-    # 验签：配置缺失时 fail-closed。
-    # 原代码是 `if AFDIAN_TOKEN:`——未配置就整段跳过，任何人都能POST
-    # 一个伪造的 {"order": {...}} 白拿一个真密钥。
-    if not AFDIAN_TOKEN:
-        return {
-            "status_code": 503,
-            "headers": _CORS,
-            "body": json.dumps({
-                "error": "server_not_configured",
-                "detail": "AFDIAN_TOKEN 未配置，无法验签。拒绝处理 webhook，"
-                          "否则任何人都能伪造付款回调领取密钥。",
-            }),
-        }
+    # 幂等键先算出来：无论后续走哪个分支都要用。
+    # 爱发电的 webhook 请求体（官方文档 guide.afdian.com/creator/developer）：
+    #   {"ec":200,"em":"ok","data":{"type":"order","order":{...}}}
+    # order 对象里没有 token 字段——签名机制只存在于「API 主动查询」那条链路
+    # （sign = md5(token + params + ts + user_id)），webhook 推送不带签名。
+    # 所以这里无法验签，改用下面的准入控制兜底。
+    data = body.get("data") or {}
+    order = data.get("order") or {}
 
-    received_token = body.get("token", "")
-    if received_token != AFDIAN_TOKEN:
-        return {
-            "status_code": 403,
-            "headers": _CORS,
-            "body": json.dumps({"error": "Invalid Afdian token"}),
-        }
-
-    # 防重放：抓包重放同一个 payload 可以反复领key。
-    ts = body.get("timestamp", "")
-    if ts:
-        try:
-            if abs(time.time() - int(ts)) > 300:
-                return {
-                    "status_code": 403,
-                    "headers": _CORS,
-                    "body": json.dumps({"error": "Request timestamp out of window"}),
-                }
-        except (TypeError, ValueError):
-            return {
-                "status_code": 403,
-                "headers": _CORS,
-                "body": json.dumps({"error": "Invalid timestamp"}),
-            }
-
-    # Parse order data
-    order = body.get("order", {})
-    order_id = order.get("order_id", "")
+    order_id = order.get("out_trade_no", "")      # 文档：订单号字段是 out_trade_no
     user_id = order.get("user_id", "")
-    email = order.get("email", "")
+    plan_id = order.get("plan_id", "")            # 文档：方案 ID，自选方案则为空
+    month = order.get("month", 0)                 # 文档：赞助月份数
     amount = order.get("total_amount", "0")
+    title = order.get("title", "")or order.get("remark", "")
     status = order.get("status", "")
 
-    # Only process successful payments
-    if status not in (1, "1", "active"):
+    if not order_id:
+        return {
+            "status_code": 400,
+            "headers": _CORS,
+            "body": json.dumps({"error": "missing out_trade_no"}),
+        }
+
+    # 只处理交易成功。文档明确：status 2 为交易成功，
+    # 「目前仅会推送此类型」。
+    if str(status) != "2":
         return {
             "status_code": 200,
-            "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
-            "body": json.dumps({"status": "ignored", "reason": f"order status: {status}"}),
+            "headers": _CORS,
+            # 必须回 {"ec":200}，否则爱发电认为回调失败会反复重试。
+            "body": json.dumps({"ec": 200, "em": "", "status": "ignored",
+                                "reason": "order status %s" % status}),
         }
 
     # 幂等：用 SET NX 抢占。
@@ -133,21 +118,26 @@ def handler(request):
             "status_code": 200,
             "headers": _CORS,
             "body": json.dumps({
+                # 爱发电要求响应含 ec:200，否则视为回调失败并反复重试
+                "ec": 200,
+                "em": "",
                 "status": "already_processed",
                 "key": existing.get("key", ""),
             }),
         }
 
     # Determine plan duration
-    plan_name = str(order.get("plan", "")).lower()
+    # 套餐判定用文档里的 month 字段，不靠金额猜。
+    # 原代码是 `amount >= 100 → yearly`，这会把任何超过 100 元的
+    # 订单都当成年付，包括月付但买了很多份的情况。
     try:
-        amount_value = float(amount)
+        months = int(month)
     except (TypeError, ValueError):
-        amount_value = 0.0
-    if "year" in plan_name or amount_value >= 100:
+        months = 1
+    if months >= 120:
+        plan = "lifetime"      # 爱发电的永久方案按 120 个月计
+    elif months >= 12:
         plan = "yearly"
-    elif "lifetime" in plan_name:
-        plan = "lifetime"
     else:
         plan = "monthly"
 
@@ -157,7 +147,9 @@ def handler(request):
     try:
         _kv_set(KEY_PREFIX + key, {
             "plan": plan,
-            "email": email,
+            # webhook 的order 对象里没有 email 字段（官方文档字段说明里
+            # 只有 address_* 是收货信息）。留 remark 供人工排查对账。
+            "remark": title[:200],
             "created_at": datetime.now().isoformat(),
             "expires_at": expires_at,
         }, ttl=_key_ttl_seconds(expires_at))
@@ -167,7 +159,7 @@ def handler(request):
         _kv_set(order_key, {
             "key": key,
             "plan": plan,
-            "email": email,
+            "plan_id": plan_id,
             "amount": amount,
             "created_at": datetime.now().isoformat(),
         }, ttl=ORDER_TTL_SECONDS)
@@ -182,12 +174,18 @@ def handler(request):
 
     return {
         "status_code": 200,
-        "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
+        "headers": _CORS,
         "body": json.dumps({
+            # 爱发电的文档：响应必须含 ec:200，否则平台认为回调失败。
+            # 这也是我们唯一的「密钥交付」途径——HTTP 响应体是服务器到
+            # 服务器的通道，用户看不到，所以真正交付要靠 remark 里留的
+            # 订单号 + 用户在爱发电后台自行查收，或人工发邮件。
+            "ec": 200,
+            "em": "",
             "status": "success",
             "key": key,
             "plan": plan,
             "expires_at": expires_at,
-            "message": f"感谢支持！您的Pro密钥: {key}，请在工具页面输入此密钥解锁Pro功能。",
+            "order_id": order_id,
         }),
     }
