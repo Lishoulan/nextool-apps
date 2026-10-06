@@ -142,6 +142,7 @@ def build():
 <meta property="og:type" content="website">
 <meta property="og:url" content="{SITE}/blog/">
 <meta property="og:site_name" content="NexTool">
+<meta property="og:image" content="{SITE}/icons/icon-512x512.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <style>
 *{{margin:0;padding:0;box-sizing:border-box}}
