@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -321,7 +321,8 @@ const PRO_KEY = 'nextool_translator_pro';
 
 // State
 let currentStyle = '日常';
-let isPro = localStorage.getItem(PRO_KEY) === 'true';
+// Pro 状态以服务端校验为准，不再读本地标记。
+let isPro = (typeof NEXTOOL_PRO !== 'undefined') ? NEXTOOL_PRO.isProLocal() : false;
 
 // Elements
 const srcLang = document.getElementById('srcLang');

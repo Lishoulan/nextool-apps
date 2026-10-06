@@ -7,11 +7,21 @@
  */
 
 const NEXTOOL_PRO = {
-    API_BASE: '',  // 空字符串 = 同域部署（API和静态页面在同一Vercel项目）
+    // API 与静态页面不在同一个域：站点在 GitHub Pages，API 在 Vercel。
+    // 之前这里是空字符串，请求打到 https://lishoulan.github.io/api/pro/verify
+    // 被 Pages 当静态文件处理，返回 405，catch 又回退到 isProLocal()。
+    API_BASE: 'https://nextool-api-proxy-vercel.vercel.app',
     LOCAL_KEY: 'nextool_pro_key',
     LOCAL_EXPIRY: 'nextool_pro_expiry',
     LOCAL_PLAN: 'nextool_pro_plan',
+    // 服务端最后一次确认「这个密钥有效」的时间戳（毫秒）。
+    // 没有它，localStorage 里的 key+expiry 就是两段用户自己也能写的字符串，
+    // isProLocal() 会把它们当成付费凭据。7 天宽限用于 API 临时不可用时
+    // 不让付费用户被误降级。
+    LOCAL_VERIFIED: 'nextool_pro_verified_at',
+    OFFLINE_GRACE_MS: 7 * 24 * 3600 * 1000,
     FREE_LIMIT: 3,  // 每日免费次数
+    _verifiedOnline: false,
 
     // 获取存储的 Pro Key
     getKey() {
@@ -23,6 +33,7 @@ const NEXTOOL_PRO = {
         localStorage.setItem(this.LOCAL_KEY, key);
         localStorage.setItem(this.LOCAL_EXPIRY, expiry || '');
         localStorage.setItem(this.LOCAL_PLAN, plan || '');
+        localStorage.setItem(this.LOCAL_VERIFIED, String(Date.now()));
     },
 
     // 清除 Pro Key
@@ -30,15 +41,45 @@ const NEXTOOL_PRO = {
         localStorage.removeItem(this.LOCAL_KEY);
         localStorage.removeItem(this.LOCAL_EXPIRY);
         localStorage.removeItem(this.LOCAL_PLAN);
+        localStorage.removeItem(this.LOCAL_VERIFIED);
     },
 
-    // 检查本地缓存的 Pro 状态（快速判断，不调API）
+    // 存量用户迁移：服务端的盖章字段是本次新增的，已经付费的用户
+    // localStorage 里只有 key+expiry，没有 verified_at。
+    //
+    // 关键约束：只在「服务端此刻不可用」时才给本地宽限。
+    // 如果服务端能答，就让它答——否则这道迁移就退化成一个后门：
+    // 谁都能手写一个格式合法的 key 换到 7 天 Pro。
+    // 所以这个函数**不做**自动盖章，只在 offline 分支里被显式调用。
+    //
+    // 诚实的边界：即便如此，expiry 与 verified_at 都在 localStorage，
+    // 愿意改控制台的人仍能伪造。真正不可绕过的位置是 /api/chat。
+    migrateLegacyKey() {
+        const key = this.getKey();
+        if (!key) return false;
+        if (localStorage.getItem(this.LOCAL_VERIFIED)) return false;
+        const expiry = localStorage.getItem(this.LOCAL_EXPIRY);
+        if (/^NTP-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}$/i.test(key) && expiry) {
+            localStorage.setItem(this.LOCAL_VERIFIED, String(Date.now()));
+            return true;
+        }
+        return false;
+    },
+
+    // 检查本地缓存的 Pro 状态（快速判断，不调API）。
+    // 只读服务端盖章，不自行迁移——迁移仅在 verifyPro 确认服务端不可用后进行。
     isProLocal() {
         const key = this.getKey();
         if (!key) return false;
         const expiry = localStorage.getItem(this.LOCAL_EXPIRY);
         if (expiry && new Date(expiry) < new Date()) {
             this.clearKey();
+            return false;
+        }
+        // 没有服务端盖章、或盖章已超出宽限期，一律不认。
+        // 少了这一条，用户只要往 localStorage 写个 key 就能得 Pro。
+        const verified = parseInt(localStorage.getItem(this.LOCAL_VERIFIED) || '0', 10);
+        if (!verified || (Date.now() - verified) > this.OFFLINE_GRACE_MS) {
             return false;
         }
         return true;
@@ -55,18 +96,35 @@ const NEXTOOL_PRO = {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ key })
             });
+
+            // 服务端本身不可用（502/503/404/405 或反向代理挡了）时，
+            // 不能当成「密钥无效」——那会把付费用户的凭据清掉。
+            // 这种情况退回本地宽限票据。
+            if (resp.status >= 500 || resp.status === 404 || resp.status === 405) {
+                this._verifiedOnline = false;
+                // 服务端此刻答不上来，才允许存量用户走本地迁移宽限。
+                this.migrateLegacyKey();
+                return { valid: this.isProLocal(), reason: 'offline' };
+            }
+
             const data = await resp.json();
 
             if (data.valid) {
+                this._verifiedOnline = true;
                 this.saveKey(key, data.expires_at, data.plan);
                 return { valid: true, plan: data.plan, expires_at: data.expires_at };
-            } else {
-                this.clearKey();
-                return { valid: false, reason: data.reason || 'invalid' };
             }
+
+            // 服务端明确说这个密钥无效：这是权威结论，
+            // 离线宽限在此失效——宁可让用户重新输一次密钥，
+            // 也不能让一个已被吊销的密钥靠本地缓存续命。
+            this._verifiedOnline = true;
+            this.clearKey();
+            return { valid: false, reason: data.reason || 'invalid' };
         } catch (e) {
-            // 网络错误时用本地缓存
-            return { valid: this.isProLocal(), reason: 'offline_fallback' };
+            this._verifiedOnline = false;
+            this.migrateLegacyKey();
+            return { valid: this.isProLocal(), reason: 'offline' };
         }
     },
 

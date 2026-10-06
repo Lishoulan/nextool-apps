@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -356,7 +356,8 @@ const PRO_KEY = 'nextool_explainer_pro';
 // State
 let currentLevel = '小白友好';
 let currentMode = 'explain';
-let isPro = localStorage.getItem(PRO_KEY) === 'true';
+// Pro 状态以服务端校验为准，不再读本地标记。
+let isPro = (typeof NEXTOOL_PRO !== 'undefined') ? NEXTOOL_PRO.isProLocal() : false;
 let lastExplanation = '';
 
 // Elements

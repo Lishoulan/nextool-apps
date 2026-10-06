@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -435,7 +435,9 @@ const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
   const base = localStorage.getItem('de_api_base') || PROXY_URL;
   document.getElementById('apiKeyInput').value = key;
   document.getElementById('apiBaseInput').value = base;
-  isPro = localStorage.getItem('de_is_pro') === 'true';
+  // Pro 状态以服务端校验为准，不再读本地标记。
+  // typeof 守卫：pro-check.js 在本页下方才加载。
+  isPro = (typeof NEXTOOL_PRO !== 'undefined') ? NEXTOOL_PRO.isProLocal() : false;
   updateUsage();
 })();
 
@@ -674,11 +676,12 @@ function saveSettings() {
 // ===== Pro =====
 function openProModal() { openModal('proModal'); }
 function activatePro() {
-  isPro = true;
-  localStorage.setItem('de_is_pro', 'true');
-  updateUsage();
-  closeModal('proModal');
-  showToast('🎉 Pro会员已激活！');
+  // 升级一律走 pro-check.js 的服务端校验，本页不再有"一键开通"。
+  if (typeof NEXTOOL_PRO !== 'undefined') {
+    NEXTOOL_PRO.showProModal('limit');
+  } else {
+    showToast('升级组件未加载，请刷新页面');
+  }
 }
 
 // ===== Modal =====

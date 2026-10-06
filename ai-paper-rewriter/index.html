@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -405,8 +405,8 @@
   <div class="modal">
     <h3>💎 激活 Pro 会员</h3>
     <p style="font-size:13px;color:var(--text-light);margin-bottom:12px">输入激活码以解锁无限次降重。</p>
-    <input type="text" id="proCodeInput" placeholder="请输入激活码">
-    <div style="font-size:12px;color:var(--text-light);margin-bottom:4px">演示激活码: <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px">PRO2026</code></div>
+    <input type="text" id="proCodeInput" placeholder="Pro 密钥（NTP-XXXX-XXXX-XXXX）">
+    <div id="proCodeStatus" style="font-size:12px;color:var(--text-light);margin:6px 0 4px"></div>
     <div class="btn-row">
       <button class="btn btn-outline" style="color:var(--text);border-color:var(--border)" onclick="closeProModal()">取消</button>
       <button class="btn btn-primary" onclick="activateProWithCode()">激活</button>
@@ -454,7 +454,9 @@ function init() {
   if (saved) {
     try {
       const s = JSON.parse(saved);
-      state.isPro = s.isPro || false;
+      // 旧存档里的 isPro 是一键激活留下的伪造标记，刻意不读。
+      if (s.isPro) saveState();   // 顺手清掉
+      state.isPro = false;        // 运行时值由 syncProState() 从服务端取
       state.dailyCount = s.dailyCount || 0;
       state.dailyDate = s.dailyDate || '';
     } catch(e) {}
@@ -462,12 +464,33 @@ function init() {
   checkDailyReset();
   updateTierUI();
   updateCharCount();
+  syncProState();
   // No longer auto-prompt for API key - proxy handles it
 }
 
+// Pro 状态以服务端为准，本地不再保存。
+// 注意 pro-check.js 在本文件末尾才加载，所以必须用 typeof 守卫；
+// 缺失时保持免费用户，宁可少给不可多给。
+function syncProState() {
+  if (typeof NEXTOOL_PRO === 'undefined') {
+    state.isPro = false;
+    updateTierUI();
+    return;
+  }
+  state.isPro = NEXTOOL_PRO.isProLocal();
+  updateTierUI();
+  if (NEXTOOL_PRO.getKey()) {
+    NEXTOOL_PRO.verifyPro().then(r => {
+      state.isPro = !!r.valid;
+      updateTierUI();
+    });
+  }
+}
+
 function saveState() {
+  // isPro 不再持久化：Pro 权益的唯一真相是服务端。把它写进
+  // localStorage 就是给绕过留后门——旧存档里就躺着 isPro:true。
   localStorage.setItem('paperRewriter', JSON.stringify({
-    isPro: state.isPro,
     dailyCount: state.dailyCount,
     dailyDate: state.dailyDate
   }));
@@ -555,16 +578,32 @@ function activatePro() {
 function closeProModal() {
   document.getElementById('proModal').classList.remove('show');
 }
-function activateProWithCode() {
-  const code = document.getElementById('proCodeInput').value.trim();
-  if (code === 'PRO2026' || code === 'DEMO' || code.startsWith('PRO')) {
+async function activateProWithCode() {
+  const input = document.getElementById('proCodeInput');
+  const status = document.getElementById('proCodeStatus');
+  const code = input.value.trim();
+  if (!code) {
+    showToast('❌ 请输入 Pro 密钥');
+    return;
+  }
+  if (typeof NEXTOOL_PRO === 'undefined') {
+    showToast('❌ 升级组件未加载，请刷新页面');
+    return;
+  }
+  status.textContent = '验证中…';
+  const result = await NEXTOOL_PRO.activateKey(code);
+  if (result.success) {
+    // 只更新运行时状态，不写 localStorage —— Pro 权益的唯一真相在服务端。
     state.isPro = true;
-    saveState();
     updateTierUI();
     closeProModal();
     showToast('🎉 Pro会员已激活！');
   } else {
-    showToast('❌ 激活码无效');
+    // 网络不可用与密钥无效要分开说：前者不该让用户反复重输。
+    status.textContent = result.reason === 'network_error'
+      ? '验证服务暂时不可用，请稍后再试（密钥不会被保存）'
+      : '❌ ' + (result.message || '密钥无效');
+    showToast(result.reason === 'network_error' ? '❌ 验证服务不可用' : '❌ 密钥无效');
   }
 }
 

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -697,7 +697,8 @@ async function generateContract() {
   }
 
   // Check usage (free tier: 1/day)
-  const isPro = localStorage.getItem('pro_user') === '1';
+  // Pro 状态以服务端校验为准，不再读本地标记。
+  const isPro = (typeof NEXTOOL_PRO !== 'undefined') ? NEXTOOL_PRO.isProLocal() : false;
   const usage = updateUsage();
   if (!isPro && usage >= 1) {
     showToast('今日免费次数已用完，请升级 Pro', 'error');

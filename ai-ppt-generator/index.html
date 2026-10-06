@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -482,7 +482,7 @@ body::before{
     <span class="logo-badge">Beta</span>
   </div>
   <div class="header-actions">
-    <span class="tier-badge tier-free" id="tierBadge" onclick="showProModal()">免费版</span>
+    <span class="tier-badge tier-free" id="tierBadge" onclick="upgradeToPro()">免费版</span>
     <button class="btn-icon" onclick="showApiSettings()" title="API 设置">⚙</button>
   </div>
 </header>
@@ -514,7 +514,7 @@ body::before{
   <div class="usage-bar" id="usageBar">
     <span>今日已用 <span class="usage-count" id="usageCount">0</span> / 1 次</span>
     <span class="usage-reset" id="usageReset"></span>
-    <a class="pro-link" onclick="showProModal()">升级 Pro 无限使用 →</a>
+    <a class="pro-link" onclick="upgradeToPro()">升级 Pro 无限使用 →</a>
   </div>
 
   <!-- Config Panel -->
@@ -593,7 +593,7 @@ body::before{
 
 <!-- Footer -->
 <footer class="footer">
-  <p>AI PPT 生成器 · 由 DeepSeek AI 驱动 · <a href="javascript:void(0)" onclick="showProModal()">升级 Pro</a></p>
+  <p>AI PPT 生成器 · 由 DeepSeek AI 驱动 · <a href="javascript:void(0)" onclick="upgradeToPro()">升级 Pro</a></p>
 <div style="text-align:center;margin:2rem 0;padding:1.5rem;background:rgba(108,92,231,0.1);border-radius:12px;border:1px solid rgba(108,92,231,0.3)">
   <p style="color:#ccc;margin-bottom:0.8rem;font-size:0.95rem">觉得工具好用？升级 Pro 解锁全部高级功能</p>
   <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener" style="display:inline-block;padding:10px 28px;background:linear-gradient(90deg,#6c5ce7,#a855f7);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:0.95rem">⭐ 升级 Pro · ¥9.9/首月</a>
@@ -612,7 +612,7 @@ body::before{
     renderMode: "insert"
   });
 </script>
-    <button class="btn-generate" style="width:100%;text-align:center" onclick="activatePro()">🚀 立即升级 Pro</button>
+    <button class="btn-generate" style="width:100%;text-align:center" onclick="upgradeToPro()">🚀 立即升级 Pro</button>
   </div>
 </div>
 
@@ -634,7 +634,9 @@ body::before{
 <script>
 // ===== State =====
 let currentSlides = null;
-let isPro = localStorage.getItem('ai_ppt_pro') === 'true';
+// Pro 状态由服务端判定，本地不再保存布尔标记
+// （之前是 localStorage.getItem('ai_ppt_pro') === 'true'，点一下就永久 Pro）。
+let isPro = false;
 let apiKey = localStorage.getItem('deepseek_api_key') || '';
 const PROXY_URL = 'https://nextool-api-proxy-vercel.vercel.app';
 
@@ -647,6 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   updateTierUI();
   updateUsageUI();
+  syncProState();
   if (apiKey) {
     document.getElementById('apiKeyInput').value = '••••••••••••••••';
     document.getElementById('apiSection').querySelector('.api-text').textContent = 'API Key 已配置 ✓';
@@ -722,21 +725,38 @@ function updateTierUI() {
   }
 }
 
-function showProModal() {
-  document.getElementById('proModal').classList.add('active');
-}
-
-function closeProModal() {
-  document.getElementById('proModal').classList.remove('active');
-}
-
-function activatePro() {
-  isPro = true;
-  localStorage.setItem('ai_ppt_pro', 'true');
+// 从服务端同步 Pro 状态。
+// pro-check.js 在本页末尾才加载，所以必须 typeof 守卫；
+// 缺失时保持免费用户，宁可少给不可多给。
+function syncProState() {
+  if (typeof NEXTOOL_PRO === 'undefined') {
+    isPro = false;
+    updateTierUI();
+    updateUsageUI();
+    return;
+  }
+  isPro = NEXTOOL_PRO.isProLocal();
   updateTierUI();
   updateUsageUI();
-  closeProModal();
-  showToast('🎉 已升级到 Pro 版！', 'success');
+  if (NEXTOOL_PRO.getKey()) {
+    NEXTOOL_PRO.verifyPro().then(r => {
+      isPro = !!r.valid;
+      updateTierUI();
+      updateUsageUI();
+    });
+  }
+}
+
+// 升级入口统一交给 pro-check.js：它会自己建 DOM。
+// 原来的 activatePro 直接把 isPro 置 true 并写 localStorage，
+// 任何人点一下就永久 Pro；showProModal/closeProModal 操作的是一个
+// 本页并不存在的 #proModal，必然抛 TypeError，把付费用户卡在生成流程里。
+function upgradeToPro() {
+  if (typeof NEXTOOL_PRO !== 'undefined') {
+    NEXTOOL_PRO.showProModal('limit');
+  } else {
+    showToast('升级组件未加载，请刷新页面', 'error');
+  }
 }
 
 // ===== Generate =====
@@ -749,7 +769,7 @@ async function generatePPT() {
   // API Key is now optional - proxy provides default key
   if (!isPro && getUsageToday() >= 1) {
     showToast('今日免费次数已用完，请升级 Pro', 'error');
-    showProModal();
+    upgradeToPro();
     return;
   }
 
