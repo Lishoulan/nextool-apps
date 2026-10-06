@@ -529,7 +529,7 @@ explainBtn.addEventListener('click', async () => {
     
     showToast('代码解释完成', 'success');
   } catch (e) {
-    showToast(e.message, 'error');
+    showToast('服务暂时不可用，请稍后重试', 'error');
   } finally {
     explainBtn.disabled = false;
     explainBtn.textContent = '解释代码';

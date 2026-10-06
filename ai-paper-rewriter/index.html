@@ -684,7 +684,7 @@ async function startRewrite() {
 
   } catch (err) {
     resultArea.className = 'result-area';
-    resultArea.innerHTML = `<div style="color:var(--danger);padding:20px;text-align:center">❌ ${err.message}<br><small style="color:var(--text-light)">请检查API Key是否正确</small></div>`;
+    resultArea.innerHTML = `<div style="color:var(--danger);padding:20px;text-align:center">❌ 服务暂时不可用，请稍后重试<br><small style="color:var(--text-light)">如果你自带了 API Key，也请稍后重试——问题可能出在服务端</small></div>`;
   } finally {
     state.isRewriting = false;
     btn.disabled = false;

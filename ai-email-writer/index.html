@@ -555,7 +555,7 @@ ${sender ? '发件人：' + sender : ''}
       window.NextToolAnalytics.trackToolEvent('generate', { scenario: currentScenario, tone: currentTone });
     }
   } catch(e) {
-    showToast('生成失败：' + e.message, true);
+    showToast('服务暂时不可用，请稍后重试', true);
   } finally {
     btn.disabled = false;
     btn.innerHTML = '✨ 撰写邮件';

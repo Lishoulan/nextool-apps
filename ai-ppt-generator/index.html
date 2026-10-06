@@ -859,7 +859,7 @@ async function generatePPT() {
     showToast('✅ 幻灯片生成成功！', 'success');
 
   } catch (err) {
-    showToast(err.message, 'error');
+    showToast('服务暂时不可用，请稍后重试', 'error');
     console.error(err);
   } finally {
     btn.disabled = false;

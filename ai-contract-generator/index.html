@@ -777,7 +777,7 @@ async function generateContract() {
     
     showToast('合同生成成功！', 'success');
   } catch (err) {
-    output.innerHTML = `<div class="placeholder-text" style="color:var(--error)"><span class="big-icon">⚠️</span>生成失败: ${err.message}</div>`;
+    output.innerHTML = `<div class="placeholder-text" style="color:var(--error)"><span class="big-icon">⚠️</span>服务暂时不可用，请稍后重试</div>`;
     showToast(err.message, 'error');
   } finally {
     btn.disabled = false;
