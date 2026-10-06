@@ -6,23 +6,25 @@ Vercel Serverless Function
 
 import os
 import json
-import secrets
-from datetime import datetime, timedelta
+import time
+from datetime import datetime
 
-PRO_KEYS_JSON = os.environ.get("PRO_KEYS_JSON", '{"keys":{},"orders":{}}')
+from _kv import _kv_get, _kv_set, _kv_set_nx, KVError
+from _pro_keys import (KEY_PREFIX, ORDER_PREFIX, ORDER_TTL_SECONDS,
+                       generate_pro_key, _expiry_for, _plan_duration_days,
+                       _key_ttl_seconds)
+
 AFDIAN_TOKEN = os.environ.get("AFDIAN_TOKEN", "")
 
+# 弱 token 等于没有验签。启动即拒绝，而不是等到有人伪造付款。
+if AFDIAN_TOKEN and len(AFDIAN_TOKEN) < 16:
+    raise RuntimeError(
+        "AFDIAN_TOKEN 长度只有 %d，低于 16 字符下限。"
+        "弱 token 等于没有验签——请改用随机生成的长 token。"
+        % len(AFDIAN_TOKEN)
+    )
 
-def _load_pro_keys():
-    try:
-        return json.loads(PRO_KEYS_JSON)
-    except (json.JSONDecodeError, TypeError):
-        return {"keys": {}, "orders": {}}
-
-
-def _generate_pro_key():
-    parts = [secrets.token_hex(2).upper() for _ in range(3)]
-    return f"NTP-{parts[0]}-{parts[1]}-{parts[2]}"
+_CORS = {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
 
 
 def handler(request):
@@ -53,14 +55,43 @@ def handler(request):
             "body": json.dumps({"error": "Invalid JSON"}),
         }
 
-    # Verify Afdian token
-    if AFDIAN_TOKEN:
-        received_token = body.get("token", "")
-        if received_token != AFDIAN_TOKEN:
+    # 验签：配置缺失时 fail-closed。
+    # 原代码是 `if AFDIAN_TOKEN:`——未配置就整段跳过，任何人都能POST
+    # 一个伪造的 {"order": {...}} 白拿一个真密钥。
+    if not AFDIAN_TOKEN:
+        return {
+            "status_code": 503,
+            "headers": _CORS,
+            "body": json.dumps({
+                "error": "server_not_configured",
+                "detail": "AFDIAN_TOKEN 未配置，无法验签。拒绝处理 webhook，"
+                          "否则任何人都能伪造付款回调领取密钥。",
+            }),
+        }
+
+    received_token = body.get("token", "")
+    if received_token != AFDIAN_TOKEN:
+        return {
+            "status_code": 403,
+            "headers": _CORS,
+            "body": json.dumps({"error": "Invalid Afdian token"}),
+        }
+
+    # 防重放：抓包重放同一个 payload 可以反复领key。
+    ts = body.get("timestamp", "")
+    if ts:
+        try:
+            if abs(time.time() - int(ts)) > 300:
+                return {
+                    "status_code": 403,
+                    "headers": _CORS,
+                    "body": json.dumps({"error": "Request timestamp out of window"}),
+                }
+        except (TypeError, ValueError):
             return {
                 "status_code": 403,
-                "headers": {"Access-Control-Allow-Origin": "*"},
-                "body": json.dumps({"error": "Invalid Afdian token"}),
+                "headers": _CORS,
+                "body": json.dumps({"error": "Invalid timestamp"}),
             }
 
     # Parse order data
@@ -79,54 +110,75 @@ def handler(request):
             "body": json.dumps({"status": "ignored", "reason": f"order status: {status}"}),
         }
 
-    # Check if already processed
-    data = _load_pro_keys()
-    if order_id in data.get("orders", {}):
-        existing_key = data["orders"][order_id].get("key", "")
+    # 幂等：用 SET NX 抢占。
+    # 为什么这次能真正生效——原先读的是 PRO_KEYS_JSON 这个只读环境变量的
+    # 解析结果（进程内局部变量，写了也丢），所以「已处理」判断永远为False，
+    # 重复回调每次都生成一个新密钥。
+    # 现在写的是 Redis，SET NX 由Redis 单线程串行执行，并发到达时
+    # 必然只有一个抢到——不需要 WATCH/MULTI、Lua 或分布式锁。
+    order_key = ORDER_PREFIX + order_id
+    try:
+        claimed = _kv_set_nx(order_key, {"key": "", "status": "claimed"},
+                             ttl=ORDER_TTL_SECONDS)
+    except KVError as exc:
+        return {
+            "status_code": 503,
+            "headers": _CORS,
+            "body": json.dumps({"error": "storage_unavailable", "detail": str(exc)[:200]}),
+        }
+
+    if not claimed:
+        existing = _kv_get(order_key) or {}
         return {
             "status_code": 200,
-            "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
-            "body": json.dumps({"status": "already_processed", "key": existing_key}),
+            "headers": _CORS,
+            "body": json.dumps({
+                "status": "already_processed",
+                "key": existing.get("key", ""),
+            }),
         }
 
     # Determine plan duration
-    if "year" in str(order.get("plan", "")).lower() or float(amount) >= 100:
+    plan_name = str(order.get("plan", "")).lower()
+    try:
+        amount_value = float(amount)
+    except (TypeError, ValueError):
+        amount_value = 0.0
+    if "year" in plan_name or amount_value >= 100:
         plan = "yearly"
-        duration_days = 365
-    elif "lifetime" in str(order.get("plan", "")).lower():
+    elif "lifetime" in plan_name:
         plan = "lifetime"
-        duration_days = 0
     else:
         plan = "monthly"
-        duration_days = 30
 
-    # Generate Pro key
-    key = _generate_pro_key()
-    expires_at = None if plan == "lifetime" else (datetime.now() + timedelta(days=duration_days)).isoformat()
+    key = generate_pro_key()
+    expires_at = _expiry_for(plan)
 
-    data["keys"][key] = {
-        "plan": plan,
-        "email": email,
-        "note": f"Afdian order: {order_id}",
-        "created_at": datetime.now().isoformat(),
-        "expires_at": expires_at,
-        "source": "afdian",
-        "afdian_user_id": user_id,
-        "afdian_order_id": order_id,
-        "amount": amount,
-    }
-    data["orders"][order_id] = {
-        "key": key,
-        "plan": plan,
-        "email": email,
-        "amount": amount,
-        "created_at": datetime.now().isoformat(),
-    }
+    try:
+        _kv_set(KEY_PREFIX + key, {
+            "plan": plan,
+            "email": email,
+            "created_at": datetime.now().isoformat(),
+            "expires_at": expires_at,
+        }, ttl=_key_ttl_seconds(expires_at))
 
-    # Note: In Vercel serverless, we can't persist to file.
-    # The PRO_KEYS_JSON env var is read-only.
-    # For production, use Vercel KV, Upstash Redis, or a database.
-    # For now, return the key and log it.
+        # 补全抢占记录：同一order_key 覆盖写。幂等性已由上面的 NX 保证——
+        # 能走到这里的只有唯一那个执行者，所以覆盖是安全的。
+        _kv_set(order_key, {
+            "key": key,
+            "plan": plan,
+            "email": email,
+            "amount": amount,
+            "created_at": datetime.now().isoformat(),
+        }, ttl=ORDER_TTL_SECONDS)
+    except KVError as exc:
+        return {
+            "status_code": 503,
+            "headers": _CORS,
+            "body": json.dumps({"error": "storage_unavailable", "detail": str(exc)[:200]}),
+        }
+
+
 
     return {
         "status_code": 200,

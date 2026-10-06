@@ -97,6 +97,8 @@ jobs:
             "api/subscribe.py"
             "api/subscribers.py"
             "api/verify-code.py"
+            "api/_kv.py"
+            "api/_pro_keys.py"
           )
           for f in "${API_FILES[@]}"; do
             if [ ! -f "$f" ]; then

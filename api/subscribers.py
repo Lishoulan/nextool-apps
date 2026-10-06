@@ -7,6 +7,7 @@ GET  /api/subscribers?list=true    返回全部订阅者列表
 """
 
 import json
+import secrets
 import os
 
 SUBSCRIBERS_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "subscribers.json")
@@ -38,17 +39,30 @@ def handler(request):
             "body": json.dumps({"error": "Method not allowed. Use GET."}),
         }
 
-    # 简单鉴权
-    if ADMIN_SECRET:
-        secret = ""
-        if hasattr(request, "headers"):
-            secret = request.headers.get("x-admin-secret", "") or request.headers.get("X-Admin-Secret", "")
-        if secret != ADMIN_SECRET:
-            return {
-                "status_code": 401,
-                "headers": {**_cors_headers(), "Content-Type": "application/json"},
-                "body": json.dumps({"error": "Unauthorized. Provide X-Admin-Secret header."}),
-            }
+    # 鉴权：fail-closed。
+    # 原代码是 `if ADMIN_SECRET:`——未配置时整块跳过，?list=true
+    # 就能拉走全部订阅者邮箱（PII 泄露）。
+    if not ADMIN_SECRET:
+        return {
+            "status_code": 503,
+            "headers": {**_cors_headers(), "Content-Type": "application/json"},
+            "body": json.dumps({
+                "error": "server_not_configured",
+                "detail": "ADMIN_SECRET 未配置。拒绝开放订阅者数据接口，"
+                          "否则任何人加 ?list=true 即可导出全部邮箱。",
+            }),
+        }
+
+    secret = ""
+    if hasattr(request, "headers"):
+        secret = request.headers.get("x-admin-secret", "") or request.headers.get("X-Admin-Secret", "")
+    # 用常量时间比较，避免通过响应时间逐字节猜 secret
+    if not secrets.compare_digest(secret, ADMIN_SECRET):
+        return {
+            "status_code": 401,
+            "headers": {**_cors_headers(), "Content-Type": "application/json"},
+            "body": json.dumps({"error": "Unauthorized. Provide X-Admin-Secret header."}),
+        }
 
     # 读取订阅者数据
     subscribers = []
