@@ -1,0 +1,107 @@
+name: API Health Check
+
+# The AI tools depend entirely on this Vercel deployment, and it is not
+# managed by any workflow in this repo -- pushing code never redeploys it.
+# On 2026-10-06 it stopped serving (502, then connection resets) and six
+# tools went dead without any job turning red, because nothing here ever
+# called its health endpoint. This job is that missing check.
+#
+# /api/health returns a static payload, so it only proves the deployment is
+# alive. It cannot see an expired LLM key or a dead upstream, hence the
+# once-a-day end-to-end probe below.
+
+on:
+  schedule:
+    - cron: '17,47 * * * *'   # every 30 min, off the hour to avoid the rush
+    - cron: '23 3 * * *'       # one deeper probe a day, 03:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    name: API reachable
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check /api/health
+        run: |
+          URL="https://nextool-api-proxy-vercel.vercel.app/api/health"
+          START=$SECONDS
+          # curl prints 000 itself on a connection failure, so capture its
+          # output and only fall back when the variable comes back empty.
+          CODE=$(curl -s -o /tmp/body.txt -w "%{http_code}" --max-time 20 "$URL" 2>/dev/null)
+          [ -z "$CODE" ] && CODE="000"
+          echo "HTTP=$CODE  time=$((SECONDS - START))s"
+          if [ "$CODE" != "200" ]; then
+            {
+              echo "### API unreachable"
+              echo ""
+              echo "Endpoint: \`$URL\`"
+              echo "HTTP code: \`$CODE\` (000 means the connection failed or timed out)"
+              echo ""
+              echo "The six AI tools (code-explainer, contract-generator,"
+              echo "paper-rewriter, ppt-generator, translator, email-writer) are"
+              echo "serving errors to visitors until this comes back."
+              echo ""
+              echo "Body:"
+              echo '```'
+              head -c 500 /tmp/body.txt
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          {
+            echo "### API healthy"
+            echo '```'
+            head -c 300 /tmp/body.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  end-to-end:
+    name: Chat end-to-end
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    # Only on the daily 03:23 UTC run, or when dispatched by hand. A real
+    # chat request spends shared quota and counts against chat.py's
+    # 10-per-hour per-IP limit, so it must not run on every 30-minute tick.
+    # The half-hourly trigger fires at :17 and :47; this one at :23.
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '23 3 * * *'
+    steps:
+      - name: Probe the real chat path
+        run: |
+          URL="https://nextool-api-proxy-vercel.vercel.app/api/chat"
+          BODY='{"model":"deepseek-chat","messages":[{"role":"user","content":"ping"}],"max_tokens":1}'
+          CODE=$(curl -s -o /tmp/chat.json -w "%{http_code}" --max-time 60 \
+                 -X POST "$URL" -H 'Content-Type: application/json' -d "$BODY" 2>/dev/null)
+          [ -z "$CODE" ] && CODE="000"
+          echo "HTTP=$CODE"
+          if [ "$CODE" = "000" ]; then
+            echo "::error::Chat endpoint unreachable (connection failed or timed out)"
+            exit 1
+          fi
+          if [ "$CODE" != "200" ]; then
+            {
+              echo "### Chat endpoint returned $CODE"
+              echo ""
+              echo "The deployment is up but the request was rejected, which"
+              echo "usually means the LLM key or upstream URL is wrong."
+              echo ""
+              echo '```'
+              head -c 500 /tmp/chat.json
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          if ! grep -q '"choices"' /tmp/chat.json; then
+            {
+              echo "### Chat responded without choices"
+              echo '```'
+              head -c 500 /tmp/chat.json
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+          echo "Upstream model answered."
+          echo "Chat end-to-end OK." >> "$GITHUB_STEP_SUMMARY"

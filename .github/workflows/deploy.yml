@@ -85,11 +85,32 @@ jobs:
           else
             echo "✅ OK: index.html (root)"
           fi
+          # The AI tools' backend lives in these files. A deleted or renamed
+          # .py still deploys successfully and leaves every route 404ing, so
+          # check them alongside the pages.
+          API_FILES=(
+            "api/chat.py"
+            "api/health.py"
+            "api/pro-verify.py"
+            "api/pro-activate.py"
+            "api/afdian-webhook.py"
+            "api/subscribe.py"
+            "api/subscribers.py"
+            "api/verify-code.py"
+          )
+          for f in "${API_FILES[@]}"; do
+            if [ ! -f "$f" ]; then
+              echo "❌ MISSING: $f"
+              MISSING=$((MISSING + 1))
+            else
+              echo "✅ OK: $f"
+            fi
+          done
           if [ $MISSING -gt 0 ]; then
-            echo "::error::$MISSING index.html file(s) missing!"
+            echo "::error::$MISSING required file(s) missing!"
             exit 1
           fi
-          echo "✅ All expected index.html files found."
+          echo "✅ All expected index.html and api files found."
 
       - name: Update sitemap
         run: python .github/scripts/update-sitemap.py
