@@ -203,10 +203,23 @@ const NEXTOOL_PRO = {
                         激活 Pro
                     </button>
                     <div style="margin-bottom:12px;">
-                        <a href="https://afdian.com/a/nextool-apps" target="_blank" 
+                        <a href="https://afdian.com/a/nextool-apps" target="_blank" rel="noopener"
                             style="color:#667eea;text-decoration:none;font-size:14px;">
-                            没有密钥？去爱发电获取 →
+                            还没有？先在爱发电购买 →
                         </a>
+                        <div id="nextool-pro-howto" style="display:none;margin-top:10px;font-size:12.5px;color:#777;line-height:1.7;">
+                            <strong style="color:#999;">已付款？这样拿密钥：</strong><br>
+                            1. 在爱发电「我的订单」里复制订单号<br>
+                            2. 发邮件到
+                            <a href="mailto:service@nextool.cn?subject=Pro%20密钥%20申请&body=%E6%88%91%E5%B7%B2%E6%94%AF%E4%BB%98%EF%BC%8C%E8%AF%B7%E5%8F%91%E6%88%91%E8%AE%A2%E5%8D%95%E5%8F%B7%EF%BC%9A"
+                               style="color:#667eea;">service@nextool.cn</a>
+                            ，主题写「Pro 密钥申请」<br>
+                            3. 收到回复后把密钥粘贴到上面输入框
+                            <button id="nextool-pro-howto-toggle" type="button"
+                                style="display:block;margin-top:6px;background:none;border:none;color:#667eea;cursor:pointer;font-size:12px;padding:0;">
+                                我已付款，查看取密钥步骤
+                            </button>
+                        </div>
                     </div>
                     <button id="nextool-pro-close" style="background:none;border:none;color:#666;cursor:pointer;font-size:13px;">
                         暂不升级，继续使用免费版
@@ -245,6 +258,19 @@ const NEXTOOL_PRO = {
                 statusEl.style.color = '#ff6b6b';
             }
         };
+
+        // 「已付款？这样拿密钥」折叠区
+        const howto = document.getElementById('nextool-pro-howto');
+        const howtoBtn = document.getElementById('nextool-pro-howto-toggle');
+        if (howto && howtoBtn) {
+            howtoBtn.onclick = () => {
+                const shown = howto.style.display !== 'none';
+                howto.style.display = shown ? 'none' : 'block';
+                howtoBtn.textContent = shown
+                    ? '我已付款，查看取密钥步骤'
+                    : '收起';
+            };
+        }
 
         // 关闭按钮
         document.getElementById('nextool-pro-close').onclick = () => {
